@@ -1,10 +1,12 @@
 services:
-  astro:
-    container_name: astro
+  sss-vpn:
+    container_name: sss-vpn
     build:
       context: .
       dockerfile: Dockerfile
     environment:
-      - SECRET_CONFIG=secret_value
-      - PUBLIC_CONFIG=public_value
+      - SECRET_CONFIG=${SECRET_CONFIG}
+      - PUBLIC_CONFIG=${PUBLIC_CONFIG}
+    ports:
+      - 4321:4321
     restart: unless-stopped
