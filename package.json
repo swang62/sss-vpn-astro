@@ -34,8 +34,9 @@
     "logs": "docker compose logs -f",
     "start": "nodemon ./dist/server/entry.mjs",
     "start:dev": "astro dev",
-    "start:docker": "docker compose run sss-vpn pnpm i && docker compose up -d",
-    "stop": "docker compose down --remove-orphans"
+    "start:docker": "docker compose up -d",
+    "stop": "docker compose down --remove-orphans",
+    "update": "docker compose run sss-vpn pnpm i && pnpm stop"
   },
   "type": "module",
   "version": "0.0.1"
