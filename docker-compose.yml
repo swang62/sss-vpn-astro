@@ -1,0 +1,10 @@
+services:
+  astro:
+    container_name: astro
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SECRET_CONFIG=secret_value
+      - PUBLIC_CONFIG=public_value
+    restart: unless-stopped
