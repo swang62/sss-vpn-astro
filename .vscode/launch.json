@@ -2,8 +2,15 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "./node_modules/.bin/astro dev",
-      "name": "Development server",
+      "type": "firefox",
+      "name": "Browser",
+      "url": "http://localhost:4321",
+      "request": "launch",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "command": "pnpm dev",
+      "name": "Debug",
       "request": "launch",
       "type": "node-terminal"
     }
