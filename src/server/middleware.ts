@@ -7,9 +7,9 @@ import { cors } from "hono/cors";
 import pino from "pino";
 import pretty from "pino-pretty";
 
-import { isProduction } from "@/constants";
+import env from "@/types";
 
-export async function parseApiResponse<T>(request: Promise<ClientResponse<T>>) {
+export async function parsedApi<T>(request: Promise<ClientResponse<T>>) {
   const response = await request;
   if (!response.ok) {
     const error = await response.text();
@@ -42,7 +42,7 @@ export const onError: ErrorHandler = (error, c) => {
   return c.json(
     {
       message: error.message || "Unknown Error",
-      stack: isProduction ? undefined : error.stack,
+      stack: env.isProduction ? undefined : error.stack,
     },
     statusCode
   );
@@ -50,7 +50,7 @@ export const onError: ErrorHandler = (error, c) => {
 
 export function pinoLogger() {
   return logger({
-    pino: pino(isProduction ? undefined : pretty()),
+    pino: pino(env.isProduction ? undefined : pretty()),
     http: {
       reqId: () => crypto.randomUUID(),
       onReqBindings: (c) => ({

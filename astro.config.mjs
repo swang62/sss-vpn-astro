@@ -1,7 +1,6 @@
 import node from "@astrojs/node";
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
-// @ts-check
 import { defineConfig } from "astro/config";
 
 // import { loadEnv } from "vite";

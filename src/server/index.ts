@@ -1,16 +1,13 @@
-import { config } from "dotenv";
-import { expand } from "dotenv-expand";
 import { Hono } from "hono";
 import { hc } from "hono/client";
 
 import type { Bindings } from "@/types";
 
-import { HOST_DOMAIN } from "@/constants";
+import env from "@/types";
 
 import base from "./base";
 import { corsHandler, notFound, onError, pinoLogger } from "./middleware";
 
-expand(config());
 const app = new Hono<Bindings>({ strict: false }).basePath("/api");
 
 // Middleware
@@ -25,4 +22,4 @@ const _routes = app.route("/", base);
 // Types
 export default app;
 export type App = typeof _routes;
-export const { api } = hc<App>(HOST_DOMAIN);
+export const { api } = hc<App>(env.HOST_DOMAIN);

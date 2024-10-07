@@ -1,17 +1,17 @@
 ---
 import Card from "@/components/Card.astro";
-import { SECRET_CONFIG } from "@/constants";
 import Head from "@/layouts/Head.astro";
 import { api } from "@/server";
-import { parseApiResponse } from "@/server/middleware";
+import { parsedApi } from "@/server/middleware";
 import "@/styles/main.css";
+import env from "@/types";
 
 // export const prerender = true;
 
-const response = await parseApiResponse(api.status.$get());
+const response = await parsedApi(api.status.$get());
 
 console.log("API", response);
-console.log("SECRET", SECRET_CONFIG);
+console.log("SECRET", env.SECRET_CONFIG);
 ---
 
 <Head title="Welcome to Astro.">
