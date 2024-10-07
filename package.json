@@ -31,12 +31,10 @@
   "scripts": {
     "astro": "astro",
     "build": "astro check && astro build",
-    "logs": "docker compose logs -f",
+    "build:docker": "pnpm build && docker compose up --build -d",
+    "dev": "astro dev",
     "start": "nodemon ./dist/server/entry.mjs",
-    "start:dev": "astro dev",
-    "start:docker": "docker compose up -d",
-    "stop": "docker compose down --remove-orphans",
-    "update": "docker compose run sss-vpn pnpm i && pnpm stop"
+    "stop": "docker compose down --remove-orphans"
   },
   "type": "module",
   "version": "0.0.1"

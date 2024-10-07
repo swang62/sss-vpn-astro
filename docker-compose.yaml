@@ -5,11 +5,19 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
+      - NODE_ENV=${NODE_ENV}
       - SECRET_CONFIG=${SECRET_CONFIG}
       - PUBLIC_CONFIG=${PUBLIC_CONFIG}
+      - DB_FILENAME=${DB_FILENAME}
+      - MINIO_ENDPOINT=${MINIO_ENDPOINT}
+      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
+      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
     ports:
       - 4321:4321
     restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+      - ./build/litestream.yml:/etc/litestream.yml
     healthcheck:
       test:
         - CMD

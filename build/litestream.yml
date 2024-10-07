@@ -1,0 +1,17 @@
+dbs:
+  - path: ./data/${DB_FILENAME}
+    replicas:
+      - name: sssvpn
+        type: s3
+        bucket: sssvpn
+        path: ${NODE_ENV}
+        retention: 12h
+        snapshot-interval: 30m
+        region: eu-west-1
+        endpoint: ${MINIO_ENDPOINT}
+        access-key-id: ${MINIO_ACCESS_KEY}
+        secret-access-key: ${MINIO_SECRET_KEY}
+logging:
+  level: warn
+  type: json
+  stderr: false
