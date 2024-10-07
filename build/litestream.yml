@@ -4,7 +4,7 @@ dbs:
       - name: sssvpn
         type: s3
         bucket: sssvpn
-        path: ${NODE_ENV}
+        path: ${DB_MODE}
         retention: 12h
         snapshot-interval: 30m
         region: eu-west-1

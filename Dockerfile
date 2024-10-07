@@ -1,13 +1,13 @@
 FROM node:22-bullseye-slim AS base
 
+ENV NODE_ENV=production
 ENV HOST=0.0.0.0
-ENV PORT=4321
-ENV LITESTREAM="0.3.13"
-
+ARG PORT
 WORKDIR /app
 
 ################################
 
+ENV LITESTREAM="0.3.13"
 ARG TARGETARCH
 RUN  apt-get update \
   && apt-get install -y wget \
@@ -28,8 +28,8 @@ RUN case "${TARGETARCH}" in \
 
 #############################
 
-COPY package.json pnpm-lock.yaml ./
 RUN npm -g install pnpm nodemon
+COPY package.json pnpm-lock.yaml ./
 
 #############################
 

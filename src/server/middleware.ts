@@ -2,7 +2,10 @@ import type { ErrorHandler, MiddlewareHandler, NotFoundHandler } from "hono";
 import type { ClientResponse } from "hono/client";
 import type { StatusCode } from "hono/utils/http-status";
 
+import { logger } from "hono-pino";
 import { cors } from "hono/cors";
+import pino from "pino";
+import pretty from "pino-pretty";
 
 import { isProduction } from "@/constants";
 
@@ -25,7 +28,7 @@ export const notFound: NotFoundHandler = (c) => {
 export function corsHandler(): MiddlewareHandler {
   return cors({
     origin: ["localhost", "127.0.0.1", "::1"],
-    allowMethods: ["POST", "GET", "OPTIONS"],
+    allowMethods: ["*"],
     credentials: true,
   });
 }
@@ -38,9 +41,25 @@ export const onError: ErrorHandler = (error, c) => {
 
   return c.json(
     {
-      message: error.message,
+      message: error.message || "Unknown Error",
       stack: isProduction ? undefined : error.stack,
     },
-    statusCode,
+    statusCode
   );
 };
+
+export function pinoLogger() {
+  return logger({
+    pino: pino(isProduction ? undefined : pretty()),
+    http: {
+      reqId: () => crypto.randomUUID(),
+      onReqBindings: (c) => ({
+        req: {
+          url: c.req.path,
+          method: c.req.method,
+          host: c.req.header("host"),
+        },
+      }),
+    },
+  });
+}

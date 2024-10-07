@@ -4,8 +4,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - PORT=${HOST_PORT}
     environment:
-      - NODE_ENV=${NODE_ENV}
+      - DB_MODE=${DB_MODE}
       - SECRET_CONFIG=${SECRET_CONFIG}
       - PUBLIC_CONFIG=${PUBLIC_CONFIG}
       - DB_FILENAME=${DB_FILENAME}
@@ -13,7 +15,7 @@ services:
       - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
       - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
     ports:
-      - 4321:4321
+      - ${HOST_PORT}:${HOST_PORT}
     restart: unless-stopped
     volumes:
       - ./data:/app/data
@@ -23,8 +25,8 @@ services:
         - CMD
         - curl
         - -f
-        - "http://localhost:4321"
-      interval: 30s
+        - "http://localhost:${HOST_PORT}"
+      interval: 1m
       timeout: 5s
       retries: 5
       start_period: 30s

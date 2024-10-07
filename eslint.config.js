@@ -12,17 +12,14 @@ export default antfu(
   },
   {
     rules: {
-      "no-console": ["off"],
-      "style/arrow-parens": ["off"],
       "format/prettier": ["off"],
-      "style/operator-linebreak": ["off"],
+      "no-console": ["off"],
       "node/prefer-global/process": ["off"],
-      "perfectionist/sort-imports": [
-        "warn",
-        {
-          internalPattern: ["@/**"],
-        },
-      ],
+      "perfectionist/sort-imports": ["warn", { internalPattern: ["@/**"] }],
+      "style/arrow-parens": ["off"],
+      "style/indent-binary-ops": ["off"],
+      "style/comma-dangle": ["off"],
+      "style/operator-linebreak": ["off"],
     },
-  },
+  }
 );

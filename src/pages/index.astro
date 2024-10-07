@@ -5,6 +5,7 @@ import Head from "@/layouts/Head.astro";
 import { api } from "@/server";
 import { parseApiResponse } from "@/server/middleware";
 import "@/styles/main.css";
+
 // export const prerender = true;
 
 const response = await parseApiResponse(api.status.$get());
