@@ -12,7 +12,8 @@
     "dev": "astro dev",
     "lint": "eslint . --fix",
     "start": "nodemon ./dist/server/entry.mjs",
-    "stop": "docker compose down --remove-orphans"
+    "stop": "docker compose down --remove-orphans",
+    "seed:prod": "dotenv -v NODE_ENV=production -- sh ./build/seed-from-prod.sh"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -20,6 +21,7 @@
     "@astrojs/react": "^3.6.2",
     "@astrojs/tailwind": "^5.1.1",
     "astro": "^4.15.11",
+    "hono": "^4.6.3",
     "nodemon": "^3.1.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -32,6 +34,7 @@
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
     "astro-eslint-parser": "^1.0.3",
+    "dotenv-cli": "^7.4.2",
     "eslint": "^9.11.1",
     "eslint-plugin-astro": "^1.2.4",
     "eslint-plugin-format": "^0.1.2",

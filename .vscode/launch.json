@@ -10,7 +10,7 @@
     },
     {
       "command": "pnpm dev",
-      "name": "Debug",
+      "name": "Server",
       "request": "launch",
       "type": "node-terminal"
     }

@@ -4,7 +4,7 @@ export default antfu(
   {
     astro: true,
     formatters: true,
-    ignores: ["**/migrations/*", "node_modules/**/*", "*.config.js"],
+    ignores: ["**/migrations/*", "node_modules/**/*"],
     stylistic: {
       quotes: "double",
       semi: true,
@@ -12,15 +12,17 @@ export default antfu(
   },
   {
     rules: {
-      "style/comma-dangle": ["off"],
-      "antfu/no-top-level-await": ["off"],
+      "no-console": ["off"],
+      "style/arrow-parens": ["off"],
+      "format/prettier": ["off"],
+      "style/operator-linebreak": ["off"],
       "node/prefer-global/process": ["off"],
       "perfectionist/sort-imports": [
-        "error",
+        "warn",
         {
           internalPattern: ["@/**"],
         },
       ],
     },
-  }
+  },
 );
