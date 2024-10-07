@@ -27,9 +27,9 @@ export const notFound: NotFoundHandler = (c) => {
 
 export function corsHandler(): MiddlewareHandler {
   return cors({
-    origin: ["localhost", "127.0.0.1", "::1"],
     allowMethods: ["*"],
     credentials: true,
+    origin: ["localhost", "127.0.0.1", "::1"],
   });
 }
 
@@ -42,7 +42,7 @@ export const onError: ErrorHandler = (error, c) => {
   return c.json(
     {
       message: error.message || "Unknown Error",
-      stack: env.isProduction ? undefined : error.stack,
+      stack: env._isProduction ? undefined : error.stack,
     },
     statusCode
   );
@@ -50,16 +50,16 @@ export const onError: ErrorHandler = (error, c) => {
 
 export function pinoLogger() {
   return logger({
-    pino: pino(env.isProduction ? undefined : pretty()),
     http: {
-      reqId: () => crypto.randomUUID(),
       onReqBindings: c => ({
         req: {
-          url: c.req.path,
-          method: c.req.method,
           host: c.req.header("host"),
+          method: c.req.method,
+          url: c.req.path,
         },
       }),
+      reqId: () => crypto.randomUUID(),
     },
+    pino: pino({ level: env.LOG_LEVEL }, env._isProduction ? undefined : pretty()),
   });
 }

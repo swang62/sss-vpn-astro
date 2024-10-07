@@ -4,14 +4,11 @@ import Head from "@/layouts/Head.astro";
 import { api } from "@/server";
 import { parsedApi } from "@/server/middleware";
 import "@/styles/main.css";
-import env from "@/types";
 
 // export const prerender = true;
 
 const response = await parsedApi(api.status.$get());
-
 console.log("API", response);
-console.log("SECRET", env.SECRET_CONFIG);
 ---
 
 <Head title="Welcome to Astro.">
@@ -45,9 +42,6 @@ console.log("SECRET", env.SECRET_CONFIG);
       </defs>
     </svg>
     <h1><span class="text-gradient">Astro</span></h1>
-    <p class="instructions">
-      Random public env {import.meta.env.PUBLIC_CONFIG}
-    </p>
     <ul role="list" class="link-card-grid">
       <Card
         href="https://docs.astro.build/"

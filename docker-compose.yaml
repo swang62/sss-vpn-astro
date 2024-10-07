@@ -1,32 +1,33 @@
 services:
   sss-vpn:
-    container_name: sss-vpn
     build:
-      context: .
-      dockerfile: Dockerfile
       args:
         - PORT=${HOST_PORT}
+      context: .
+      dockerfile: Dockerfile
+    container_name: sss-vpn
     environment:
       - DB_MODE=${DB_MODE}
-      - SECRET_CONFIG=${SECRET_CONFIG}
-      - PUBLIC_CONFIG=${PUBLIC_CONFIG}
       - DB_FILENAME=${DB_FILENAME}
+      - HOST_DOMAIN=${HOST_DOMAIN}
+      - HOST_PORT=${HOST_PORT}
+      - LOG_LEVEL=${LOG_LEVEL}
       - MINIO_ENDPOINT=${MINIO_ENDPOINT}
       - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
       - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
+    healthcheck:
+      interval: 1m
+      retries: 5
+      start_period: 30s
+      test:
+        - CMD
+        - curl
+        - -f
+        - "http://localhost:${HOST_PORT}"
+      timeout: 5s
     ports:
       - ${HOST_PORT}:${HOST_PORT}
     restart: unless-stopped
     volumes:
       - ./data:/app/data
       - ./build/litestream.yml:/etc/litestream.yml
-    healthcheck:
-      test:
-        - CMD
-        - curl
-        - -f
-        - "http://localhost:${HOST_PORT}"
-      interval: 1m
-      timeout: 5s
-      retries: 5
-      start_period: 30s

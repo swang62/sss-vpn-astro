@@ -14,7 +14,9 @@ export default antfu(
     rules: {
       "no-console": ["off"],
       "perfectionist/sort-imports": ["warn", { internalPattern: ["@/**"] }],
+      "perfectionist/sort-objects": ["warn"],
       "style/comma-dangle": ["off"],
-    },
+      "yaml/sort-keys": ["warn"]
+    }
   }
 );

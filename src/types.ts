@@ -14,16 +14,13 @@ export interface Bindings {
 }
 
 const EnvSchema = z.object({
-  NODE_ENV: z.string(),
-  SECRET_CONFIG: z.string(),
-  PUBLIC_CONFIG: z.string(),
-  LOG_LEVEL: z.enum(["debug", "info", "warn"]),
-  HOST_PORT: z.coerce.number(),
-  HOST_DOMAIN: z.string(),
+  _isProduction: z.optional(z.boolean()),
   DB_FILENAME: z.string(),
-
-  // Computed
-  isProduction: z.optional(z.boolean()),
+  DB_MODE: z.enum(["development", "production"]),
+  HOST_DOMAIN: z.string(),
+  HOST_PORT: z.coerce.number(),
+  LOG_LEVEL: z.enum(["debug", "info", "warn"]),
+  NODE_ENV: z.string(),
 });
 
 // eslint-disable-next-line import/no-mutable-exports
@@ -31,7 +28,8 @@ let env: z.infer<typeof EnvSchema>;
 try {
   env = EnvSchema.parse(import.meta.env || process.env);
 
-  env.isProduction = import.meta.env.PROD || env.NODE_ENV === "production";
+  //*  Make sure to generate all computed variables!!
+  env._isProduction = import.meta.env.PROD || env.NODE_ENV === "production";
 }
 catch (error) {
   const e = error as ZodError;
