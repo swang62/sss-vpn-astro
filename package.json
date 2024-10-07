@@ -14,8 +14,8 @@
     "lint:fix": "eslint . --fix",
     "logs": "docker compose logs -f",
     "start": "nodemon ./dist/server/entry.mjs",
-    "stop": "docker compose down --remove-orphans",
-    "seed:prod": "dotenv -v DB_MODE=production -- sh ./build/seed-from-prod.sh"
+    "start:docker": "docker compose up -d",
+    "stop": "docker compose down --remove-orphans"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -24,7 +24,6 @@
     "@astrojs/tailwind": "^5.1.1",
     "astro": "^4.15.11",
     "dotenv": "^16.4.5",
-    "dotenv-expand": "^11.0.6",
     "hono": "^4.6.3",
     "hono-pino": "^0.3.0",
     "nodemon": "^3.1.7",

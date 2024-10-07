@@ -1,5 +1,5 @@
 dbs:
-  - path: ./data/${DB_FILENAME}
+  - path: /app/data/${DB_FILENAME}
     replicas:
       - access-key-id: ${MINIO_ACCESS_KEY}
         bucket: sssvpn

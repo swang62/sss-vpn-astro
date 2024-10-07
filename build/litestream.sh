@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
-
-DB_PATH=./data/$DB_FILENAME
+DB_PATH=/app/data/$DB_FILENAME
 
 # Restore the database if it does not already exist.
 if [ -f $DB_PATH ]; then

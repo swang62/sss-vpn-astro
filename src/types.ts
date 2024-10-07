@@ -2,10 +2,9 @@
 import type { PinoLogger } from "hono-pino";
 
 import { config } from "dotenv";
-import { expand } from "dotenv-expand";
 import { z, type ZodError } from "zod";
 
-expand(config());
+config();
 
 export interface Bindings {
   Variables: {
