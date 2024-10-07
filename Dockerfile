@@ -11,7 +11,7 @@ WORKDIR /app
 ENV LITESTREAM=0.3.13
 ARG TARGETARCH
 RUN  apt-get update \
-  && apt-get install -y wget \
+  && apt-get install -y wget curl \
   && rm -rf /var/lib/apt/lists/*
 RUN wget https://github.com/benbjohnson/litestream/releases/download/v${LITESTREAM}/litestream-v${LITESTREAM}-linux-${TARGETARCH}.deb \
     && dpkg -i litestream-v${LITESTREAM}-linux-${TARGETARCH}.deb \
