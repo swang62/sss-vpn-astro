@@ -22,7 +22,7 @@ services:
       test:
         - CMD
         - curl
-        - "-f"
+        - -f
         - "http://localhost:4321"
       interval: 30s
       timeout: 5s
