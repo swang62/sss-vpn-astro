@@ -1,8 +1,9 @@
+/* eslint-disable node/prefer-global/process */
 import type { PinoLogger } from "hono-pino";
 
 import { config } from "dotenv";
 import { expand } from "dotenv-expand";
-import { z } from "zod";
+import { z, type ZodError } from "zod";
 
 expand(config());
 
@@ -25,7 +26,17 @@ const EnvSchema = z.object({
   isProduction: z.optional(z.boolean()),
 });
 
-const env = EnvSchema.parse(import.meta.env || process.env);
-env.isProduction = import.meta.env.PROD || env.NODE_ENV === "production";
+// eslint-disable-next-line import/no-mutable-exports
+let env: z.infer<typeof EnvSchema>;
+try {
+  env = EnvSchema.parse(import.meta.env || process.env);
+
+  env.isProduction = import.meta.env.PROD || env.NODE_ENV === "production";
+}
+catch (error) {
+  const e = error as ZodError;
+  console.error("❌ Invalid env:", e.flatten());
+  process.exit(1);
+}
 
 export default env;

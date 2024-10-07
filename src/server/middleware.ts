@@ -34,10 +34,10 @@ export function corsHandler(): MiddlewareHandler {
 }
 
 export const onError: ErrorHandler = (error, c) => {
-  const currentStatus =
-    "status" in error ? error.status : c.newResponse(null).status;
-  const statusCode =
-    currentStatus !== 200 ? (currentStatus as StatusCode) : 500;
+  const currentStatus
+    = "status" in error ? error.status : c.newResponse(null).status;
+  const statusCode
+    = currentStatus !== 200 ? (currentStatus as StatusCode) : 500;
 
   return c.json(
     {
@@ -53,7 +53,7 @@ export function pinoLogger() {
     pino: pino(env.isProduction ? undefined : pretty()),
     http: {
       reqId: () => crypto.randomUUID(),
-      onReqBindings: (c) => ({
+      onReqBindings: c => ({
         req: {
           url: c.req.path,
           method: c.req.method,
