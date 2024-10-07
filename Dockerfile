@@ -2,29 +2,20 @@ FROM node:22-bullseye-slim AS base
 
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
-ARG PORT
+
+ARG PORT=4321
 WORKDIR /app
 
 ################################
 
-ENV LITESTREAM="0.3.13"
+ENV LITESTREAM=0.3.13
 ARG TARGETARCH
 RUN  apt-get update \
   && apt-get install -y wget \
   && rm -rf /var/lib/apt/lists/*
-RUN case "${TARGETARCH}" in \
-    'amd64') \
-      ARCH='amd64';; \
-    'arm64') \
-      ARCH='arm64';; \
-    'arm') \
-      ARCH='armv7';; \
-    *) \
-      echo "Unsupported architecture: ${TARGETARCH}"; exit 1 ;; \
-    esac && \
-    wget https://github.com/benbjohnson/litestream/releases/download/v${LITESTREAM}/litestream-v${LITESTREAM}-linux-${ARCH}.deb \
-    && dpkg -i litestream-v${LITESTREAM}-linux-${ARCH}.deb \
-    && rm litestream-v${LITESTREAM}-linux-${ARCH}.deb
+RUN wget https://github.com/benbjohnson/litestream/releases/download/v${LITESTREAM}/litestream-v${LITESTREAM}-linux-${TARGETARCH}.deb \
+    && dpkg -i litestream-v${LITESTREAM}-linux-${TARGETARCH}.deb \
+    && rm litestream-v${LITESTREAM}-linux-${TARGETARCH}.deb
 
 #############################
 

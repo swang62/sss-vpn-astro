@@ -1,8 +1,6 @@
 services:
   sss-vpn:
     build:
-      args:
-        - PORT=${HOST_PORT}
       context: .
       dockerfile: Dockerfile
     container_name: sss-vpn
