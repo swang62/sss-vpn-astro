@@ -28,4 +28,3 @@ services:
     restart: unless-stopped
     volumes:
       - ./data:/app/data
-      - ./build/litestream.yml:/etc/litestream.yml

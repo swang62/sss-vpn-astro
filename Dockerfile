@@ -40,6 +40,7 @@ FROM base AS runtime
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/build/litestream.sh ./litestream.sh
+COPY --from=build /app/build/litestream.yml /etc/litestream.yml
 
 EXPOSE ${PORT}
 CMD ["sh", "./litestream.sh"]
