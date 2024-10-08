@@ -3,7 +3,7 @@ import { drizzle } from "drizzle-orm/libsql";
 
 import env from "@/types";
 
-import * as schema from './schema';
+import * as schema from "./schema";
 
 console.debug("Connecting to -", env._databaseUrl);
 
