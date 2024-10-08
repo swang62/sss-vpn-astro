@@ -1,6 +1,7 @@
 import { relations, sql } from "drizzle-orm";
 import * as t from "drizzle-orm/sqlite-core";
 import { sqliteTable as table } from "drizzle-orm/sqlite-core";
+import { createInsertSchema } from "drizzle-zod";
 
 import { users } from "./users";
 
@@ -21,9 +22,18 @@ export const profile = table("profile", {
   user_id: t.text().references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
 });
 
-export const profileRelations = relations(profile, ({ one }) => ({
+export const ProfileRelations = relations(profile, ({ one }) => ({
   user: one(users, {
     fields: [profile.user_id],
     references: [users.id]
   }),
 }));
+
+export const ProfileSchema = createInsertSchema(profile)
+  .required({
+    user_id: true,
+  })
+  .omit({
+    created_at: true,
+    updated_at: true,
+  });
