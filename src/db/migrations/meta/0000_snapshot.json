@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "8cb043ff-23b8-466b-a868-c601defd25ae",
+  "id": "3740c900-4727-4d95-a16a-b0c3fc987ea1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "profile": {
@@ -15,28 +15,13 @@
           "autoincrement": false,
           "default": "(current_timestamp)"
         },
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
         "role": {
           "name": "role",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'user'"
-        },
-        "subscription": {
-          "name": "subscription",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": false
+          "default": "'guest'"
         },
         "subscription_type": {
           "name": "subscription_type",
@@ -73,8 +58,8 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
         }
       },
       "compositePrimaryKeys": {},

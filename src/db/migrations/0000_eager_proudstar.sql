@@ -1,12 +1,10 @@
 CREATE TABLE `profile` (
 	`created_at` text DEFAULT (current_timestamp) NOT NULL,
-	`id` text PRIMARY KEY NOT NULL,
-	`role` text DEFAULT 'user' NOT NULL,
-	`subscription` integer DEFAULT false NOT NULL,
+	`role` text DEFAULT 'guest' NOT NULL,
 	`subscription_type` text,
 	`updated_at` text DEFAULT (current_timestamp) NOT NULL,
 	`user_id` text,
-	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
+	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE cascade ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `users` (
