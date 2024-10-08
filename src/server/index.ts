@@ -5,7 +5,7 @@ import type { Bindings } from "@/types";
 
 import env from "@/types";
 
-import base from "./base";
+import base from "./base.route";
 import { corsHandler, notFound, onError, pinoLogger } from "./middleware";
 
 const app = new Hono<Bindings>({ strict: false }).basePath("/api");

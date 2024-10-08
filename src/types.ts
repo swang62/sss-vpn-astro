@@ -13,10 +13,10 @@ export interface Bindings {
 }
 
 const EnvSchema = z.object({
-  _isProduction: z.optional(z.boolean()),
-  DB_FILENAME: z.string(),
-  DB_MODE: z.enum(["development", "production"]),
-  HOST_DOMAIN: z.string(),
+  _databaseUrl: z.string().default("file:local.db"),
+  _isProduction: z.boolean().default(false),
+  DB_PATH: z.string().url(),
+  HOST_DOMAIN: z.string().url(),
   HOST_PORT: z.coerce.number(),
   LOG_LEVEL: z.enum(["debug", "info", "warn"]),
   NODE_ENV: z.string(),
@@ -26,9 +26,10 @@ const EnvSchema = z.object({
 let env: z.infer<typeof EnvSchema>;
 try {
   env = EnvSchema.parse(import.meta.env || process.env);
-
-  //*  Make sure to generate all computed variables!!
-  env._isProduction = import.meta.env.PROD || env.NODE_ENV === "production";
+  env._isProduction = import.meta.env?.PROD || env.NODE_ENV === "production";
+  if (env._isProduction) {
+    env._databaseUrl = env.DB_PATH;
+  }
 }
 catch (error) {
   const e = error as ZodError;

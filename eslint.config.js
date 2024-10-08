@@ -12,6 +12,7 @@ export default antfu(
   },
   {
     rules: {
+      "antfu/no-top-level-await": ["off"],
       "no-console": ["off"],
       "perfectionist/sort-imports": ["warn", { internalPattern: ["@/**"] }],
       "perfectionist/sort-objects": ["warn"],

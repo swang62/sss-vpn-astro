@@ -4,6 +4,7 @@ data/
 
 # generated types
 .astro/
+*.db
 
 # dependencies
 node_modules/
@@ -15,8 +16,7 @@ yarn-error.log*
 pnpm-debug.log*
 
 # environment variables
-.env
-.env.production
+.env*
 
 # macOS-specific files
 .DS_Store

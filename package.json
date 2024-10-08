@@ -8,22 +8,30 @@
   "scripts": {
     "astro": "astro",
     "build": "astro check && astro build",
-    "build:docker": "pnpm build && docker compose up --build -d",
+    "build:docker": "docker compose build",
     "dev": "astro dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "logs": "docker compose logs -f",
+    "migrate": "drizzle-kit generate && drizzle-kit migrate",
+    "migrate:docker": "docker compose run sssvpn pnpm drizzle-kit migrate",
     "start": "nodemon ./dist/server/entry.mjs",
-    "start:docker": "docker compose up -d",
-    "stop": "docker compose down --remove-orphans"
+    "start:docker": "docker compose up -d --remove-orphans",
+    "stop": "docker compose down --remove-orphans",
+    "studio": "drizzle-kit studio",
+    "studio:docker": "NODE_ENV=production DB_PATH=http://localhost:8888 pnpm studio"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "@astrojs/node": "^8.3.4",
     "@astrojs/react": "^3.6.2",
     "@astrojs/tailwind": "^5.1.1",
+    "@libsql/client": "^0.14.0",
+    "@paralleldrive/cuid2": "^2.2.2",
     "astro": "^4.15.11",
     "dotenv": "^16.4.5",
+    "drizzle-kit": "^0.25.0",
+    "drizzle-orm": "^0.34.1",
     "hono": "^4.6.3",
     "hono-pino": "^0.3.0",
     "nodemon": "^3.1.7",
@@ -32,7 +40,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwindcss": "^3.4.13",
-    "typescript": "^5.6.2",
+    "typescript": "5.5.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -47,6 +55,7 @@
     "eslint-plugin-format": "^0.1.2",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.13.0",
+    "ts-node": "^10.9.2",
     "vite": "^5.4.8"
   },
   "overrides": {
