@@ -25,12 +25,12 @@ services:
     depends_on:
       - db
     environment:
-      - DB_PATH=${DB_PATH}
+      - DB_PATH=http://db:8080
       - HOST_DOMAIN=${HOST_DOMAIN}
       - HOST_PORT=${HOST_PORT}
       - LOG_LEVEL=${LOG_LEVEL}
     healthcheck:
-      interval: 1m
+      interval: 1h
       retries: 5
       start_period: 10s
       test: "curl -fs http://localhost:${HOST_PORT}/api/status"

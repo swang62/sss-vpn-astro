@@ -6,6 +6,7 @@ ARG PORT=4321
 
 WORKDIR /app
 
+RUN npm -g install pnpm
 RUN apt-get update \
   && apt-get install -y wget curl \
   && rm -rf /var/lib/apt/lists/*
@@ -13,7 +14,6 @@ RUN apt-get update \
 #############################
 FROM base AS dependencies 
 
-RUN npm -g install pnpm nodemon
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install
 

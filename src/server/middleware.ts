@@ -2,12 +2,13 @@ import type { ErrorHandler, MiddlewareHandler, NotFoundHandler } from "hono";
 import type { ClientResponse } from "hono/client";
 import type { StatusCode } from "hono/utils/http-status";
 
+import { createId } from "@paralleldrive/cuid2";
 import { logger } from "hono-pino";
 import { cors } from "hono/cors";
 import pino from "pino";
 import pretty from "pino-pretty";
 
-import env from "@/types";
+import env from "@/lib/env";
 
 export async function parsedApi<T>(request: Promise<ClientResponse<T>>) {
   const response = await request;
@@ -29,7 +30,7 @@ export function corsHandler(): MiddlewareHandler {
   return cors({
     allowMethods: ["*"],
     credentials: true,
-    origin: ["localhost", "127.0.0.1", "::1"],
+    origin: ["localhost", "127.0.0.0/8", "172.0.0.0/8"],
   });
 }
 
@@ -58,7 +59,7 @@ export function pinoLogger() {
           url: c.req.path,
         },
       }),
-      reqId: () => crypto.randomUUID(),
+      reqId: createId,
     },
     pino: pino({ level: env.LOG_LEVEL }, env._isProduction ? undefined : pretty()),
   });

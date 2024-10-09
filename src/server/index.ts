@@ -1,9 +1,9 @@
 import { Hono } from "hono";
 import { hc } from "hono/client";
 
-import type { Bindings } from "@/types";
+import type { Bindings } from "@/lib/types";
 
-import env from "@/types";
+import env from "@/lib/env";
 
 import base from "./base.route";
 import { corsHandler, notFound, onError, pinoLogger } from "./middleware";
