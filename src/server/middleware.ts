@@ -49,7 +49,7 @@ export const onError: ErrorHandler = (error, c) => {
   );
 };
 
-export function pinoLogger() {
+export function pinoLogger(): MiddlewareHandler {
   return logger({
     http: {
       onReqBindings: c => ({
@@ -63,4 +63,15 @@ export function pinoLogger() {
     },
     pino: pino({ level: env.LOG_LEVEL }, env._isProduction ? undefined : pretty()),
   });
+}
+
+export function serveFavicon(emoji: string): MiddlewareHandler {
+  return async (c, next) => {
+    if (c.req.path === "/favicon.ico") {
+      c.header("Content-Type", "image/svg+xml");
+      return c.body(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" x="-0.1em" font-size="90">${emoji}</text></svg>`);
+    }
+
+    return next();
+  };
 }

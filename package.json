@@ -2,6 +2,7 @@
   "name": "sss-vpn",
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "pnpm@9.9.0+sha512.60c18acd138bff695d339be6ad13f7e936eea6745660d4cc4a776d5247c540d0edee1a563695c183a66eb917ef88f2b4feb1fc25f32a7adcadc7aaf3438e99c1",
   "engines": {
     "node": ">=20"
   },
@@ -19,8 +20,11 @@
     "lint:fix": "eslint . --fix",
     "logs": "docker compose logs -f",
     "start": "nodemon ./dist/server/entry.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "start:docker": "docker compose up -d --remove-orphans",
-    "stop": "docker compose down --remove-orphans"
+    "stop": "docker compose down --remove-orphans",
+    "prepare": "husky || true"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -57,14 +61,22 @@
     "eslint": "^9.12.0",
     "eslint-plugin-astro": "^1.2.4",
     "eslint-plugin-format": "^0.1.2",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.13.0",
     "ts-node": "^10.9.2",
-    "vite": "^5.4.8"
+    "vite": "^5.4.8",
+    "vitest": "^2.1.2"
   },
   "overrides": {
     "yaml-language-server": {
       "prettier": "$prettier"
     }
+  },
+  "lint-staged": {
+    "*": [
+      "eslint . --quiet --fix"
+    ]
   }
 }

@@ -2,16 +2,22 @@
 /* eslint-disable node/prefer-global/process */
 
 import { config } from "dotenv";
+import path from "node:path";
 import { z, type ZodError } from "zod";
 
-config();
+config({
+  path: path.resolve(
+    process.cwd(),
+    process.env.NODE_ENV === "test" ? ".env.test" : ".env",
+  )
+});
 
 const EnvSchema = z.object({
   _isProduction: z.boolean().default(false),
   DB_PATH: z.string().url(),
   HOST_DOMAIN: z.string().url(),
   HOST_PORT: z.coerce.number(),
-  LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]),
+  LOG_LEVEL: z.enum(["silent", "debug", "info", "warn", "error"]),
   NODE_ENV: z.string(),
 });
 

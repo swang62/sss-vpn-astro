@@ -11,10 +11,10 @@ export const profile = table("profile", {
     .default(sql`(current_timestamp)`),
   role: t.text()
     .notNull()
-    .$type<"guest" | "sub" | "admin">()
-    .default("guest"),
+    .$type<"user" | "admin">()
+    .default("user"),
   subscription_type: t.text()
-    .$type<"low" | "high" | "router">(),
+    .$type<"trial" | "none" | "low" | "high" | "router">(),
   updated_at: t.text()
     .notNull()
     .default(sql`(current_timestamp)`)
