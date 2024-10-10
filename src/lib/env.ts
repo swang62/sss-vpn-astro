@@ -1,28 +1,28 @@
-/* eslint-disable import/no-mutable-exports */
 /* eslint-disable node/prefer-global/process */
 
-import { z, type ZodError } from "zod";
+import { z } from "zod";
 
 const EnvSchema = z.object({
   _isProduction: z.boolean().default(false),
+  API_BASE_URL: z.string().url(),
+  API_TOKEN: z.string(),
   DB_PATH: z.string().url(),
-  HOST_DOMAIN: z.string().url(),
   HOST_PORT: z.coerce.number(),
   LOG_LEVEL: z.enum(["silent", "debug", "info", "warn", "error"]),
   NODE_ENV: z.string().default("development"),
 });
 
-let env: z.infer<typeof EnvSchema>;
-try {
-  env = EnvSchema.parse(import.meta.env);
+export type Env = z.infer<typeof EnvSchema>;
 
-  //* COMPUTED *//
-  env._isProduction = env.NODE_ENV === "production";
-}
-catch (error) {
-  const e = error as ZodError;
-  console.error("❌ Invalid env:", e.flatten());
+const { data: env, error } = EnvSchema.safeParse(import.meta.env || process.env);
+
+if (!env || error) {
+  console.error("❌ Invalid env:");
+  console.error(JSON.stringify(error.flatten().fieldErrors, null, 2));
   process.exit(1);
 }
 
-export default env;
+//* COMPUTED *//
+env._isProduction = env.NODE_ENV === "production";
+
+export default env!;

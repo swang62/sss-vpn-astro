@@ -51,6 +51,8 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.7.3",
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
     "@types/node": "^22.7.5",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
@@ -70,6 +72,11 @@
     "yaml-language-server": {
       "prettier": "$prettier"
     }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "lint-staged": {
     "*": [

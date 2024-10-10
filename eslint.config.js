@@ -9,13 +9,16 @@ export default antfu(
       "vitest-globals/env": true
     },
     stylistic: {
+      indent: 2,
       quotes: "double",
       semi: true,
-    }
+    },
+    typescript: true
   },
   {
     rules: {
       "antfu/no-top-level-await": ["off"],
+      "format/prettier": ["off"],
       "no-console": ["off"],
       "perfectionist/sort-imports": ["warn", { internalPattern: ["@/**"] }],
       "perfectionist/sort-objects": ["warn"],

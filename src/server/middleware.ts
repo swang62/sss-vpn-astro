@@ -23,10 +23,10 @@ export async function parsedApi<T>(request: Promise<ClientResponse<T>>) {
 export const notFound: NotFoundHandler = (c) => {
   const path = c.req.path;
 
-  return c.json({ message: `Not Found: ${path}` }, 404);
+  return c.json({ message: `Invalid path: ${path}` }, 404);
 };
 
-export function corsHandler(): MiddlewareHandler {
+export function corsMiddleware(): MiddlewareHandler {
   return cors({
     allowMethods: ["*"],
     credentials: true,
@@ -42,7 +42,7 @@ export const onError: ErrorHandler = (error, c) => {
 
   return c.json(
     {
-      message: error.message || "Unknown Error",
+      message: statusCode === 401 ? "Unauthorized" : error.message,
       stack: env._isProduction ? undefined : error.stack,
     },
     statusCode
