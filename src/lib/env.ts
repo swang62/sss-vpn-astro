@@ -14,9 +14,9 @@ config({
 
 const EnvSchema = z.object({
   _isProduction: z.boolean().default(false),
+  API_TOKEN: z.string(),
   DB_PATH: z.string().url(),
-  HOST_DOMAIN: z.string().url(),
-  HOST_PORT: z.coerce.number(),
+  GTM_ID: z.string(),
   LOG_LEVEL: z.enum(["silent", "debug", "info", "warn", "error"]),
   NODE_ENV: z.string(),
 });

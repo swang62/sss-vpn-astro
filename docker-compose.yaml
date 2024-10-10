@@ -28,6 +28,8 @@ services:
       - DB_PATH=http://db:8080
       - HOST_DOMAIN=${HOST_DOMAIN}
       - HOST_PORT=${HOST_PORT}
+      - API_TOKEN=${API_TOKEN}
+      - GTM_ID=${GTM_ID}
       - LOG_LEVEL=${LOG_LEVEL}
     healthcheck:
       interval: 1h
