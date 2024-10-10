@@ -2,7 +2,7 @@ import { Hono } from "hono";
 
 import type { Bindings } from "@/lib/types";
 
-import { corsHandler, notFound, onError, pinoLogger, serveFavicon } from "./middleware";
+import { corsHandler, notFound, onError, pinoLogger } from "./middleware";
 
 export function createBaseRouter() {
   return new Hono<Bindings>({ strict: false });
@@ -11,7 +11,6 @@ export function createBaseRouter() {
 export default function createApp() {
   const app = createBaseRouter().basePath("/api");
 
-  app.use(serveFavicon("😝"));
   app.use(pinoLogger());
   app.use(corsHandler());
   app.notFound(notFound);
