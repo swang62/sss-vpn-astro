@@ -7,6 +7,7 @@ const EnvSchema = z.object({
   API_BASE_URL: z.string().url(),
   API_TOKEN: z.string(),
   DB_PATH: z.string().url(),
+  GTM_ID: z.string(),
   HOST_PORT: z.coerce.number(),
   LOG_LEVEL: z.enum(["silent", "debug", "info", "warn", "error"]),
   NODE_ENV: z.string().default("development"),

@@ -36,6 +36,7 @@ services:
       - HOST_PORT=${HOST_PORT}
       - API_BASE_URL=${API_BASE_URL}
       - API_TOKEN=${API_TOKEN}
+      - GTM_ID=${GTM_ID}
       - LOG_LEVEL=${LOG_LEVEL}
     healthcheck:
       interval: 1h

@@ -4,7 +4,7 @@ export default antfu(
   {
     astro: true,
     formatters: true,
-    ignores: ["**/migrations/*", "node_modules/**/*"],
+    ignores: ["**/migrations/*", "node_modules/**/*", "**/Scripts*"],
     settings: {
       "vitest-globals/env": true
     },
