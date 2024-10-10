@@ -1,5 +1,6 @@
 import { hc } from "hono/client";
 
+import { API_BASE_URL } from "@/lib/constants";
 import env from "@/lib/env";
 
 import createApp from "./app";
@@ -16,9 +17,9 @@ const _routes = app
 // Types
 export default app;
 export type App = typeof _routes;
-export const { api: apiServer } = hc<App>(env.API_BASE_URL, {
+
+export const { api: apiServer } = hc<App>(API_BASE_URL, {
   headers: {
     Authorization: `Bearer ${env.API_TOKEN}`
   }
 });
-export const { api: apiClient } = hc<App>(env.API_BASE_URL);

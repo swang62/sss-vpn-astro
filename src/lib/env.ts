@@ -4,7 +4,6 @@ import { z } from "zod";
 
 const EnvSchema = z.object({
   _isProduction: z.boolean().default(false),
-  API_BASE_URL: z.string().url(),
   API_TOKEN: z.string(),
   DB_PATH: z.string().url(),
   GTM_ID: z.string(),
