@@ -24,6 +24,7 @@ export default defineConfig({
     sitemap(),
     partytown({
       config: {
+        debug: false,
         forward: ["dataLayer.push"],
       },
     }),

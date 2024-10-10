@@ -2,7 +2,7 @@ FROM node:22-bullseye-slim AS base
 
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
-ARG PORT=4321
+ENV PORT=4321
 
 WORKDIR /app
 

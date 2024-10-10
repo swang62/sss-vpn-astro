@@ -33,7 +33,6 @@ services:
       - db
     environment:
       - DB_PATH=http://db:8080
-      - HOST_PORT=${HOST_PORT}
       - API_BASE_URL=${API_BASE_URL}
       - API_TOKEN=${API_TOKEN}
       - GTM_ID=${GTM_ID}
@@ -42,10 +41,10 @@ services:
       interval: 1h
       retries: 5
       start_period: 10s
-      test: "curl -fs http://localhost:${HOST_PORT}/api/status"
+      test: "curl -fs http://localhost:4321/api/status"
       timeout: 5s
     ports:
-      - ${HOST_PORT}:${HOST_PORT}
+      - 4321:4321
     restart: unless-stopped
 
 volumes:
