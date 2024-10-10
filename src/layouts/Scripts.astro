@@ -1,0 +1,26 @@
+---
+// @ts-nocheck
+
+import env from "@/lib/env";
+
+const ID = env.GTM_ID;
+---
+
+<script type="text/partytown" define:vars={{ ID }} is:inline>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ event: "gtm.js", "gtm.start": new Date().getTime() });
+    const f = d.getElementsByTagName(s)[0];
+    const j = d.createElement(s);
+    const dl = l != "dataLayer" ? `&l=${l}` : "";
+    j.async = true;
+    j.src = `https://www.googletagmanager.com/gtm.js?id=${i}${dl}`;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", ID);
+</script>
+<script type="text/partytown" is:inline>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+</script>

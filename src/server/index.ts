@@ -5,11 +5,14 @@ import env from "@/lib/env";
 
 import createApp from "./app";
 import base from "./base.route";
+import user from "./user.route";
 
 const app = createApp();
 
 // Routes
-const _routes = app.route("/", base);
+const _routes = app
+  .route("/", base)
+  .route("/user", user);
 
 // Types
 export default app;

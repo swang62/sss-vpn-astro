@@ -1,18 +1,35 @@
 ---
 import Card from "@/components/Card.astro";
 import Head from "@/layouts/Head.astro";
-import { api } from "@/server";
+import { apiServer } from "@/server";
 import { parsedApi } from "@/server/middleware";
 
 // export const prerender = true;
-const url = api.status.$url().pathname;
-const res = await parsedApi(api.status.$get({ query: { id: "id" } }));
-const resStr = JSON.stringify(res, null, 2);
+
+const url = apiServer.status.$url().pathname;
+const res = await parsedApi(
+  apiServer.status.$get({
+    query: { id: "id" },
+  })
+);
+const auth = await parsedApi(
+  apiServer.user[":id"].$get({
+    param: { id: "id" },
+  })
+);
+
+console.log(auth);
 ---
 
 <Head title="SSS-VPN">
   <main>
-    <img class="astro-a" width="495" height="623" src="/astro.svg" />
+    <img
+      class="astro-a"
+      width="495"
+      height="623"
+      src="/astro.svg"
+      alt="astro-logo"
+    />
     <h1>
       <span class="text-gradient">Astro</span>
     </h1>
@@ -32,7 +49,7 @@ const resStr = JSON.stringify(res, null, 2);
       </ul>
       <div class="instructions">
         <div style="color: green">{url}</div>
-        <code>{resStr}</code>
+        <code>{JSON.stringify(res, null, 2)}</code>
       </div>
     </div>
   </main>

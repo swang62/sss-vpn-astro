@@ -5,10 +5,14 @@
     "jsxImportSource": "react",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     },
-    "types": ["node"],
+    "types": [
+      "node",
+      "vitest/globals"
+    ],
     "strict": true
-  },
-  "exclude": ["node_modules"]
+  }
 }

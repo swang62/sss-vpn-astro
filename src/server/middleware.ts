@@ -23,10 +23,10 @@ export async function parsedApi<T>(request: Promise<ClientResponse<T>>) {
 export const notFound: NotFoundHandler = (c) => {
   const path = c.req.path;
 
-  return c.json({ message: `Not Found: ${path}` }, 404);
+  return c.json({ message: `Invalid path: ${path}` }, 404);
 };
 
-export function corsHandler(): MiddlewareHandler {
+export function corsMiddleware(): MiddlewareHandler {
   return cors({
     allowMethods: ["*"],
     credentials: true,
@@ -42,7 +42,7 @@ export const onError: ErrorHandler = (error, c) => {
 
   return c.json(
     {
-      message: error.message || "Unknown Error",
+      message: statusCode === 401 ? "Unauthorized" : error.message,
       stack: env._isProduction ? undefined : error.stack,
     },
     statusCode
@@ -63,15 +63,4 @@ export function pinoLogger(): MiddlewareHandler {
     },
     pino: pino({ level: env.LOG_LEVEL }, env._isProduction ? undefined : pretty()),
   });
-}
-
-export function serveFavicon(emoji: string): MiddlewareHandler {
-  return async (c, next) => {
-    if (c.req.path === "/favicon.ico") {
-      c.header("Content-Type", "image/svg+xml");
-      return c.body(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" x="-0.1em" font-size="90">${emoji}</text></svg>`);
-    }
-
-    return next();
-  };
 }
