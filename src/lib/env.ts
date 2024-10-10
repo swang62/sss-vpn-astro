@@ -1,16 +1,7 @@
 /* eslint-disable import/no-mutable-exports */
 /* eslint-disable node/prefer-global/process */
 
-import { config } from "dotenv";
-import path from "node:path";
 import { z, type ZodError } from "zod";
-
-config({
-  path: path.resolve(
-    process.cwd(),
-    process.env.NODE_ENV === "test" ? ".env.test" : ".env",
-  )
-});
 
 const EnvSchema = z.object({
   _isProduction: z.boolean().default(false),
@@ -18,15 +9,15 @@ const EnvSchema = z.object({
   HOST_DOMAIN: z.string().url(),
   HOST_PORT: z.coerce.number(),
   LOG_LEVEL: z.enum(["silent", "debug", "info", "warn", "error"]),
-  NODE_ENV: z.string(),
+  NODE_ENV: z.string().default("development"),
 });
 
 let env: z.infer<typeof EnvSchema>;
 try {
-  env = EnvSchema.parse(import.meta.env || process.env);
+  env = EnvSchema.parse(import.meta.env);
 
   //* COMPUTED *//
-  env._isProduction = import.meta.env?.PROD || env.NODE_ENV === "production";
+  env._isProduction = env.NODE_ENV === "production";
 }
 catch (error) {
   const e = error as ZodError;

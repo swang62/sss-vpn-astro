@@ -5,10 +5,13 @@ export default antfu(
     astro: true,
     formatters: true,
     ignores: ["**/migrations/*", "node_modules/**/*"],
+    settings: {
+      "vitest-globals/env": true
+    },
     stylistic: {
       quotes: "double",
       semi: true,
-    },
+    }
   },
   {
     rules: {

@@ -12,7 +12,16 @@ export default defineConfig({
   adapter: node({
     mode: "standalone",
   }),
-  integrations: [tailwind(), react(), sitemap()],
+  build: {
+    rollupOptions: {
+      external: ["**/*.test.*"],
+    },
+  },
+  integrations: [
+    tailwind(),
+    react(),
+    sitemap()
+  ],
   output: "server",
-  site: "https://sss-vpn.mildlybrewed.com",
+  site: "https://sss-vpn.mildlybrewed.com"
 });
