@@ -14,7 +14,7 @@ export const profile = table("profile", {
     .$type<"user" | "admin">()
     .default("user"),
   subscription_type: t.text()
-    .$type<"trial" | "none" | "low" | "high" | "router">(),
+    .$type<"trial" | "none" | "lite" | "pro" | "premium">(),
   updated_at: t.text()
     .notNull()
     .default(sql`(current_timestamp)`)

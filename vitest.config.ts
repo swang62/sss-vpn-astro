@@ -1,10 +1,20 @@
+/// <reference types="vitest" />
+import { getViteConfig } from "astro/config";
+import { config } from "dotenv";
 import path from "node:path";
-import { defineConfig } from "vitest/config";
 
-export default defineConfig({
+export default getViteConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  test: {
+    env: config({ path: "./.env.test" }).parsed,
+    globals: true,
+    include: ["**/*.test.{ts,tsx}"],
+  }
+}, {
+  site: "https://sss-vpn.mildlybrewed.com",
+  trailingSlash: "ignore",
 });

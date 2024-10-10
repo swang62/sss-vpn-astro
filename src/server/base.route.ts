@@ -11,7 +11,7 @@ const route = createBaseRouter()
     z.object({
       id: z.string().optional()
     }).optional()
-  ), async (c) => {
+  ), (c) => {
     return c.json({
       endpoint: c.req.path,
       method: c.req.method,
