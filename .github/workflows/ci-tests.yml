@@ -1,0 +1,36 @@
+name: Build & Test & Lint
+
+on: [push]
+
+jobs:
+  main:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20]
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+
+      - name: Install packages
+        run: pnpm install --frozen-lock
+
+      - name: Build
+        run: cp .env.test .env.build && pnpm build
+
+      - name: Format & Lint
+        run: pnpm lint
+
+      - name: Test
+        run: pnpm test:all

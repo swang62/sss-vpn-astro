@@ -3,25 +3,28 @@
   "type": "module",
   "version": "0.0.1",
   "engines": {
-    "node": ">=20"
+    "node": "20"
   },
   "scripts": {
     "astro": "astro",
-    "build": "NODE_ENV=production astro check --minimumSeverity warning && export $(cat .env.runtime) && astro build",
+    "build": "NODE_ENV=production astro check --minimumSeverity warning && export $(cat .env.build) && astro build",
     "db:migrate": "drizzle-kit generate && drizzle-kit migrate",
     "db:migrate:docker": "docker compose run sssvpn pnpm drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "db:studio:docker": "NODE_ENV=production DB_PATH=http://localhost:8888 pnpm drizzle-kit studio",
+    "db:studio:docker": "NODE_ENV=production DB_SYNC_URL=http://localhost:8888 pnpm drizzle-kit studio",
+    "db:seed": "dotenv -- tsx ./scripts/reset-db.ts",
     "dev": "astro dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "lint:styles:fix": "prettier --write --list-different \"./src/**/*.(js|jsx|ts|tsx)\"",
     "logs": "docker compose logs -f",
     "prepare": "husky || true",
     "preview": "dotenv -- astro preview",
     "start:docker": "docker compose up -d --remove-orphans",
     "stop": "docker compose down --remove-orphans",
-    "test": "vitest run",
+    "test": "vitest run --changed",
+    "test:all": "vitest run",
     "test:watch": "vitest"
   },
   "dependencies": {
@@ -30,21 +33,23 @@
     "@astrojs/partytown": "^2.1.2",
     "@astrojs/react": "^3.6.2",
     "@astrojs/sitemap": "^3.2.0",
-    "@astrojs/tailwind": "^5.1.1",
+    "@astrojs/tailwind": "^5.1.2",
     "@hono/zod-validator": "^0.4.1",
     "@libsql/client": "^0.14.0",
     "@paralleldrive/cuid2": "^2.2.2",
-    "astro": "^4.15.12",
+    "astro": "^4.16.0",
     "dotenv": "^16.4.5",
     "drizzle-kit": "^0.25.0",
     "drizzle-orm": "^0.34.1",
     "drizzle-zod": "^0.5.1",
     "hono": "^4.6.3",
     "hono-pino": "^0.3.0",
+    "hono-rate-limiter": "^0.4.0",
     "pino": "^9.4.0",
     "pino-pretty": "^11.2.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.5.3",
     "tailwindcss": "^3.4.13",
     "typescript": "5.5.4",
     "vitest": "^2.1.2",
@@ -66,7 +71,7 @@
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.13.0",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.19.1",
     "vite": "^5.4.8"
   },
   "overrides": {
@@ -81,7 +86,10 @@
   },
   "lint-staged": {
     "*": [
-      "eslint --quiet --fix"
+      "pnpm lint:fix"
+    ],
+    "*.{js,jsx,ts,tsx}": [
+      "pnpm lint:styles:fix"
     ]
   }
 }

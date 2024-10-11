@@ -1,7 +1,7 @@
 ---
 import "@/css/main.css";
+import Analytics from "./Analytics.astro";
 import Metadata from "./Metadata.astro";
-import Scripts from "./Scripts.astro";
 
 interface Props {
   title: string;
@@ -14,7 +14,7 @@ const { title } = Astro.props;
 <html lang="en">
   <head>
     <Metadata />
-    <Scripts />
+    <Analytics />
     <title>{title}</title>
   </head>
   <body>

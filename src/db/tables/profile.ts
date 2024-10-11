@@ -6,26 +6,29 @@ import { createInsertSchema } from "drizzle-zod";
 import { users } from "./users";
 
 export const profile = table("profile", {
-  created_at: t.text()
+  created_at: t
+    .text()
     .notNull()
     .default(sql`(current_timestamp)`),
-  role: t.text()
-    .notNull()
-    .$type<"user" | "admin">()
-    .default("user"),
-  subscription_type: t.text()
+  role: t.text().notNull().$type<"user" | "admin">().default("user"),
+  subscription_type: t
+    .text()
     .$type<"trial" | "none" | "lite" | "pro" | "premium">(),
-  updated_at: t.text()
+  updated_at: t
+    .text()
     .notNull()
     .default(sql`(current_timestamp)`)
     .$onUpdate(() => sql`(current_timestamp)`),
-  user_id: t.text().references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  user_id: t
+    .text()
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
 });
 
 export const ProfileRelations = relations(profile, ({ one }) => ({
   user: one(users, {
     fields: [profile.user_id],
-    references: [users.id]
+    references: [users.id],
   }),
 }));
 

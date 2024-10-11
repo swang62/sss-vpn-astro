@@ -1,0 +1,29 @@
+---
+import Head from "@/layouts/Head.astro";
+import { parsedApi } from "@/lib/utils";
+import { apiServer } from "@/server";
+
+export const prerender = false;
+
+const { id = "" } = Astro.params;
+const { data } = await parsedApi(
+  apiServer.user[":id"].$get({
+    param: { id },
+  })
+);
+---
+
+<Head title="User | SSS-VPN">
+  <main>
+    <div class="flex flex-col gap-4 instructions">
+      <div>/api/user/{id}</div>
+      {
+        data ? (
+          <code>{JSON.stringify(data, null, 2)}</code>
+        ) : (
+          <code>ID:{id} not found!</code>
+        )
+      }
+    </div>
+  </main>
+</Head>

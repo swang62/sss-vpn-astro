@@ -4,26 +4,33 @@ export default antfu(
   {
     astro: true,
     formatters: true,
-    ignores: ["**/migrations/*", "node_modules/**/*", "**/Scripts*"],
+    ignores: [
+      "**/migrations/*",
+      "**/node_modules/*",
+      "**/Analytics*",
+      "**/.github/*",
+    ],
     settings: {
-      "vitest-globals/env": true
+      "vitest-globals/env": true,
     },
     stylistic: {
       indent: 2,
       quotes: "double",
       semi: true,
     },
-    typescript: true
   },
   {
     rules: {
-      "antfu/no-top-level-await": ["off"],
+      "antfu/if-newline": ["off"],
       "format/prettier": ["off"],
+      "jsonc/sort-keys": ["off"],
       "no-console": ["off"],
       "perfectionist/sort-imports": ["warn", { internalPattern: ["@/**"] }],
       "perfectionist/sort-objects": ["warn"],
-      "style/comma-dangle": ["off"],
-      "yaml/sort-keys": ["warn"]
-    }
-  }
+      "style/arrow-parens": ["off"],
+      "style/operator-linebreak": ["off"],
+      "ts/consistent-type-definitions": ["off"],
+      "yaml/sort-keys": ["warn"],
+    },
+  },
 );

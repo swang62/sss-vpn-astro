@@ -5,7 +5,13 @@ import type { Bindings } from "@/lib/types";
 
 import env from "@/lib/env";
 
-import { corsMiddleware, notFound, onError, pinoLogger } from "./middleware";
+import {
+  apiLimiter,
+  corsMiddleware,
+  notFound,
+  onError,
+  pinoLogger,
+} from "./middleware";
 
 export function createBaseRouter() {
   return new Hono<Bindings>({ strict: false });
@@ -14,9 +20,10 @@ export function createBaseRouter() {
 export default function createApp() {
   const app = createBaseRouter().basePath("/api");
 
-  app.use("/user/*", bearerAuth({ token: env.API_TOKEN, }));
+  app.use("/user/*", bearerAuth({ token: env.API_TOKEN }));
   app.use(pinoLogger());
   app.use(corsMiddleware());
+  app.use(apiLimiter());
   app.notFound(notFound);
   app.onError(onError);
 

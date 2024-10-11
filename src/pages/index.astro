@@ -1,24 +1,7 @@
 ---
 import Card from "@/components/Card.astro";
+import Status from "@/components/Status";
 import Head from "@/layouts/Head.astro";
-import { apiServer } from "@/server";
-import { parsedApi } from "@/server/middleware";
-
-// export const prerender = true;
-
-const url = apiServer.status.$url().pathname;
-const res = await parsedApi(
-  apiServer.status.$get({
-    query: { id: "id" },
-  })
-);
-const auth = await parsedApi(
-  apiServer.user[":id"].$get({
-    param: { id: "id" },
-  })
-);
-
-console.log(auth);
 ---
 
 <Head title="SSS-VPN">
@@ -47,10 +30,7 @@ console.log(auth);
           body="Explore a galaxy of community-built starter themes."
         />
       </ul>
-      <div class="instructions">
-        <div style="color: green">{url}</div>
-        <code>{JSON.stringify(res, null, 2)}</code>
-      </div>
+      <Status client:load />
     </div>
   </main>
 </Head>

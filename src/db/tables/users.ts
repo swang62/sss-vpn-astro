@@ -7,9 +7,7 @@ import { createInsertSchema } from "drizzle-zod";
 import { profile } from "./profile";
 
 export const users = table("users", {
-  id: t.text()
-    .primaryKey()
-    .$defaultFn(createId),
+  id: t.text().primaryKey().$defaultFn(createId),
   name: t.text(),
 });
 
@@ -18,8 +16,7 @@ export const UsersRelations = relations(users, ({ one }) => ({
 }));
 
 export const UsersSchema = createInsertSchema(users, {
-  name: schema => schema.name.max(200)
-})
-  .omit({
-    id: true,
-  });
+  name: (schema) => schema.name.max(200),
+}).omit({
+  id: true,
+});
