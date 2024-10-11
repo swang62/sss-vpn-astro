@@ -3,7 +3,7 @@ name: Build & Test & Lint
 on: [push]
 
 jobs:
-  tests:
+  main:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
@@ -27,7 +27,7 @@ jobs:
         run: pnpm install --frozen-lock
 
       - name: Build
-        run: pnpm build
+        run: cp .env.test .env.build && pnpm build
 
       - name: Format & Lint
         run: pnpm lint
