@@ -1,7 +1,6 @@
 import type { ErrorHandler, MiddlewareHandler, NotFoundHandler } from "hono";
 import type { StatusCode } from "hono/utils/http-status";
 
-import { createId } from "@paralleldrive/cuid2";
 import { logger } from "hono-pino";
 import { rateLimiter } from "hono-rate-limiter";
 import { cors } from "hono/cors";
@@ -22,20 +21,22 @@ export const onError: ErrorHandler = (error, c) => {
   const statusCode =
     currentStatus !== 200 ? (currentStatus as StatusCode) : 500;
 
-  return c.json(
-    {
-      message: statusCode === 401 ? "Unauthorized" : error.message,
-      stack: env._isProduction ? undefined : error.stack,
-    },
-    statusCode,
-  );
+  const errorMessage = {
+    message: statusCode === 401 ? "Unauthorized" : error.message,
+    stack: env._isProduction ? undefined : error.stack,
+  };
+  // console.error(errorMessage); TODO: send it to sentry
+
+  return c.json(errorMessage, statusCode);
 };
 
 export function corsMiddleware(): MiddlewareHandler {
   return cors({
-    allowMethods: ["*"],
     credentials: true,
-    origin: ["localhost", "127.0.0.0/8", "172.0.0.0/8"],
+    origin: (origin) =>
+      origin.endsWith(".mildlybrewed.com") || !env._isProduction
+        ? origin
+        : "none",
   });
 }
 
@@ -43,13 +44,16 @@ export function pinoLogger(): MiddlewareHandler {
   return logger({
     http: {
       onReqBindings: (c) => ({
-        req: {
+        request: {
           host: env.LOG_LEVEL === "debug" ? c.req.header() : undefined,
           method: c.req.method,
           url: c.req.path,
         },
       }),
-      reqId: createId,
+      onResBindings: (c) => ({
+        status: c.res.status,
+      }),
+      reqId: false,
     },
     pino: pino(
       { level: env.LOG_LEVEL },
@@ -67,6 +71,9 @@ export function apiLimiter(): MiddlewareHandler {
       ${c.req.header("cf-connecting-ip") || ""}
     `.trim(),
     limit: 30,
+    message: {
+      message: "Too many requests, try again later.",
+    },
     standardHeaders: "draft-6",
     windowMs: 10 * 1000, // 10s
   });
