@@ -7,7 +7,7 @@ export default antfu(
     ignores: [
       "**/migrations/*",
       "**/node_modules/*",
-      "**/Scripts*",
+      "**/Analytics*",
       "**/.github/*",
     ],
     settings: {
@@ -23,6 +23,7 @@ export default antfu(
     rules: {
       "antfu/if-newline": ["off"],
       "format/prettier": ["off"],
+      "jsonc/sort-keys": ["off"],
       "no-console": ["off"],
       "perfectionist/sort-imports": ["warn", { internalPattern: ["@/**"] }],
       "perfectionist/sort-objects": ["warn"],

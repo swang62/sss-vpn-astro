@@ -1,11 +1,5 @@
----
-import env from "@/lib/env";
-
-const ID = env.GTM_ID;
-if (!ID) return;
----
-
-<script define:vars={{ ID }} is:inline type="module">
+<script>
+  // @ts-nocheck
   (function (w, d, s, l, i) {
     w[l] = w[l] || [];
     w[l].push({ event: "gtm.js", "gtm.start": new Date().getTime() });
@@ -15,9 +9,10 @@ if (!ID) return;
     j.async = true;
     j.src = `https://www.googletagmanager.com/gtm.js?id=${i}${dl}`;
     f.parentNode.insertBefore(j, f);
-  })(window, document, "script", "dataLayer", ID);
+  })(window, document, "script", "dataLayer", import.meta.env.GTM_ID);
 </script>
-<script is:inline type="module">
+<script>
+  // @ts-nocheck
   window.dataLayer = window.dataLayer || [];
   function gtag() {
     dataLayer.push(arguments);
