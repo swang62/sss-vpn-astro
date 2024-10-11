@@ -6,9 +6,9 @@ export default antfu(
     formatters: true,
     ignores: [
       "**/migrations/*",
-      "node_modules/**/*",
+      "**/node_modules/*",
       "**/Scripts*",
-      "./scripts/*",
+      "**/.github/*",
     ],
     settings: {
       "vitest-globals/env": true,
