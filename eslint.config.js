@@ -18,7 +18,7 @@ export default antfu(
   {
     rules: {
       "antfu/no-top-level-await": ["off"],
-      "format/prettier": ["off"],
+      // "format/prettier": ["off"],
       "no-console": ["off"],
       "perfectionist/sort-imports": ["warn", { internalPattern: ["@/**"] }],
       "perfectionist/sort-objects": ["warn"],

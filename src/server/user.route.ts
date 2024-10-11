@@ -12,17 +12,17 @@ const route = createBaseRouter()
   })), async (c) => {
     const { id } = c.req.valid("param");
 
-    const profile = await db.query.users.findFirst({
+    const user = await db.query.users.findFirst({
       where: eq(users.id, id),
       with: { profile: true }
     });
 
-    if (!profile) {
+    if (!user) {
       c.status(404);
       throw new Error(`User ID:${id} not found`);
     }
 
-    return c.json({ profile });
+    return c.json({ user });
   });
 
 export default route;

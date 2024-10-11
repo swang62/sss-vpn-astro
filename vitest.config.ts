@@ -12,7 +12,8 @@ export default getViteConfig({
   test: {
     env: config({ path: "./.env.test" }).parsed,
     globals: true,
-    include: ["**/*.test.{ts,tsx}"],
+    globalSetup: "./vitest.setup.ts",
+    include: ["**/*.test.{ts,tsx}"]
   }
 }, {
   site: "https://sss-vpn.mildlybrewed.com",

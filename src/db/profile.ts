@@ -19,7 +19,7 @@ export const profile = table("profile", {
     .notNull()
     .default(sql`(current_timestamp)`)
     .$onUpdate(() => sql`(current_timestamp)`),
-  user_id: t.text().references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
+  user_id: t.text().notNull().references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
 });
 
 export const ProfileRelations = relations(profile, ({ one }) => ({
