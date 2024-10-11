@@ -32,9 +32,11 @@ export const onError: ErrorHandler = (error, c) => {
 
 export function corsMiddleware(): MiddlewareHandler {
   return cors({
-    allowMethods: ["*"],
     credentials: true,
-    origin: ["localhost", "127.0.0.0/8", "172.0.0.0/8"],
+    origin: (origin) =>
+      origin.endsWith(".mildlybrewed.com") || !env._isProduction
+        ? origin
+        : "none",
   });
 }
 
