@@ -17,6 +17,7 @@ const route = createBaseRouter().get(
   (c) => {
     return c.json({
       endpoint: c.req.path,
+      headers: c.req.header(),
       method: c.req.method,
       production: env._isProduction,
       query: c.req.valid("query"),
