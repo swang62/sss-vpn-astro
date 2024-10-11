@@ -4,15 +4,19 @@ import { twMerge } from "tailwind-merge";
 import { parsedApi } from "@/lib/utils";
 import { apiClient } from "@/server/client";
 
-import styles from "./Status.module.css";
-
 interface Props {}
 
 function Status(_props: Props) {
   const [status, setStatus] = useState("");
 
   const onClickStatus = useCallback(async () => {
-    const { data } = await parsedApi(apiClient.status.$get());
+    const { data, error } = await parsedApi(apiClient.status.$get());
+
+    if (error) {
+      setStatus("Too many requests!");
+      return;
+    }
+
     setStatus(JSON.stringify(data, null, 2));
   }, []);
 
@@ -21,13 +25,13 @@ function Status(_props: Props) {
       <div className="flex justify-between">
         <button
           onClick={onClickStatus}
-          className={twMerge(styles.button, "bg-green-800 hover:bg-green-600")}
+          className={twMerge("button", "bg-green-800 hover:bg-green-600")}
         >
           Check API
         </button>
         <button
           onClick={() => setStatus("")}
-          className={twMerge(styles.button, "bg-red-500 hover:bg-red-600")}
+          className={twMerge("button", "bg-red-800 hover:bg-red-600")}
         >
           Reset
         </button>

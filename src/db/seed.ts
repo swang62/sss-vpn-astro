@@ -8,14 +8,14 @@ import { DB_LOCAL, DB_TEST } from "./constants";
 const url = env.NODE_ENV === "test" ? DB_TEST : DB_LOCAL;
 
 export async function push() {
-  console.info("Pushing migrations...");
+  console.debug("Pushing migrations...");
 
   fs.rmSync(url.replace("file:", ""), { force: true });
   execSync("pnpm drizzle-kit migrate");
 }
 
 export async function seed() {
-  console.info("Seeding database...");
+  console.debug("Seeding database...");
 
   import(".").then(async (schema) => {
     const { default: db, profile, users } = schema;
@@ -33,7 +33,7 @@ export async function seed() {
 }
 
 export async function remove() {
-  console.info("Deleting db...");
+  console.debug("Deleting db...");
 
   fs.rmSync(url.replace("file:", ""), { force: true });
 }

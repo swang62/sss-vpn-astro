@@ -2,7 +2,12 @@
   --accent: 136, 58, 234;
   --accent-light: 224, 204, 250;
   --accent-dark: 49, 10, 101;
-  --accent-gradient: linear-gradient(45deg, rgb(var(--accent)), rgb(var(--accent-light)) 30%, white 60%);
+  --accent-gradient: linear-gradient(
+    45deg,
+    rgb(var(--accent)),
+    rgb(var(--accent-light)) 30%,
+    white 60%
+  );
 }
 html {
   font-family: system-ui, sans-serif;
@@ -54,7 +59,10 @@ h1 {
 .instructions {
   /* margin: 2rem 0rem; */
   border: 1px solid rgba(var(--accent-light), 25%);
-  background: linear-gradient(rgba(var(--accent-dark), 10%), rgba(var(--accent-dark), 5%));
+  background: linear-gradient(
+    rgba(var(--accent-dark), 10%),
+    rgba(var(--accent-dark), 5%)
+  );
   padding: 1.5rem;
   border-radius: 8px;
 }
@@ -67,12 +75,36 @@ h1 {
   border-radius: 4px;
   padding: 0.3em 0.4em;
 }
-.instructions strong {
-  color: rgb(var(--accent-light));
-}
+
 .link-card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
   gap: 2rem;
   padding: 0;
+}
+
+.button {
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  height: 36px;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }

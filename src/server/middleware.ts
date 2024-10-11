@@ -3,6 +3,7 @@ import type { StatusCode } from "hono/utils/http-status";
 
 import { createId } from "@paralleldrive/cuid2";
 import { logger } from "hono-pino";
+import { rateLimiter } from "hono-rate-limiter";
 import { cors } from "hono/cors";
 import pino from "pino";
 import pretty from "pino-pretty";
@@ -14,14 +15,6 @@ export const notFound: NotFoundHandler = (c) => {
 
   return c.json({ message: `Invalid path: ${path}` }, 404);
 };
-
-export function corsMiddleware(): MiddlewareHandler {
-  return cors({
-    allowMethods: ["*"],
-    credentials: true,
-    origin: ["localhost", "127.0.0.0/8", "172.0.0.0/8"],
-  });
-}
 
 export const onError: ErrorHandler = (error, c) => {
   const currentStatus =
@@ -38,12 +31,20 @@ export const onError: ErrorHandler = (error, c) => {
   );
 };
 
+export function corsMiddleware(): MiddlewareHandler {
+  return cors({
+    allowMethods: ["*"],
+    credentials: true,
+    origin: ["localhost", "127.0.0.0/8", "172.0.0.0/8"],
+  });
+}
+
 export function pinoLogger(): MiddlewareHandler {
   return logger({
     http: {
       onReqBindings: (c) => ({
         req: {
-          host: c.req.header("host"),
+          host: env.LOG_LEVEL === "debug" ? c.req.header() : undefined,
           method: c.req.method,
           url: c.req.path,
         },
@@ -54,5 +55,19 @@ export function pinoLogger(): MiddlewareHandler {
       { level: env.LOG_LEVEL },
       env._isProduction ? undefined : pretty(),
     ),
+  });
+}
+
+export function apiLimiter(): MiddlewareHandler {
+  return rateLimiter({
+    keyGenerator: (c) =>
+      `
+      ${c.req.path || ""}
+      ${c.req.header("host") || ""}
+      ${c.req.header("cf-connecting-ip") || ""}
+    `.trim(),
+    limit: 30,
+    standardHeaders: "draft-6",
+    windowMs: 10 * 1000, // 10s
   });
 }
