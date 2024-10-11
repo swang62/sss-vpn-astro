@@ -1,6 +1,6 @@
 FROM node:22-bullseye-slim AS base
 
-ENV NODE_ENV=production
+ENV NODE_ENV=development
 ENV HOST=0.0.0.0
 ENV PORT=4321
 
@@ -15,16 +15,19 @@ RUN apt-get update \
 FROM base AS dependencies 
 
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install
+RUN pnpm install --prod
 
 #############################
 FROM dependencies AS build
 
+RUN pnpm install
 COPY . .
 RUN pnpm build
 
 #############################
 FROM base AS runtime
+
+ENV NODE_ENV=production
 
 COPY --from=dependencies /app/package.json ./package.json
 COPY --from=dependencies /app/node_modules ./node_modules

@@ -1,11 +1,11 @@
 import { hc } from "hono/client";
 
-import { API_BASE_URL } from "@/lib/constants";
 import env from "@/lib/env";
 
 import createApp from "./app";
-import base from "./base.route";
-import user from "./user.route";
+import { API_BASE_URL } from "./constants";
+import base from "./routes/base.route";
+import user from "./routes/user.route";
 
 const app = createApp();
 

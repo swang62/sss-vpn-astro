@@ -3,8 +3,7 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import db, { users } from "@/db";
-
-import { createBaseRouter } from "./app";
+import { createBaseRouter } from "@/server/app";
 
 const route = createBaseRouter().get(
   "/:id",

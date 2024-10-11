@@ -1,2 +1,2 @@
-export * from "./profile";
-export * from "./users";
+export * from "./tables/profile";
+export * from "./tables/users";

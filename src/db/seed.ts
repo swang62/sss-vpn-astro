@@ -1,8 +1,9 @@
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 
-import { DB_LOCAL, DB_TEST } from "@/lib/constants";
 import env from "@/lib/env";
+
+import { DB_LOCAL, DB_TEST } from "./constants";
 
 const url = env.NODE_ENV === "test" ? DB_TEST : DB_LOCAL;
 

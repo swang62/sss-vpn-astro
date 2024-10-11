@@ -1,6 +1,7 @@
 import { testClient } from "hono/testing";
 
-import createApp from "../app";
+import createApp from "@/server/app";
+
 import router from "../base.route";
 
 const client = testClient(createApp().route("/", router));

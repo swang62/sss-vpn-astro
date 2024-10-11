@@ -2,8 +2,7 @@ import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 
 import env from "@/lib/env";
-
-import { createBaseRouter } from "./app";
+import { createBaseRouter } from "@/server/app";
 
 const route = createBaseRouter().get(
   "/status",

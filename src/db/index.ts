@@ -1,9 +1,9 @@
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 
-import { DB_LOCAL, DB_TEST } from "@/lib/constants";
 import env from "@/lib/env";
 
+import { DB_LOCAL, DB_TEST } from "./constants";
 import * as schema from "./schema";
 
 const url = env.NODE_ENV === "test" ? DB_TEST : DB_LOCAL;
