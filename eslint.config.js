@@ -17,12 +17,14 @@ export default antfu(
   },
   {
     rules: {
+      "antfu/if-newline": ["off"],
       "antfu/no-top-level-await": ["off"],
-      // "format/prettier": ["off"],
+      "format/prettier": ["off"],
       "no-console": ["off"],
       "perfectionist/sort-imports": ["warn", { internalPattern: ["@/**"] }],
       "perfectionist/sort-objects": ["warn"],
       "style/comma-dangle": ["off"],
+      "ts/consistent-type-definitions": ["off"],
       "yaml/sort-keys": ["warn"]
     }
   }

@@ -1,5 +1,4 @@
 import type { ErrorHandler, MiddlewareHandler, NotFoundHandler } from "hono";
-import type { ClientResponse } from "hono/client";
 import type { StatusCode } from "hono/utils/http-status";
 
 import { createId } from "@paralleldrive/cuid2";
@@ -9,16 +8,6 @@ import pino from "pino";
 import pretty from "pino-pretty";
 
 import env from "@/lib/env";
-
-export async function parsedApi<T>(request: Promise<ClientResponse<T>>) {
-  const response = await request;
-  if (!response.ok) {
-    const error = await response.text();
-    return { error, status: response.status };
-  }
-  const data = (await response.json()) as T;
-  return { data, status: response.status };
-}
 
 export const notFound: NotFoundHandler = (c) => {
   const path = c.req.path;

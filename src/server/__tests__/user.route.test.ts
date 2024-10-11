@@ -1,7 +1,8 @@
 import { testClient } from "hono/testing";
 
+import { parsedApi } from "@/lib/utils";
+
 import createApp from "../app";
-import { parsedApi } from "../middleware";
 import router from "../user.route";
 
 const client = testClient(createApp().route("/", router));

@@ -7,7 +7,7 @@
   },
   "scripts": {
     "astro": "astro",
-    "build": "NODE_ENV=production astro check --minimumSeverity warning && export $(cat .env.runtime) && astro build",
+    "build": "NODE_ENV=production astro check --minimumSeverity warning && export $(cat .env.build) && astro build",
     "db:migrate": "drizzle-kit generate && drizzle-kit migrate",
     "db:migrate:docker": "docker compose run sssvpn pnpm drizzle-kit migrate",
     "db:push": "drizzle-kit push",
@@ -46,6 +46,7 @@
     "pino-pretty": "^11.2.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.5.3",
     "tailwindcss": "^3.4.13",
     "typescript": "5.5.4",
     "vitest": "^2.1.2",

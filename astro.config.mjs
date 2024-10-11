@@ -22,6 +22,6 @@ export default defineConfig({
     react(),
     sitemap()
   ],
-  output: "server",
+  output: "hybrid",
   site: "https://sss-vpn.mildlybrewed.com"
 });
