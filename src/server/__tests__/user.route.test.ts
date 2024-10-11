@@ -9,13 +9,17 @@ const client = testClient(createApp().route("/", router));
 
 describe("route /api/user", () => {
   it("missing user", async () => {
-    const { status } = await parsedApi(client.api[":id"].$get({ param: { id: "1000" } }));
+    const { status } = await parsedApi(
+      client.api[":id"].$get({ param: { id: "1000" } }),
+    );
 
     expect(status).toBe(404);
   });
 
   it("get valid user", async () => {
-    const { data, status } = await parsedApi(client.api[":id"].$get({ param: { id: "1" } }));
+    const { data, status } = await parsedApi(
+      client.api[":id"].$get({ param: { id: "1" } }),
+    );
 
     expect(status).toBe(200);
     expect(data!.user.id).toBe("1");

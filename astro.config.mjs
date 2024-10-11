@@ -17,11 +17,7 @@ export default defineConfig({
       external: ["**/*.test.*"],
     },
   },
-  integrations: [
-    tailwind(),
-    react(),
-    sitemap()
-  ],
+  integrations: [tailwind(), react(), sitemap()],
   output: "hybrid",
-  site: "https://sss-vpn.mildlybrewed.com"
+  site: "https://sss-vpn.mildlybrewed.com",
 });

@@ -6,15 +6,20 @@ import db, { users } from "@/db";
 
 import { createBaseRouter } from "./app";
 
-const route = createBaseRouter()
-  .get("/:id", zValidator("param", z.object({
-    id: z.string()
-  })), async (c) => {
+const route = createBaseRouter().get(
+  "/:id",
+  zValidator(
+    "param",
+    z.object({
+      id: z.string(),
+    }),
+  ),
+  async (c) => {
     const { id } = c.req.valid("param");
 
     const user = await db.query.users.findFirst({
       where: eq(users.id, id),
-      with: { profile: true }
+      with: { profile: true },
     });
 
     if (!user) {
@@ -23,6 +28,7 @@ const route = createBaseRouter()
     }
 
     return c.json({ user });
-  });
+  },
+);
 
 export default route;

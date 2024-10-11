@@ -11,7 +11,9 @@ const EnvSchema = z.object({
   NODE_ENV: z.string().default("development"),
 });
 
-const { data: env, error } = EnvSchema.safeParse(import.meta.env || process.env);
+const { data: env, error } = EnvSchema.safeParse(
+  import.meta.env || process.env,
+);
 if (!env || error) {
   console.error("❌ Invalid env:");
   console.error(JSON.stringify(error.flatten().fieldErrors, null, 2));

@@ -17,6 +17,7 @@
     "dev": "astro dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "lint:styles:fix": "prettier --write --list-different \"./src/**/*.(js|jsx|ts|tsx)\"",
     "logs": "docker compose logs -f",
     "prepare": "husky || true",
     "preview": "dotenv -- astro preview",
@@ -83,7 +84,10 @@
   },
   "lint-staged": {
     "*": [
-      "eslint --quiet --fix"
+      "pnpm lint:fix"
+    ],
+    "*.{js,jsx,ts,tsx}": [
+      "pnpm lint:styles:fix"
     ]
   }
 }

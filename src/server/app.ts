@@ -14,7 +14,7 @@ export function createBaseRouter() {
 export default function createApp() {
   const app = createBaseRouter().basePath("/api");
 
-  app.use("/user/*", bearerAuth({ token: env.API_TOKEN, }));
+  app.use("/user/*", bearerAuth({ token: env.API_TOKEN }));
   app.use(pinoLogger());
   app.use(corsMiddleware());
   app.notFound(notFound);

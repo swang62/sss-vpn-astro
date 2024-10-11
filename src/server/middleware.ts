@@ -24,24 +24,24 @@ export function corsMiddleware(): MiddlewareHandler {
 }
 
 export const onError: ErrorHandler = (error, c) => {
-  const currentStatus
-    = "status" in error ? error.status : c.newResponse(null).status;
-  const statusCode
-    = currentStatus !== 200 ? (currentStatus as StatusCode) : 500;
+  const currentStatus =
+    "status" in error ? error.status : c.newResponse(null).status;
+  const statusCode =
+    currentStatus !== 200 ? (currentStatus as StatusCode) : 500;
 
   return c.json(
     {
       message: statusCode === 401 ? "Unauthorized" : error.message,
       stack: env._isProduction ? undefined : error.stack,
     },
-    statusCode
+    statusCode,
   );
 };
 
 export function pinoLogger(): MiddlewareHandler {
   return logger({
     http: {
-      onReqBindings: c => ({
+      onReqBindings: (c) => ({
         req: {
           host: c.req.header("host"),
           method: c.req.method,
@@ -50,6 +50,9 @@ export function pinoLogger(): MiddlewareHandler {
       }),
       reqId: createId,
     },
-    pino: pino({ level: env.LOG_LEVEL }, env._isProduction ? undefined : pretty()),
+    pino: pino(
+      { level: env.LOG_LEVEL },
+      env._isProduction ? undefined : pretty(),
+    ),
   });
 }
