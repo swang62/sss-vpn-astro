@@ -5,7 +5,7 @@ const ID = env.GTM_ID;
 if (!ID) return;
 ---
 
-<script define:vars={{ ID }} is:inline>
+<script define:vars={{ ID }} is:inline type="module">
   (function (w, d, s, l, i) {
     w[l] = w[l] || [];
     w[l].push({ event: "gtm.js", "gtm.start": new Date().getTime() });
@@ -17,7 +17,7 @@ if (!ID) return;
     f.parentNode.insertBefore(j, f);
   })(window, document, "script", "dataLayer", ID);
 </script>
-<script is:inline>
+<script is:inline type="module">
   window.dataLayer = window.dataLayer || [];
   function gtag() {
     dataLayer.push(arguments);
