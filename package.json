@@ -12,7 +12,7 @@
     "db:migrate:docker": "docker compose run sssvpn pnpm drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "db:studio:docker": "NODE_ENV=production DB_PATH=http://localhost:8888 pnpm drizzle-kit studio",
+    "db:studio:docker": "NODE_ENV=production DB_SYNC_URL=http://localhost:8888 pnpm drizzle-kit studio",
     "dev": "astro dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

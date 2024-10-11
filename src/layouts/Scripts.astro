@@ -1,12 +1,11 @@
 ---
-// @ts-nocheck
-
 import env from "@/lib/env";
 
 const ID = env.GTM_ID;
+if (!ID) return;
 ---
 
-<script type="text/partytown" define:vars={{ ID }} is:inline>
+<script define:vars={{ ID }} is:inline>
   (function (w, d, s, l, i) {
     w[l] = w[l] || [];
     w[l].push({ event: "gtm.js", "gtm.start": new Date().getTime() });
@@ -18,7 +17,7 @@ const ID = env.GTM_ID;
     f.parentNode.insertBefore(j, f);
   })(window, document, "script", "dataLayer", ID);
 </script>
-<script type="text/partytown" is:inline>
+<script is:inline>
   window.dataLayer = window.dataLayer || [];
   function gtag() {
     dataLayer.push(arguments);

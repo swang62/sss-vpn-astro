@@ -33,7 +33,7 @@ services:
       - db
     environment:
       - API_TOKEN=${API_TOKEN}
-      - DB_PATH=http://db:8080
+      - DB_SYNC_URL=${DB_SYNC_URL:-http://db:8080}
       - GTM_ID=${GTM_ID}
       - LOG_LEVEL=${LOG_LEVEL}
     healthcheck:

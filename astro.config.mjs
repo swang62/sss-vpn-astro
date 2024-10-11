@@ -1,5 +1,4 @@
 import node from "@astrojs/node";
-import partytown from "@astrojs/partytown";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
@@ -21,14 +20,7 @@ export default defineConfig({
   integrations: [
     tailwind(),
     react(),
-    sitemap(),
-    partytown({
-      config: {
-        debug: false,
-        forward: ["dataLayer.push"],
-      },
-    }),
-
+    sitemap()
   ],
   output: "server",
   site: "https://sss-vpn.mildlybrewed.com"

@@ -1,7 +1,11 @@
-/* eslint-disable node/prefer-global/process */
 import { defineConfig } from "drizzle-kit";
 
-const url = process.env.DB_PATH || "";
+/* eslint-disable node/prefer-global/process */
+import { DB_LOCAL, DB_TEST } from "@/lib/constants";
+
+const syncUrl = process.env.DB_SYNC_URL || DB_LOCAL;
+const url = process.env.NODE_ENV === "test" ? DB_TEST : syncUrl;
+
 console.debug("Connecting to DB -", url);
 
 export default defineConfig({

@@ -2,7 +2,7 @@ import { testClient } from "hono/testing";
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 
-import env from "@/lib/env";
+import { DB_TEST } from "@/lib/constants";
 
 import createApp from "../app";
 import router from "../base.route";
@@ -15,7 +15,7 @@ describe("route /", () => {
   });
 
   afterAll(async () => {
-    fs.rmSync(env.DB_PATH.replace("file:", ""), { force: true });
+    fs.rmSync(DB_TEST.replace("file:", ""), { force: true });
   });
 
   it("get /api/status", async () => {

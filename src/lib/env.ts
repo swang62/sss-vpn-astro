@@ -5,8 +5,8 @@ import { z } from "zod";
 const EnvSchema = z.object({
   _isProduction: z.boolean().default(false),
   API_TOKEN: z.string(),
-  DB_PATH: z.string().url(),
-  GTM_ID: z.string(),
+  DB_SYNC_URL: z.string().url().optional(),
+  GTM_ID: z.string().optional(),
   LOG_LEVEL: z.enum(["silent", "debug", "info", "warn", "error"]),
   NODE_ENV: z.string().default("development"),
 });
