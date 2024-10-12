@@ -12,7 +12,7 @@ const url = isTesting ? DB_TEST : DB_LOCAL;
 
 if (syncUrl) console.debug("Syncing to remote DB -", syncUrl);
 
-const client = createClient({ syncUrl, url });
+const client = createClient({ syncInterval: 30, syncUrl, url });
 const db = drizzle(client, { schema });
 
 // Export all subpaths

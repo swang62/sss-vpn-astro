@@ -27,7 +27,7 @@ jobs:
         run: pnpm install --frozen-lock
 
       - name: Build
-        run: cp .env.test .env.build && pnpm build
+        run: pnpm build
 
       - name: Format & Lint
         run: pnpm lint

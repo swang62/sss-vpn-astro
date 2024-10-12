@@ -7,7 +7,7 @@
   },
   "scripts": {
     "astro": "astro",
-    "build": "NODE_ENV=production astro check --minimumSeverity warning && astro build",
+    "build": "NODE_ENV=production astro check --minimumSeverity warning && export $(cat .env.build) && astro build",
     "db:migrate": "drizzle-kit generate && drizzle-kit migrate",
     "db:migrate:docker": "docker compose run sssvpn pnpm drizzle-kit migrate",
     "db:push": "drizzle-kit push",
@@ -21,6 +21,7 @@
     "logs": "docker compose logs -f",
     "prepare": "husky || true",
     "preview": "dotenv -- astro preview",
+    "start": "node ./dist/server/entry.mjs",
     "start:docker": "docker compose up -d --remove-orphans",
     "stop": "docker compose down --remove-orphans",
     "test": "vitest run --changed",
