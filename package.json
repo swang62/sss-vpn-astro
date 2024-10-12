@@ -3,7 +3,8 @@
   "type": "module",
   "version": "0.0.1",
   "engines": {
-    "node": "20"
+    "node": "20",
+    "pnpm": "9"
   },
   "scripts": {
     "astro": "astro",
@@ -14,7 +15,7 @@
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "db:studio:docker": "NODE_ENV=production DB_REMOTE=http://localhost:8888 pnpm drizzle-kit studio",
-    "db:seed": "dotenv -- tsx ./scripts/reset-db.ts",
+    "db:seed": "dotenv -- tsx ./scripts/seed-local-db.ts",
     "dev": "astro dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -32,11 +33,12 @@
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "@astrojs/node": "^8.3.4",
-    "@astrojs/react": "^3.6.2",
+    "@astrojs/preact": "^3.5.3",
     "@astrojs/sitemap": "^3.2.0",
     "@astrojs/tailwind": "^5.1.2",
     "@hono/zod-validator": "^0.4.1",
     "@libsql/client": "^0.14.0",
+    "@nanostores/preact": "^0.5.2",
     "@paralleldrive/cuid2": "^2.2.2",
     "astro": "^4.16.0",
     "drizzle-kit": "^0.25.0",
@@ -45,9 +47,10 @@
     "hono": "^4.6.3",
     "hono-pino": "^0.3.0",
     "hono-rate-limiter": "^0.4.0",
+    "nanostores": "^0.11.3",
     "pino": "^9.4.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "pino-pretty": "^11.2.2",
+    "preact": "^10.24.2",
     "tailwind-merge": "^2.5.3",
     "tailwindcss": "^3.4.13",
     "typescript": "5.5.4",
@@ -58,8 +61,6 @@
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@types/node": "^22.7.5",
-    "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.0",
     "astro-eslint-parser": "^1.0.3",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.2",
@@ -68,16 +69,17 @@
     "eslint-plugin-format": "^0.1.2",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
-    "pino-pretty": "^11.2.2",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.13.0",
     "tsx": "^4.19.1",
     "vite": "^5.4.8",
     "vitest": "^2.1.2"
   },
-  "overrides": {
-    "yaml-language-server": {
-      "prettier": "$prettier"
+  "pnpm": {
+    "overrides": {
+      "prettier": "^3.3.3",
+      "react": "npm:@preact/compat@latest",
+      "react-dom": "npm:@preact/compat@latest"
     }
   },
   "commitlint": {

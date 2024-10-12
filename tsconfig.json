@@ -1,18 +1,18 @@
 {
-  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "react",
     "baseUrl": ".",
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
     "paths": {
       "@/*": [
         "./src/*"
       ]
     },
+    "strict": true,
     "types": [
       "node",
       "vitest/globals"
-    ],
-    "strict": true
-  }
+    ]
+  },
+  "extends": "astro/tsconfigs/strict"
 }

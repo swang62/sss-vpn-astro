@@ -6,8 +6,8 @@ import { DB_LOCAL, DB_TEST } from "./constants";
 import * as schema from "./schema";
 
 const isTesting = process.env.NODE_ENV === "test";
-
 const authToken = process.env.DB_AUTH_TOKEN || "default";
+
 const syncUrl = isTesting ? undefined : process.env.DB_REMOTE;
 const url = isTesting ? DB_TEST : DB_LOCAL;
 

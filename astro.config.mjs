@@ -1,5 +1,5 @@
 import node from "@astrojs/node";
-import react from "@astrojs/react";
+import preact from "@astrojs/preact";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
@@ -17,7 +17,7 @@ export default defineConfig({
       external: [/.*\.test\..*/, /vitest.*/],
     },
   },
-  integrations: [tailwind(), react(), sitemap()],
+  integrations: [tailwind(), sitemap(), preact({ compat: true, devtools: true })],
   output: "hybrid",
   site: "https://sss-vpn.mildlybrewed.com",
 });
