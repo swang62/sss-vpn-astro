@@ -7,12 +7,13 @@ import * as schema from "./schema";
 
 const isTesting = process.env.NODE_ENV === "test";
 
+const authToken = process.env.DB_AUTH_TOKEN || "default";
 const syncUrl = isTesting ? undefined : process.env.DB_REMOTE;
 const url = isTesting ? DB_TEST : DB_LOCAL;
 
 if (syncUrl) console.debug("Syncing to remote DB -", syncUrl);
 
-const client = createClient({ syncInterval: 30, syncUrl, url });
+const client = createClient({ authToken, syncInterval: 30, syncUrl, url });
 const db = drizzle(client, { schema });
 
 // Export all subpaths

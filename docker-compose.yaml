@@ -3,6 +3,7 @@ services:
     container_name: db
     environment:
       - SQLD_NODE=primary
+      - SQLD_HTTP_AUTH=basic:${DB_AUTH_TOKEN:-default}
       - SQLD_ENABLE_BOTTOMLESS_REPLICATION=${MINIO_BACKUP:-false}
       - LIBSQL_BOTTOMLESS_ENDPOINT=${MINIO_ENDPOINT}
       - LIBSQL_BOTTOMLESS_AWS_ACCESS_KEY_ID=${MINIO_ACCESS_KEY}
@@ -30,17 +31,19 @@ services:
       dockerfile: Dockerfile
     container_name: sssvpn
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       - API_TOKEN=${API_TOKEN}
       - DB_REMOTE=${DB_REMOTE:-http://db:8080}
+      - DB_AUTH_TOKEN=${DB_AUTH_TOKEN:-default}
       - GTM_ID=${GTM_ID}
       - LOG_LEVEL=${LOG_LEVEL}
     healthcheck:
-      interval: 1h
+      interval: 1m
       retries: 5
       start_period: 10s
-      test: "curl -fs http://localhost:4321/api/status"
+      test: "curl -fs http://localhost:4321"
       timeout: 5s
     ports:
       - 4321:4321

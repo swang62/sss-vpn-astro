@@ -45,7 +45,7 @@ export function pinoLogger(): MiddlewareHandler {
     http: {
       onReqBindings: (c) => ({
         request: {
-          host: env.LOG_LEVEL === "debug" ? c.req.header() : undefined,
+          headers: env.LOG_LEVEL === "debug" ? c.req.header() : undefined,
           method: c.req.method,
           url: c.req.path,
         },

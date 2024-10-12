@@ -5,16 +5,10 @@ import { z } from "zod";
 const EnvSchema = z.object({
   _isProduction: z.boolean().default(false),
   API_TOKEN: z.string(),
-  // DB_REMOTE: z.string().url().optional(), // manual setup
+  // DB_REMOTE: z.string().url().optional(), // manual
+  // DB_AUTH_TOKEN: z.string().optional(), // manual
   GTM_ID: z.string().optional(),
-  LOG_LEVEL: z.enum([
-    "silent",
-    "debug",
-    "info",
-    "warn",
-    "error",
-    "placeholder",
-  ]),
+  LOG_LEVEL: z.enum(["silent", "debug", "info", "warn", "error"]),
   NODE_ENV: z.string().default("development"),
 });
 

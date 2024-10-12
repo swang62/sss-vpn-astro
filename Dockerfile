@@ -24,13 +24,13 @@ FROM base AS dependencies
 
 COPY package.json pnpm-lock.yaml ./
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-      pnpm install --prod
+      pnpm install --prod --frozen-lock
 
 #############################
 FROM dependencies AS build
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-      pnpm install
+      pnpm install --frozen-lock
 COPY . .
 RUN pnpm build
 
