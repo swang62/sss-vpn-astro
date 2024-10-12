@@ -36,7 +36,7 @@ export function corsMiddleware(): MiddlewareHandler {
     origin: (origin) =>
       origin.endsWith(".mildlybrewed.com") || !env._isProduction
         ? origin
-        : "none",
+        : "localhost",
   });
 }
 

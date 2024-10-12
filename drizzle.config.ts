@@ -3,8 +3,8 @@ import { defineConfig } from "drizzle-kit";
 
 import { DB_LOCAL, DB_TEST } from "./src/db/constants";
 
-const syncUrl = process.env.DB_SYNC_URL || DB_LOCAL;
-const url = process.env.NODE_ENV === "test" ? DB_TEST : syncUrl;
+const remoteURL = process.env.DB_REMOTE || DB_LOCAL;
+const url = process.env.NODE_ENV === "test" ? DB_TEST : remoteURL;
 
 console.debug("Connecting to DB -", url);
 
