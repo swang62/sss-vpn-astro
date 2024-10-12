@@ -30,6 +30,7 @@ services:
       args:
         - SENTRY_DSN=${SENTRY_DSN}
         - SENTRY_TOKEN=${SENTRY_TOKEN}
+        - SOURCE_COMMIT=${SOURCE_COMMIT}
       context: .
       dockerfile: Dockerfile
     container_name: sssvpn

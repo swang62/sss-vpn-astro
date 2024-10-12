@@ -4,13 +4,16 @@ ENV NODE_ENV=development
 ENV HOST=0.0.0.0
 ENV PORT=4321
 
-ENV SOURCE_COMMIT=$SOURCE_COMMIT
-ARG SENTRY_TOKEN=''
-ARG SENTRY_DSN=''
+# Optional sentry tracking
+ARG SOURCE_COMMIT
+ARG SENTRY_TOKEN
+ARG SENTRY_DSN
 
 WORKDIR /app
 
-# Setup pnpm
+#############################
+
+# Setup PNPM
 ENV PNPM_HOME="/pnpm"
 ENV PNPM_VERSION=9.9.0
 ENV PATH="$PNPM_HOME:$PATH"
