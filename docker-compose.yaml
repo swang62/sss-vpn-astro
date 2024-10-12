@@ -27,6 +27,9 @@ services:
 
   sssvpn:
     build:
+      args:
+        - SENTRY_DSN=${SENTRY_DSN}
+        - SENTRY_TOKEN=${SENTRY_TOKEN}
       context: .
       dockerfile: Dockerfile
     container_name: sssvpn

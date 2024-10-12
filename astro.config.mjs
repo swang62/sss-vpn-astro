@@ -28,7 +28,7 @@ export default defineConfig({
     preact({ compat: true, devtools: true }),
     sentry({
       dsn: SENTRY_DSN,
-      enabled: process.env.NODE_ENV === "production",
+      enabled: !!SENTRY_TOKEN && !!SENTRY_DSN,
       environment: process.env.NODE_ENV,
       release: process.env.SOURCE_COMMIT || "default",
       sourceMapsUploadOptions: {
