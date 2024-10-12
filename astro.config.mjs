@@ -14,7 +14,7 @@ export default defineConfig({
   }),
   build: {
     rollupOptions: {
-      external: ["**/*.test.*"],
+      external: [/.*\.test\..*/, /vitest.*/],
     },
   },
   integrations: [tailwind(), react(), sitemap()],

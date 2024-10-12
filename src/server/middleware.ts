@@ -5,7 +5,6 @@ import { logger } from "hono-pino";
 import { rateLimiter } from "hono-rate-limiter";
 import { cors } from "hono/cors";
 import pino from "pino";
-import pretty from "pino-pretty";
 
 import env from "@/lib/env";
 
@@ -41,6 +40,13 @@ export function corsMiddleware(): MiddlewareHandler {
 }
 
 export function pinoLogger(): MiddlewareHandler {
+  let isFormatted;
+  if (!env._isProduction) {
+    import("pino-pretty").then((module) => {
+      isFormatted = module.default();
+    });
+  }
+
   return logger({
     http: {
       onReqBindings: (c) => ({
@@ -55,10 +61,7 @@ export function pinoLogger(): MiddlewareHandler {
       }),
       reqId: false,
     },
-    pino: pino(
-      { level: env.LOG_LEVEL },
-      env._isProduction ? undefined : pretty(),
-    ),
+    pino: pino({ level: env.LOG_LEVEL }, isFormatted),
   });
 }
 

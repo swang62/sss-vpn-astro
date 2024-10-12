@@ -1,6 +1,6 @@
 import { hc } from "hono/client";
 
-import type { App } from "./index";
+import type { App } from ".";
 
 import { API_BASE_URL } from "./constants";
 
