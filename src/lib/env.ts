@@ -8,7 +8,9 @@ const EnvSchema = z.object({
   // DB_REMOTE: z.string().url().optional(), // manual
   // DB_AUTH_TOKEN: z.string().optional(), // manual
   GTM_ID: z.string().optional(),
-  LOG_LEVEL: z.enum(["silent", "debug", "info", "warn", "error"]),
+  LOG_LEVEL: z
+    .enum(["silent", "debug", "info", "warn", "error"])
+    .default("info"),
   NODE_ENV: z.string().default("development"),
 });
 

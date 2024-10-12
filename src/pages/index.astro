@@ -4,33 +4,31 @@ import Status from "@/components/Status";
 import Head from "@/layouts/Head.astro";
 ---
 
-<Head title="SSS-VPN">
-  <main>
-    <img
-      class="astro-a"
-      width="495"
-      height="623"
-      src="/astro.svg"
-      alt="astro-logo"
-    />
-    <h1>
-      <span class="text-gradient">Astro</span>
-    </h1>
+<Head title="Home | SSS-VPN">
+  <img
+    class="astro-a"
+    width="495"
+    height="623"
+    src="/astro.svg"
+    alt="astro-logo"
+  />
+  <h1>
+    <span class="text-gradient">Astro</span>
+  </h1>
 
-    <div class="link-card-grid" style="display: flex; flex-direction: column;">
-      <ul role="list" class="link-card-grid">
-        <Card
-          href="https://docs.astro.build/"
-          title="Documentation"
-          body="Learn how Astro works and explore the official API docs."
-        />
-        <Card
-          href="https://astro.build/themes/"
-          title="Themes"
-          body="Explore a galaxy of community-built starter themes."
-        />
-      </ul>
-      <Status client:idle />
-    </div>
-  </main>
+  <div class="link-card-grid" style="display: flex; flex-direction: column;">
+    <ul role="list" class="link-card-grid">
+      <Card
+        href="https://docs.astro.build/"
+        title="Documentation"
+        body="Learn how Astro works and explore the official API docs."
+      />
+      <Card
+        href="https://astro.build/themes/"
+        title="Themes"
+        body="Explore a galaxy of community-built starter themes."
+      />
+    </ul>
+    <Status client:idle />
+  </div>
 </Head>

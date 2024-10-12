@@ -1,0 +1,16 @@
+---
+import Head from "@/layouts/Head.astro";
+---
+
+<Head title="Error">
+  <div class="flex justify-center items-center h-screen">
+    <button class="button bg-fuchsia-700" id="error">Throw an error!</button>
+  </div>
+  <script>
+    function handleClick() {
+      throw new Error("This is an error.");
+    }
+    const button = document.getElementById("error")!;
+    button.addEventListener("click", handleClick);
+  </script>
+</Head>

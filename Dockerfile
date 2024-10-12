@@ -3,7 +3,7 @@ FROM node:20-bullseye-slim AS base
 ENV NODE_ENV=development
 ENV HOST=0.0.0.0
 ENV PORT=4321
-
+ENV SOURCE_COMMIT=$SOURCE_COMMIT
 WORKDIR /app
 
 # Setup pnpm
@@ -18,7 +18,6 @@ RUN --mount=type=cache,target=/var/lib/apt/lists \
       rm -f /etc/apt/apt.conf.d/docker-clean \
       && apt-get update \
       && apt-get install -y wget curl 
-
 
 #############################
 FROM base AS dependencies 

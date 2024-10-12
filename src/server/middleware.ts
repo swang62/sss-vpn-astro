@@ -20,12 +20,10 @@ export const onError: ErrorHandler = (error, c) => {
     "status" in error ? error.status : c.newResponse(null).status;
   const statusCode =
     currentStatus !== 200 ? (currentStatus as StatusCode) : 500;
-
   const errorMessage = {
     message: statusCode === 401 ? "Unauthorized" : error.message,
     stack: env._isProduction ? undefined : error.stack,
   };
-  // console.error(errorMessage); TODO: send it to sentry
 
   return c.json(errorMessage, statusCode);
 };

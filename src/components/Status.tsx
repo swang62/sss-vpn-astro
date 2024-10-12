@@ -12,10 +12,7 @@ function Status(_props: Props) {
   const onClickStatus = useCallback(async () => {
     const { data, error } = await parsedApi(apiClient.status.$get());
 
-    if (error) {
-      setStatus("Too many requests!");
-      return;
-    }
+    if (error) return;
 
     setStatus(JSON.stringify(data, null, 2));
   }, []);
