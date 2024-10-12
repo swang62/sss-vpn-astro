@@ -5,22 +5,26 @@ import { z } from "zod";
 const EnvSchema = z.object({
   _isProduction: z.boolean().default(false),
   API_TOKEN: z.string(),
-  DB_SYNC_URL: z.string().optional(),
+  // DB_REMOTE: z.string().url().optional(), // manual
+  // DB_AUTH_TOKEN: z.string().optional(), // manual
   GTM_ID: z.string().optional(),
-  LOG_LEVEL: z.enum(["silent", "debug", "info", "warn", "error"]),
+  LOG_LEVEL: z
+    .enum(["silent", "debug", "info", "warn", "error"])
+    .default("info"),
   NODE_ENV: z.string().default("development"),
 });
 
 const { data: env, error } = EnvSchema.safeParse(
   import.meta.env || process.env,
 );
+
 if (!env || error) {
   console.error("❌ Invalid env:");
   console.error(JSON.stringify(error.flatten().fieldErrors, null, 2));
   process.exit(1);
 }
 
-//* COMPUTED *//
+//* Computed *//
 env._isProduction = env.NODE_ENV === "production";
 
 export default env!;

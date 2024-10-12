@@ -1,26 +1,36 @@
-FROM node:22-bullseye-slim AS base
+FROM node:20-bullseye-slim AS base
 
 ENV NODE_ENV=development
 ENV HOST=0.0.0.0
 ENV PORT=4321
-
+ENV SOURCE_COMMIT=$SOURCE_COMMIT
 WORKDIR /app
 
-RUN npm -g install pnpm nodemon
-RUN apt-get update \
-  && apt-get install -y wget curl \
-  && rm -rf /var/lib/apt/lists/*
+# Setup pnpm
+ENV PNPM_HOME="/pnpm"
+ENV PNPM_VERSION=9.9.0
+ENV PATH="$PNPM_HOME:$PATH"
+RUN npm -g install pnpm@${PNPM_VERSION}
+
+# Setup linux dependencies
+RUN --mount=type=cache,target=/var/lib/apt/lists \
+    --mount=type=cache,target=/var/cache/apt \
+      rm -f /etc/apt/apt.conf.d/docker-clean \
+      && apt-get update \
+      && apt-get install -y wget curl 
 
 #############################
 FROM base AS dependencies 
 
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --prod
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+      pnpm install --prod --frozen-lock
 
 #############################
 FROM dependencies AS build
 
-RUN pnpm install
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+      pnpm install --frozen-lock
 COPY . .
 RUN pnpm build
 
@@ -36,4 +46,4 @@ COPY --from=build /app/drizzle.config.ts ./drizzle.config.ts
 COPY --from=build /app/src/db ./src/db
 
 EXPOSE ${PORT}
-CMD ["nodemon", "./dist/server/entry.mjs"]
+CMD ["pnpm", "start"]

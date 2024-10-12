@@ -20,12 +20,10 @@ export const onError: ErrorHandler = (error, c) => {
     "status" in error ? error.status : c.newResponse(null).status;
   const statusCode =
     currentStatus !== 200 ? (currentStatus as StatusCode) : 500;
-
   const errorMessage = {
     message: statusCode === 401 ? "Unauthorized" : error.message,
     stack: env._isProduction ? undefined : error.stack,
   };
-  // console.error(errorMessage); TODO: send it to sentry
 
   return c.json(errorMessage, statusCode);
 };
@@ -36,7 +34,7 @@ export function corsMiddleware(): MiddlewareHandler {
     origin: (origin) =>
       origin.endsWith(".mildlybrewed.com") || !env._isProduction
         ? origin
-        : "none",
+        : "localhost",
   });
 }
 
@@ -45,7 +43,7 @@ export function pinoLogger(): MiddlewareHandler {
     http: {
       onReqBindings: (c) => ({
         request: {
-          host: env.LOG_LEVEL === "debug" ? c.req.header() : undefined,
+          headers: env.LOG_LEVEL === "debug" ? c.req.header() : undefined,
           method: c.req.method,
           url: c.req.path,
         },

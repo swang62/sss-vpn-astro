@@ -1,11 +1,13 @@
+/* eslint-disable node/prefer-global/process */
 import node from "@astrojs/node";
-import react from "@astrojs/react";
+import preact from "@astrojs/preact";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
+import sentry from "@sentry/astro";
 import { defineConfig } from "astro/config";
+import { loadEnv } from "vite";
 
-// import { loadEnv } from "vite";
-// const { SECRET_CONFIG } = loadEnv(process.env.NODE_ENV, process.cwd(), "");
+const { SENTRY_DSN = "", SENTRY_TOKEN = "" } = loadEnv(process.env.NODE_ENV, process.cwd(), "");
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,10 +16,27 @@ export default defineConfig({
   }),
   build: {
     rollupOptions: {
-      external: ["**/*.test.*"],
+      external: [/^vitest.*/],
     },
   },
-  integrations: [tailwind(), react(), sitemap()],
+  image: {
+    domains: ["picsum.photos"],
+  },
+  integrations: [
+    tailwind(),
+    sitemap(),
+    preact({ compat: true, devtools: true }),
+    sentry({
+      dsn: SENTRY_DSN,
+      enabled: process.env.NODE_ENV === "production",
+      environment: process.env.NODE_ENV,
+      release: process.env.SOURCE_COMMIT || "default",
+      sourceMapsUploadOptions: {
+        authToken: SENTRY_TOKEN,
+        project: "sss-vpn",
+      },
+    }),
+  ],
   output: "hybrid",
   site: "https://sss-vpn.mildlybrewed.com",
 });

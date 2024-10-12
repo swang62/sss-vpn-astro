@@ -3,26 +3,29 @@
   "type": "module",
   "version": "0.0.1",
   "engines": {
-    "node": "20"
+    "node": "20",
+    "pnpm": "9"
   },
   "scripts": {
     "astro": "astro",
-    "build": "NODE_ENV=production astro check --minimumSeverity warning && export $(cat .env.build) && astro build",
+    "build": "astro check --minimumSeverity warning && export $(cat .env.build) && astro build",
+    "build:docker": "pnpm start:docker --build",
     "db:migrate": "drizzle-kit generate && drizzle-kit migrate",
     "db:migrate:docker": "docker compose run sssvpn pnpm drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "db:studio:docker": "NODE_ENV=production DB_SYNC_URL=http://localhost:8888 pnpm drizzle-kit studio",
-    "db:seed": "dotenv -- tsx ./scripts/reset-db.ts",
+    "db:studio:docker": "NODE_ENV=production DB_REMOTE=http://localhost:8888 pnpm drizzle-kit studio",
+    "db:seed": "dotenv -- tsx ./scripts/seed-local-db.ts",
     "dev": "astro dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "lint:styles:fix": "prettier --write --list-different \"./src/**/*.(js|jsx|ts|tsx)\"",
     "logs": "docker compose logs -f",
     "prepare": "husky || true",
     "preview": "dotenv -- astro preview",
+    "start": "node ./dist/server/entry.mjs",
     "start:docker": "docker compose up -d --remove-orphans",
     "stop": "docker compose down --remove-orphans",
+    "styles:fix": "prettier --write --list-different \"./src/**/*.(js|jsx|ts|tsx)\"",
     "test": "vitest run --changed",
     "test:all": "vitest run",
     "test:watch": "vitest"
@@ -30,29 +33,28 @@
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "@astrojs/node": "^8.3.4",
-    "@astrojs/partytown": "^2.1.2",
-    "@astrojs/react": "^3.6.2",
+    "@astrojs/preact": "^3.5.3",
     "@astrojs/sitemap": "^3.2.0",
     "@astrojs/tailwind": "^5.1.2",
     "@hono/zod-validator": "^0.4.1",
     "@libsql/client": "^0.14.0",
+    "@nanostores/preact": "^0.5.2",
     "@paralleldrive/cuid2": "^2.2.2",
+    "@sentry/astro": "^8.34.0",
     "astro": "^4.16.0",
-    "dotenv": "^16.4.5",
     "drizzle-kit": "^0.25.0",
     "drizzle-orm": "^0.34.1",
     "drizzle-zod": "^0.5.1",
     "hono": "^4.6.3",
     "hono-pino": "^0.3.0",
     "hono-rate-limiter": "^0.4.0",
+    "nanostores": "^0.11.3",
     "pino": "^9.4.0",
     "pino-pretty": "^11.2.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "preact": "^10.24.2",
     "tailwind-merge": "^2.5.3",
     "tailwindcss": "^3.4.13",
     "typescript": "5.5.4",
-    "vitest": "^2.1.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -60,9 +62,8 @@
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@types/node": "^22.7.5",
-    "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.0",
     "astro-eslint-parser": "^1.0.3",
+    "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.2",
     "eslint": "^9.12.0",
     "eslint-plugin-astro": "^1.2.4",
@@ -72,11 +73,14 @@
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.13.0",
     "tsx": "^4.19.1",
-    "vite": "^5.4.8"
+    "vite": "^5.4.8",
+    "vitest": "^2.1.2"
   },
-  "overrides": {
-    "yaml-language-server": {
-      "prettier": "$prettier"
+  "pnpm": {
+    "overrides": {
+      "prettier": "^3.3.3",
+      "react": "npm:@preact/compat@latest",
+      "react-dom": "npm:@preact/compat@latest"
     }
   },
   "commitlint": {
@@ -89,7 +93,7 @@
       "pnpm lint:fix"
     ],
     "*.{js,jsx,ts,tsx}": [
-      "pnpm lint:styles:fix"
+      "pnpm styles:fix"
     ]
   }
 }
