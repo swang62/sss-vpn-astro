@@ -3,13 +3,14 @@ FROM node:20-bullseye-slim AS base
 ENV NODE_ENV=development
 ENV HOST=0.0.0.0
 ENV PORT=4321
+
 WORKDIR /app
 
 # Setup pnpm
 ENV PNPM_HOME="/pnpm"
 ENV PNPM_VERSION=9.9.0
 ENV PATH="$PNPM_HOME:$PATH"
-RUN npm -g install pnpm@$PNPM_VERSION
+RUN npm -g install pnpm@${PNPM_VERSION}
 
 # Setup linux dependencies
 RUN --mount=type=cache,target=/var/lib/apt/lists \
@@ -45,5 +46,5 @@ COPY --from=build /app/dist ./dist
 COPY --from=build /app/drizzle.config.ts ./drizzle.config.ts
 COPY --from=build /app/src/db ./src/db
 
-EXPOSE $PORT
+EXPOSE ${PORT}
 CMD ["pnpm", "start"]
