@@ -3,7 +3,11 @@ FROM node:20-bullseye-slim AS base
 ENV NODE_ENV=development
 ENV HOST=0.0.0.0
 ENV PORT=4321
+
 ENV SOURCE_COMMIT=$SOURCE_COMMIT
+ARG SENTRY_TOKEN=''
+ARG SENTRY_DSN=''
+
 WORKDIR /app
 
 # Setup pnpm
