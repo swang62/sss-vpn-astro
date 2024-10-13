@@ -24,7 +24,7 @@ function Status(_props: Props) {
           onClick={onClickStatus}
           className={twMerge("btn", "bg-green-800 hover:bg-green-600")}
         >
-          Check API
+          Check Status
         </button>
         <button
           onClick={() => setStatus("")}

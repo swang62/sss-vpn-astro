@@ -4,19 +4,12 @@ import Sign from "/hand-sign.svg?raw";
 ---
 
 <BaseLayout title="Not Found | SSS-VPN">
-  <a href="/" class="flex h-[90vh] w-full items-center justify-center">
+  <a href="/" class="flex h-[100vh] w-full items-center justify-center sm:p-20">
     <Fragment set:html={Sign} />
   </a>
 </BaseLayout>
 
-<style>
-  #error {
-    margin: auto;
-    display: block;
-  }
-</style>
 <script>
-  // eslint-disable-next-line ts/ban-ts-comment
   // @ts-nocheck
   window.onload = function () {
     var timer;

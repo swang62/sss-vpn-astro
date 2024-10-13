@@ -16,6 +16,30 @@
 }
 
 @layer base {
+  @font-face {
+    font-display: swap;
+    font-family: "Roboto Serif";
+    font-style: normal;
+    font-weight: 400;
+    src: url("/fonts/roboto-serif.woff2") format("woff2");
+  }
+
+  @font-face {
+    font-display: swap;
+    font-family: "Roboto Regular";
+    font-style: normal;
+    font-weight: 400;
+    src: url("/fonts/roboto-regular.woff2") format("woff2");
+  }
+
+  @font-face {
+    font-display: swap;
+    font-family: "Roboto Condensed";
+    font-style: normal;
+    font-weight: 400;
+    src: url("/fonts/roboto-condensed.woff2") format("woff2");
+  }
+
   html {
     font-family: system-ui, sans-serif;
     background: #13151a;
@@ -72,7 +96,6 @@
     border-style: none;
     color: #ffffff;
     cursor: pointer;
-    font-family: Helvetica, Arial, sans-serif;
     font-size: 16px;
     font-weight: 500;
     height: 40px;
@@ -97,7 +120,7 @@
     white-space: pre-wrap;
     font-size: 0.7em;
     font-weight: 400;
-    background: rgba(var(--accent-light), 12%);
+    background: rgba(var(--accent-light), 3%);
     color: rgb(var(--accent-light));
     border-radius: 4px;
     padding: 1em 1.2em;
@@ -114,8 +137,4 @@
       Courier New,
       monospace;
   }
-}
-
-/* Custom tailwind class like lg:${my_class} */
-@layer utilities {
 }

@@ -4,26 +4,30 @@ import { z } from "zod";
 import { IS_PRODUCTION } from "@/lib/env";
 import { createBaseRouter } from "@/server/app";
 
-const route = createBaseRouter().get(
-  "/status",
-  zValidator(
-    "query",
-    z
-      .object({
-        id: z.string().optional(),
-      })
-      .optional(),
-  ),
-  (c) => {
-    return c.json({
-      endpoint: c.req.path,
-      headers: c.req.header(),
-      method: c.req.method,
-      production: IS_PRODUCTION,
-      query: c.req.valid("query"),
-      status: "ok",
-    });
-  },
-);
+const route = createBaseRouter()
+  .get(
+    "/status",
+    zValidator(
+      "query",
+      z
+        .object({
+          id: z.string().optional(),
+        })
+        .optional(),
+    ),
+    (c) => {
+      return c.json({
+        endpoint: c.req.path,
+        headers: c.req.header(),
+        method: c.req.method,
+        production: IS_PRODUCTION,
+        query: c.req.valid("query"),
+        status: "ok",
+      });
+    },
+  )
+  .get("/error", (c) => {
+    return c.json({ headers: c.req.header() }, 500);
+  });
 
 export default route;

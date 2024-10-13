@@ -32,6 +32,7 @@ export default antfu(
       "perfectionist/sort-objects": ["warn"],
       "style/arrow-parens": ["off"],
       "style/operator-linebreak": ["off"],
+      "ts/ban-ts-comment": ["off"],
       "ts/consistent-type-definitions": ["off"],
       "yaml/sort-keys": ["warn"],
     },
