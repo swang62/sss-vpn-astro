@@ -1,11 +1,11 @@
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 
-import env from "@/lib/env";
+import { IS_TESTING } from "@/lib/env";
 
 import { DB_LOCAL, DB_TEST } from "./constants";
 
-const url = env.NODE_ENV === "test" ? DB_TEST : DB_LOCAL;
+const url = IS_TESTING ? DB_TEST : DB_LOCAL;
 
 export async function push() {
   console.debug("Pushing migrations...");

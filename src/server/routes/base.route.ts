@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 
-import env from "@/lib/env";
+import { IS_PRODUCTION } from "@/lib/env";
 import { createBaseRouter } from "@/server/app";
 
 const route = createBaseRouter().get(
@@ -19,7 +19,7 @@ const route = createBaseRouter().get(
       endpoint: c.req.path,
       headers: c.req.header(),
       method: c.req.method,
-      production: env._isProduction,
+      production: IS_PRODUCTION,
       query: c.req.valid("query"),
       status: "ok",
     });

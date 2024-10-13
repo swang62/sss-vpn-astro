@@ -7,7 +7,7 @@ import { cors } from "hono/cors";
 import pino from "pino";
 import pretty from "pino-pretty";
 
-import env from "@/lib/env";
+import { IS_PRODUCTION, LOG_LEVEL } from "@/lib/env";
 
 export const notFound: NotFoundHandler = (c) => {
   const path = c.req.path;
@@ -22,7 +22,7 @@ export const onError: ErrorHandler = (error, c) => {
     currentStatus !== 200 ? (currentStatus as StatusCode) : 500;
   const errorMessage = {
     message: statusCode === 401 ? "Unauthorized" : error.message,
-    stack: env._isProduction ? undefined : error.stack,
+    stack: IS_PRODUCTION ? undefined : error.stack,
   };
 
   return c.json(errorMessage, statusCode);
@@ -33,7 +33,7 @@ export function corsMiddleware(): MiddlewareHandler {
     allowMethods: ["*"],
     credentials: true,
     origin: (origin) =>
-      origin.includes(".mildlybrewed.") || !env._isProduction
+      origin.includes(".mildlybrewed.") || !IS_PRODUCTION
         ? origin
         : "localhost",
   });
@@ -48,8 +48,8 @@ export function pinoLogger(): MiddlewareHandler {
         delete headers.cookie;
         return {
           request: {
-            cookies: env.LOG_LEVEL === "debug" ? cookies : undefined,
-            headers: env.LOG_LEVEL === "debug" ? headers : undefined,
+            cookies: LOG_LEVEL === "debug" ? cookies : undefined,
+            headers: LOG_LEVEL === "debug" ? headers : undefined,
             method: c.req.method,
             url: c.req.path,
           },
@@ -60,10 +60,7 @@ export function pinoLogger(): MiddlewareHandler {
       }),
       reqId: false,
     },
-    pino: pino(
-      { level: env.LOG_LEVEL },
-      env._isProduction ? undefined : pretty(),
-    ),
+    pino: pino({ level: LOG_LEVEL }, IS_PRODUCTION ? undefined : pretty()),
   });
 }
 

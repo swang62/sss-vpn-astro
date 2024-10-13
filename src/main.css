@@ -36,7 +36,7 @@
     top: -32px;
     left: 50%;
     transform: translatex(-50%);
-    width: 220px;
+    width: 200px;
     height: auto;
     z-index: -1;
   }
@@ -59,7 +59,7 @@
 
   .link-card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(18ch, 1fr));
     gap: 2rem;
     padding: 0;
   }
@@ -75,15 +75,16 @@
     font-family: Helvetica, Arial, sans-serif;
     font-size: 16px;
     font-weight: 500;
-    height: 36px;
-    line-height: 20px;
-    margin: 0;
-    padding: 10px 16px;
+    height: 40px;
+    margin: 2px;
+    padding: 8px 12px;
     text-align: center;
+    text-wrap: nowrap;
   }
 
   .instructions {
-    border: 1px solid rgba(var(--accent-light), 25%);
+    min-width: fit-content;
+    border: 1px solid rgba(var(--accent-light), 20%);
     background: linear-gradient(
       rgba(var(--accent-dark), 10%),
       rgba(var(--accent-dark), 5%)
@@ -94,12 +95,12 @@
 
   .instructions code {
     white-space: pre-wrap;
-    font-size: 0.8em;
-    font-weight: bold;
-    /* background: rgba(var(--accent-light), 12%); */
+    font-size: 0.7em;
+    font-weight: 400;
+    background: rgba(var(--accent-light), 12%);
     color: rgb(var(--accent-light));
     border-radius: 4px;
-    padding: 0.3em 0.4em;
+    padding: 1em 1.2em;
   }
 
   code {

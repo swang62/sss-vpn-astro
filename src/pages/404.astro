@@ -4,7 +4,7 @@ import Sign from "/hand-sign.svg?raw";
 ---
 
 <BaseLayout title="Not Found | SSS-VPN">
-  <a href="/" class="h-[90vh] w-full justify-center flex items-center">
+  <a href="/" class="flex h-[90vh] w-full items-center justify-center">
     <Fragment set:html={Sign} />
   </a>
 </BaseLayout>
@@ -15,11 +15,9 @@ import Sign from "/hand-sign.svg?raw";
     display: block;
   }
 </style>
-
 <script>
   // eslint-disable-next-line ts/ban-ts-comment
   // @ts-nocheck
-
   window.onload = function () {
     var timer;
     var error = Snap.select("#error");

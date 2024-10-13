@@ -9,6 +9,7 @@ export default antfu(
       "**/node_modules/*",
       "**/Analytics*",
       "**/404*",
+      "**/public*",
       "**/.github/*",
     ],
     settings: {

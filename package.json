@@ -41,7 +41,6 @@
     "@nanostores/preact": "^0.5.2",
     "@paralleldrive/cuid2": "^2.2.2",
     "@sentry/astro": "^8.34.0",
-    "@types/snapsvg": "^0.5.8",
     "astro": "^4.16.0",
     "drizzle-kit": "^0.25.0",
     "drizzle-orm": "^0.34.1",
@@ -97,6 +96,9 @@
   "prettier": {
     "plugins": [
       "prettier-plugin-tailwindcss"
+    ],
+    "tailwindFunctions": [
+      "twMerge"
     ]
   }
 }
