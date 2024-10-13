@@ -8,6 +8,7 @@ export default antfu(
       "**/migrations/*",
       "**/node_modules/*",
       "**/Analytics*",
+      "**/404*",
       "**/.github/*",
     ],
     settings: {
@@ -25,6 +26,7 @@ export default antfu(
       "format/prettier": ["off"],
       "jsonc/sort-keys": ["off"],
       "no-console": ["off"],
+      "node/prefer-global/process": ["off"],
       "perfectionist/sort-imports": ["warn", { internalPattern: ["@/**"] }],
       "perfectionist/sort-objects": ["warn"],
       "style/arrow-parens": ["off"],

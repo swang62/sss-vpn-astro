@@ -1,4 +1,3 @@
-/* eslint-disable node/prefer-global/process */
 import node from "@astrojs/node";
 import preact from "@astrojs/preact";
 import sitemap from "@astrojs/sitemap";
@@ -7,7 +6,7 @@ import sentry from "@sentry/astro";
 import { defineConfig } from "astro/config";
 import { loadEnv } from "vite";
 
-const { SENTRY_DSN = "", SENTRY_TOKEN = "" } = loadEnv(process.env.NODE_ENV, process.cwd(), "");
+const env = loadEnv(process.env.NODE_ENV, process.cwd(), "");
 
 // https://astro.build/config
 export default defineConfig({
@@ -27,16 +26,16 @@ export default defineConfig({
     sitemap(),
     preact({ compat: true, devtools: true }),
     sentry({
-      dsn: SENTRY_DSN,
-      enabled: !!SENTRY_TOKEN && !!SENTRY_DSN,
-      environment: process.env.NODE_ENV,
-      release: process.env.SOURCE_COMMIT || "default",
+      dsn: env.SENTRY_DSN,
+      enabled: !!env.SENTRY_TOKEN && !!env.SENTRY_DSN,
+      environment: env.NODE_ENV,
+      release: env.SOURCE_COMMIT || "default",
       sourceMapsUploadOptions: {
-        authToken: SENTRY_TOKEN,
-        project: "sss-vpn",
+        authToken: env.SENTRY_TOKEN,
+        project: env.SENTRY_PROJECT || "default",
       },
     }),
   ],
   output: "hybrid",
-  site: "https://sss-vpn.mildlybrewed.com",
+  site: env.SITE_URL,
 });

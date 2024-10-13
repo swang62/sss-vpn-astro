@@ -1,16 +1,16 @@
-/* eslint-disable node/prefer-global/process */
-
 import { z } from "zod";
 
+// Must be
+// DB_REMOTE
+// DB_AUTH_TOKEN
+
+// Server-side variables, avoid using this in SSG
 const EnvSchema = z.object({
   _isProduction: z.boolean().default(false),
   API_TOKEN: z.string(),
-  // DB_REMOTE: z.string().url().optional(), // manual
-  // DB_AUTH_TOKEN: z.string().optional(), // manual
-  GTM_ID: z.string().optional(),
   LOG_LEVEL: z
     .enum(["silent", "debug", "info", "warn", "error"])
-    .default("info"),
+    .default("debug"),
   NODE_ENV: z.string().default("development"),
 });
 

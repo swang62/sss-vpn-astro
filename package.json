@@ -41,6 +41,7 @@
     "@nanostores/preact": "^0.5.2",
     "@paralleldrive/cuid2": "^2.2.2",
     "@sentry/astro": "^8.34.0",
+    "@types/snapsvg": "^0.5.8",
     "astro": "^4.16.0",
     "drizzle-kit": "^0.25.0",
     "drizzle-orm": "^0.34.1",
@@ -52,6 +53,7 @@
     "pino": "^9.4.0",
     "pino-pretty": "^11.2.2",
     "preact": "^10.24.2",
+    "snapsvg": "^0.5.1",
     "tailwind-merge": "^2.5.3",
     "tailwindcss": "^3.4.13",
     "typescript": "5.5.4",
@@ -72,6 +74,7 @@
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.13.0",
+    "prettier-plugin-tailwindcss": "^0.6.8",
     "tsx": "^4.19.1",
     "vite": "^5.4.8",
     "vitest": "^2.1.2"
@@ -89,6 +92,11 @@
     ],
     "*.{js,jsx,ts,tsx}": [
       "pnpm styles:fix"
+    ]
+  },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-tailwindcss"
     ]
   }
 }

@@ -1,10 +1,10 @@
 ---
 import Card from "@/components/Card.astro";
 import Status from "@/components/Status";
-import Head from "@/layouts/Head.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
-<Head title="Home | SSS-VPN">
+<BaseLayout title="Home | SSS-VPN">
   <img
     class="astro-a"
     width="495"
@@ -31,4 +31,4 @@ import Head from "@/layouts/Head.astro";
     </ul>
     <Status client:idle />
   </div>
-</Head>
+</BaseLayout>

@@ -4,8 +4,8 @@ import env from "@/lib/env";
 
 import type { App } from ".";
 
-import { API_BASE_URL } from "./constants";
+import { SERVER_API_URL } from "./constants";
 
-export const { api: apiServer } = hc<App>(API_BASE_URL, {
+export const { api: apiServer } = hc<App>(SERVER_API_URL, {
   headers: { Authorization: `Bearer ${env.API_TOKEN}` },
 });

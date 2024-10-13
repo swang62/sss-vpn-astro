@@ -30,13 +30,10 @@ export const onError: ErrorHandler = (error, c) => {
 
 export function corsMiddleware(): MiddlewareHandler {
   return cors({
-    allowHeaders: ["*"],
     allowMethods: ["*"],
     credentials: true,
     origin: (origin) =>
-      origin.includes("mildlybrewed") ||
-      origin.includes("localhost") ||
-      !env._isProduction
+      origin.includes(".mildlybrewed.") || !env._isProduction
         ? origin
         : "localhost",
   });
@@ -45,13 +42,19 @@ export function corsMiddleware(): MiddlewareHandler {
 export function pinoLogger(): MiddlewareHandler {
   return logger({
     http: {
-      onReqBindings: (c) => ({
-        request: {
-          headers: env.LOG_LEVEL === "debug" ? c.req.header() : undefined,
-          method: c.req.method,
-          url: c.req.path,
-        },
-      }),
+      onReqBindings: (c) => {
+        const headers = c.req.header();
+        const cookies = headers.cookie;
+        delete headers.cookie;
+        return {
+          request: {
+            cookies: env.LOG_LEVEL === "debug" ? cookies : undefined,
+            headers: env.LOG_LEVEL === "debug" ? headers : undefined,
+            method: c.req.method,
+            url: c.req.path,
+          },
+        };
+      },
       onResBindings: (c) => ({
         status: c.res.status,
       }),

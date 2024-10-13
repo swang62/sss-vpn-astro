@@ -18,17 +18,17 @@ function Status(_props: Props) {
   }, []);
 
   return (
-    <div className="flex flex-col gap-4 instructions">
+    <div className="instructions flex flex-col gap-4">
       <div className="flex justify-between">
         <button
           onClick={onClickStatus}
-          className={twMerge("button", "bg-green-800 hover:bg-green-600")}
+          className={twMerge("btn", "bg-green-800 hover:bg-green-600")}
         >
           Check API
         </button>
         <button
           onClick={() => setStatus("")}
-          className={twMerge("button", "bg-red-800 hover:bg-red-600")}
+          className={twMerge("btn", "bg-red-800 hover:bg-red-600")}
         >
           Reset
         </button>

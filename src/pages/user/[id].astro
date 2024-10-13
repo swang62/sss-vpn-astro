@@ -1,7 +1,7 @@
 ---
-import Head from "@/layouts/Head.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 import { parsedApi } from "@/lib/utils";
-import { apiServer } from "@/server/client-server";
+import { apiServer } from "@/server/server";
 
 export const prerender = false;
 
@@ -13,7 +13,7 @@ const { data } = await parsedApi(
 );
 ---
 
-<Head title="User | SSS-VPN">
+<BaseLayout title="User | SSS-VPN">
   <div class="flex flex-col gap-4 instructions">
     <div>/api/user/{id}</div>
     {
@@ -24,4 +24,4 @@ const { data } = await parsedApi(
       )
     }
   </div>
-</Head>
+</BaseLayout>

@@ -1,4 +1,3 @@
-/* eslint-disable node/prefer-global/process */
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 

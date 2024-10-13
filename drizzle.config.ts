@@ -1,7 +1,7 @@
-/* eslint-disable node/prefer-global/process */
 import { defineConfig } from "drizzle-kit";
 
 import { DB_LOCAL, DB_TEST } from "./src/db/constants";
+// import env from "./src/lib/env";
 
 const authToken = process.env.DB_AUTH_TOKEN || "default";
 
