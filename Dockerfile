@@ -42,14 +42,9 @@ ARG SENTRY_TOKEN
 ARG SOURCE_COMMIT=$SOURCE_COMMIT
 ARG SITE_URL
 
+# Final build
 RUN printenv
-RUN PUBLIC_GTM_ID=$PUBLIC_GTM_ID \
-    SENTRY_PROJECT=$SENTRY_PROJECT \
-    SENTRY_DSN=$SENTRY_DSN \
-    SENTRY_TOKEN=$SENTRY_TOKEN \
-    SOURCE_COMMIT=$SOURCE_COMMIT \
-    SITE_URL=$SITE_URL \
-    pnpm build
+RUN pnpm build
 
 #############################
 FROM base AS runtime

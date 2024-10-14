@@ -51,6 +51,7 @@ services:
       start_period: 10s
       test: "curl -fs -o /dev/null http://localhost:4321"
       timeout: 5s
+    image: swang62/sssvpn
     ports:
       - 4321:4321
     restart: unless-stopped
