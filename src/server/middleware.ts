@@ -7,7 +7,7 @@ import { cors } from "hono/cors";
 import pino from "pino";
 import pretty from "pino-pretty";
 
-import { IS_PRODUCTION, LOG_LEVEL } from "@/env/server";
+import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
 
 export const notFound: NotFoundHandler = (c) => {
   const path = c.req.path;

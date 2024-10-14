@@ -2,8 +2,8 @@ import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 
 // !!! Must use relative imports !!!
-import { DB_SYNC_INTERVAL } from "../env/constants";
-import { DB_AUTH_TOKEN, DB_LOCAL_URL, DB_SYNC_URL } from "../env/server";
+import { DB_SYNC_INTERVAL } from "../config/constants";
+import { DB_AUTH_TOKEN, DB_LOCAL_URL, DB_SYNC_URL } from "../config/server";
 import * as schema from "./schema";
 
 if (DB_SYNC_URL) console.debug("Syncing to remote DB -", DB_SYNC_URL);

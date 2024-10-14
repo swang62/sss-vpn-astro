@@ -3,7 +3,7 @@ import type { PinoLogger } from "hono-pino";
 import { Hono } from "hono";
 import { bearerAuth } from "hono/bearer-auth";
 
-import { API_TOKEN } from "@/env/server";
+import { API_TOKEN } from "@/config/server";
 
 import {
   apiLimiter,

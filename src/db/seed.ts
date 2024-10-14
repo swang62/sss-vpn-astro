@@ -1,7 +1,7 @@
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 
-import { DB_LOCAL_URL } from "../env/server";
+import { DB_LOCAL_URL } from "../config/server";
 
 export async function push() {
   console.debug("Pushing migrations...");
