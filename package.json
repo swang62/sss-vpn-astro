@@ -72,6 +72,7 @@
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.13.0",
+    "prettier-plugin-tailwindcss": "^0.6.8",
     "tsx": "^4.19.1",
     "vite": "^5.4.8",
     "vitest": "^2.1.2"
@@ -89,6 +90,14 @@
     ],
     "*.{js,jsx,ts,tsx}": [
       "pnpm styles:fix"
+    ]
+  },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ],
+    "tailwindFunctions": [
+      "twMerge"
     ]
   }
 }

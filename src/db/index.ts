@@ -1,19 +1,19 @@
-/* eslint-disable node/prefer-global/process */
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 
-import { DB_LOCAL, DB_TEST } from "./constants";
+// !!! Must use relative imports !!!
+import { DB_SYNC_INTERVAL } from "../env/constants";
+import { DB_AUTH_TOKEN, DB_LOCAL_URL, DB_SYNC_URL } from "../env/server";
 import * as schema from "./schema";
 
-const isTesting = process.env.NODE_ENV === "test";
-const authToken = process.env.DB_AUTH_TOKEN || "default";
+if (DB_SYNC_URL) console.debug("Syncing to remote DB -", DB_SYNC_URL);
 
-const syncUrl = isTesting ? undefined : process.env.DB_REMOTE;
-const url = isTesting ? DB_TEST : DB_LOCAL;
-
-if (syncUrl) console.debug("Syncing to remote DB -", syncUrl);
-
-const client = createClient({ authToken, syncInterval: 30, syncUrl, url });
+const client = createClient({
+  authToken: DB_AUTH_TOKEN,
+  syncInterval: DB_SYNC_INTERVAL,
+  syncUrl: DB_SYNC_URL,
+  url: DB_LOCAL_URL,
+});
 const db = drizzle(client, { schema });
 
 // Export all subpaths

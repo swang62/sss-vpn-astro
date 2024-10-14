@@ -2,6 +2,9 @@
 import { getViteConfig } from "astro/config";
 import { config } from "dotenv";
 import path from "node:path";
+import { loadEnv } from "vite";
+
+const env = loadEnv(process.env.NODE_ENV || "", process.cwd(), "");
 
 export default getViteConfig(
   {
@@ -17,6 +20,6 @@ export default getViteConfig(
     },
   },
   {
-    site: "https://sss-vpn.mildlybrewed.com",
+    site: env.SITE_URL,
   },
 );

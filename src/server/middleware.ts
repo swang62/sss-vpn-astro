@@ -7,7 +7,7 @@ import { cors } from "hono/cors";
 import pino from "pino";
 import pretty from "pino-pretty";
 
-import env from "@/lib/env";
+import { IS_PRODUCTION, LOG_LEVEL } from "@/env/server";
 
 export const notFound: NotFoundHandler = (c) => {
   const path = c.req.path;
@@ -22,7 +22,7 @@ export const onError: ErrorHandler = (error, c) => {
     currentStatus !== 200 ? (currentStatus as StatusCode) : 500;
   const errorMessage = {
     message: statusCode === 401 ? "Unauthorized" : error.message,
-    stack: env._isProduction ? undefined : error.stack,
+    stack: IS_PRODUCTION ? undefined : error.stack,
   };
 
   return c.json(errorMessage, statusCode);
@@ -30,13 +30,10 @@ export const onError: ErrorHandler = (error, c) => {
 
 export function corsMiddleware(): MiddlewareHandler {
   return cors({
-    allowHeaders: ["*"],
     allowMethods: ["*"],
     credentials: true,
     origin: (origin) =>
-      origin.includes("mildlybrewed") ||
-      origin.includes("localhost") ||
-      !env._isProduction
+      origin.includes(".mildlybrewed.") || !IS_PRODUCTION
         ? origin
         : "localhost",
   });
@@ -45,22 +42,25 @@ export function corsMiddleware(): MiddlewareHandler {
 export function pinoLogger(): MiddlewareHandler {
   return logger({
     http: {
-      onReqBindings: (c) => ({
-        request: {
-          headers: env.LOG_LEVEL === "debug" ? c.req.header() : undefined,
-          method: c.req.method,
-          url: c.req.path,
-        },
-      }),
+      onReqBindings: (c) => {
+        const headers = c.req.header();
+        const cookies = headers.cookie;
+        delete headers.cookie;
+        return {
+          request: {
+            cookies: LOG_LEVEL === "debug" ? cookies : undefined,
+            headers: LOG_LEVEL === "debug" ? headers : undefined,
+            method: c.req.method,
+            url: c.req.path,
+          },
+        };
+      },
       onResBindings: (c) => ({
         status: c.res.status,
       }),
       reqId: false,
     },
-    pino: pino(
-      { level: env.LOG_LEVEL },
-      env._isProduction ? undefined : pretty(),
-    ),
+    pino: pino({ level: LOG_LEVEL }, IS_PRODUCTION ? undefined : pretty()),
   });
 }
 

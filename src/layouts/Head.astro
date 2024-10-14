@@ -1,7 +1,6 @@
 ---
-import "@/css/main.css";
+import { SITE_NAME } from "@/env/constants";
 import Analytics from "./Analytics.astro";
-import Metadata from "./Metadata.astro";
 
 interface Props {
   title: string;
@@ -10,16 +9,16 @@ interface Props {
 const { title } = Astro.props;
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <Metadata />
-    <Analytics />
-    <title>{title}</title>
-  </head>
-  <body>
-    <main>
-      <slot />
-    </main>
-  </body>
-</html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="description" content="Steve's Super Secret VPN" />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="generator" content={Astro.generator} />
+
+  <!-- Custom scripts -->
+  <Analytics />
+
+  <title>{title} | {SITE_NAME}</title>
+</head>

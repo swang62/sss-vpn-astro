@@ -1,7 +1,7 @@
 import { hc } from "hono/client";
 
-import type { App } from ".";
+import type { App } from "@/server";
 
-import { API_BASE_URL } from "./constants";
+import { API_CLIENT_URL } from "@/env/client";
 
-export const { api: apiClient } = hc<App>(API_BASE_URL);
+export const { api: apiClient } = hc<App>(API_CLIENT_URL);

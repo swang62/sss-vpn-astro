@@ -4,5 +4,11 @@ export default {
   plugins: [],
   theme: {
     extend: {},
+    fontFamily: {
+      "roboto": ["Roboto"],
+      "roboto-regular": ["Roboto Regular"],
+      "roboto-serif": ["Roboto Serif"],
+      "roboto-thin": ["Roboto Condensed"],
+    },
   },
 };

@@ -1,0 +1,18 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Error">
+  <div class="flex h-[90vh] items-center justify-center">
+    <button class="btn bg-fuchsia-700 hover:bg-fuchsia-500" id="error">
+      Throw an error!
+    </button>
+  </div>
+  <script>
+    function handleClick() {
+      throw new Error("This is an error.");
+    }
+    const button = document.getElementById("error")!;
+    button.addEventListener("click", handleClick);
+  </script>
+</BaseLayout>

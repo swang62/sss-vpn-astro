@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Variables */
+:root {
+  --accent: 136, 58, 234;
+  --accent-light: 224, 204, 250;
+  --accent-dark: 49, 10, 101;
+  --accent-gradient: linear-gradient(
+    45deg,
+    rgb(var(--accent)),
+    rgb(var(--accent-light)) 30%,
+    white 60%
+  );
+}
+
+@layer base {
+  @font-face {
+    font-display: swap;
+    font-family: "Roboto Serif";
+    font-style: normal;
+    font-weight: 400;
+    src: url("/fonts/roboto-serif.woff2") format("woff2");
+  }
+
+  @font-face {
+    font-display: swap;
+    font-family: "Roboto Regular";
+    font-style: normal;
+    font-weight: 400;
+    src: url("/fonts/roboto-regular.woff2") format("woff2");
+  }
+
+  @font-face {
+    font-display: swap;
+    font-family: "Roboto Condensed";
+    font-style: normal;
+    font-weight: 400;
+    src: url("/fonts/roboto-condensed.woff2") format("woff2");
+  }
+
+  html {
+    font-family: system-ui, sans-serif;
+    background: #13151a;
+  }
+
+  main {
+    margin: auto;
+    padding: 1rem;
+    width: 800px;
+    max-width: calc(100% - 2rem);
+    color: white;
+    font-size: 20px;
+    line-height: 1.6;
+  }
+
+  .astro-a {
+    position: absolute;
+    top: -32px;
+    left: 50%;
+    transform: translatex(-50%);
+    width: 200px;
+    height: auto;
+    z-index: -1;
+  }
+
+  h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    margin-bottom: 1em;
+  }
+
+  .text-gradient {
+    background-image: var(--accent-gradient);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 400%;
+    background-position: 0%;
+  }
+
+  .link-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18ch, 1fr));
+    gap: 2rem;
+    padding: 0;
+  }
+}
+
+/* 3rd party and custom components */
+@layer components {
+  .btn {
+    border-radius: 8px;
+    border-style: none;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    height: 40px;
+    margin: 2px;
+    padding: 8px 12px;
+    text-align: center;
+    text-wrap: nowrap;
+  }
+
+  .instructions {
+    min-width: fit-content;
+    border: 1px solid rgba(var(--accent-light), 20%);
+    background: linear-gradient(
+      rgba(var(--accent-dark), 10%),
+      rgba(var(--accent-dark), 5%)
+    );
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+
+  .instructions code {
+    white-space: pre-wrap;
+    font-size: 0.7em;
+    font-weight: 400;
+    background: rgba(var(--accent-light), 3%);
+    color: rgb(var(--accent-light));
+    border-radius: 4px;
+    padding: 1em 1.2em;
+  }
+
+  code {
+    font-family:
+      Menlo,
+      Monaco,
+      Lucida Console,
+      Liberation Mono,
+      DejaVu Sans Mono,
+      Bitstream Vera Sans Mono,
+      Courier New,
+      monospace;
+  }
+}

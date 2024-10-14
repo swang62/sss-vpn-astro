@@ -1,0 +1,15 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { apiServer } from "@/server/server";
+
+export const prerender = false;
+
+await apiServer.error.$get();
+return Astro.rewrite("/500");
+---
+
+<BaseLayout title="Error">
+  <div class="flex h-[90vh] items-center justify-center">
+    <h1 id="error">Server error in 3...2...1...</h1>
+  </div>
+</BaseLayout>
