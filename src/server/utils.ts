@@ -10,6 +10,6 @@ export async function parsedApi<T>(request: Promise<ClientResponse<T>>) {
   return { data, status: response.status };
 }
 
-export async function sleep(msec: number = 500) {
+export async function sleep(msec = 1000) {
   return await new Promise((resolve) => setTimeout(resolve, msec));
 }

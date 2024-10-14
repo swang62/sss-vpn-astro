@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 
-import { IS_PRODUCTION } from "@/lib/env";
+import { IS_PRODUCTION } from "@/env/server";
 import { createBaseRouter } from "@/server/app";
 
 const route = createBaseRouter()
@@ -27,7 +27,7 @@ const route = createBaseRouter()
     },
   )
   .get("/error", (c) => {
-    return c.json({ headers: c.req.header() }, 500);
+    return c.json({ message: "Fake api error" }, 500);
   });
 
 export default route;

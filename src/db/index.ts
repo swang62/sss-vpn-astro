@@ -1,18 +1,19 @@
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 
-// ! Must use relative imports
-import { DB_AUTH_TOKEN, DB_REMOTE, IS_TESTING } from "../lib/env";
-import { DB_LOCAL, DB_TEST } from "./constants";
+// !!! Must use relative imports !!!
+import { DB_SYNC_INTERVAL } from "../env/constants";
+import { DB_AUTH_TOKEN, DB_LOCAL_URL, DB_SYNC_URL } from "../env/server";
 import * as schema from "./schema";
 
-const authToken = DB_AUTH_TOKEN || "default";
-const url = IS_TESTING ? DB_TEST : DB_LOCAL;
+if (DB_SYNC_URL) console.debug("Syncing to remote DB -", DB_SYNC_URL);
 
-const syncUrl = IS_TESTING ? undefined : DB_REMOTE;
-if (syncUrl) console.debug("Syncing to remote DB -", syncUrl);
-
-const client = createClient({ authToken, syncInterval: 30, syncUrl, url });
+const client = createClient({
+  authToken: DB_AUTH_TOKEN,
+  syncInterval: DB_SYNC_INTERVAL,
+  syncUrl: DB_SYNC_URL,
+  url: DB_LOCAL_URL,
+});
 const db = drizzle(client, { schema });
 
 // Export all subpaths

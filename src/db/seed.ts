@@ -1,16 +1,12 @@
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 
-import { IS_TESTING } from "@/lib/env";
-
-import { DB_LOCAL, DB_TEST } from "./constants";
-
-const url = IS_TESTING ? DB_TEST : DB_LOCAL;
+import { DB_LOCAL_URL } from "../env/server";
 
 export async function push() {
   console.debug("Pushing migrations...");
 
-  fs.rmSync(url.replace("file:", ""), { force: true });
+  fs.rmSync(DB_LOCAL_URL.replace("file:", ""), { force: true });
   execSync("pnpm drizzle-kit migrate");
 }
 
@@ -33,5 +29,5 @@ export async function seed() {
 export async function remove() {
   console.debug("Deleting db...");
 
-  fs.rmSync(url.replace("file:", ""), { force: true });
+  fs.rmSync(DB_LOCAL_URL.replace("file:", ""), { force: true });
 }

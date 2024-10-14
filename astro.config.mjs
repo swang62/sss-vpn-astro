@@ -14,9 +14,7 @@ export default defineConfig({
     mode: "standalone",
   }),
   build: {
-    rollupOptions: {
-      external: [/^vitest.*/],
-    },
+    assets: "_assets",
   },
   image: {
     domains: ["picsum.photos"],
@@ -38,4 +36,11 @@ export default defineConfig({
   ],
   output: "hybrid",
   site: env.SITE_URL,
+  vite: {
+    build: {
+      rollupOptions: {
+        external: [/vitest.*/, /.*\.test\..*/],
+      },
+    },
+  },
 });

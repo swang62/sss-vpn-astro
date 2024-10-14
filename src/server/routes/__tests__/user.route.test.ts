@@ -1,7 +1,7 @@
 import { testClient } from "hono/testing";
 
-import { parsedApi } from "@/lib/utils";
 import createApp from "@/server/app";
+import { parsedApi } from "@/server/utils";
 
 import router from "../user.route";
 

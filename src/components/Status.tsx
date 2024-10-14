@@ -1,8 +1,8 @@
 import { useCallback, useState } from "preact/hooks";
 import { twMerge } from "tailwind-merge";
 
-import { parsedApi } from "@/lib/utils";
 import { apiClient } from "@/server/client";
+import { parsedApi } from "@/server/utils";
 
 interface Props {}
 

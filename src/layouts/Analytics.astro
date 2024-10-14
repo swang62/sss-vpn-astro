@@ -1,9 +1,10 @@
 ---
-const ID = import.meta.env.GTM_ID;
-if (!ID) return;
+import { PUBLIC_GTM_ID } from "@/env/client";
+
+if (!PUBLIC_GTM_ID) return;
 ---
 
-<script define:vars={{ ID }} is:inline type="module">
+<script define:vars={{ PUBLIC_GTM_ID }} is:inline type="module">
   // @ts-nocheck
   (function (w, d, s, l, i) {
     w[l] = w[l] || [];
@@ -14,7 +15,7 @@ if (!ID) return;
     j.async = true;
     j.src = `https://www.googletagmanager.com/gtm.js?id=${i}${dl}`;
     f.parentNode.insertBefore(j, f);
-  })(window, document, "script", "dataLayer", ID);
+  })(window, document, "script", "dataLayer", PUBLIC_GTM_ID);
 </script>
 <script is:inline type="module">
   // @ts-nocheck

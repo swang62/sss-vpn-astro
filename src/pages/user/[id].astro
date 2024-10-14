@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { parsedApi } from "@/lib/utils";
 import { apiServer } from "@/server/server";
+import { parsedApi } from "@/server/utils";
 
 export const prerender = false;
 
@@ -13,14 +13,14 @@ const { data } = await parsedApi(
 );
 ---
 
-<BaseLayout title="User | SSS-VPN">
+<BaseLayout title="User">
   <div class="instructions flex flex-col gap-4">
     <div class="text-2xl font-thin">PATH: /user/{id}</div>
     {
       data ? (
         <code>{JSON.stringify(data, null, 2)}</code>
       ) : (
-        <code>User {id} not found!</code>
+        <code>User {id} not found</code>
       )
     }
   </div>

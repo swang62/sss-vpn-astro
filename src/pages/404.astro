@@ -3,12 +3,13 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Sign from "/hand-sign.svg?raw";
 ---
 
-<BaseLayout title="Not Found | SSS-VPN">
+<BaseLayout title="Not Found">
   <a href="/" class="flex h-[100vh] w-full items-center justify-center sm:p-20">
     <Fragment set:html={Sign} />
   </a>
 </BaseLayout>
 
+<script src="/snapsvg.js" is:inline></script>
 <script>
   // @ts-nocheck
   window.onload = function () {

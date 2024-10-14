@@ -5,6 +5,9 @@ ENV HOST=0.0.0.0
 ENV PORT=4321
 ARG SITE_URL
 
+# Optional GA analytics
+ARG PUBLIC_GTM_ID
+
 # Optional sentry tracking
 ARG SENTRY_PROJECT
 ARG SENTRY_DSN
@@ -53,7 +56,7 @@ COPY --from=dependencies /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/drizzle.config.ts ./drizzle.config.ts
 COPY --from=build /app/src/db ./src/db
-COPY --from=build /app/src/lib ./src/lib
+COPY --from=build /app/src/env ./src/env
 
 EXPOSE ${PORT}
 CMD ["pnpm", "start"]

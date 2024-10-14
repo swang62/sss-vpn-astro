@@ -1,20 +1,16 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { IS_PRODUCTION } from "@/lib/env";
-import "../styles/500.css";
+import "./_500.css";
 import Sign from "/toaster.svg?raw";
-
-export const prerender = false;
 
 interface Props {
   error: unknown;
 }
 
-const { error: _error } = Astro.props;
-const error = _error as Error;
+const { error } = Astro.props;
 ---
 
-<BaseLayout title="Oh No! | SSS-VPN">
+<BaseLayout title="Oh No!">
   <a
     href="/"
     class="font-roboto-thin m-auto flex h-[100vh] w-full flex-col items-center justify-center px-0 md:px-12"
@@ -27,13 +23,8 @@ const error = _error as Error;
     </h1>
   </a>
 
-  <!-- Add the stack trace ONLY during development -->
-  {
-    !IS_PRODUCTION && (
-      <div class="instructions flex flex-col gap-4">
-        <div class="text-2xl font-thin">Details</div>
-        <code>{JSON.stringify(error, null, 2)}</code>
-      </div>
-    )
-  }
+  <div class="instructions flex flex-col gap-4">
+    <div class="text-2xl font-thin">Details</div>
+    <code>{JSON.stringify(error, null, 2)}</code>
+  </div>
 </BaseLayout>

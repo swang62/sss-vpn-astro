@@ -1,4 +1,5 @@
-import createApp from "./app";
+import createApp from "@/server/app";
+
 import base from "./routes/base.route";
 import user from "./routes/user.route";
 

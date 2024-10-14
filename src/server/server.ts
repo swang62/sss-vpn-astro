@@ -1,11 +1,9 @@
 import { hc } from "hono/client";
 
-import { API_TOKEN } from "@/lib/env";
+import type { App } from "@/server";
 
-import type { App } from ".";
+import { API_SERVER_URL, API_TOKEN } from "@/env/server";
 
-import { SERVER_API_URL } from "./constants";
-
-export const { api: apiServer } = hc<App>(SERVER_API_URL, {
+export const { api: apiServer } = hc<App>(API_SERVER_URL, {
   headers: { Authorization: `Bearer ${API_TOKEN}` },
 });

@@ -1,28 +1,15 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { sleep } from "@/lib/utils";
 import { apiServer } from "@/server/server";
 
 export const prerender = false;
 
-export const errorPage = () => {
-  const headers = { "Content-type": "text/html" };
-  return new Response("<!DOCTYPE html>", { status: 500, headers });
-};
-
 await apiServer.error.$get();
-
-// setTimeout(() => {
-//   throw new Error("Crashed!");
-// }, 2000);
-
-await sleep(2000);
-// @ts-ignore
-errorPage(fake_variable);
+return Astro.rewrite("/500");
 ---
 
 <BaseLayout title="Error">
   <div class="flex h-[90vh] items-center justify-center">
-    <h1 class="to-blue-700" id="error">I'm gonna crash in 3...2...1...</h1>
+    <h1 id="error">Server error in 3...2...1...</h1>
   </div>
 </BaseLayout>
