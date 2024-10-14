@@ -3,17 +3,6 @@ FROM node:20-bullseye-slim AS base
 ENV NODE_ENV=development
 ENV HOST=0.0.0.0
 ENV PORT=4321
-ARG SITE_URL
-
-# Optional GA analytics
-ARG PUBLIC_GTM_ID
-
-# Optional sentry tracking
-ARG SENTRY_PROJECT
-ARG SENTRY_DSN
-ARG SENTRY_TOKEN
-ARG SOURCE_COMMIT
-
 WORKDIR /app
 
 #############################
@@ -44,7 +33,23 @@ FROM dependencies AS build
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
       pnpm install --frozen-lock
 COPY . .
-RUN pnpm build
+
+# (Optional) Analytics
+ARG PUBLIC_GTM_ID
+ARG SENTRY_PROJECT
+ARG SENTRY_DSN
+ARG SENTRY_TOKEN
+ARG SOURCE_COMMIT=$SOURCE_COMMIT
+ARG SITE_URL
+
+RUN printenv
+RUN PUBLIC_GTM_ID=$PUBLIC_GTM_ID \
+    SENTRY_PROJECT=$SENTRY_PROJECT \
+    SENTRY_DSN=$SENTRY_DSN \
+    SENTRY_TOKEN=$SENTRY_TOKEN \
+    SOURCE_COMMIT=$SOURCE_COMMIT \
+    SITE_URL=$SITE_URL \
+    pnpm build
 
 #############################
 FROM base AS runtime

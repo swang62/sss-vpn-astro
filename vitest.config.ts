@@ -6,7 +6,7 @@ import { loadEnv } from "vite";
 
 process.env = {
   ...process.env,
-  ...loadEnv(process.env.NODE_ENV || "production", process.cwd(), ""),
+  ...loadEnv(process.env.NODE_ENV || "test", process.cwd(), ""),
 };
 
 export default getViteConfig(

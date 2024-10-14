@@ -8,8 +8,8 @@
   },
   "scripts": {
     "astro": "astro",
-    "build": "astro check --minimumSeverity warning && export $(cat .env.build) && astro build",
-    "build:docker": "pnpm start:docker --build",
+    "build": "NODE_ENV=production astro check --minimumSeverity warning && export $(cat .env.build) && astro build",
+    "build:docker": "pnpm start:docker --build --progress=plain  . &> docker-build.log",
     "db:migrate": "drizzle-kit generate && drizzle-kit migrate",
     "db:migrate:docker": "docker compose run sssvpn pnpm drizzle-kit migrate",
     "db:push": "drizzle-kit push",

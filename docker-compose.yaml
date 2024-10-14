@@ -28,12 +28,12 @@ services:
   sssvpn:
     build:
       args:
-        - PUBLIC_GTM_ID=${PUBLIC_GTM_ID}
-        - SENTRY_PROJECT=${SENTRY_PROJECT}
-        - SENTRY_DSN=${SENTRY_DSN}
-        - SENTRY_TOKEN=${SENTRY_TOKEN}
-        - SOURCE_COMMIT=${SOURCE_COMMIT}
-        - SITE_URL=${SITE_URL}
+        - PUBLIC_GTM_ID
+        - SENTRY_PROJECT
+        - SENTRY_DSN
+        - SENTRY_TOKEN
+        - SOURCE_COMMIT
+        - SITE_URL
       context: .
       dockerfile: Dockerfile
     container_name: sssvpn
@@ -41,10 +41,10 @@ services:
       db:
         condition: service_healthy
     environment:
-      - API_TOKEN=${API_TOKEN}
+      - API_TOKEN
       - DB_REMOTE=${DB_REMOTE:-http://db:8080}
       - DB_AUTH_TOKEN=${DB_AUTH_TOKEN:-default}
-      - LOG_LEVEL=${LOG_LEVEL}
+      - LOG_LEVEL
     healthcheck:
       interval: 1m
       retries: 5
