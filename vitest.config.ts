@@ -4,7 +4,10 @@ import { config } from "dotenv";
 import path from "node:path";
 import { loadEnv } from "vite";
 
-const env = loadEnv(process.env.NODE_ENV || "", process.cwd(), "");
+process.env = {
+  ...process.env,
+  ...loadEnv(process.env.NODE_ENV || "production", process.cwd(), ""),
+};
 
 export default getViteConfig(
   {
@@ -20,6 +23,6 @@ export default getViteConfig(
     },
   },
   {
-    site: env.SITE_URL,
+    site: process.env.SITE_URL,
   },
 );

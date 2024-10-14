@@ -6,7 +6,7 @@ import sentry from "@sentry/astro";
 import { defineConfig } from "astro/config";
 import { loadEnv } from "vite";
 
-const env = loadEnv(process.env.NODE_ENV, process.cwd(), "");
+process.env = { ...process.env, ...loadEnv(process.env.NODE_ENV || "production", process.cwd(), "") };
 
 // https://astro.build/config
 export default defineConfig({
@@ -24,18 +24,18 @@ export default defineConfig({
     sitemap(),
     preact({ compat: true, devtools: true }),
     sentry({
-      dsn: env.SENTRY_DSN,
-      enabled: !!env.SENTRY_TOKEN && !!env.SENTRY_DSN,
-      environment: env.NODE_ENV,
-      release: env.SOURCE_COMMIT || "default",
+      dsn: process.env.SENTRY_DSN,
+      enabled: !!process.env.SENTRY_TOKEN && !!process.env.SENTRY_DSN,
+      environment: process.env.NODE_ENV,
+      release: process.env.SOURCE_COMMIT || "default",
       sourceMapsUploadOptions: {
-        authToken: env.SENTRY_TOKEN,
-        project: env.SENTRY_PROJECT || "default",
+        authToken: process.env.SENTRY_TOKEN,
+        project: process.env.SENTRY_PROJECT,
       },
     }),
   ],
   output: "hybrid",
-  site: env.SITE_URL,
+  site: process.env.SITE_URL,
   vite: {
     build: {
       rollupOptions: {
