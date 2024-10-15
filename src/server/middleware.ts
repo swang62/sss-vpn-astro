@@ -68,11 +68,8 @@ export function pinoLogger(): MiddlewareHandler {
 export function apiLimiter(): MiddlewareHandler {
   return rateLimiter({
     keyGenerator: (c) =>
-      `${c.req.path}|${c.req.header("host")}|${c.req.header("cf-connecting-ip") ?? ""}`.replace(
-        /[/:]/g,
-        "-",
-      ),
-    limit: 30,
+      `${c.req.path}-${c.req.header("cf-connecting-ip") ?? ""}`,
+    limit: (c) => (c.req.header("host")?.includes("localhost") ? 0 : 50),
     message: {
       message: "Too many requests, try again later.",
     },
