@@ -102,6 +102,7 @@
     margin: 2px;
     padding: 8px 12px;
     text-align: center;
+    transition: all 200ms ease-out;
     /* text-wrap: nowrap; */
   }
 
