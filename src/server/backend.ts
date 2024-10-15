@@ -12,6 +12,10 @@ export const { api: apiServer } = hc<App>(API_SERVER_URL, {
 });
 
 async function getRedisStore() {
+  if (!REDIS_URL) return;
+
+  console.debug("Connecting to redis -", REDIS_URL);
+
   const client = await createClient({ url: `redis://${REDIS_URL}` })
     .on("error", (error) => console.error("Failed to connect to redis", error))
     .connect();
