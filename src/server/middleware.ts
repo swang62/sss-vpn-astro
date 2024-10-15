@@ -1,6 +1,7 @@
 import type { ErrorHandler, MiddlewareHandler, NotFoundHandler } from "hono";
 import type { StatusCode } from "hono/utils/http-status";
 
+import { captureException } from "@sentry/astro";
 import { logger } from "hono-pino";
 import { rateLimiter } from "hono-rate-limiter";
 import { cors } from "hono/cors";
@@ -17,6 +18,8 @@ export const notFound: NotFoundHandler = (c) => {
 };
 
 export const onError: ErrorHandler = (error, c) => {
+  captureException(error);
+
   const currentStatus =
     "status" in error ? error.status : c.newResponse(null).status;
   const statusCode =
@@ -31,7 +34,7 @@ export const onError: ErrorHandler = (error, c) => {
 
 export function corsMiddleware(): MiddlewareHandler {
   return cors({
-    allowMethods: ["*"],
+    allowMethods: ["GET", "POST", "OPTIONS"],
     credentials: true,
     origin: (origin) =>
       origin.includes(".mildlybrewed.") || !IS_PRODUCTION
