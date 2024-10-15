@@ -4,7 +4,12 @@ import { createClient } from "redis";
 
 import type { App } from "@/server";
 
-import { API_SERVER_URL, API_TOKEN, REDIS_URL } from "@/config/server";
+import {
+  API_SERVER_URL,
+  API_TOKEN,
+  REDIS_PASS,
+  REDIS_URL,
+} from "@/config/server";
 
 // API client
 export const { api: apiServer } = hc<App>(API_SERVER_URL, {
@@ -12,11 +17,12 @@ export const { api: apiServer } = hc<App>(API_SERVER_URL, {
 });
 
 async function getRedisStore() {
-  if (!REDIS_URL) return;
+  if (!REDIS_URL || !REDIS_PASS) return;
 
-  console.debug("Connecting to redis -", REDIS_URL);
+  const url = `redis://${REDIS_URL}`;
+  console.debug("Connecting to -", url);
 
-  const client = await createClient({ url: `redis://${REDIS_URL}` })
+  const client = await createClient({ password: REDIS_PASS, url })
     .on("error", (error) => console.error("Failed to connect to redis", error))
     .connect();
 

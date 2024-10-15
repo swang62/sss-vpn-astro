@@ -26,7 +26,7 @@ services:
       - libsql:/var/lib/sqld
 
   redis:
-    command: redis-server --save 60 100 --appendonly yes
+    command: redis-server --save 60 100 --appendonly yes --requirepass ${REDIS_PASS:-default}
     container_name: redis
     image: redis:8.0-M01
     ports:
@@ -57,6 +57,7 @@ services:
       - DB_REMOTE=${DB_REMOTE:-http://db:8080}
       - DB_AUTH_TOKEN=${DB_AUTH_TOKEN:-default}
       - REDIS_URL=${REDIS_URL:-redis:6379}
+      - REDIS_PASS=${REDIS_PASS:-default}
       - LOG_LEVEL
     healthcheck:
       interval: 1m

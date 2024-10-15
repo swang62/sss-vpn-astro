@@ -1,11 +1,16 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { apiServer } from "@/server/backend";
+import { sleep } from "@/server/utils";
 
 export const prerender = false;
 
-await apiServer.error.$get();
-return Astro.rewrite("/500");
+setTimeout(async () => {
+  await apiServer.error.$get();
+  await sleep(1000);
+  // @ts-expect-error
+  fake_function(fake_variable);
+}, 1000);
 ---
 
 <BaseLayout title="Error">
