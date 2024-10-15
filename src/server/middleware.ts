@@ -50,7 +50,7 @@ export function pinoLogger(): MiddlewareHandler {
         return {
           request: {
             cookies: LOG_LEVEL === "debug" ? cookies : undefined,
-            headers: LOG_LEVEL === "debug" ? headers : undefined,
+            headers,
             method: c.req.method,
             url: c.req.path,
           },
@@ -69,7 +69,7 @@ export function apiLimiter(): MiddlewareHandler {
   return rateLimiter({
     keyGenerator: (c) =>
       `${c.req.path}-${c.req.header("cf-connecting-ip") ?? ""}`,
-    limit: (c) => (c.req.header("host")?.includes("localhost") ? 1000 : 20),
+    limit: (c) => (c.req.header("host")?.includes("localhost") ? 1000 : 50),
     message: {
       message: "Too many requests, try again later.",
     },
