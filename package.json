@@ -2,10 +2,6 @@
   "name": "sss-vpn",
   "type": "module",
   "version": "0.0.1",
-  "engines": {
-    "node": "20",
-    "pnpm": "9"
-  },
   "scripts": {
     "astro": "astro",
     "build": "NODE_ENV=production astro check --minimumSeverity warning && export $(cat .env.build) && astro build",
@@ -101,5 +97,9 @@
     "tailwindFunctions": [
       "twMerge"
     ]
+  },
+  "volta": {
+    "node": "22.9.0",
+    "pnpm": "9.12.1"
   }
 }
