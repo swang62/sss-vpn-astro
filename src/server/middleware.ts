@@ -69,7 +69,7 @@ export function apiLimiter(): MiddlewareHandler {
   return rateLimiter({
     keyGenerator: (c) =>
       `${c.req.path}-${c.req.header("cf-connecting-ip") ?? ""}`,
-    limit: (c) => (c.req.header("host")?.includes("localhost") ? 0 : 50),
+    limit: (c) => (c.req.header("host")?.includes("localhost") ? 1000 : 20),
     message: {
       message: "Too many requests, try again later.",
     },
