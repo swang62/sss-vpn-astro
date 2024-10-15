@@ -1,4 +1,2 @@
-export COREPACK_ENABLE_AUTO_PIN=0
-
 echo "💬 Commitlint"
 pnpm dlx commitlint --edit $1

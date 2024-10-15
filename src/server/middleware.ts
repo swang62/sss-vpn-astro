@@ -8,6 +8,7 @@ import pino from "pino";
 import pretty from "pino-pretty";
 
 import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
+import { redisStore } from "@/server/backend";
 
 export const notFound: NotFoundHandler = (c) => {
   const path = c.req.path;
@@ -67,16 +68,14 @@ export function pinoLogger(): MiddlewareHandler {
 export function apiLimiter(): MiddlewareHandler {
   return rateLimiter({
     keyGenerator: (c) =>
-      `
-      ${c.req.path || ""}
-      ${c.req.header("host") || ""}
-      ${c.req.header("cf-connecting-ip") || ""}
-    `.trim(),
-    limit: 30,
+      `${c.req.path}-${c.req.header("cf-connecting-ip") ?? ""}`,
+    limit: (c) => (c.req.header("host")?.includes("localhost") ? 1000 : 20),
     message: {
       message: "Too many requests, try again later.",
     },
     standardHeaders: "draft-6",
-    windowMs: 10 * 1000, // 10s
+    // @ts-expect-error
+    store: redisStore,
+    windowMs: 10 * 1000,
   });
 }

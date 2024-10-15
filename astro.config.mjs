@@ -44,6 +44,9 @@ export default defineConfig({
     }),
   ],
   output: "hybrid",
+  server: {
+    port: 4321,
+  },
   site: process.env.SITE_URL,
   vite: {
     build: {

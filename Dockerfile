@@ -1,4 +1,4 @@
-FROM node:20-bullseye-slim AS base
+FROM node:22-bullseye-slim AS base
 
 ENV NODE_ENV=development
 ENV HOST=0.0.0.0
@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Setup PNPM
 ENV PNPM_HOME="/pnpm"
-ENV PNPM_VERSION=9.9.0
+ENV PNPM_VERSION=9.12.1
 ENV PATH="$PNPM_HOME:$PATH"
 RUN npm -g install pnpm@${PNPM_VERSION}
 
@@ -18,7 +18,7 @@ RUN --mount=type=cache,target=/var/lib/apt/lists \
     --mount=type=cache,target=/var/cache/apt \
       rm -f /etc/apt/apt.conf.d/docker-clean \
       && apt-get update \
-      && apt-get install -y wget curl 
+      && apt-get install -y wget curl ca-certificates
 
 #############################
 FROM base AS dependencies 
