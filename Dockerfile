@@ -18,7 +18,7 @@ RUN --mount=type=cache,target=/var/lib/apt/lists \
     --mount=type=cache,target=/var/cache/apt \
       rm -f /etc/apt/apt.conf.d/docker-clean \
       && apt-get update \
-      && apt-get install -y wget curl 
+      && apt-get install -y wget curl ca-certificates
 
 #############################
 FROM base AS dependencies 

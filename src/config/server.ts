@@ -9,6 +9,7 @@ const EnvSchema = z.object({
   DB_REMOTE: z.string().url().optional(),
   LOG_LEVEL: z.enum(["silent", "debug", "info", "warn", "error"]),
   NODE_ENV: z.string().default("development"),
+  REDIS_URL: z.string().url().optional(),
 });
 
 // @ts-ignore
@@ -32,6 +33,7 @@ export const DB_AUTH_TOKEN = data.DB_AUTH_TOKEN;
 export const DB_REMOTE = data.DB_REMOTE;
 export const LOG_LEVEL = data.LOG_LEVEL;
 export const NODE_ENV = data.NODE_ENV;
+export const REDIS_URL = data.REDIS_URL;
 
 //* Computed *//
 export const IS_PRODUCTION = NODE_ENV === "production";

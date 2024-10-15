@@ -25,6 +25,16 @@ services:
     volumes:
       - libsql:/var/lib/sqld
 
+  redis:
+    command: redis-server --save 60 100 --appendonly yes
+    container_name: redis
+    image: redis:8.0-M01
+    ports:
+      - 6379:6379
+    restart: unless-stopped
+    volumes:
+      - redis:/data
+
   sssvpn:
     build:
       args:
@@ -40,10 +50,13 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_started
     environment:
       - API_TOKEN
       - DB_REMOTE=${DB_REMOTE:-http://db:8080}
       - DB_AUTH_TOKEN=${DB_AUTH_TOKEN:-default}
+      - REDIS_URL=${REDIS_URL:-redis:6379}
       - LOG_LEVEL
     healthcheck:
       interval: 1m
@@ -58,3 +71,4 @@ services:
 
 volumes:
   libsql:
+  redis:
