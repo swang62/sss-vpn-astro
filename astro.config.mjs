@@ -19,6 +19,9 @@ export default defineConfig({
   build: {
     assets: "_assets",
   },
+  experimental: {
+    serverIslands: true,
+  },
   image: {
     domains: ["picsum.photos"],
   },

@@ -6,8 +6,9 @@ import { bearerAuth } from "hono/bearer-auth";
 import { API_TOKEN } from "@/config/server";
 
 import {
-  apiLimiter,
   corsMiddleware,
+  customMiddleware,
+  limiter,
   notFound,
   onError,
   pinoLogger,
@@ -16,6 +17,7 @@ import {
 export interface Bindings {
   Variables: {
     logger: PinoLogger;
+    customClient: () => void;
   };
 }
 
@@ -27,9 +29,10 @@ export default function createApp() {
   const app = createBaseRouter().basePath("/api");
 
   app.use("/user/*", bearerAuth({ token: API_TOKEN }));
+  app.use(customMiddleware);
   app.use(pinoLogger());
   app.use(corsMiddleware());
-  app.use(apiLimiter());
+  app.use(limiter());
   app.notFound(notFound);
   app.onError(onError);
 

@@ -9,12 +9,13 @@ const route = createBaseRouter()
     c.res.headers.forEach((value, key) => {
       response[key] = value;
     });
+
     return c.json({
+      _requested_at: new Date(),
       endpoint: c.req.path,
       production: IS_PRODUCTION,
       request: c.req.header(),
       response,
-      status: "ok",
     });
   })
   .get("/error", (c) => {

@@ -5,11 +5,22 @@ import { captureException } from "@sentry/astro";
 import { logger } from "hono-pino";
 import { rateLimiter } from "hono-rate-limiter";
 import { cors } from "hono/cors";
+import { createMiddleware } from "hono/factory";
 import pino from "pino";
 import pretty from "pino-pretty";
 
 import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
 import { redisStore } from "@/server/backend";
+
+import type { Bindings } from "./app";
+
+export const customMiddleware = createMiddleware<Bindings>(async (c, next) => {
+  c.set("customClient", () => {
+    // Setup up temporary context/clients/variables
+    console.debug("customClient");
+  });
+  await next();
+});
 
 export const notFound: NotFoundHandler = (c) => {
   const path = c.req.path;
@@ -68,7 +79,7 @@ export function pinoLogger(): MiddlewareHandler {
   });
 }
 
-export function apiLimiter(): MiddlewareHandler {
+export function limiter(): MiddlewareHandler {
   return rateLimiter({
     keyGenerator: (c) =>
       `${c.req.path}-${c.req.header("cf-connecting-ip") ?? ""}`,
