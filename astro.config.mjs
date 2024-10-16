@@ -1,5 +1,5 @@
 import node from "@astrojs/node";
-import preact from "@astrojs/preact";
+import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import sentry from "@sentry/astro";
@@ -26,36 +26,30 @@ export default defineConfig({
   image: {
     domains: ["picsum.photos"],
   },
-  integrations: [
-    preact({ compat: true, devtools: true }),
-    tailwind(),
-    sitemap(),
-    robotsTxt({
-      policy: [
-        {
-          allow: "/",
-          disallow: ["/api", "/error"],
-          userAgent: "*",
-        },
-      ],
-    }),
-    sentry({
-      bundleSizeOptimizations: {
-        excludeReplayIframe: true,
-        excludeReplayShadowDom: true,
-        excludeReplayWorker: true,
+  integrations: [react(), robotsTxt({
+    policy: [
+      {
+        allow: "/",
+        disallow: ["/api", "/error"],
+        userAgent: "*",
       },
-      dsn: process.env.SENTRY_DSN,
-      enabled: !!process.env.SENTRY_TOKEN && !!process.env.SENTRY_DSN,
-      environment: process.env.NODE_ENV,
-      release: process.env.SOURCE_COMMIT || "default",
-      serverInitPath: "./sentry.server.config.js",
-      sourceMapsUploadOptions: {
-        authToken: process.env.SENTRY_TOKEN,
-        project: process.env.SENTRY_PROJECT,
-      },
-    }),
-  ],
+    ],
+  }), sentry({
+    bundleSizeOptimizations: {
+      excludeReplayIframe: true,
+      excludeReplayShadowDom: true,
+      excludeReplayWorker: true,
+    },
+    dsn: process.env.SENTRY_DSN,
+    enabled: !!process.env.SENTRY_TOKEN && !!process.env.SENTRY_DSN,
+    environment: process.env.NODE_ENV,
+    release: process.env.SOURCE_COMMIT || "default",
+    serverInitPath: "./sentry.server.config.js",
+    sourceMapsUploadOptions: {
+      authToken: process.env.SENTRY_TOKEN,
+      project: process.env.SENTRY_PROJECT,
+    },
+  }), sitemap(), tailwind()],
   output: "server",
   server: {
     port: 4321,

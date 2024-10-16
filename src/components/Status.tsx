@@ -1,31 +1,30 @@
-import { useQuery } from "preact-fetching";
-import { useState } from "preact/hooks";
+import { useState } from "react";
+import useSWR from "swr";
 import { twMerge } from "tailwind-merge";
 
 import { apiClient } from "@/server/client";
+
+const getStatus = () => apiClient.status.$get().then((res) => res.json());
 
 interface Props {}
 
 function Status(_props: Props) {
   const [loadingImage, setLoadingImage] = useState(true);
-  const { data, refetch } = useQuery("status", async () => {
-    const response = await apiClient.status.$get();
-    return await response.json();
-  });
   const [statusResponse, setStatusResponse] = useState("");
   const [seed, setSeed] = useState(0);
+  const { mutate } = useSWR("/api/status", getStatus);
 
   // Handlers
   const onClickStatus = async () => {
-    refetch();
+    const data = await mutate();
     setStatusResponse(JSON.stringify(data, null, 2));
   };
-  const onClickPicture = async () => {
+  const onClickPicture = () => {
     setStatusResponse("");
     setLoadingImage(true);
     setSeed(Math.random());
   };
-  const onClickReset = async () => {
+  const onClickReset = () => {
     setStatusResponse("");
     setLoadingImage(false);
     setSeed(0);
