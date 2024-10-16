@@ -45,6 +45,7 @@ export const onError: ErrorHandler = (error, c) => {
 
 export function corsMiddleware(): MiddlewareHandler {
   return cors({
+    allowHeaders: ["*"],
     allowMethods: ["GET", "POST", "OPTIONS"],
     credentials: true,
     origin: (origin) =>
