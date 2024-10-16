@@ -1,34 +1,11 @@
 ---
-import Card from "@/components/Card.astro";
 import Status from "@/components/Status";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="Home">
-  <img
-    class="astro-a"
-    width="495"
-    height="623"
-    src="/astro.svg"
-    alt="astro-logo"
-  />
   <h1>
-    <span class="text-gradient">Astro</span>
+    <span class="text-gradient">Welcome</span>
   </h1>
-
-  <div class="link-card-grid" style="display: flex; flex-direction: column;">
-    <ul role="list" class="link-card-grid">
-      <Card
-        href="https://docs.astro.build/"
-        title="Documentation"
-        body="Learn how Astro works and explore the official API docs."
-      />
-      <Card
-        href="https://astro.build/themes/"
-        title="Themes"
-        body="Explore a galaxy of community-built starter themes."
-      />
-    </ul>
-    <Status client:idle />
-  </div>
+  <Status client:load />
 </BaseLayout>

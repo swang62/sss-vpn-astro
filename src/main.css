@@ -70,7 +70,8 @@
     font-weight: 700;
     line-height: 1;
     text-align: center;
-    margin-bottom: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.75em;
   }
 
   .text-gradient {
@@ -102,6 +103,7 @@
     margin: 2px;
     padding: 8px 12px;
     text-align: center;
+    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     /* text-wrap: nowrap; */
   }
 
@@ -109,7 +111,7 @@
     width: auto;
     border: 1px solid rgba(var(--accent-light), 20%);
     background: linear-gradient(
-      rgba(var(--accent-dark), 10%),
+      rgba(var(--accent-dark), 20%),
       rgba(var(--accent-dark), 5%)
     );
     padding: 1.5rem;

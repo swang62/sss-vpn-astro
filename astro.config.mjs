@@ -3,6 +3,7 @@ import preact from "@astrojs/preact";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import sentry from "@sentry/astro";
+import robotsTxt from "astro-robots-txt";
 import { defineConfig } from "astro/config";
 import { loadEnv } from "vite";
 
@@ -19,13 +20,25 @@ export default defineConfig({
   build: {
     assets: "_assets",
   },
+  experimental: {
+    serverIslands: true,
+  },
   image: {
     domains: ["picsum.photos"],
   },
   integrations: [
+    preact({ compat: true, devtools: true }),
     tailwind(),
     sitemap(),
-    preact({ compat: true, devtools: true }),
+    robotsTxt({
+      policy: [
+        {
+          allow: "/",
+          disallow: ["/api", "/error"],
+          userAgent: "*",
+        },
+      ],
+    }),
     sentry({
       bundleSizeOptimizations: {
         excludeReplayIframe: true,

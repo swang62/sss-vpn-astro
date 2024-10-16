@@ -1,14 +1,26 @@
 import type { ErrorHandler, MiddlewareHandler, NotFoundHandler } from "hono";
 import type { StatusCode } from "hono/utils/http-status";
 
+import { captureException } from "@sentry/astro";
 import { logger } from "hono-pino";
 import { rateLimiter } from "hono-rate-limiter";
 import { cors } from "hono/cors";
+import { createMiddleware } from "hono/factory";
 import pino from "pino";
 import pretty from "pino-pretty";
 
 import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
 import { redisStore } from "@/server/backend";
+
+import type { Bindings } from "./app";
+
+export const customMiddleware = createMiddleware<Bindings>(async (c, next) => {
+  c.set("customClient", () => {
+    // Setup up temporary context/clients/variables
+    console.debug("customClient");
+  });
+  await next();
+});
 
 export const notFound: NotFoundHandler = (c) => {
   const path = c.req.path;
@@ -17,6 +29,8 @@ export const notFound: NotFoundHandler = (c) => {
 };
 
 export const onError: ErrorHandler = (error, c) => {
+  captureException(error);
+
   const currentStatus =
     "status" in error ? error.status : c.newResponse(null).status;
   const statusCode =
@@ -31,7 +45,8 @@ export const onError: ErrorHandler = (error, c) => {
 
 export function corsMiddleware(): MiddlewareHandler {
   return cors({
-    allowMethods: ["*"],
+    allowHeaders: ["*"],
+    allowMethods: ["GET", "POST", "OPTIONS"],
     credentials: true,
     origin: (origin) =>
       origin.includes(".mildlybrewed.") || !IS_PRODUCTION
@@ -50,7 +65,7 @@ export function pinoLogger(): MiddlewareHandler {
         return {
           request: {
             cookies: LOG_LEVEL === "debug" ? cookies : undefined,
-            headers: LOG_LEVEL === "debug" ? headers : undefined,
+            headers,
             method: c.req.method,
             url: c.req.path,
           },
@@ -65,11 +80,11 @@ export function pinoLogger(): MiddlewareHandler {
   });
 }
 
-export function apiLimiter(): MiddlewareHandler {
+export function limiter(): MiddlewareHandler {
   return rateLimiter({
     keyGenerator: (c) =>
       `${c.req.path}-${c.req.header("cf-connecting-ip") ?? ""}`,
-    limit: (c) => (c.req.header("host")?.includes("localhost") ? 1000 : 20),
+    limit: (c) => (c.req.header("host")?.includes("localhost") ? 1000 : 50),
     message: {
       message: "Too many requests, try again later.",
     },

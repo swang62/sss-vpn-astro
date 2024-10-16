@@ -1,22 +1,27 @@
+import { captureException } from "@sentry/astro";
+
 import { IS_PRODUCTION } from "@/config/server";
 import { createBaseRouter } from "@/server/app";
 
 const route = createBaseRouter()
   .get("/status", (c) => {
-    const response_headers: any = {};
+    const response: any = {};
     c.res.headers.forEach((value, key) => {
-      response_headers[key] = value;
+      response[key] = value;
     });
+
     return c.json({
+      _requested_at: new Date(),
       endpoint: c.req.path,
       production: IS_PRODUCTION,
-      request_headers: c.req.header(),
-      response_headers,
-      status: "ok",
+      request: c.req.header(),
+      response,
     });
   })
   .get("/error", (c) => {
-    return c.json({ message: "Fake api error" }, 500);
+    const message = "Fake api error";
+    captureException(new Error(message));
+    return c.json({ message }, 500);
   });
 
 export default route;
