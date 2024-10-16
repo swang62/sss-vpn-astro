@@ -2,25 +2,31 @@
 import { PUBLIC_GTM_ID } from "@/config/client";
 
 if (!PUBLIC_GTM_ID) return;
+
+// <script define:vars={{ PUBLIC_GTM_ID }} is:inline type="module">
+//   // @ts-nocheck
+//   (function (w, d, s, l, i) {
+//     w[l] = w[l] || [];
+//     w[l].push({ event: "gtm.js", "gtm.start": new Date().getTime() });
+//     const f = d.getElementsByTagName(s)[0];
+//     const j = d.createElement(s);
+//     const dl = l != "dataLayer" ? `&l=${l}` : "";
+//     j.async = true;
+//     j.src = `https://www.googletagmanager.com/gtm.js?id=${i}${dl}`;
+//     f.parentNode.insertBefore(j, f);
+//   })(window, document, "script", "dataLayer", PUBLIC_GTM_ID);
+// </script>
+// <script is:inline type="module">
+//   // @ts-nocheck
+//   window.dataLayer = window.dataLayer || [];
+//   function gtag() {
+//     dataLayer.push(arguments);
+//   }
+// </script>
 ---
 
-<script define:vars={{ PUBLIC_GTM_ID }} is:inline type="module">
-  // @ts-nocheck
-  (function (w, d, s, l, i) {
-    w[l] = w[l] || [];
-    w[l].push({ event: "gtm.js", "gtm.start": new Date().getTime() });
-    const f = d.getElementsByTagName(s)[0];
-    const j = d.createElement(s);
-    const dl = l != "dataLayer" ? `&l=${l}` : "";
-    j.async = true;
-    j.src = `https://www.googletagmanager.com/gtm.js?id=${i}${dl}`;
-    f.parentNode.insertBefore(j, f);
-  })(window, document, "script", "dataLayer", PUBLIC_GTM_ID);
-</script>
-<script is:inline type="module">
-  // @ts-nocheck
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-</script>
+<script
+  is:inline
+  defer
+  src="https://umami.mildlybrewed.com/script.js"
+  data-website-id={PUBLIC_GTM_ID}></script>
