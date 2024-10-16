@@ -1,30 +1,33 @@
-import { useCallback, useState } from "preact/hooks";
+import { useQuery } from "preact-fetching";
+import { useState } from "preact/hooks";
 import { twMerge } from "tailwind-merge";
 
 import { apiClient } from "@/server/client";
-import { parsedApi } from "@/server/utils";
 
 interface Props {}
 
 function Status(_props: Props) {
-  const [status, setStatus] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loadingImage, setLoadingImage] = useState(true);
+  const { data, refetch } = useQuery("status", async () => {
+    const response = await apiClient.status.$get();
+    return await response.json();
+  });
+  const [statusResponse, setStatusResponse] = useState("");
   const [seed, setSeed] = useState(0);
 
-  const onClickStatus = useCallback(async () => {
-    const { data } = await parsedApi(apiClient.status.$get());
-    setStatus(JSON.stringify(data, null, 2));
-  }, []);
-
+  // Handlers
+  const onClickStatus = async () => {
+    refetch();
+    setStatusResponse(JSON.stringify(data, null, 2));
+  };
   const onClickPicture = async () => {
-    setStatus("");
-    setLoading(true);
+    setStatusResponse("");
+    setLoadingImage(true);
     setSeed(Math.random());
   };
-
   const onClickReset = async () => {
-    setStatus("");
-    setLoading(false);
+    setStatusResponse("");
+    setLoadingImage(false);
     setSeed(0);
   };
 
@@ -57,22 +60,17 @@ function Status(_props: Props) {
           Reset All
         </button>
       </div>
-      {status
+      {statusResponse
         ? (
-            <code>{status}</code>
+            <code>{statusResponse}</code>
           )
         : seed !== 0
           ? (
               <img
-                src={
-                  loading
-                    ? `https://placehold.co/${width}x${height}/13151a/a1a1a1?font=roboto&text=Loading...`
-                    : src
-                }
+                src={loadingImage ? `/loading-picture.svg` : src}
                 width={width}
                 height={height}
-                onLoad={() => setLoading(false)}
-                onError={() => setStatus("Image API error, please try again later.")}
+                onLoad={() => setLoadingImage(false)}
               />
             )
           : null}

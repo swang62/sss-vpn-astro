@@ -6,8 +6,8 @@ settings:
 
 overrides:
   prettier: ^3.3.3
-  react: npm:@preact/compat@latest
-  react-dom: npm:@preact/compat@latest
+  react: npm:@preact/compat
+  react-dom: npm:@preact/compat
 
 importers:
 
@@ -51,10 +51,10 @@ importers:
         version: 0.25.0
       drizzle-orm:
         specifier: ^0.34.1
-        version: 0.34.1(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/pg@8.6.1)
+        version: 0.34.1(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@preact/compat@18.3.1(preact@10.24.3))(@types/pg@8.6.1)
       drizzle-zod:
         specifier: ^0.5.1
-        version: 0.5.1(drizzle-orm@0.34.1(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/pg@8.6.1))(zod@3.23.8)
+        version: 0.5.1(drizzle-orm@0.34.1(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@preact/compat@18.3.1(preact@10.24.3))(@types/pg@8.6.1))(zod@3.23.8)
       hono:
         specifier: ^4.6.5
         version: 4.6.5
@@ -76,9 +76,18 @@ importers:
       preact:
         specifier: ^10.24.3
         version: 10.24.3
+      preact-fetching:
+        specifier: ^1.0.0
+        version: 1.0.0(preact@10.24.3)
       rate-limit-redis:
         specifier: ^4.2.0
         version: 4.2.0(express-rate-limit@7.4.1(express@4.21.1))
+      react:
+        specifier: npm:@preact/compat
+        version: '@preact/compat@18.3.1(preact@10.24.3)'
+      react-dom:
+        specifier: npm:@preact/compat
+        version: '@preact/compat@18.3.1(preact@10.24.3)'
       redis:
         specifier: ^4.7.0
         version: 4.7.0
@@ -1547,6 +1556,11 @@ packages:
     resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
+  '@preact/compat@18.3.1':
+    resolution: {integrity: sha512-Kog4PSRxtT4COtOXjsuQPV1vMXpUzREQfv+6Dmcy9/rMk0HOPK0HTE9fspFjAmY8R80T/T8gtgmZ68u5bOSngw==}
+    peerDependencies:
+      preact: '*'
+
   '@preact/preset-vite@2.8.2':
     resolution: {integrity: sha512-m3tl+M8IO8jgiHnk+7LSTFl8axdPXloewi7iGVLdmCwf34XOzEUur0bZVewW4DUbUipFjTS2CXu27+5f/oexBA==}
     peerDependencies:
@@ -2634,7 +2648,7 @@ packages:
       pg: '>=8'
       postgres: '>=3'
       prisma: '*'
-      react: npm:@preact/compat@latest
+      react: npm:@preact/compat
       sql.js: '>=1'
       sqlite3: '>=5'
     peerDependenciesMeta:
@@ -4257,6 +4271,11 @@ packages:
   postgres-interval@1.2.0:
     resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
     engines: {node: '>=0.10.0'}
+
+  preact-fetching@1.0.0:
+    resolution: {integrity: sha512-oyHOww1nudnulRckPmClR0cwziNpFLu/nF0A1MA6FCMGLb8Che4HmRShl8cX4MW9R4ONNg3g+oftTzyjnzdZlA==}
+    peerDependencies:
+      preact: '>=10'
 
   preact-render-to-string@6.5.11:
     resolution: {integrity: sha512-ubnauqoGczeGISiOh6RjX0/cdaF8v/oDXIjO85XALCQjwQP+SB4RDXXtvZ6yTYSjG+PC1QRP2AhPgCEsM2EvUw==}
@@ -6675,6 +6694,10 @@ snapshots:
 
   '@pkgr/core@0.1.1': {}
 
+  '@preact/compat@18.3.1(preact@10.24.3)':
+    dependencies:
+      preact: 10.24.3
+
   '@preact/preset-vite@2.8.2(@babel/core@7.25.8)(preact@10.24.3)(vite@5.4.9(@types/node@22.7.5))':
     dependencies:
       '@babel/core': 7.25.8
@@ -7942,15 +7965,16 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.34.1(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/pg@8.6.1):
+  drizzle-orm@0.34.1(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@preact/compat@18.3.1(preact@10.24.3))(@types/pg@8.6.1):
     optionalDependencies:
       '@libsql/client': 0.14.0
       '@opentelemetry/api': 1.9.0
       '@types/pg': 8.6.1
+      react: '@preact/compat@18.3.1(preact@10.24.3)'
 
-  drizzle-zod@0.5.1(drizzle-orm@0.34.1(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/pg@8.6.1))(zod@3.23.8):
+  drizzle-zod@0.5.1(drizzle-orm@0.34.1(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@preact/compat@18.3.1(preact@10.24.3))(@types/pg@8.6.1))(zod@3.23.8):
     dependencies:
-      drizzle-orm: 0.34.1(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@types/pg@8.6.1)
+      drizzle-orm: 0.34.1(@libsql/client@0.14.0)(@opentelemetry/api@1.9.0)(@preact/compat@18.3.1(preact@10.24.3))(@types/pg@8.6.1)
       zod: 3.23.8
 
   dset@3.1.4: {}
@@ -9854,6 +9878,10 @@ snapshots:
   postgres-interval@1.2.0:
     dependencies:
       xtend: 4.0.2
+
+  preact-fetching@1.0.0(preact@10.24.3):
+    dependencies:
+      preact: 10.24.3
 
   preact-render-to-string@6.5.11(preact@10.24.3):
     dependencies:
