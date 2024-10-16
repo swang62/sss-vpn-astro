@@ -56,7 +56,7 @@ export default defineConfig({
       },
     }),
   ],
-  output: "hybrid",
+  output: "server",
   server: {
     port: 4321,
   },

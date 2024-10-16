@@ -3,8 +3,6 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { apiServer } from "@/server/backend";
 import { parsedApi } from "@/server/utils";
 
-export const prerender = false;
-
 const { id = "" } = Astro.params;
 const { data } = await parsedApi(
   apiServer.user[":id"].$get({
