@@ -2,8 +2,6 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { apiServer } from "@/server/backend";
 
-export const prerender = false;
-
 // setTimeout(async () => {
 await apiServer.error.$get();
 // @ts-expect-error
