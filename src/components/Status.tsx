@@ -35,7 +35,7 @@ function Status(_props: Props) {
   const src = `https://picsum.photos/seed/${seed}/${width}/${height}.webp`;
 
   return (
-    <div className="instructions flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
       <div className="flex justify-between">
         <div className="flex gap-2">
           <button onClick={onClickStatus}>Check Status</button>
