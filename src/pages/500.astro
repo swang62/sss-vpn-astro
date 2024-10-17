@@ -15,11 +15,11 @@ const { error } = Astro.props;
 <BaseLayout title="Oh No!">
   <a
     href="/"
-    class="m-auto flex h-[100vh] w-full flex-col items-center justify-center px-0 font-roboto-thin md:px-12"
+    class="m-auto flex h-[100vh] w-full flex-col items-center justify-center px-0 md:px-12"
   >
     <Fragment set:html={Sign} />
     <h1 class="error-title text-2xl md:text-4xl">
-      <span class="font-roboto text-5xl text-orange-200">Woops!</span>
+      <span class="font-serif text-5xl text-orange-200">Woops!</span>
       <br />
       Time to fix the toaster...
     </h1>

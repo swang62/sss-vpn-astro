@@ -1,6 +1,5 @@
 import { useState } from "react";
 import useSWR from "swr";
-import { twMerge } from "tailwind-merge";
 
 import { apiClient } from "@/server/client";
 
@@ -39,25 +38,10 @@ function Status(_props: Props) {
     <div className="instructions flex flex-col gap-4">
       <div className="flex justify-between">
         <div className="flex gap-2">
-          <button
-            onClick={onClickStatus}
-            className={twMerge("btn", "bg-green-800 hover:bg-green-600")}
-          >
-            Check Status
-          </button>
-          <button
-            onClick={onClickPicture}
-            className={twMerge("btn", "bg-blue-800 hover:bg-blue-600")}
-          >
-            Random Photo
-          </button>
+          <button onClick={onClickStatus}>Check Status</button>
+          <button onClick={onClickPicture}>Random Photo</button>
         </div>
-        <button
-          onClick={onClickReset}
-          className={twMerge("btn", "bg-red-800 hover:bg-red-600")}
-        >
-          Reset All
-        </button>
+        <button onClick={onClickReset}>Reset All</button>
       </div>
       {statusResponse
         ? (
