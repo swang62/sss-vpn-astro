@@ -7,8 +7,6 @@ export default antfu(
     ignores: [
       "**/migrations/*",
       "**/node_modules/*",
-      "**/Analytics*",
-      "**/404*",
       "**/public*",
       "**/.github/*",
       "**/components/ui/*",

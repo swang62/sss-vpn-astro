@@ -20,11 +20,9 @@ export const prerender = true;
 <script>
   // @ts-nocheck
   window.onload = function () {
-    var timer;
-    var error = Snap.select("#error");
-    var hole = Snap.select("#svg-hole");
-    var hand = Snap.select("#svg-hand");
-    var mask = Snap.select("#svg-mask");
+    let timer;
+    const hand = Snap.select("#svg-hand");
+    const mask = Snap.select("#svg-mask");
 
     function onSVGLoaded() {
       function animOn() {
@@ -88,7 +86,7 @@ export const prerender = true;
       timer = setTimeout(open, 1000);
 
       hand.attr({
-        mask: mask,
+        mask,
       });
     }
 

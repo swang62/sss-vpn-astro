@@ -3,12 +3,6 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Sign from "/toaster.svg?raw";
 
 export const prerender = true;
-
-interface Props {
-  error: unknown;
-}
-
-const { error } = Astro.props;
 ---
 
 <BaseLayout title="Oh No!">

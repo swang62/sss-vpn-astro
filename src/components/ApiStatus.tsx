@@ -8,7 +8,7 @@ const getStatus = () => apiClient.status.$get().then((res) => res.json());
 
 interface Props {}
 
-function Status(_props: Props) {
+function ApiStatus(_props: Props) {
   const [statusResponse, setStatusResponse] = useState("");
   const { mutate } = useSWR("/api/status", getStatus);
 
@@ -38,4 +38,4 @@ function Status(_props: Props) {
   );
 }
 
-export default Status;
+export default ApiStatus;

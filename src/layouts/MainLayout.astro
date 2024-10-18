@@ -1,0 +1,55 @@
+---
+import { DesktopMenu } from "@/components/DesktopMenu";
+import { MobileMenu } from "@/components/MobileMenu";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { Button } from "@/components/ui/button";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/layouts/Header.astro";
+import { MainMenuLink } from "@/types";
+
+export const prerender = true;
+
+interface Props {
+  className?: string;
+}
+
+const links: MainMenuLink[] = [
+  {
+    href: "#features",
+    label: "Features",
+  },
+  {
+    href: "#pricing",
+    label: "Pricing",
+  },
+  {
+    href: "#faq",
+    label: "FAQs",
+  },
+];
+
+const { className } = Astro.props;
+---
+
+<BaseLayout title="Home">
+  <Header>
+    <DesktopMenu links={links} slot="center-header" client:load />
+    <MobileMenu links={links} slot="mobile-menu" client:load />
+
+    <!-- CTA Actions -->
+    <div class="flex items-center gap-x-4" slot="right-header">
+      <ThemeToggle client:load />
+      <a
+        class="text-nowrap text-foreground hover:text-muted-foreground hover:underline"
+        href="/signup">Login</a
+      >
+      <a href="/signup">
+        <Button className="rounded-full" client:load>Get Started</Button></a
+      >
+    </div>
+  </Header>
+
+  <main class={className}>
+    <slot />
+  </main>
+</BaseLayout>
