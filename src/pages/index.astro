@@ -21,7 +21,7 @@ const links: MainMenuLink[] = [
   },
   {
     href: "#faq",
-    label: "FAQ",
+    label: "FAQs",
   },
 ];
 ---
@@ -34,6 +34,7 @@ const links: MainMenuLink[] = [
     <!-- CTA Actions -->
 
     <div class="flex items-center gap-x-4" slot="right-header">
+      <ThemeToggle client:load />
       <a
         class="text-nowrap text-muted-foreground hover:text-secondary-foreground hover:underline"
         href="/signup">Login</a
@@ -41,12 +42,11 @@ const links: MainMenuLink[] = [
       <a href="/signup"
         ><Button className="rounded-full" client:load>Get Started</Button></a
       >
-      <ThemeToggle client:load />
     </div>
   </Header>
 
   <main>
-    <section class="container mx-auto gap-4 px-4 py-4 sm:px-6 md:gap-8 lg:px-8">
+    <section class="container mx-auto gap-4 px-4 py-4 md:gap-8">
       <Status client:load />
     </section>
   </main>
