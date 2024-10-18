@@ -1,8 +1,3 @@
----
-import { PUBLIC_GTM_ID } from "@/config/client";
-
-if (!PUBLIC_GTM_ID) return;
-
 // <script define:vars={{ PUBLIC_GTM_ID }} is:inline type="module">
 //   // @ts-nocheck
 //   (function (w, d, s, l, i) {
@@ -23,10 +18,3 @@ if (!PUBLIC_GTM_ID) return;
 //     dataLayer.push(arguments);
 //   }
 // </script>
----
-
-<script
-  is:inline
-  defer
-  src="https://umami.mildlybrewed.com/script.js"
-  data-website-id={PUBLIC_GTM_ID}></script>

@@ -1,7 +1,6 @@
 import { testClient } from "hono/testing";
 
 import createApp from "@/server/app";
-import { parsedApi } from "@/server/utils";
 
 import router from "../user.route";
 
@@ -9,20 +8,17 @@ const client = testClient(createApp().route("/", router));
 
 describe("route /api/user", () => {
   it("missing user", async () => {
-    const { status } = await parsedApi(
-      client.api[":id"].$get({ param: { id: "1000" } }),
-    );
+    const response = await client.api[":id"].$get({ param: { id: "1000" } });
 
-    expect(status).toBe(404);
+    expect(response.status).toBe(404);
   });
 
   it("get valid user", async () => {
-    const { data, status } = await parsedApi(
-      client.api[":id"].$get({ param: { id: "1" } }),
-    );
+    const response = await client.api[":id"].$get({ param: { id: "1" } });
+    const { user } = await response.json();
 
-    expect(status).toBe(200);
-    expect(data!.user.id).toBe("1");
-    expect(data!.user.profile?.role).toBe("admin");
+    expect(response.status).toBe(200);
+    expect(user?.id).toBe("1");
+    expect(user?.profile?.role).toBe("admin");
   });
 });
