@@ -30,14 +30,14 @@ export function MobileMenu({ links }: Props) {
       </SheetTrigger>
       <SheetContent side="left" className="pr-0 text-xl">
         <SheetHeader className="pl-4 pt-4">
-          <SheetTitle className="flex flex-nowrap items-center gap-2 text-left text-3xl font-bold">
+          <SheetTitle className="flex flex-nowrap items-center gap-4 text-left text-3xl font-bold">
             <GlobeLock size={36} />
             <span>{SITE_NAME}</span>
           </SheetTitle>
           <SheetDescription className="sr-only">Main menu</SheetDescription>
         </SheetHeader>
 
-        <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-8 pt-4 text-2xl">
+        <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-10 pt-4 text-2xl">
           <div className="flex flex-col space-y-6">
             {links.map(
               (link) =>

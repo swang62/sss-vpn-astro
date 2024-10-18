@@ -23,7 +23,7 @@ const route = createBaseRouter().get(
 
     if (!user) {
       c.status(404);
-      return c.json({ user: null });
+      return c.json({ error: `User ${id} not found`, user: null });
     }
 
     return c.json({ user });

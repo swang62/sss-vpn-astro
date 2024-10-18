@@ -5,6 +5,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Header from "@/layouts/Header.astro";
+import { cn } from "@/lib/utils";
 import { MainMenuLink } from "@/types";
 
 export const prerender = true;
@@ -32,7 +33,7 @@ const { className } = Astro.props;
 ---
 
 <BaseLayout title="Home">
-  <Header>
+  <Header transition:persist>
     <DesktopMenu links={links} slot="center-header" client:load />
     <MobileMenu links={links} slot="mobile-menu" client:load />
 
@@ -49,7 +50,7 @@ const { className } = Astro.props;
     </div>
   </Header>
 
-  <main class={className}>
+  <main class={cn("container mx-auto gap-4 px-4 py-4 md:gap-8", className)}>
     <slot />
   </main>
 </BaseLayout>

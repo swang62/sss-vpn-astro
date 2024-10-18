@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "sonner";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
@@ -10,11 +11,12 @@ interface Props {}
 
 function ApiStatus(_props: Props) {
   const [statusResponse, setStatusResponse] = useState("");
-  const { mutate } = useSWR("/api/status", getStatus);
+  const { error, mutate } = useSWR("/api/status", getStatus);
 
   // Handlers
   const onClickStatus = async () => {
     const data = await mutate();
+    toast("Fetched.");
     setStatusResponse(JSON.stringify(data, null, 2));
   };
   const onClickReset = () => {
@@ -26,14 +28,14 @@ function ApiStatus(_props: Props) {
       <div className="flex justify-between">
         <div className="flex gap-2">
           <Button variant="secondary" onClick={onClickStatus}>
-            Check Status
+            Check API Status
           </Button>
         </div>
         <Button variant="destructive" onClick={onClickReset}>
           Reset All
         </Button>
       </div>
-      {statusResponse && <code>{statusResponse}</code>}
+      <code>{statusResponse || (error ? error.message : null)}</code>
     </div>
   );
 }
