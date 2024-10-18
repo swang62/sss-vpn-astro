@@ -12,7 +12,7 @@ const { user } = await response.json();
 
 <BaseLayout title="User">
   <div class="flex flex-col gap-4">
-    <div class="text-2xl font-thin">PATH: /user/{id}</div>
+    <div class="text-2xl">PATH: /user/{id}</div>
     {
       user ? (
         <code>{JSON.stringify(user, null, 2)}</code>
