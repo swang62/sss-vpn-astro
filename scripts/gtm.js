@@ -1,4 +1,3 @@
----
 // <script define:vars={{ PUBLIC_GTM_ID }} is:inline type="module">
 //   // @ts-nocheck
 //   (function (w, d, s, l, i) {
@@ -19,4 +18,3 @@
 //     dataLayer.push(arguments);
 //   }
 // </script>
----

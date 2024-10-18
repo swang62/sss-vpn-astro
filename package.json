@@ -35,6 +35,9 @@
     "@hono/zod-validator": "^0.4.1",
     "@libsql/client": "^0.14.0",
     "@paralleldrive/cuid2": "^2.2.2",
+    "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-navigation-menu": "^1.2.1",
+    "@radix-ui/react-slot": "^1.1.0",
     "@sentry/astro": "^8.34.0",
     "astro": "^4.16.4",
     "astro-compressor": "^0.4.1",
@@ -44,6 +47,7 @@
     "drizzle-kit": "^0.25.0",
     "drizzle-orm": "^0.34.1",
     "drizzle-zod": "^0.5.1",
+    "framer-motion": "^11.11.9",
     "hono": "^4.6.5",
     "hono-pino": "^0.3.0",
     "hono-rate-limiter": "^0.4.0",
@@ -92,10 +96,8 @@
     }
   },
   "lint-staged": {
-    "*": [
-      "pnpm lint:fix"
-    ],
     "*.{js,jsx,ts,tsx}": [
+      "pnpm lint:fix",
       "pnpm styles:fix"
     ]
   },

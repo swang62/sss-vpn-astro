@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const defaultTheme = require("tailwindcss/defaultTheme");
+const { fontFamily } = require("tailwindcss/defaultTheme");
 
 export default {
   content: [
@@ -11,6 +11,13 @@ export default {
     require("tailwindcss-animate"),
   ],
   theme: {
+    container: {
+      center: true,
+      padding: "1rem",
+      screens: {
+        xl: "1280px",
+      },
+    },
     extend: {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -83,9 +90,10 @@ export default {
       },
     },
     fontFamily: {
-      mono: [...defaultTheme.fontFamily.mono],
-      sans: ["Inter", ...defaultTheme.fontFamily.sans],
-      serif: [...defaultTheme.fontFamily.serif],
+      heading: ["CalSans Semibold", ...fontFamily.sans],
+      mono: [...fontFamily.mono],
+      sans: ["Inter", ...fontFamily.sans],
+      serif: [...fontFamily.serif],
     },
   },
 

@@ -1,13 +1,49 @@
 ---
+import { DesktopMenu } from "@/components/DesktopMenu";
+import { MobileMenu } from "@/components/MobileMenu";
 import Status from "@/components/Status";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { Button } from "@/components/ui/button";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/layouts/Header.astro";
+import { MainMenuLink } from "@/types";
 
 export const prerender = true;
+
+const links: MainMenuLink[] = [
+  {
+    href: "#features",
+    label: "Features",
+  },
+  {
+    href: "#pricing",
+    label: "Pricing",
+  },
+  {
+    href: "#faq",
+    label: "FAQ",
+  },
+];
 ---
 
 <BaseLayout title="Home">
-  <section class="mx-auto gap-4 px-4 py-14 sm:px-6 md:gap-8 lg:px-8">
-    <h1>Welcome</h1>
-    <Status client:load />
-  </section>
+  <Header>
+    <DesktopMenu links={links} slot="center-header" client:load />
+
+    <MobileMenu links={links} slot="mobile-menu" client:load />
+
+    <div class="flex items-center gap-x-4" slot="right-header">
+      <Button className="rounded-full" client:load>Get Started</Button>
+      <ThemeToggle client:load />
+    </div>
+  </Header>
+
+  <main>
+    <section
+      class="container mx-auto gap-4 px-4 py-14 sm:px-6 md:gap-8 lg:px-8"
+    >
+      <h1>Welcome</h1>
+      <Status client:load />
+    </section>
+  </main>
 </BaseLayout>
