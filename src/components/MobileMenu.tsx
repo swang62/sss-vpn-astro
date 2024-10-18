@@ -1,4 +1,4 @@
-import { Menu } from "lucide-react";
+import { GlobeLock, Menu } from "lucide-react";
 import * as React from "react";
 
 import type { MainMenuLink } from "@/types";
@@ -30,8 +30,9 @@ export function MobileMenu({ links }: Props) {
       </SheetTrigger>
       <SheetContent side="left" className="pr-0 text-xl">
         <SheetHeader className="pl-4 pt-4">
-          <SheetTitle className="text-left text-2xl font-bold">
-            {SITE_NAME}
+          <SheetTitle className="flex flex-nowrap items-center gap-2 text-left text-2xl font-bold">
+            <GlobeLock />
+            <span>{SITE_NAME}</span>
           </SheetTitle>
           <SheetDescription className="sr-only">Main menu</SheetDescription>
         </SheetHeader>

@@ -29,20 +29,24 @@ const links: MainMenuLink[] = [
 <BaseLayout title="Home">
   <Header>
     <DesktopMenu links={links} slot="center-header" client:load />
-
     <MobileMenu links={links} slot="mobile-menu" client:load />
 
+    <!-- CTA Actions -->
+
     <div class="flex items-center gap-x-4" slot="right-header">
-      <Button className="rounded-full" client:load>Get Started</Button>
+      <a
+        class="text-nowrap text-muted-foreground hover:text-secondary-foreground hover:underline"
+        href="/signup">Login</a
+      >
+      <a href="/signup"
+        ><Button className="rounded-full" client:load>Get Started</Button></a
+      >
       <ThemeToggle client:load />
     </div>
   </Header>
 
   <main>
-    <section
-      class="container mx-auto gap-4 px-4 py-14 sm:px-6 md:gap-8 lg:px-8"
-    >
-      <h1>Welcome</h1>
+    <section class="container mx-auto gap-4 px-4 py-4 sm:px-6 md:gap-8 lg:px-8">
       <Status client:load />
     </section>
   </main>

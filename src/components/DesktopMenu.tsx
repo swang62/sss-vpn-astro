@@ -15,7 +15,7 @@ export function DesktopMenu({ links }: Props) {
   return (
     <NavigationMenu>
       <NavigationMenuList>
-        <NavigationMenuItem>
+        <NavigationMenuItem className="flex gap-2">
           {links.map((link) => (
             <a
               key={link.href}

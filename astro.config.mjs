@@ -21,9 +21,6 @@ export default defineConfig({
   build: {
     assets: "_assets",
   },
-  experimental: {
-    directRenderScript: true,
-  },
   image: {
     domains: ["picsum.photos"],
   },
