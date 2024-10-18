@@ -6,9 +6,14 @@ export const prerender = true;
 ---
 
 <BaseLayout title="Not Found">
-  <a href="/" class="flex h-[100vh] w-full items-center justify-center sm:p-20">
-    <Fragment set:html={Sign} />
-  </a>
+  <main class="container max-w-screen-md">
+    <a
+      href="/"
+      class="mt-10 flex h-[100vh] w-full items-center justify-center sm:p-20"
+    >
+      <Fragment set:html={Sign} />
+    </a>
+  </main>
 </BaseLayout>
 
 <script src="/snapsvg.js" is:inline></script>

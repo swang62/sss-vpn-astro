@@ -7,6 +7,8 @@ await apiServer.error.$get();
 // @ts-expect-error
 fake_function(fake_variable);
 // }, 1000);
+
+// return Astro.redirect("/500");
 ---
 
 <BaseLayout title="Error">

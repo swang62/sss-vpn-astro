@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useSWR from "swr";
-import { twMerge } from "tailwind-merge";
 
+import { Button } from "@/components/ui/button";
 import { apiClient } from "@/server/client";
 
 const getStatus = () => apiClient.status.$get().then((res) => res.json());
@@ -9,9 +9,7 @@ const getStatus = () => apiClient.status.$get().then((res) => res.json());
 interface Props {}
 
 function Status(_props: Props) {
-  const [loadingImage, setLoadingImage] = useState(true);
   const [statusResponse, setStatusResponse] = useState("");
-  const [seed, setSeed] = useState(0);
   const { mutate } = useSWR("/api/status", getStatus);
 
   // Handlers
@@ -19,60 +17,23 @@ function Status(_props: Props) {
     const data = await mutate();
     setStatusResponse(JSON.stringify(data, null, 2));
   };
-  const onClickPicture = () => {
-    setStatusResponse("");
-    setLoadingImage(true);
-    setSeed(Math.random());
-  };
   const onClickReset = () => {
     setStatusResponse("");
-    setLoadingImage(false);
-    setSeed(0);
   };
 
-  // Setup
-  const width = 800;
-  const height = 600;
-  const src = `https://picsum.photos/seed/${seed}/${width}/${height}.webp`;
-
   return (
-    <div className="instructions flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
       <div className="flex justify-between">
         <div className="flex gap-2">
-          <button
-            onClick={onClickStatus}
-            className={twMerge("btn", "bg-green-800 hover:bg-green-600")}
-          >
+          <Button variant="secondary" onClick={onClickStatus}>
             Check Status
-          </button>
-          <button
-            onClick={onClickPicture}
-            className={twMerge("btn", "bg-blue-800 hover:bg-blue-600")}
-          >
-            Random Photo
-          </button>
+          </Button>
         </div>
-        <button
-          onClick={onClickReset}
-          className={twMerge("btn", "bg-red-800 hover:bg-red-600")}
-        >
+        <Button variant="destructive" onClick={onClickReset}>
           Reset All
-        </button>
+        </Button>
       </div>
-      {statusResponse
-        ? (
-            <code>{statusResponse}</code>
-          )
-        : seed !== 0
-          ? (
-              <img
-                src={loadingImage ? `/loading-picture.svg` : src}
-                width={width}
-                height={height}
-                onLoad={() => setLoadingImage(false)}
-              />
-            )
-          : null}
+      {statusResponse && <code>{statusResponse}</code>}
     </div>
   );
 }

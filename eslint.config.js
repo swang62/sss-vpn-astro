@@ -11,6 +11,7 @@ export default antfu(
       "**/404*",
       "**/public*",
       "**/.github/*",
+      "**/components/ui/*",
     ],
     settings: {
       "vitest-globals/env": true,
@@ -31,6 +32,9 @@ export default antfu(
       "perfectionist/sort-imports": ["warn", { internalPattern: ["@/**"] }],
       "perfectionist/sort-objects": ["warn"],
       "style/arrow-parens": ["off"],
+      "style/brace-style": ["off"],
+      "style/jsx-curly-newline": ["off"],
+      "style/multiline-ternary": ["off"],
       "style/operator-linebreak": ["off"],
       "ts/ban-ts-comment": ["off"],
       "ts/consistent-type-definitions": ["off"],
