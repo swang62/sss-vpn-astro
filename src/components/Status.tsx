@@ -43,20 +43,16 @@ function Status(_props: Props) {
         </div>
         <button onClick={onClickReset}>Reset All</button>
       </div>
-      {statusResponse
-        ? (
-            <code>{statusResponse}</code>
-          )
-        : seed !== 0
-          ? (
-              <img
-                src={loadingImage ? `/loading-picture.svg` : src}
-                width={width}
-                height={height}
-                onLoad={() => setLoadingImage(false)}
-              />
-            )
-          : null}
+      {statusResponse ? (
+        <code>{statusResponse}</code>
+      ) : seed !== 0 ? (
+        <img
+          src={loadingImage ? `/loading-picture.svg` : src}
+          width={width}
+          height={height}
+          onLoad={() => setLoadingImage(false)}
+        />
+      ) : null}
     </div>
   );
 }

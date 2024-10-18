@@ -76,7 +76,8 @@ const { title } = Astro.props;
 
     if (theme === "light") {
       document.documentElement.classList.remove("dark");
-    } else {
+    }
+ else {
       document.documentElement.classList.add("dark");
     }
     window.localStorage.setItem("theme", theme);
