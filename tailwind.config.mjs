@@ -4,16 +4,18 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 export default {
   content: [
     "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
-    "./node_modules/preline/preline.js",
   ],
-  darkMode: "class",
+  darkMode: ["class"],
   plugins: [
     require("@tailwindcss/forms"),
+    require("tailwindcss-animate"),
   ],
   theme: {
     extend: {
       borderRadius: {
-        "4xl": "2rem",
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
       colors: {
         accent: {
@@ -25,6 +27,13 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        chart: {
+          1: "hsl(var(--chart-1))",
+          2: "hsl(var(--chart-2))",
+          3: "hsl(var(--chart-3))",
+          4: "hsl(var(--chart-4))",
+          5: "hsl(var(--chart-5))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -49,10 +58,6 @@ export default {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
-      },
-      spacing: {
-        "8xl": "96rem",
-        "9xl": "128rem",
       },
     },
     fontFamily: {
