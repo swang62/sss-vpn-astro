@@ -92,4 +92,11 @@
     word-wrap: break-word;
     white-space: pre-wrap;
   }
+
+  .text-gradient {
+    background: linear-gradient(90deg, #6366f1 0%, rgba(168 85 247 / 0.9) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 }

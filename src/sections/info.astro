@@ -1,0 +1,57 @@
+---
+import { SITE_NAME } from "@/config/constants";
+import laptop from "@/images/laptop-internet.jpg";
+import { cn } from "@/lib/utils";
+import { Image } from "astro:assets";
+
+const info = [
+  {
+    title: "Why I created this site",
+    description: `When I first arrived in China for remote work,
+    I knew my biggest hurdle would be overcoming the <span class='font-bold text-black dark:text-primary'>great firewall.</span>
+    Not just to watch youtube videos but I needed 24/7 access
+    to critical cloud services required for my job. After 4 years of countless trial and error, I believe I've finally created
+    the ultimate system to "hop" the wall, and <span class='font-semibold text-black dark:text-secondary'>${SITE_NAME}</span> was born.
+    `,
+    image: laptop,
+    reverse: false,
+  },
+];
+---
+
+<section id="motivation" class="py-8 sm:py-16">
+  {
+    info.map((data) => (
+      <div class="py-8 md:py-12">
+        <div class="mx-auto grid max-w-7xl gap-10 px-0 sm:gap-16 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-4">
+          <div class={cn(data.reverse ? "lg:order-2" : "lg:order-1")}>
+            <h2 class="font-heading text-3xl text-foreground md:text-4xl lg:text-[40px]">
+              {data.title}
+            </h2>
+            <p
+              class="mt-6 text-lg text-muted-foreground"
+              set:html={data.description}
+            />
+          </div>
+          <div
+            class={cn(
+              "rounded-xl overflow-hidden border",
+              data.reverse ? "order-1" : "order-2"
+            )}
+          >
+            <div class="relative aspect-video">
+              <Image
+                class="size-full object-fill"
+                src={data.image}
+                alt={data.title}
+                width={800}
+                height={400}
+                loading="eager"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    ))
+  }
+</section>

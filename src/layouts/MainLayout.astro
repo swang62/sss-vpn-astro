@@ -16,6 +16,10 @@ interface Props {
 
 const links: MainMenuLink[] = [
   {
+    href: "#motivation",
+    label: "Motivation",
+  },
+  {
     href: "#features",
     label: "Features",
   },
@@ -42,7 +46,7 @@ const { className } = Astro.props;
       <ThemeToggle client:load />
       <a
         class="text-nowrap text-foreground hover:text-muted-foreground hover:underline"
-        href="/signup">Login</a
+        href="/signin">Login</a
       >
       <a href="/signup">
         <Button className="rounded-full" client:load>Get Started</Button></a
@@ -50,7 +54,7 @@ const { className } = Astro.props;
     </div>
   </Header>
 
-  <main class={cn("container mx-auto gap-4 px-4 py-4 md:gap-8", className)}>
+  <main class={cn("container mx-auto gap-4 md:gap-8", className)}>
     <slot />
   </main>
 </BaseLayout>

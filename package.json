@@ -1,5 +1,5 @@
 {
-  "name": "sss-vpn",
+  "name": "sssvpn",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -34,6 +34,8 @@
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/tailwind": "^5.1.2",
     "@hono/zod-validator": "^0.4.1",
+    "@iconify-json/lucide": "^1.2.10",
+    "@iconify-json/mdi": "^1.2.1",
     "@libsql/client": "^0.14.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/react-dialog": "^1.1.2",
@@ -42,6 +44,7 @@
     "@sentry/astro": "^8.34.0",
     "astro": "^4.16.4",
     "astro-compressor": "^0.4.1",
+    "astro-icon": "^1.1.1",
     "astro-seo": "^0.8.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",

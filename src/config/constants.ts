@@ -1,4 +1,4 @@
-export const SITE_NAME = "SSS-VPN";
+export const SITE_NAME = "SSSVPN";
 
 export const DB_LOCAL = "file:local.db";
 export const DB_TEST = "file:test.db";

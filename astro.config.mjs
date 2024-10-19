@@ -4,6 +4,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import sentry from "@sentry/astro";
 import compressor from "astro-compressor";
+import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
 import { defineConfig } from "astro/config";
 import simpleStackForm from "simple-stack-form";
@@ -26,7 +27,12 @@ export default defineConfig({
     domains: ["picsum.photos"],
   },
   // ORDER MATTERS
-  integrations: [react(), tailwind({
+  integrations: [icon({
+    include: {
+      lucide: ["*"],
+      mdi: ["*"],
+    },
+  }), react(), tailwind({
     applyBaseStyles: false,
     nesting: true,
   }), sentry({
