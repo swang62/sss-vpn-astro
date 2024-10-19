@@ -14,7 +14,7 @@
     --card-foreground: 252 0% 30.77%;
     --border: 0 0% 86.92%;
     --input: 0 0% 74.62%;
-    --primary: 27.06 92.51% 79.46%;
+    --primary: 27.06 92.51% 79%;
     --primary-foreground: 0 0% 0%;
     --secondary: 164.12 70.54% 73.89%;
     --secondary-foreground: 0 0% 0%;
@@ -24,6 +24,7 @@
     --destructive-foreground: 0 0% 100%;
     --ring: 27.06 1.79% 32.5%;
     --radius: 0.5rem;
+    --link: 27.06 70.51% 60.46%;
   }
 
   .dark {
@@ -46,6 +47,7 @@
     --destructive: 0 100% 75.1%;
     --destructive-foreground: 0 0% 0%;
     --ring: 27.06 100% 80%;
+    --link: 27.06 92.51% 79.46%;
   }
 }
 

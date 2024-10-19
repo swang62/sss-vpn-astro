@@ -30,20 +30,16 @@ const hasError = res?.fieldErrors;
       class="flex flex-start gap-2"
       transition:persist="form-id"
     >
-      <Button
-        type="submit"
-        variant="outline"
-        className="bg-fuchsia-300 text-black hover:bg-fuchsia-200"
-      >
-        Search
-      </Button>
-
+      <Button type="submit" variant="secondary">Search</Button>
       <Input
         id="id"
         autoComplete="off"
         placeholder="User ID"
         {...form.inputProps.id}
       />
+      <a href="/debug">
+        <Button variant="link">Check API</Button>
+      </a>
     </form>
 
     <code>{user || (hasError ? hasError.id : null)}</code>

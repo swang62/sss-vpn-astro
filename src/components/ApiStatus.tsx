@@ -30,6 +30,9 @@ function ApiStatus(_props: Props) {
           <Button variant="secondary" onClick={onClickStatus}>
             Check API Status
           </Button>
+          <a href="/debug-user">
+            <Button variant="link">Search Users</Button>
+          </a>
         </div>
         <Button variant="destructive" onClick={onClickReset}>
           Reset All
