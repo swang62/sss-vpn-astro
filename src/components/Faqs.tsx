@@ -26,7 +26,7 @@ const faqData = [
   },
 ];
 
-export default function FaqSection() {
+function Faqs() {
   return (
     <section id="faqs" className="container max-w-2xl py-8 sm:py-16">
       <div className="py-8">
@@ -38,7 +38,9 @@ export default function FaqSection() {
         <Accordion type="single" collapsible className="w-full py-4">
           {faqData.map((faqItem) => (
             <AccordionItem key={faqItem.id} value={faqItem.id}>
-              <AccordionTrigger>{faqItem.question}</AccordionTrigger>
+              <AccordionTrigger className="text-left">
+                {faqItem.question}
+              </AccordionTrigger>
               <AccordionContent>{faqItem.answer}</AccordionContent>
             </AccordionItem>
           ))}
@@ -47,3 +49,5 @@ export default function FaqSection() {
     </section>
   );
 }
+
+export default Faqs;

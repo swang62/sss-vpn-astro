@@ -52,7 +52,7 @@ function PricingCard({
               <div
                 className={cn(
                   "h-fit rounded-xl px-2.5 py-1 text-sm",
-                  "bg-gradient-to-r from-orange-400 to-rose-300 dark:text-black",
+                  "bg-gradient-to-r from-orange-300 to-rose-400 dark:text-black",
                 )}
               >
                 Recommended
@@ -69,7 +69,7 @@ function PricingCard({
                 <span className="flex items-center px-2 text-2xl font-bold">
                   +
                 </span>
-                <h3 className="text-3xl font-bold">$60</h3>
+                <h3 className="text-3xl font-bold">$50</h3>
                 <span className="mb-1 flex items-end text-sm">(router)</span>
               </>
             )}
@@ -89,7 +89,7 @@ function PricingCard({
       </div>
       <CardFooter className="mt-2 flex justify-center">
         <form action="/api/checkout" method="POST">
-          <Button type="submit">Subscribe</Button>
+          <Button type="submit">Signup</Button>
         </form>
       </CardFooter>
     </Card>

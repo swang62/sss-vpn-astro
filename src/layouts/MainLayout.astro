@@ -5,14 +5,9 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Header from "@/layouts/Header.astro";
-import { cn } from "@/lib/utils";
 import { MainMenuLink } from "@/types";
 
 export const prerender = true;
-
-interface Props {
-  className?: string;
-}
 
 const links: MainMenuLink[] = [
   {
@@ -32,8 +27,6 @@ const links: MainMenuLink[] = [
     label: "FAQs",
   },
 ];
-
-const { className } = Astro.props;
 ---
 
 <BaseLayout title="Home">
@@ -57,7 +50,7 @@ const { className } = Astro.props;
     </div>
   </Header>
 
-  <main class={cn("container mx-auto gap-4 md:gap-8", className)}>
+  <main class="container mx-auto gap-4 md:gap-8">
     <slot />
   </main>
 </BaseLayout>

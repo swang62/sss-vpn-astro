@@ -94,6 +94,7 @@
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.13.0",
     "prettier-plugin-tailwindcss": "^0.6.8",
+    "sharp": "^0.33.5",
     "tsx": "^4.19.1",
     "vite": "^5.4.9",
     "vitest": "^2.1.3"
