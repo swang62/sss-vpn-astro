@@ -1,10 +1,10 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 
 // Waits for client side component to be rendered in DOM
 export function useMounted() {
-  const [mounted, setMounted] = React.useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true);
   }, []);
 

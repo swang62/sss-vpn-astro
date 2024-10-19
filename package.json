@@ -38,6 +38,7 @@
     "@iconify-json/mdi": "^1.2.1",
     "@libsql/client": "^0.14.0",
     "@paralleldrive/cuid2": "^2.2.2",
+    "@radix-ui/react-accordion": "^1.2.1",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-navigation-menu": "^1.2.1",
     "@radix-ui/react-slot": "^1.1.0",
@@ -112,14 +113,6 @@
     "plugins": [
       "prettier-plugin-tailwindcss",
       "prettier-plugin-astro"
-    ],
-    "overrides": [
-      {
-        "files": "*.astro",
-        "options": {
-          "parser": "astro"
-        }
-      }
     ]
   },
   "volta": {

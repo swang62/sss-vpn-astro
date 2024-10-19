@@ -11,8 +11,11 @@ import { Image } from "astro:assets";
 >
   <div class="container relative flex w-full items-center justify-between">
     <div class="flex w-full gap-6 md:gap-8 lg:gap-10">
+      <!-- mobile only -->
+      <slot name="mobile-menu" />
+
       <!-- left side  -->
-      <a href="/" class="hidden items-center space-x-2 md:flex">
+      <a href="/#top" class="hidden items-center space-x-2 md:flex">
         <Image
           src="/favicon.ico"
           class="text-foreground"
@@ -25,9 +28,6 @@ import { Image } from "astro:assets";
           {SITE_NAME}
         </span>
       </a>
-
-      <!-- mobile only -->
-      <slot name="mobile-menu" />
 
       <!-- center -->
       <div class="hidden md:flex">

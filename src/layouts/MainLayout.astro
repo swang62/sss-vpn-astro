@@ -16,19 +16,19 @@ interface Props {
 
 const links: MainMenuLink[] = [
   {
-    href: "#motivation",
+    href: "/#motivation",
     label: "Motivation",
   },
   {
-    href: "#features",
+    href: "/#features",
     label: "Features",
   },
   {
-    href: "#pricing",
+    href: "/#pricing",
     label: "Pricing",
   },
   {
-    href: "#faq",
+    href: "/#faqs",
     label: "FAQs",
   },
 ];
@@ -38,10 +38,13 @@ const { className } = Astro.props;
 
 <BaseLayout title="Home">
   <Header transition:persist>
-    <DesktopMenu links={links} slot="center-header" client:load />
+    <!-- mobile menu -->
     <MobileMenu links={links} slot="mobile-menu" client:load />
 
-    <!-- CTA Actions -->
+    <!-- center links -->
+    <DesktopMenu links={links} slot="center-header" />
+
+    <!-- left side actions -->
     <div class="flex items-center gap-x-4" slot="right-header">
       <ThemeToggle client:load />
       <a
@@ -49,7 +52,7 @@ const { className } = Astro.props;
         href="/signin">Login</a
       >
       <a href="/signup">
-        <Button className="rounded-full" client:load>Get Started</Button></a
+        <Button className="rounded-full">Get Started</Button></a
       >
     </div>
   </Header>

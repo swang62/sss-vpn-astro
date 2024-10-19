@@ -1,4 +1,6 @@
 ---
+import Faqs from "@/components/Faqs";
+import Pricing from "@/components/Pricing";
 import MainLayout from "@/layouts/MainLayout.astro";
 import Features from "@/sections/features.astro";
 import Hero from "@/sections/hero.astro";
@@ -11,4 +13,8 @@ import Info from "@/sections/info.astro";
   <Info />
   <hr />
   <Features />
+  <hr />
+  <Pricing />
+  <hr />
+  <Faqs client:load />
 </MainLayout>
