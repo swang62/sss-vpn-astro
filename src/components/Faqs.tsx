@@ -8,21 +8,27 @@ import {
 const faqData = [
   {
     answer:
-      "Our company provides innovative software solutions to help businesses automate their processes and improve operational efficiency.",
+      "I want to make sure everyone tries out the VPN first for a couple days, before giving me any money. Since this service is mainly for friends and family, my goal is to make sure everyone can bypass the great firewall first, not to get rich.",
     id: "item-1",
-    question: "What does your company do?",
+    question: "How does the trial period work?",
   },
   {
     answer:
-      "You can contact us by sending an email to support@example.com or by calling our customer service number at +1 123-456-7890.",
+      "Don't panic! Sometimes during chinese holidays, there's a much higher chance of VPN throttling and restrictions. If the app is down for more than a day, let me know.",
     id: "item-2",
-    question: "How can I contact your customer service?",
+    question: "The VPN suddenly stopped working/connecting.",
   },
   {
     answer:
-      "We are open from Monday to Friday, from 9:00 AM to 5:00 PM. Our customer service is available during these hours to assist you.",
+      "This is a common issue with chinese apps like Douyin/Taobao/Alipay that are geo-restricted to only work within China. Make sure you turn on the per-app proxy in the settings to selectively allow chinese apps to bypass the VPN.",
     id: "item-3",
-    question: "What are your company's business hours?",
+    question: "My chinese app doesn't work with the VPN.",
+  },
+  {
+    answer:
+      "Everything is managed by Stripe, just log into your account, then click your avatar > Manage Subscription.",
+    id: "item-4",
+    question: "How do I unsubscribe?",
   },
 ];
 

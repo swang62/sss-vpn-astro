@@ -3,6 +3,8 @@ import * as t from "drizzle-orm/sqlite-core";
 import { sqliteTable as table } from "drizzle-orm/sqlite-core";
 import { createInsertSchema } from "drizzle-zod";
 
+import type { Subscription } from "@/types";
+
 import { users } from "./users";
 
 export const profile = table("profile", {
@@ -11,9 +13,7 @@ export const profile = table("profile", {
     .notNull()
     .default(sql`(current_timestamp)`),
   role: t.text().notNull().$type<"user" | "admin">().default("user"),
-  subscription_type: t
-    .text()
-    .$type<"trial" | "none" | "lite" | "pro" | "premium">(),
+  subscription_type: t.text().$type<"trial" | Subscription>(),
   updated_at: t
     .text()
     .notNull()

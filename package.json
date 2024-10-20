@@ -34,12 +34,14 @@
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/tailwind": "^5.1.2",
     "@hono/zod-validator": "^0.4.1",
+    "@hookform/resolvers": "^3.9.0",
     "@iconify-json/lucide": "^1.2.10",
     "@iconify-json/mdi": "^1.2.1",
     "@libsql/client": "^0.14.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/react-accordion": "^1.2.1",
     "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-navigation-menu": "^1.2.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@sentry/astro": "^8.34.0",
@@ -64,6 +66,7 @@
     "rate-limit-redis": "^4.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.1",
     "redis": "^4.7.0",
     "simple-stack-form": "^0.1.12",
     "sonner": "^1.5.0",
@@ -114,7 +117,8 @@
     "plugins": [
       "prettier-plugin-tailwindcss",
       "prettier-plugin-astro"
-    ]
+    ],
+    "trailingComma": "all"
   },
   "volta": {
     "node": "22.9.0",

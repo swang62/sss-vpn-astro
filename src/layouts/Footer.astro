@@ -1,0 +1,21 @@
+---
+import { SITE_EMAIL } from "@/config/constants";
+---
+
+<footer class="py-8 bg-muted text-muted-foreground">
+  <div
+    class="container md:px-8 xl:px-2 flex w-full items-center justify-between gap-4"
+  >
+    <p
+      class="text-center text-sm leading-loose text-muted-foreground md:text-left"
+    >
+      © 2024 Built by
+      <a
+        href=`mailto:${SITE_EMAIL}`
+        target="_blank"
+        rel="noreferrer"
+        class="font-medium underline underline-offset-2">me</a
+      >
+    </p>
+  </div>
+</footer>

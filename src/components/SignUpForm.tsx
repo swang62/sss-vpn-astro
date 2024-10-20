@@ -1,0 +1,148 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { subscriptions } from "@/types";
+
+// Validation
+const formSchema = z
+  .object({
+    email: z
+      .string()
+      .email({
+        message: "Invalid email address",
+      })
+      .toLowerCase(),
+    password: z.string().min(8),
+    passwordConfirm: z.string().optional(),
+  })
+  .refine((data) => data.password === data.passwordConfirm, {
+    message: "Passwords don't match",
+    path: ["passwordConfirm"],
+  });
+
+interface SignUpProps {
+  redirect: string;
+}
+
+function SignUpForm({ redirect }: SignUpProps) {
+  const isFreeTrial = !subscriptions.includes(redirect as any);
+
+  // Setup form
+  const form = useForm<z.infer<typeof formSchema>>({
+    defaultValues: {
+      email: "",
+      password: "",
+      passwordConfirm: "",
+    },
+    resolver: zodResolver(formSchema),
+  });
+
+  // Submit handler
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+  }
+
+  return (
+    <Card className="mx-auto w-full max-w-sm">
+      <CardHeader className="text-center">
+        <CardTitle className="text-2xl">Create an account</CardTitle>
+        <CardDescription>
+          {isFreeTrial
+            ? "Trial period will start immediately after signup"
+            : "Pick a plan after account creation"}
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    If in China, use an unblocked provider
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="passwordConfirm"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button className="w-full" type="submit">
+              Create account
+            </Button>
+          </form>
+        </Form>
+
+        <div className="mt-4 text-center text-sm">
+          Already have an account?
+          <a href="/sign-in" className="ml-2 text-primary-link underline">
+            Sign in
+          </a>
+        </div>
+      </CardContent>
+      <CardFooter>
+        <div className="flex w-full justify-center border-t pt-4">
+          <p className="text-center text-xs text-muted-foreground">
+            Terms and conditions
+            <span className="ml-1 text-primary-link">here</span>
+          </p>
+        </div>
+      </CardFooter>
+    </Card>
+  );
+}
+
+export default SignUpForm;

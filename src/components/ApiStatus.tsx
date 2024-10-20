@@ -16,15 +16,16 @@ function ApiStatus(_props: Props) {
   // Handlers
   const onClickStatus = async () => {
     const data = await mutate();
-    toast("Fetched.");
+    toast.success("Fetched.");
     setStatusResponse(JSON.stringify(data, null, 2));
   };
   const onClickReset = () => {
+    toast.info("Reset.");
     setStatusResponse("");
   };
 
   return (
-    <div className="flex flex-col gap-4 py-4">
+    <div className="flex h-screen w-full flex-col gap-4 py-4">
       <div className="flex justify-between">
         <div className="flex gap-2">
           <Button variant="secondary" onClick={onClickStatus}>

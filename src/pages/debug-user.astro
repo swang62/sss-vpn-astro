@@ -6,6 +6,8 @@ import { apiServer } from "@/server/backend";
 import { createForm } from "simple:form";
 import z from "zod";
 
+const now = new Date().toLocaleString();
+
 let user = "";
 const form = createForm({
   id: z.string().min(1),
@@ -24,13 +26,13 @@ const hasError = res?.fieldErrors;
 ---
 
 <MainLayout>
-  <div class="flex flex-col gap-4 py-4">
+  <div class="flex flex-col gap-4 py-4 h-screen w-full">
     <form
       method="POST"
       class="flex flex-start gap-2"
       transition:persist="form-id"
     >
-      <Button type="submit" variant="secondary">Search</Button>
+      <Button type="submit" variant="secondary" className="px-8">Search</Button>
       <Input
         id="id"
         autoComplete="off"
@@ -42,6 +44,8 @@ const hasError = res?.fieldErrors;
       </a>
     </form>
 
-    <code>{user || (hasError ? hasError.id : null)}</code>
+    <code id="code">{user || (hasError ? hasError.id : null)}</code>
+
+    <div class="text-sm italic">Updated: {now}</div>
   </div>
 </MainLayout>

@@ -1,4 +1,4 @@
-import { CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 import type { PricingCardProps } from "@/types";
 
@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { capitalize, cn } from "@/lib/utils";
 
 function PricingHeader({
   subtitle,
@@ -36,7 +36,7 @@ function PricingCard({
   description,
   features,
   monthlyPrice,
-  title,
+  plan,
 }: PricingCardProps) {
   return (
     <Card
@@ -46,9 +46,14 @@ function PricingCard({
     >
       <div>
         <CardHeader className="pb-4 pt-4">
-          {title.includes("Basic") ? (
+          {plan.includes("basic") ? (
             <div className="flex justify-between">
-              <CardTitle className="text-lg text-foreground">{title}</CardTitle>
+              <CardTitle
+                className="text-lg text-foreground"
+                autoCapitalize="words"
+              >
+                {capitalize(plan)}
+              </CardTitle>
               <div
                 className={cn(
                   "h-fit rounded-xl px-2.5 py-1 text-sm",
@@ -59,12 +64,12 @@ function PricingCard({
               </div>
             </div>
           ) : (
-            <CardTitle className="text-lg text-foreground">{title}</CardTitle>
+            <CardTitle className="text-lg text-foreground">{plan}</CardTitle>
           )}
           <div className="flex gap-0.5">
             <h3 className="text-3xl font-bold">{`$${monthlyPrice}`}</h3>
             <span className="mb-1 flex items-end text-sm">/month</span>
-            {title.includes("Premium") && (
+            {plan.includes("premium") && (
               <>
                 <span className="flex items-center px-2 text-2xl font-bold">
                   +
@@ -88,9 +93,9 @@ function PricingCard({
         </CardContent>
       </div>
       <CardFooter className="mt-2 flex justify-center">
-        <form action="/api/checkout" method="POST">
-          <Button type="submit">Signup</Button>
-        </form>
+        <a href={`/sign-up?redirect=${plan}`}>
+          <Button>{`Get ${plan}`}</Button>
+        </a>
       </CardFooter>
     </Card>
   );
@@ -106,7 +111,7 @@ function Pricing() {
         "Desktop & phone apps",
       ],
       monthlyPrice: 5,
-      title: "Basic",
+      plan: "basic",
     },
     {
       description: "Good for heavy streaming/media usage",
@@ -116,7 +121,7 @@ function Pricing() {
         "More data!",
       ],
       monthlyPrice: 10,
-      title: "Pro",
+      plan: "pro",
     },
     {
       description:
@@ -128,7 +133,7 @@ function Pricing() {
         "Domestic shipping only*",
       ],
       monthlyPrice: 20,
-      title: "Premium",
+      plan: "premium",
     },
   ];
 
@@ -141,8 +146,19 @@ function Pricing() {
         />
         <div className="mt-8 flex flex-col justify-center gap-8 sm:flex-row sm:flex-wrap">
           {plans.map((plan) => {
-            return <PricingCard key={plan.title} {...plan} />;
+            return <PricingCard key={plan.plan} {...plan} />;
           })}
+        </div>
+        <div className="mt-10 flex flex-col items-center justify-center gap-2">
+          <div className="text-md text-balance italic leading-normal text-muted-foreground sm:leading-8">
+            I recommend trying it out first, though
+          </div>
+          <a href="/sign-up">
+            <Button className="rounded-full" variant="secondary">
+              Get started for free
+              <ArrowRight className="size-6" />
+            </Button>
+          </a>
         </div>
       </div>
     </section>
