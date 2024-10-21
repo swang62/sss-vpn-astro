@@ -154,11 +154,10 @@ function SignUpForm({ redirect }: SignUpProps) {
                 <p>
                   Nothing fancy here, I won't sell or distribute any of your
                   data. All financial stuff is handled off-site with Stripe. The
-                  VPN service does not store any logs, just please don't torrent
-                  any movies/tv shows. Otherwise, I'll have to shut everything
-                  down and then everyone will be sad. Thanks.
+                  VPN doesn't store any logs, just don't torrent any movies/tv
+                  shows. Otherwise, I'll have to shut everything down and then
+                  everyone will be sad. Thanks.
                 </p>
-                {/* <hr className="my-3" /> */}
               </PopoverContent>
             </Popover>
           </p>
