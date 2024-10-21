@@ -23,45 +23,51 @@ export default defineConfig({
   build: {
     assets: "_assets",
   },
-  image: {
-    domains: ["picsum.photos"],
-  },
   // ORDER MATTERS
-  integrations: [icon({
-    include: {
-      lucide: ["*"],
-      mdi: ["*"],
-    },
-  }), react(), tailwind({
-    applyBaseStyles: false,
-    nesting: true,
-  }), sentry({
-    bundleSizeOptimizations: {
-      excludeReplayIframe: true,
-      excludeReplayShadowDom: true,
-      excludeReplayWorker: true,
-    },
-    dsn: process.env.SENTRY_DSN,
-    enabled: !!process.env.SENTRY_TOKEN && !!process.env.SENTRY_DSN,
-    environment: process.env.NODE_ENV,
-    release: process.env.SOURCE_COMMIT || "default",
-    serverInitPath: "./sentry.server.config.js",
-    sourceMapsUploadOptions: {
-      authToken: process.env.SENTRY_TOKEN,
-      project: process.env.SENTRY_PROJECT,
-    },
-  }), robotsTxt({
-    policy: [
-      {
-        allow: "/",
-        disallow: ["/api", "/error"],
-        userAgent: "*",
+  integrations: [
+    icon({
+      include: {
+        lucide: ["*"],
+        mdi: ["*"],
       },
-    ],
-  }), sitemap(), simpleStackForm(), compressor({
-    brotli: true,
-    gzip: false,
-  })],
+    }),
+    react(),
+    tailwind({
+      applyBaseStyles: false,
+      nesting: true,
+    }),
+    sentry({
+      bundleSizeOptimizations: {
+        excludeReplayIframe: true,
+        excludeReplayShadowDom: true,
+        excludeReplayWorker: true,
+      },
+      dsn: process.env.SENTRY_DSN,
+      enabled: !!process.env.SENTRY_TOKEN && !!process.env.SENTRY_DSN,
+      environment: process.env.NODE_ENV,
+      release: process.env.SOURCE_COMMIT || "default",
+      serverInitPath: "./sentry.server.config.js",
+      sourceMapsUploadOptions: {
+        authToken: process.env.SENTRY_TOKEN,
+        project: process.env.SENTRY_PROJECT,
+      },
+    }),
+    robotsTxt({
+      policy: [
+        {
+          allow: "/",
+          disallow: ["/api", "/error"],
+          userAgent: "*",
+        },
+      ],
+    }),
+    sitemap(),
+    simpleStackForm(),
+    compressor({
+      brotli: true,
+      gzip: false,
+    }),
+  ],
   output: "server",
   server: {
     port: 4321,
