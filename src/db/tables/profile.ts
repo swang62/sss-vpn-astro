@@ -13,7 +13,7 @@ export const profile = table("profile", {
     .notNull()
     .default(sql`(current_timestamp)`),
   role: t.text().notNull().$type<"user" | "admin">().default("user"),
-  subscription_type: t.text().$type<"trial" | Subscription>(),
+  subscription_type: t.text().$type<Subscription>().default("none"),
   updated_at: t
     .text()
     .notNull()

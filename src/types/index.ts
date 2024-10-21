@@ -3,7 +3,13 @@ export type MainMenuLink = {
   label: string;
 };
 
-export const subscriptions = ["trial", "basic", "pro", "premium"] as const;
+export const subscriptions = [
+  "none",
+  "trial",
+  "basic",
+  "pro",
+  "premium",
+] as const;
 export type Subscription = (typeof subscriptions)[number];
 
 export type PricingCardProps = {
