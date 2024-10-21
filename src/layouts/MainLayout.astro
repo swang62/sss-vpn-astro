@@ -3,6 +3,7 @@ import { DesktopMenu } from "@/components/DesktopMenu";
 import { MobileMenu } from "@/components/MobileMenu";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
+import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Footer from "@/layouts/Footer.astro";
 import Header from "@/layouts/Header.astro";
@@ -30,19 +31,21 @@ const links: MainMenuLink[] = [
 
 <BaseLayout title="Home">
   <Header>
-    <!-- mobile menu -->
     <MobileMenu links={links} slot="mobile-menu" client:load />
+    <DesktopMenu links={links} slot="center-header" />
 
-    <!-- center links -->
-    <DesktopMenu links={links} slot="center-header" client:load />
-
-    <!-- left side actions -->
     <div class="flex items-center gap-x-4" slot="right-header">
       <ThemeToggle client:load />
       <a
-        class="text-nowrap text-foreground hover:text-muted-foreground"
-        href="/login">Login</a
+        href="/login"
+        class={navigationMenuTriggerStyle({
+          className:
+            "pr-2 pl-2 bg-transparent hover:bg-transparent hover:text-muted-foreground focus:bg-transparent",
+        })}
       >
+        Login
+      </a>
+
       <a href="/signup">
         <Button className="rounded-full">Get Started</Button>
       </a>

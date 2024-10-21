@@ -10,7 +10,7 @@ const faqData = [
     answer:
       "Once you create an account, you'll get instant access to the VPN and instructions on how to install it. The trial period will last for 3 days. I wanted to make sure everyone tries out the VPN first, before giving me any money, since this service is mainly for friends and family,",
     id: "1",
-    question: "How excatly does the trial period work?",
+    question: "How exactly does the trial period work?",
   },
   {
     answer:
@@ -20,7 +20,7 @@ const faqData = [
   },
   {
     answer:
-      "This is a common issue with chinese apps like Douyin/Taobao/Alipay that are geo-restricted to only work within China. Make sure you turn on the per-app proxy in the settings to selectively allow chinese apps to bypass the VPN.",
+      "This is a common issue with chinese apps like Taobao/Alipay that are geo-restricted to only work within China. Make sure you turn on the per-app proxy in the settings to selectively allow chinese apps to bypass the VPN.",
     id: "3",
     question: "My chinese app doesn't work with the VPN.",
   },

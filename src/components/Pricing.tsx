@@ -98,9 +98,9 @@ function PricingCard({
 function Pricing() {
   const plans: PricingCardProps[] = [
     {
-      description: "Should be enough for most people",
+      description: "Should be enough data for most people",
       features: [
-        "50GB tier",
+        "50GB data",
         "Email, messaging, music, blogs, light media usage",
         "Desktop & phone apps",
       ],
@@ -110,7 +110,7 @@ function Pricing() {
     {
       description: "Good for heavy streaming/media usage",
       features: [
-        "100GB tier",
+        "100GB data",
         "Heavy streaming, gaming, video conferencing",
         "More data!",
       ],
@@ -121,8 +121,8 @@ function Pricing() {
       description:
         "For multiple people, family members, or lots of IoT devices",
       features: [
-        "200GB tier",
-        "Fully preconfigured WiFi6 router",
+        "200GB data",
+        "Fully pre-configured WiFi6 router",
         "Remote support available",
         "Domestic shipping only*",
       ],
@@ -145,7 +145,7 @@ function Pricing() {
         </div>
         <div className="mt-10 flex flex-col items-center justify-center gap-2">
           <div className="text-md text-balance italic leading-normal text-muted-foreground sm:leading-8">
-            I recommend trying it out first, though
+            I recommend trying it out first
           </div>
           <a href="/signup">
             <Button className="rounded-full" variant="secondary">
