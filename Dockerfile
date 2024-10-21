@@ -43,6 +43,7 @@ ARG SOURCE_COMMIT=$SOURCE_COMMIT
 ARG SITE_URL
 
 # Final build
+ENV NODE_ENV=production
 RUN printenv
 RUN pnpm build
 

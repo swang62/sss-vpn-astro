@@ -134,7 +134,7 @@ function SignUpForm({ redirect }: SignUpProps) {
         <div className="mt-4 text-center text-sm">
           Already have an account?
           <a href="/login" className="ml-2 text-primary-link underline">
-            Log in
+            Login
           </a>
         </div>
       </CardContent>

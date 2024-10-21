@@ -8,8 +8,6 @@ import Footer from "@/layouts/Footer.astro";
 import Header from "@/layouts/Header.astro";
 import { MainMenuLink } from "@/types";
 
-export const prerender = true;
-
 const links: MainMenuLink[] = [
   {
     href: "/#about",
@@ -31,12 +29,12 @@ const links: MainMenuLink[] = [
 ---
 
 <BaseLayout title="Home">
-  <Header transition:persist>
+  <Header>
     <!-- mobile menu -->
     <MobileMenu links={links} slot="mobile-menu" client:load />
 
     <!-- center links -->
-    <DesktopMenu links={links} slot="center-header" />
+    <DesktopMenu links={links} slot="center-header" client:load />
 
     <!-- left side actions -->
     <div class="flex items-center gap-x-4" slot="right-header">
@@ -46,8 +44,8 @@ const links: MainMenuLink[] = [
         href="/login">Login</a
       >
       <a href="/signup">
-        <Button className="rounded-full">Get Started</Button></a
-      >
+        <Button className="rounded-full">Get Started</Button>
+      </a>
     </div>
   </Header>
 

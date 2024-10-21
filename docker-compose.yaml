@@ -57,7 +57,7 @@ services:
       db:
         condition: service_healthy
       redis:
-        condition: service_started
+        condition: service_healthy
     environment:
       - API_TOKEN
       - DB_REMOTE=${DB_REMOTE:-http://db:8080}

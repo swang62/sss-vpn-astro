@@ -25,7 +25,7 @@ function ApiStatus(_props: Props) {
   };
 
   return (
-    <div className="flex h-screen w-full flex-col gap-4 py-4">
+    <div className="flex min-h-screen w-full flex-col gap-4 py-4">
       <div className="flex justify-between">
         <div className="flex gap-2">
           <Button variant="secondary" onClick={onClickStatus}>
