@@ -21,6 +21,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { subscriptions } from "@/types";
 
 // Validation
@@ -128,8 +133,8 @@ function SignUpForm({ redirect }: SignUpProps) {
 
         <div className="mt-4 text-center text-sm">
           Already have an account?
-          <a href="/sign-in" className="ml-2 text-primary-link underline">
-            Sign in
+          <a href="/login" className="ml-2 text-primary-link underline">
+            Log in
           </a>
         </div>
       </CardContent>
@@ -137,7 +142,25 @@ function SignUpForm({ redirect }: SignUpProps) {
         <div className="flex w-full justify-center border-t pt-4">
           <p className="text-center text-xs text-muted-foreground">
             Terms and conditions
-            <span className="ml-1 text-primary-link">here</span>
+            <Popover>
+              <PopoverTrigger>
+                <span className="ml-1 text-primary-link">here</span>
+              </PopoverTrigger>
+              <PopoverContent>
+                <h1 className="text-center font-heading text-lg">
+                  Terms and Conditions
+                </h1>
+                <hr className="my-3" />
+                <p>
+                  Nothing fancy here, I won't sell or distribute any of your
+                  data. All financial stuff is handled off-site with Stripe. The
+                  VPN service does not store any logs, just please don't torrent
+                  any movies/tv shows. Otherwise, I'll have to shut everything
+                  down and then everyone will be sad. Thanks.
+                </p>
+                {/* <hr className="my-3" /> */}
+              </PopoverContent>
+            </Popover>
           </p>
         </div>
       </CardFooter>
