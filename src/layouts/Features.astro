@@ -1,0 +1,72 @@
+---
+import { Icon } from "astro-icon/components";
+
+const features = [
+  {
+    title: "It actually works.",
+    description:
+      "Almost all commerical VPN services are banned/unreliable in China (despite their claims). The fact that this VPN actually works is the biggest selling point IMO",
+    icon: "lucide:computer",
+  },
+  {
+    title: "Unbeatable customer service.",
+    description:
+      "Personal customer support from someone you actually know and trust.",
+    icon: "lucide:computer",
+  },
+  {
+    title: "Faster than most chinese VPNs.",
+    description:
+      "Most VPNs in china are throttled due to their popularity (public ones are easily tracked). For my VPN, streaming at 720p+ HD quality is possible on most streaming sites.",
+    icon: "lucide:computer",
+  },
+  {
+    title: "Resilent against bans.",
+    description:
+      "Everything is self-hosted on a SINGLE server. If the server gets banned, I can spin up another one in no time with a fresh IP/domain.",
+    icon: "lucide:computer",
+  },
+];
+---
+
+<section id="features" class="py-8 sm:py-16">
+  <div class="py-8">
+    <div class="container max-w-6xl">
+      <div class="flex flex-col items-center text-center">
+        <div class="text-gradient mb-6 font-semibold text-xl md:text-2xl">
+          Features
+        </div>
+        <h2 class="font-heading text-3xl md:text-4xl lg:text-[40px]">
+          What makes this VPN unique?
+        </h2>
+        <!-- <p class="mt-6 text-balance text-lg text-muted-foreground">{subtitle}</p> -->
+      </div>
+
+      <div class="mt-12 grid gap-4 sm:grid-cols-2">
+        {
+          features.map((feature) => (
+            <div class="group relative overflow-hidden rounded-2xl border bg-background p-5 md:p-8">
+              <div
+                aria-hidden="true"
+                class="absolute inset-0 aspect-video -translate-y-1/2 rounded-full border bg-gradient-to-b to-white from-primary/50 opacity-25 blur-2xl duration-300 group-hover:-translate-y-1/4 dark:from-gray-300 dark:to-gray-600 dark:opacity-5 dark:group-hover:opacity-10"
+              />
+              <div class="relative" aria-label={feature.title}>
+                <div class="flex flex-row items-center gap-2">
+                  <div class="flex relative size-12 rounded-xl border border-border shadow-sm *:relative *:m-auto *:size-6 ">
+                    {feature.icon && (
+                      <Icon name={feature.icon} class="size-5" />
+                    )}
+                  </div>
+                  <h1>{feature.title}</h1>
+                </div>
+                <p class="mt-6 pb-6 text-muted-foreground">
+                  {feature.description}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

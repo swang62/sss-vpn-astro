@@ -7,8 +7,6 @@ export default antfu(
     ignores: [
       "**/migrations/*",
       "**/node_modules/*",
-      "**/Analytics*",
-      "**/404*",
       "**/public*",
       "**/.github/*",
       "**/components/ui/*",
@@ -33,7 +31,6 @@ export default antfu(
       "perfectionist/sort-objects": ["warn"],
       "style/arrow-parens": ["off"],
       "style/brace-style": ["off"],
-      "style/jsx-curly-newline": ["off"],
       "style/multiline-ternary": ["off"],
       "style/operator-linebreak": ["off"],
       "ts/ban-ts-comment": ["off"],

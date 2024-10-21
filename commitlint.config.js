@@ -1,4 +1,4 @@
 export default {
   extends: ["@commitlint/config-conventional"],
-  ignores: [(commit) => commit.includes("PUSH:")],
+  ignores: [(commit) => ["PUSH:", "wip:"].some((w) => commit.includes(w))],
 };

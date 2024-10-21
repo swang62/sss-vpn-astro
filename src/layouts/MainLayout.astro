@@ -1,0 +1,59 @@
+---
+import { DesktopMenu } from "@/components/DesktopMenu";
+import { MobileMenu } from "@/components/MobileMenu";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { Button } from "@/components/ui/button";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Footer from "@/layouts/Footer.astro";
+import Header from "@/layouts/Header.astro";
+import { MainMenuLink } from "@/types";
+
+export const prerender = true;
+
+const links: MainMenuLink[] = [
+  {
+    href: "/#about",
+    label: "About",
+  },
+  {
+    href: "/#features",
+    label: "Features",
+  },
+  {
+    href: "/#pricing",
+    label: "Pricing",
+  },
+  {
+    href: "/#faqs",
+    label: "FAQs",
+  },
+];
+---
+
+<BaseLayout title="Home">
+  <Header transition:persist>
+    <!-- mobile menu -->
+    <MobileMenu links={links} slot="mobile-menu" client:load />
+
+    <!-- center links -->
+    <DesktopMenu links={links} slot="center-header" />
+
+    <!-- left side actions -->
+    <div class="flex items-center gap-x-4" slot="right-header">
+      <ThemeToggle client:load />
+      <a
+        class="text-nowrap text-foreground hover:text-muted-foreground"
+        href="/login">Login</a
+      >
+      <a href="/signup">
+        <Button className="rounded-full">Get Started</Button></a
+      >
+    </div>
+  </Header>
+
+  <main class="container mx-auto gap-4 md:gap-8">
+    <slot />
+  </main>
+
+  <Footer />
+</BaseLayout>

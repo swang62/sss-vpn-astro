@@ -20,7 +20,10 @@ export function DesktopMenu({ links }: Props) {
             <a
               key={link.href}
               href={link.href}
-              className={navigationMenuTriggerStyle()}
+              className={navigationMenuTriggerStyle({
+                className:
+                  "bg-transparent hover:bg-transparent hover:text-muted-foreground",
+              })}
             >
               {link.label}
             </a>

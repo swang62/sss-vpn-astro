@@ -1,0 +1,14 @@
+---
+import SignUpForm from "@/components/SignUpForm";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const redirect = Astro.url.searchParams.get("redirect") || "";
+---
+
+<BaseLayout title="Sign Up">
+  <main class="container">
+    <div class="flex h-screen w-full items-center justify-center px-4">
+      <SignUpForm redirect={redirect} client:load />
+    </div>
+  </main>
+</BaseLayout>

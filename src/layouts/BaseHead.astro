@@ -14,37 +14,15 @@ const { title } = Astro.props;
 <!-- Global metadata -->
 <meta name="viewport" content="width=device-width" />
 <link rel="sitemap" href="/sitemap-index.xml" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" href="/favicon.ico" />
 
 <SEO
+  charset="utf-8"
   title={title}
   titleTemplate=`%s | ${SITE_NAME}`
   titleDefault={SITE_NAME}
   description="Steve's Super Secret VPN"
-  openGraph={{
-    basic: {
-      title: "Steve's Super Secret VPN",
-      type: "VPN SaaS",
-      image: "/favicon.svg",
-    },
-  }}
 />
-
-<!-- Fonts -->
-<!-- <link
-  rel="preload"
-  href="/fonts/calsans-semibold.woff2"
-  as="font"
-  type="font/woff2"
-  crossorigin
-/>
-<link
-  rel="preload"
-  href="/fonts/inter-regular.woff2"
-  as="font"
-  type="font/woff2"
-  crossorigin
-/> -->
 
 <!-- Custom scripts -->
 {
@@ -76,8 +54,7 @@ const { title } = Astro.props;
 
     if (theme === "light") {
       document.documentElement.classList.remove("dark");
-    }
- else {
+    } else {
       document.documentElement.classList.add("dark");
     }
     window.localStorage.setItem("theme", theme);

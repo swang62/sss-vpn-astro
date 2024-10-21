@@ -4,3 +4,11 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export async function sleep(msec = 1000) {
+  return await new Promise((resolve) => setTimeout(resolve, msec));
+}
+
+export function capitalize(str = "") {
+  return str ? str[0].toUpperCase() + str.slice(1) : str;
+}

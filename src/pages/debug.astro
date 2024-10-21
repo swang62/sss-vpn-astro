@@ -1,0 +1,10 @@
+---
+import ApiStatus from "@/components/ApiStatus";
+import MainLayout from "@/layouts/MainLayout.astro";
+
+export const prerender = true;
+---
+
+<MainLayout>
+  <ApiStatus client:load />
+</MainLayout>

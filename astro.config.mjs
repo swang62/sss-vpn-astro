@@ -4,8 +4,10 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import sentry from "@sentry/astro";
 import compressor from "astro-compressor";
+import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
 import { defineConfig } from "astro/config";
+import simpleStackForm from "simple-stack-form";
 import { loadEnv } from "vite";
 
 process.env = {
@@ -21,11 +23,14 @@ export default defineConfig({
   build: {
     assets: "_assets",
   },
-  image: {
-    domains: ["picsum.photos"],
-  },
   // ORDER MATTERS
   integrations: [
+    icon({
+      include: {
+        lucide: ["*"],
+        mdi: ["*"],
+      },
+    }),
     react(),
     tailwind({
       applyBaseStyles: false,
@@ -57,6 +62,7 @@ export default defineConfig({
       ],
     }),
     sitemap(),
+    simpleStackForm(),
     compressor({
       brotli: true,
       gzip: false,

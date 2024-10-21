@@ -1,5 +1,5 @@
-import { GlobeLock, Menu } from "lucide-react";
-import * as React from "react";
+import { Menu } from "lucide-react";
+import { useState } from "react";
 
 import type { MainMenuLink } from "@/types";
 
@@ -18,7 +18,7 @@ interface Props {
   links: MainMenuLink[];
 }
 export function MobileMenu({ links }: Props) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -30,15 +30,17 @@ export function MobileMenu({ links }: Props) {
       </SheetTrigger>
       <SheetContent side="left" className="pr-0 text-xl">
         <SheetHeader className="pl-4 pt-4">
-          <SheetTitle className="flex flex-nowrap items-center gap-2 text-left text-2xl font-bold">
-            <GlobeLock />
-            <span>{SITE_NAME}</span>
-          </SheetTitle>
+          <a href="/#top" onClick={() => setOpen(false)}>
+            <SheetTitle className="flex flex-nowrap items-center gap-2 text-left text-3xl font-bold">
+              <img src="/favicon.ico" alt="logo" width={36} height={36} />
+              <span>{SITE_NAME}</span>
+            </SheetTitle>
+          </a>
           <SheetDescription className="sr-only">Main menu</SheetDescription>
         </SheetHeader>
 
-        <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-10">
-          <div className="flex flex-col space-y-3">
+        <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-10 pt-4 text-2xl">
+          <div className="flex flex-col space-y-6">
             {links.map(
               (link) =>
                 link.href && (
@@ -46,9 +48,7 @@ export function MobileMenu({ links }: Props) {
                     key={link.href}
                     href={link.href}
                     className="text-muted-foreground"
-                    onClick={() =>
-                      link.href.startsWith("#") ? setOpen(false) : undefined
-                    }
+                    onClick={() => setOpen(false)}
                   >
                     {link.label}
                   </a>
