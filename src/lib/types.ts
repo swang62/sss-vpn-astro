@@ -1,8 +1,3 @@
-import type { $Infer } from "@/lib/auth-client";
-
-export type Session = typeof $Infer.Session | null;
-export type User = typeof $Infer.Session.user;
-
 export type MainMenuLink = {
   href: string;
   label: string;

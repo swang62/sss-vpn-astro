@@ -10,7 +10,7 @@ import pino from "pino";
 import pretty from "pino-pretty";
 
 import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
-import { redis } from "@/server/backend";
+import { redis } from "@/lib/backend";
 
 import type { Bindings } from "./app";
 

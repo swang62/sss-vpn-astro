@@ -27,7 +27,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { sendVerificationEmail, signUp } from "@/lib/auth-client";
+import { sendVerificationEmail, signUp } from "@/lib/clients";
 import { subscriptionPaid } from "@/lib/types";
 import { sleep } from "@/lib/utils";
 
@@ -98,7 +98,6 @@ function SignUpForm({ plan }: SignUpProps) {
           sendVerificationEmail({ callbackURL: "/dashboard", email });
           toast.success("Check your email for verification!", {
             closeButton: true,
-            dismissible: true,
             duration: 30000,
           });
           setLoading(false);

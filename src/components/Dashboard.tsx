@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
-import type { User } from "@/lib/types";
-
 import { Button } from "@/components/ui/button";
-import { sendVerificationEmail } from "@/lib/auth-client";
+import { sendVerificationEmail, type User } from "@/lib/clients";
 
 interface Props {
   user: User;

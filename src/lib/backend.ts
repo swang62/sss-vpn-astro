@@ -11,11 +11,12 @@ import {
   REDIS_URL,
 } from "@/config/server";
 
-// API client
+// Server-side API client
 export const { api: apiServer } = hc<App>(API_SERVER_URL, {
   headers: { Authorization: `Bearer ${API_TOKEN}` },
 });
 
+// Redis store
 async function getRedisStore() {
   if (!REDIS_URL || !REDIS_PASS) return;
 
@@ -36,6 +37,5 @@ async function getRedisStore() {
   };
 }
 
-// Redis client
 // eslint-disable-next-line antfu/no-top-level-await
 export const redis = REDIS_URL ? await getRedisStore() : undefined;

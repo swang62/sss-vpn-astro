@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
-import { apiClient } from "@/server/client";
+import { apiClient } from "@/lib/clients";
 
 const getStatus = () => apiClient.status.$get().then((res) => res.json());
 

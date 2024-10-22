@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
 import db from "@/db";
-import { redis } from "@/server/backend";
+import { redis } from "@/lib/backend";
 
 const client = redis ? redis.client : null;
 
