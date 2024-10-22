@@ -1,11 +1,11 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
+import Base from "@/layouts/Base.astro";
 import Toaster from "/toaster.svg?raw";
 
 export const prerender = true;
 ---
 
-<BaseLayout title="Oh No!">
+<Base title="Oh No!">
   <main class="container max-w-screen-md">
     <a
       href="/"
@@ -20,4 +20,4 @@ export const prerender = true;
       </h1>
     </a>
   </main>
-</BaseLayout>
+</Base>

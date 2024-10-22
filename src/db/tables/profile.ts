@@ -1,42 +1,31 @@
 import { relations, sql } from "drizzle-orm";
 import * as t from "drizzle-orm/sqlite-core";
-import { sqliteTable as table } from "drizzle-orm/sqlite-core";
-import { createInsertSchema } from "drizzle-zod";
 
 import type { Subscription } from "@/types";
 
-import { users } from "./users";
+import { user } from "./user";
 
-export const profile = table("profile", {
-  created_at: t
-    .text()
+export const profile = t.sqliteTable("profile", {
+  createdAt: t
+    .integer("createdAt", { mode: "timestamp" })
     .notNull()
-    .default(sql`(current_timestamp)`),
-  role: t.text().notNull().$type<"user" | "admin">().default("user"),
-  subscription_type: t.text().$type<Subscription>().default("none"),
-  updated_at: t
-    .text()
+    .default(sql`(unixepoch())`),
+  subscription: t.text("subscription").$type<Subscription>().default("none"),
+  updatedAt: t
+    .integer("updatedAt", { mode: "timestamp" })
     .notNull()
-    .default(sql`(current_timestamp)`)
-    .$onUpdate(() => sql`(current_timestamp)`),
-  user_id: t
-    .text()
+    .default(sql`(unixepoch())`)
+    .$onUpdate(() => sql`(unixepoch())`),
+  userId: t
+    .text("userId")
     .notNull()
-    .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
+    .unique()
+    .references(() => user.id, { onDelete: "cascade", onUpdate: "cascade" }),
 });
 
 export const ProfileRelations = relations(profile, ({ one }) => ({
-  user: one(users, {
-    fields: [profile.user_id],
-    references: [users.id],
+  user: one(user, {
+    fields: [profile.userId],
+    references: [user.id],
   }),
 }));
-
-export const ProfileSchema = createInsertSchema(profile)
-  .required({
-    user_id: true,
-  })
-  .omit({
-    created_at: true,
-    updated_at: true,
-  });

@@ -1,11 +1,11 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
+import Base from "@/layouts/Base.astro";
 import Sign from "/hand-sign-static.svg?raw";
 
 export const prerender = true;
 ---
 
-<BaseLayout title="Not Found">
+<Base title="Not Found">
   <main class="container max-w-lg">
     <a
       href="/"
@@ -14,4 +14,4 @@ export const prerender = true;
       <Fragment set:html={Sign} />
     </a>
   </main>
-</BaseLayout>
+</Base>

@@ -2,7 +2,7 @@ import { zValidator } from "@hono/zod-validator";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
-import db, { users } from "@/db";
+import db, { user } from "@/db";
 import { createBaseRouter } from "@/server/app";
 
 const route = createBaseRouter().get(
@@ -16,17 +16,17 @@ const route = createBaseRouter().get(
   async (c) => {
     const { id } = c.req.valid("param");
 
-    const user = await db.query.users.findFirst({
-      where: eq(users.id, id),
-      with: { profile: true },
+    const userRecord = await db.query.user.findFirst({
+      where: eq(user.id, id),
+      with: { account: true, profile: true, session: true },
     });
 
-    if (!user) {
+    if (!userRecord) {
       c.status(404);
       return c.json({ error: `User ${id} not found`, user: null });
     }
 
-    return c.json({ user });
+    return c.json({ user: userRecord });
   },
 );
 

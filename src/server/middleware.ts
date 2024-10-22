@@ -10,7 +10,7 @@ import pino from "pino";
 import pretty from "pino-pretty";
 
 import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
-import { redisStore } from "@/server/backend";
+import { redis } from "@/server/backend";
 
 import type { Bindings } from "./app";
 
@@ -89,8 +89,8 @@ export function limiter(): MiddlewareHandler {
       message: "Too many requests, try again later.",
     },
     standardHeaders: "draft-6",
-    // @ts-expect-error
-    store: redisStore,
+    // @ts-expect-error if undefined, automatically use in-memory storage.
+    store: redis?.store,
     windowMs: 10 * 1000,
   });
 }

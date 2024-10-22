@@ -28,11 +28,14 @@ async function getRedisStore() {
     .on("error", (error) => console.error("Failed to connect to redis", error))
     .connect();
 
-  return new RedisStore({
-    sendCommand: async (...args: string[]) => client.sendCommand(args),
-  });
+  return {
+    client,
+    store: new RedisStore({
+      sendCommand: async (...args: string[]) => client.sendCommand(args),
+    }),
+  };
 }
 
 // Redis client
 // eslint-disable-next-line antfu/no-top-level-await
-export const redisStore = REDIS_URL ? await getRedisStore() : undefined;
+export const redis = REDIS_URL ? await getRedisStore() : undefined;

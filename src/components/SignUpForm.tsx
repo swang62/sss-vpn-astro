@@ -1,4 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { createAuthClient } from "better-auth/react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -14,7 +16,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,9 +27,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { subscriptions } from "@/types";
+import { sleep } from "@/lib/utils";
+import { paidSubscriptions } from "@/types";
 
-// Validation
 const formSchema = z
   .object({
     email: z
@@ -46,13 +47,17 @@ const formSchema = z
   });
 
 interface SignUpProps {
-  redirect: string;
+  plan: string;
 }
 
-function SignUpForm({ redirect }: SignUpProps) {
-  const isFreeTrial = !subscriptions.includes(redirect as any);
+function SignUpForm({ plan }: SignUpProps) {
+  const [loading, setLoading] = useState(false);
+  const { signUp } = createAuthClient();
 
-  // Setup form
+  // Setup
+  const isFreeTrial = !paidSubscriptions.includes(plan as any);
+
+  // Form hook
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       email: "",
@@ -63,8 +68,39 @@ function SignUpForm({ redirect }: SignUpProps) {
   });
 
   // Submit handler
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    const { email, password } = values;
+
+    await signUp.email(
+      {
+        callbackURL: `/dashboard`,
+        email,
+        name: "",
+        password,
+      },
+      {
+        onError: (ctx) => {
+          const status = ctx.error.status;
+          if (status === 422) {
+            form.setError(
+              "email",
+              { message: "Email already exists, did you mean to login?" },
+              { shouldFocus: true },
+            );
+          }
+          setLoading(false);
+        },
+        onRequest: async () => {
+          setLoading(true);
+          await sleep(1000); // FIXME: Simulate request delay
+        },
+        onSuccess: () => {
+          console.log("Successfully created account, redirecting...");
+          setLoading(false);
+        },
+      },
+    );
   }
 
   return (
@@ -90,9 +126,9 @@ function SignUpForm({ redirect }: SignUpProps) {
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
-                  <FormDescription>
-                    If in China, use an unblocked provider
-                  </FormDescription>
+                  {/* <FormDescription>
+                    If in China, use an unblocked email domain
+                  </FormDescription> */}
                   <FormMessage />
                 </FormItem>
               )}
@@ -125,7 +161,7 @@ function SignUpForm({ redirect }: SignUpProps) {
               )}
             />
 
-            <Button className="w-full" type="submit">
+            <Button className="w-full" type="submit" loading={loading}>
               Create account
             </Button>
           </form>
@@ -139,7 +175,7 @@ function SignUpForm({ redirect }: SignUpProps) {
         </div>
       </CardContent>
       <CardFooter>
-        <div className="flex w-full justify-center border-t pt-4">
+        <div className="flex w-full justify-center border-t pt-6">
           <p className="text-center text-xs text-muted-foreground">
             Terms and conditions
             <Popover>
@@ -152,11 +188,12 @@ function SignUpForm({ redirect }: SignUpProps) {
                 </h1>
                 <hr className="my-3" />
                 <p>
-                  Nothing fancy here, I won't sell or distribute any of your
-                  data. All financial stuff is handled off-site with Stripe. The
-                  VPN doesn't store any logs, just don't torrent any movies/tv
-                  shows. Otherwise, I'll have to shut everything down and then
-                  everyone will be sad. Thanks.
+                  Nothing fancy here... I won't sell or distribute any of your
+                  data. I don't store logs. All financial stuff is handled
+                  off-site with Stripe. Just please
+                  <span className="text-destructive"> don't torrent </span>
+                  any movies/tv shows. Otherwise, I'll have to shut everything
+                  down and then everyone will be sad. Thanks.
                 </p>
               </PopoverContent>
             </Popover>
