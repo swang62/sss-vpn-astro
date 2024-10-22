@@ -14,8 +14,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const session = await auth.api.getSession({
     headers: context.request.headers,
   });
-  context.locals.session = session;
+  context.locals.session = session?.session || null;
+  context.locals.userSession = session?.user || null;
 
+  // Redirect for invalid sessions
   if (!session && pathname.startsWith("/dashboard")) {
     console.error(pathname, "Unauthenticated");
     return context.redirect("/login");

@@ -1,64 +1,32 @@
-import { zValidator } from "@hono/zod-validator";
-import { eq } from "drizzle-orm";
-import { z } from "zod";
-
-import db, { profile, user } from "@/db";
+import { getUserFromDB } from "@/db/queries";
 import { createBaseRouter } from "@/server/app";
 
 const route = createBaseRouter()
-  .get(
-    "/:id",
-    zValidator(
-      "param",
-      z.object({
-        id: z.string(),
-      }),
-    ),
-    async (c) => {
-      const { id } = c.req.valid("param");
+  .get("/", async (c) => {
+    const user = c.get("user");
+    if (!user) {
+      c.status(401);
+      throw new Error(`Not allowed`);
+    }
+    const id = user.id;
 
-      const userRecord = await db.query.user.findFirst({
-        columns: {
-          createdAt: false,
-          updatedAt: false,
-        },
-        where: eq(user.id, id),
-        with: {
-          profile: {
-            columns: {
-              createdAt: false,
-              updatedAt: false,
-            },
-          },
-        },
-      });
+    const userRecord = await getUserFromDB(id);
+    if (!userRecord) {
+      c.status(404);
+      throw new Error(`User ${id} not found`);
+    }
 
-      if (!userRecord) {
-        c.status(404);
-        throw new Error(`User ${id} not found`);
-      }
+    return c.json({ user: userRecord });
+  })
+  .get("/session", async (c) => {
+    const session = c.get("session");
+    const user = c.get("user");
+    if (!user) {
+      c.status(401);
+      throw new Error(`Not allowed`);
+    }
 
-      return c.json({ user: userRecord });
-    },
-  )
-  .post(
-    "/setupProfile",
-    zValidator(
-      "json",
-      z.object({
-        id: z.string(),
-      }),
-    ),
-    async (c) => {
-      const { id } = c.req.valid("json");
-
-      await db
-        .insert(profile)
-        .values([{ subscription: "trial", userId: id }])
-        .onConflictDoNothing();
-
-      return c.json({ message: `Created profile for ${id}` });
-    },
-  );
+    return c.json({ session, user });
+  });
 
 export default route;

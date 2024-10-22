@@ -6,22 +6,41 @@ import { Button } from "@/components/ui/button";
 import { apiClient } from "@/lib/clients";
 
 const getStatus = () => apiClient.status.$get().then((res) => res.json());
+const getUser = () => apiClient.user.$get().then((res) => res.json());
+function getSession() {
+  return apiClient.user.session.$get().then((res) => res.json());
+}
 
 interface Props {}
 
 function ApiStatus(_props: Props) {
-  const [statusResponse, setStatusResponse] = useState("");
+  const [code, setCode] = useState("");
   const { error, mutate } = useSWR("/api/status", getStatus);
+  const { error: errorUser, mutate: mutateUser } = useSWR("/api/user", getUser);
+  const { error: errorSession, mutate: mutateSession } = useSWR(
+    "/api/user/session",
+    getSession,
+  );
 
   // Handlers
   const onClickStatus = async () => {
     const data = await mutate();
-    toast.success("Fetched.");
-    setStatusResponse(JSON.stringify(data, null, 2));
+    toast.success("Fetched.", { position: "bottom-center" });
+    setCode(JSON.stringify(data, null, 2));
+  };
+  const onClickUser = async () => {
+    const data = await mutateUser();
+    toast.success("Fetched.", { position: "bottom-center" });
+    setCode(JSON.stringify(data, null, 2));
+  };
+  const onClickSession = async () => {
+    const data = await mutateSession();
+    toast.success("Fetched.", { position: "bottom-center" });
+    setCode(JSON.stringify(data, null, 2));
   };
   const onClickReset = () => {
-    toast.info("Reset.");
-    setStatusResponse("");
+    toast.info("Reset.", { position: "bottom-center" });
+    setCode("");
   };
 
   return (
@@ -31,15 +50,18 @@ function ApiStatus(_props: Props) {
           <Button variant="secondary" onClick={onClickStatus}>
             Check API Status
           </Button>
-          <a href="/debug-user">
-            <Button variant="link">Search Users</Button>
-          </a>
+          <Button variant="secondary" onClick={onClickUser}>
+            Get User
+          </Button>
+          <Button variant="secondary" onClick={onClickSession}>
+            Get Session
+          </Button>
         </div>
         <Button variant="destructive" onClick={onClickReset}>
-          Reset All
+          Reset
         </Button>
       </div>
-      <code>{statusResponse || (error ? error.message : null)}</code>
+      <code>{code || error || errorUser || errorSession}</code>
     </div>
   );
 }

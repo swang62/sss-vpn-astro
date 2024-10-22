@@ -1,27 +1,25 @@
 ---
 import DashboardUI from "@/components/Dashboard";
+import { setupNewUserProfile } from "@/db/mutations";
+import { getUserFromDB } from "@/db/queries";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
-import { apiServer } from "@/lib/backend";
 
-const { user: userSession } = Astro.locals.session!;
+// Get session data
+const { session, userSession } = Astro.locals;
+const isVerified = userSession!.emailVerified;
+const id = userSession!.id;
 
-const id = userSession.id;
-const isVerified = userSession.emailVerified;
-
-const response = await apiServer.user[":id"].$get({ param: { id } });
-if (!response.ok) Astro.redirect("/login");
-const { user } = await response.json();
-
-// Verified first time users, setup their profile
+// For verified first time users, setup their profile
 if (isVerified) {
-  if (!user.profile) {
-    await apiServer.user.setupProfile.$post({ json: { id } });
+  const user = await getUserFromDB(id);
+  if (user && !user.profile) {
+    await setupNewUserProfile(id);
   }
 }
 ---
 
 <DashboardLayout title="Dashboard">
   <div class="flex min-h-screen w-full flex-col gap-4 py-4">
-    <DashboardUI userSession={userSession} client:load />
+    <DashboardUI userSession={userSession!} session={session!} client:load />
   </div>
 </DashboardLayout>

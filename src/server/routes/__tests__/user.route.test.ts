@@ -8,9 +8,9 @@ const client = testClient(createApp().route("/", router));
 
 describe("route /api/user", () => {
   it("missing user", async () => {
-    const response = await client.api[":id"].$get({ param: { id: "1000" } });
+    const response = await client.api.$get({ param: { id: "1000" } });
 
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(401);
   });
 
   // it("get valid user", async () => {

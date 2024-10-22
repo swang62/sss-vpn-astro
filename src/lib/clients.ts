@@ -20,8 +20,8 @@ export const {
   verifyEmail,
 } = createAuthClient();
 
-export type Session = typeof $Infer.Session | null;
-export type UserSession = typeof $Infer.Session.user;
+export type Session = typeof $Infer.Session.session | null;
+export type UserSession = typeof $Infer.Session.user | null;
 
 // Hono RPC client (no auth)
 export const { api: apiClient } = hc<App>(API_CLIENT_URL);

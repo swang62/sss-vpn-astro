@@ -1,34 +1,23 @@
-import type { InferResponseType } from "hono/client";
-
-import { hc } from "hono/client";
 import postmark from "postmark";
 import { RedisStore } from "rate-limit-redis";
 import { createClient } from "redis";
 
-import type { App } from "@/server";
+import { POSTMARK_TOKEN, REDIS_PASS, REDIS_URL } from "@/config/server";
 
-import {
-  API_SERVER_URL,
-  API_TOKEN,
-  POSTMARK_TOKEN,
-  REDIS_PASS,
-  REDIS_URL,
-} from "@/config/server";
+// Server-side API client
+// export const { api: apiServer } = hc<App>(API_SERVER_URL, {
+//   headers: { Authorization: `Bearer ${API_TOKEN}` },
+// });
+// const _$get = apiServer.user[":id"].$get;
+// export type GetUserResponse = InferResponseType<typeof _$get>;
+// export type UserProfile = Pick<GetUserResponse, "user">;
 
-// Postmark client
+// Postmark
 export const postmarkClient = POSTMARK_TOKEN
   ? new postmark.ServerClient(POSTMARK_TOKEN)
   : null;
 
-// Server-side API client
-export const { api: apiServer } = hc<App>(API_SERVER_URL, {
-  headers: { Authorization: `Bearer ${API_TOKEN}` },
-});
-const _$get = apiServer.user[":id"].$get;
-export type GetUserResponse = InferResponseType<typeof _$get>;
-export type UserProfile = Pick<GetUserResponse, "user">;
-
-// Redis store
+// Redis
 async function getRedisStore() {
   if (!REDIS_URL || !REDIS_PASS) return;
 

@@ -10,9 +10,23 @@ import pino from "pino";
 import pretty from "pino-pretty";
 
 import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
+import { auth } from "@/lib/auth";
 import { redis } from "@/lib/backend";
 
 import type { Bindings } from "./app";
+
+export const authMiddleware = createMiddleware<Bindings>(async (c, next) => {
+  const session = await auth.api.getSession({ headers: c.req.raw.headers });
+  if (!session) {
+    c.set("user", null);
+    c.set("session", null);
+    return next();
+  }
+
+  c.set("user", session.user);
+  c.set("session", session.session);
+  return next();
+});
 
 export const customMiddleware = createMiddleware<Bindings>(async (c, next) => {
   c.set("customClient", () => {
@@ -48,6 +62,8 @@ export function corsMiddleware(): MiddlewareHandler {
     allowHeaders: ["*"],
     allowMethods: ["GET", "POST", "OPTIONS"],
     credentials: true,
+    exposeHeaders: ["Content-Length"],
+    maxAge: 600,
     origin: (origin) =>
       origin.includes(".mildlybrewed.") || !IS_PRODUCTION
         ? origin

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
-import type { UserSession } from "@/lib/clients";
+import type { Session, UserSession } from "@/lib/clients";
 
 import { Button } from "@/components/ui/button";
 import { sendVerificationEmail } from "@/lib/clients";
@@ -14,10 +14,11 @@ import { secondsPassed } from "@/lib/utils";
 // }
 
 interface Props {
-  userSession: UserSession;
+  session: NonNullable<Session>;
+  userSession: NonNullable<UserSession>;
 }
 
-function DashboardUI({ userSession }: Props) {
+function DashboardUI({ session, userSession }: Props) {
   // Hooks
   const [sentEmail, setSentEmail] = useState("");
   const isVerified = userSession.emailVerified;
@@ -46,7 +47,7 @@ function DashboardUI({ userSession }: Props) {
 
   return (
     <div className="flex min-h-screen w-full flex-col gap-4 py-4">
-      <code>{JSON.stringify(userSession, null, 2)}</code>
+      <code>{JSON.stringify({ session, userSession }, null, 2)}</code>
       {!isVerified && (
         <div className="mx-auto flex flex-col items-center justify-center gap-4">
           <span>Please verify your email address first.</span>
