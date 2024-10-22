@@ -1,7 +1,7 @@
 import { relations, sql } from "drizzle-orm";
 import * as t from "drizzle-orm/sqlite-core";
 
-import type { Subscription } from "@/types";
+import type { Subscription } from "@/lib/types";
 
 import { user } from "./user";
 

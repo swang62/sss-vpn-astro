@@ -1,5 +1,12 @@
 ---
+import DashboardUI from "@/components/Dashboard";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
+
+const { user } = Astro.locals.session!;
 ---
 
-<DashboardLayout title="Dashboard"> Super secret page </DashboardLayout>
+<DashboardLayout title="Dashboard">
+  <div class="flex min-h-screen w-full flex-col gap-4 py-4">
+    <DashboardUI user={user} client:load />
+  </div>
+</DashboardLayout>

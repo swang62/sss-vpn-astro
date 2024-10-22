@@ -11,9 +11,7 @@ export const user = sqliteTable("user", {
   id: text("id").primaryKey(),
   image: text("image"),
   name: text("name").notNull(),
-  updatedAt: integer("updatedAt", {
-    mode: "timestamp",
-  }).notNull(),
+  updatedAt: integer("updatedAt", { mode: "timestamp" }).notNull(),
 });
 
 export const session = sqliteTable("session", {

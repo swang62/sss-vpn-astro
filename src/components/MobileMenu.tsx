@@ -1,7 +1,7 @@
 import { Menu } from "lucide-react";
 import { useState } from "react";
 
-import type { MainMenuLink } from "@/types";
+import type { MainMenuLink } from "@/lib/types";
 
 import { Button } from "@/components/ui/button";
 import {

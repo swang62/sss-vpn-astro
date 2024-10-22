@@ -1,13 +1,12 @@
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
-import type { PricingCardProps } from "@/types";
+import type { PricingCardProps } from "@/lib/types";
 
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -49,7 +48,7 @@ function PricingCard({
         <CardHeader className="pb-6 pt-4">
           <div className="flex justify-between">
             <CardTitle className="text-lg text-foreground">{title}</CardTitle>
-            {plan.includes("basic") && (
+            {/* {plan.includes("basic") && (
               <div
                 className={cn(
                   "h-fit rounded-xl px-2.5 py-1 text-sm",
@@ -58,7 +57,7 @@ function PricingCard({
               >
                 Recommended
               </div>
-            )}
+            )} */}
           </div>
           <div className="flex gap-0.5">
             <h3 className="text-3xl font-bold">{`$${monthlyPrice}`}</h3>
@@ -86,11 +85,11 @@ function PricingCard({
           ))}
         </CardContent>
       </div>
-      <CardFooter className="mt-2 flex justify-center">
+      {/* <CardFooter className="mt-2 flex justify-center">
         <a href={`/signup?redirect=${plan}`}>
           <Button>{`Get ${title}`}</Button>
         </a>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 }
@@ -143,13 +142,13 @@ function Pricing() {
             return <PricingCard key={plan.plan} {...plan} />;
           })}
         </div>
-        <div className="mt-10 flex flex-col items-center justify-center gap-2">
-          <div className="text-md text-balance italic leading-normal text-muted-foreground sm:leading-8">
-            I recommend trying it out first
+        <div className="mt-10 flex flex-col items-center justify-center gap-4">
+          <div className="text-balance leading-normal text-muted-foreground sm:text-lg sm:leading-7">
+            Try it out first before picking a plan
           </div>
           <a href="/signup">
             <Button className="rounded-full" variant="secondary">
-              Get started for free
+              Get started
               <ArrowRight className="size-6" />
             </Button>
           </a>

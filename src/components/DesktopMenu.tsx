@@ -1,4 +1,4 @@
-import type { MainMenuLink } from "@/types";
+import type { MainMenuLink } from "@/lib/types";
 
 import {
   NavigationMenu,

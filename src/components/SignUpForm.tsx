@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createAuthClient } from "better-auth/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -27,8 +27,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { sendVerificationEmail, signUp } from "@/lib/auth-client";
+import { subscriptionPaid } from "@/lib/types";
 import { sleep } from "@/lib/utils";
-import { paidSubscriptions } from "@/types";
 
 const formSchema = z
   .object({
@@ -52,10 +53,9 @@ interface SignUpProps {
 
 function SignUpForm({ plan }: SignUpProps) {
   const [loading, setLoading] = useState(false);
-  const { signUp } = createAuthClient();
 
   // Setup
-  const isFreeTrial = !paidSubscriptions.includes(plan as any);
+  const isFreeTrial = !subscriptionPaid.includes(plan as any);
 
   // Form hook
   const form = useForm<z.infer<typeof formSchema>>({
@@ -74,7 +74,6 @@ function SignUpForm({ plan }: SignUpProps) {
 
     await signUp.email(
       {
-        callbackURL: `/dashboard`,
         email,
         name: "",
         password,
@@ -85,7 +84,7 @@ function SignUpForm({ plan }: SignUpProps) {
           if (status === 422) {
             form.setError(
               "email",
-              { message: "Email already exists, did you mean to login?" },
+              { message: "Email already exists, did you want to login?" },
               { shouldFocus: true },
             );
           }
@@ -96,7 +95,12 @@ function SignUpForm({ plan }: SignUpProps) {
           await sleep(1000); // FIXME: Simulate request delay
         },
         onSuccess: () => {
-          console.log("Successfully created account, redirecting...");
+          sendVerificationEmail({ callbackURL: "/dashboard", email });
+          toast.success("Check your email for verification!", {
+            closeButton: true,
+            dismissible: true,
+            duration: 30000,
+          });
           setLoading(false);
         },
       },

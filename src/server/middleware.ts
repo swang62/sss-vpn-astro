@@ -59,13 +59,13 @@ export function pinoLogger(): MiddlewareHandler {
   return logger({
     http: {
       onReqBindings: (c) => {
-        const headers = c.req.header();
-        const cookies = headers.cookie;
-        delete headers.cookie;
+        // const headers = c.req.header();
+        // const cookies = headers.cookie;
+        // delete headers.cookie;
         return {
           request: {
-            cookies: LOG_LEVEL === "debug" ? cookies : undefined,
-            headers,
+            // cookies: LOG_LEVEL === "debug" ? cookies : undefined,
+            // headers,
             method: c.req.method,
             url: c.req.path,
           },

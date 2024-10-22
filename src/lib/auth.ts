@@ -11,6 +11,21 @@ export const auth = betterAuth({
     provider: "sqlite",
   }),
   emailAndPassword: {
+    autoSignIn: true,
+    enabled: true,
+    minPasswordLength: 8,
+  },
+  emailVerification: {
+    sendVerificationEmail: async (user, url) => {
+      console.debug("VERIFY_URL", url);
+      // await sendEmail({
+      //   to: user.email,
+      //   subject: "SSSVPN | Verify your email address",
+      //   text: `Click <a href="${url}">here</a> to verify your email.`,
+      // });
+    },
+  },
+  rateLimit: {
     enabled: true,
   },
   secondaryStorage: client
