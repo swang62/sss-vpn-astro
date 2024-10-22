@@ -1,44 +1,52 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
+import type { UserSession } from "@/lib/clients";
+
 import { Button } from "@/components/ui/button";
-import { sendVerificationEmail, type User } from "@/lib/clients";
+import { sendVerificationEmail } from "@/lib/clients";
+import { secondsPassed } from "@/lib/utils";
+
+// async function getUser(id: string) {
+//   return apiServer.user[":id"]
+//     .$get({ param: { id } })
+//     .then(async (res) => await res.json());
+// }
 
 interface Props {
-  user: User;
+  userSession: UserSession;
 }
 
-export function secondsPassed(modified: string) {
-  const now = new Date().getTime();
-  const compare = new Date(modified).getTime();
-
-  return Math.floor((now - compare) / 1000);
-}
-
-function DashboardUI({ user }: Props) {
-  // Setup
+function DashboardUI({ userSession }: Props) {
+  // Hooks
   const [sentEmail, setSentEmail] = useState("");
-  const isVerified = user.emailVerified;
+  const isVerified = userSession.emailVerified;
+
+  // const { data } = useSWR(userId, getUser);
+  // const user = data?.user;
 
   // Handlers
   const onClickVerify = async () => {
-    const timeSince = secondsPassed(sentEmail);
-    if (timeSince < 30) {
-      toast.warning(`Please wait ${30 - timeSince}s before trying again.`);
+    const minutesSince = Math.floor(secondsPassed(sentEmail) / 60);
+    if (minutesSince < 3) {
+      toast.warning(
+        `Please wait at least ${3 - minutesSince} minutes before trying again.`,
+      );
       return;
     }
 
     sendVerificationEmail({
       callbackURL: "/dashboard",
-      email: user.email,
+      email: userSession.email,
     });
+
     toast.success("Resent verification email.");
     setSentEmail(new Date().toISOString());
   };
 
   return (
     <div className="flex min-h-screen w-full flex-col gap-4 py-4">
-      <code>{JSON.stringify(user, null, 2)}</code>
+      <code>{JSON.stringify(userSession, null, 2)}</code>
       {!isVerified && (
         <div className="mx-auto flex flex-col items-center justify-center gap-4">
           <span>Please verify your email address first.</span>

@@ -1,12 +1,27 @@
 ---
 import DashboardUI from "@/components/Dashboard";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
+import { apiServer } from "@/lib/backend";
 
-const { user } = Astro.locals.session!;
+const { user: userSession } = Astro.locals.session!;
+
+const id = userSession.id;
+const isVerified = userSession.emailVerified;
+
+const response = await apiServer.user[":id"].$get({ param: { id } });
+if (!response.ok) Astro.redirect("/login");
+const { user } = await response.json();
+
+// Verified first time users, setup their profile
+if (isVerified) {
+  if (!user.profile) {
+    await apiServer.user.setupProfile.$post({ json: { id } });
+  }
+}
 ---
 
 <DashboardLayout title="Dashboard">
   <div class="flex min-h-screen w-full flex-col gap-4 py-4">
-    <DashboardUI user={user} client:load />
+    <DashboardUI userSession={userSession} client:load />
   </div>
 </DashboardLayout>

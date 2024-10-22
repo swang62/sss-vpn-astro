@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
 import db from "@/db";
-import { redis } from "@/lib/backend";
+import { postmarkClient, redis } from "@/lib/backend";
 
 const client = redis ? redis.client : null;
 
@@ -17,12 +17,20 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendVerificationEmail: async (user, url) => {
-      console.debug("VERIFY_URL", url);
-      // await sendEmail({
-      //   to: user.email,
-      //   subject: "SSSVPN | Verify your email address",
-      //   text: `Click <a href="${url}">here</a> to verify your email.`,
-      // });
+      if (!postmarkClient) {
+        console.debug("VERIFY_URL", url);
+        return;
+      }
+
+      postmarkClient.sendEmailWithTemplate({
+        From: "hello@sss-vpn.com",
+        TemplateAlias: "verify",
+        TemplateModel: {
+          email: user.email,
+          verification_url: url,
+        },
+        To: user.email,
+      });
     },
   },
   rateLimit: {

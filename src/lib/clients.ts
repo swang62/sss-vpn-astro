@@ -1,5 +1,3 @@
-import type { InferResponseType } from "hono/client";
-
 import { createAuthClient } from "better-auth/react";
 import { hc } from "hono/client";
 
@@ -23,10 +21,7 @@ export const {
 } = createAuthClient();
 
 export type Session = typeof $Infer.Session | null;
-export type User = typeof $Infer.Session.user;
+export type UserSession = typeof $Infer.Session.user;
 
 // Hono RPC client (no auth)
 export const { api: apiClient } = hc<App>(API_CLIENT_URL);
-
-const _$get = apiClient.user[":id"].$get;
-export type GetUserResponse = InferResponseType<typeof _$get>;

@@ -12,3 +12,10 @@ export async function sleep(msec = 1000) {
 export function capitalize(str = "") {
   return str ? str[0].toUpperCase() + str.slice(1) : str;
 }
+
+export function secondsPassed(modified: string) {
+  const now = new Date().getTime();
+  const compare = new Date(modified).getTime();
+
+  return Math.floor((now - compare) / 1000);
+}

@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/popover";
 import { sendVerificationEmail, signUp } from "@/lib/clients";
 import { subscriptionPaid } from "@/lib/types";
-import { sleep } from "@/lib/utils";
+import { secondsPassed } from "@/lib/utils";
 
 const formSchema = z
   .object({
@@ -53,6 +53,7 @@ interface SignUpProps {
 
 function SignUpForm({ plan }: SignUpProps) {
   const [loading, setLoading] = useState(false);
+  const [sentEmail, setSentEmail] = useState("");
 
   // Setup
   const isFreeTrial = !subscriptionPaid.includes(plan as any);
@@ -69,9 +70,13 @@ function SignUpForm({ plan }: SignUpProps) {
 
   // Submit handler
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    const { email, password } = values;
+    const timeSince = secondsPassed(sentEmail);
+    if (timeSince < 10) {
+      toast.warning("Too many signup requests, try again later.");
+      return;
+    }
 
+    const { email, password } = values;
     await signUp.email(
       {
         email,
@@ -92,14 +97,18 @@ function SignUpForm({ plan }: SignUpProps) {
         },
         onRequest: async () => {
           setLoading(true);
-          await sleep(1000); // FIXME: Simulate request delay
         },
         onSuccess: () => {
-          sendVerificationEmail({ callbackURL: "/dashboard", email });
+          sendVerificationEmail({
+            callbackURL: "/dashboard",
+            email,
+          });
+
           toast.success("Check your email for verification!", {
             closeButton: true,
             duration: 30000,
           });
+          setSentEmail(new Date().toISOString());
           setLoading(false);
         },
       },
@@ -112,7 +121,7 @@ function SignUpForm({ plan }: SignUpProps) {
         <CardTitle className="text-2xl">Create an account</CardTitle>
         <CardDescription>
           {isFreeTrial
-            ? "Trial period will start immediately after signup"
+            ? "Trial period will start after verification"
             : "Pick a plan after account creation"}
         </CardDescription>
       </CardHeader>
@@ -145,7 +154,6 @@ function SignUpForm({ plan }: SignUpProps) {
                   <FormControl>
                     <Input type="password" {...field} />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}

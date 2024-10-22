@@ -5,10 +5,11 @@ import { DB_LOCAL, DB_TEST } from "./constants";
 // Server-side variables
 const EnvSchema = z.object({
   API_TOKEN: z.string(),
-  DB_AUTH_TOKEN: z.string().optional().default("default"),
+  DB_AUTH_TOKEN: z.string().default("default"),
   DB_REMOTE: z.string().url().optional(),
   LOG_LEVEL: z.enum(["silent", "debug", "info", "warn", "error"]),
   NODE_ENV: z.string().default("development"),
+  POSTMARK_TOKEN: z.string().default(""),
   REDIS_PASS: z.string().optional(),
   REDIS_URL: z.string().url().optional(),
 });
@@ -34,6 +35,7 @@ export const DB_AUTH_TOKEN = data.DB_AUTH_TOKEN;
 export const DB_REMOTE = data.DB_REMOTE;
 export const LOG_LEVEL = data.LOG_LEVEL;
 export const NODE_ENV = data.NODE_ENV;
+export const POSTMARK_TOKEN = data.POSTMARK_TOKEN;
 export const REDIS_URL = data.REDIS_URL;
 export const REDIS_PASS = data.REDIS_PASS;
 
