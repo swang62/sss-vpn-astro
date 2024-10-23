@@ -86,9 +86,7 @@ function PricingCard({
         </CardContent>
       </div>
       {/* <CardFooter className="mt-2 flex justify-center">
-        <a href={`/signup?redirect=${plan}`}>
-          <Button>{`Get ${title}`}</Button>
-        </a>
+          <Button>{`Get ${title}`}</Button>∂
       </CardFooter> */}
     </Card>
   );

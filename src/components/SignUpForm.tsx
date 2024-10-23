@@ -91,9 +91,11 @@ function SignUpForm({ plan }: SignUpProps) {
           if (status === 422) {
             form.setError(
               "email",
-              { message: "Email already exists, did you want to login?" },
+              { message: "Email already exists, did you mean to login?" },
               { shouldFocus: true },
             );
+          } else if (status === 429) {
+            toast.warning(ctx.error.message);
           }
           setLoading(false);
         },
@@ -197,8 +199,12 @@ function SignUpForm({ plan }: SignUpProps) {
 
         <div className="mt-4 text-center text-sm">
           Already have an account?
-          <a href="/login" className="ml-2 text-primary-link underline">
-            Login
+          <a
+            href="/login"
+            className="ml-2 text-primary-link underline"
+            data-astro-reload
+          >
+            Log in
           </a>
         </div>
       </CardContent>

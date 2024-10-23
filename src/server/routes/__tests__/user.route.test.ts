@@ -20,7 +20,7 @@ describe("route /user", () => {
     const data = await response.json();
 
     expect(data.user.id).toBe("1");
-    expect(data.user.email).toBe("test@test.com");
+    expect(data.user.email).toBe("admin@sssvpn.com");
     expect(data.user.profile?.subscription).toBe("premium");
   });
 
