@@ -1,4 +1,4 @@
-import { getUserFromDB } from "@/db/queries";
+import { getUserById } from "@/db/queries";
 import { createBaseRouter } from "@/server/app";
 
 const route = createBaseRouter()
@@ -10,7 +10,7 @@ const route = createBaseRouter()
     }
     const id = user.id;
 
-    const userRecord = await getUserFromDB(id);
+    const userRecord = await getUserById(id);
     if (!userRecord) {
       c.status(404);
       throw new Error(`User ${id} not found`);

@@ -1,6 +1,9 @@
+import { zValidator } from "@hono/zod-validator";
 import { captureException } from "@sentry/astro";
+import { z } from "zod";
 
 import { IS_PRODUCTION } from "@/config/server";
+import { getUserByEmail, getUserByToken } from "@/db/queries";
 import { createBaseRouter } from "@/server/app";
 
 const route = createBaseRouter()
@@ -18,6 +21,44 @@ const route = createBaseRouter()
       response,
     });
   })
+  .get(
+    "/search-email",
+    zValidator(
+      "query",
+      z.object({
+        email: z.string(),
+      }),
+    ),
+    async (c) => {
+      const { email } = c.req.valid("query");
+
+      const user = await getUserByEmail(email);
+      if (!user || !email) {
+        return c.json({ exists: false });
+      }
+
+      return c.json({ exists: true });
+    },
+  )
+  .get(
+    "/search-token",
+    zValidator(
+      "query",
+      z.object({
+        token: z.string().optional(),
+      }),
+    ),
+    async (c) => {
+      const { token } = c.req.valid("query");
+
+      const user = await getUserByToken(token);
+      if (!user) {
+        return c.json({ email: null });
+      }
+
+      return c.json({ email: user.email });
+    },
+  )
   .get("/error", (c) => {
     const message = "Fake api error";
     captureException(new Error(message));

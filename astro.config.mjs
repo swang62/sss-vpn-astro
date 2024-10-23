@@ -7,7 +7,6 @@ import compressor from "astro-compressor";
 import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
 import { defineConfig } from "astro/config";
-import simpleStackForm from "simple-stack-form";
 import { loadEnv } from "vite";
 
 process.env = {
@@ -56,13 +55,12 @@ export default defineConfig({
       policy: [
         {
           allow: "/",
-          disallow: ["/api", "/error"],
+          disallow: ["/api/*", "/dashboard", "/dashboard/*"],
           userAgent: "*",
         },
       ],
     }),
     sitemap(),
-    simpleStackForm(),
     compressor({
       brotli: true,
       gzip: false,

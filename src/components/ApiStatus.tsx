@@ -15,31 +15,31 @@ interface Props {}
 
 function ApiStatus(_props: Props) {
   const [code, setCode] = useState("");
-  const { error, mutate } = useSWR("/api/status", getStatus);
-  const { error: errorUser, mutate: mutateUser } = useSWR("/api/user", getUser);
-  const { error: errorSession, mutate: mutateSession } = useSWR(
-    "/api/user/session",
-    getSession,
-  );
+  const { mutate } = useSWR("/api/status", getStatus);
+  const { mutate: mutateUser } = useSWR("/api/user", getUser);
+  const { mutate: mutateSession } = useSWR("/api/user/session", getSession);
 
   // Handlers
   const onClickStatus = async () => {
     const data = await mutate();
-    toast.success("Fetched.", { position: "bottom-center" });
+    // @ts-expect-error
+    if (!data?.message) toast.success("Fetched.");
     setCode(JSON.stringify(data, null, 2));
   };
   const onClickUser = async () => {
     const data = await mutateUser();
-    toast.success("Fetched.", { position: "bottom-center" });
+    // @ts-expect-error
+    if (!data?.message) toast.success("Fetched.");
     setCode(JSON.stringify(data, null, 2));
   };
   const onClickSession = async () => {
     const data = await mutateSession();
-    toast.success("Fetched.", { position: "bottom-center" });
+    // @ts-expect-error
+    if (!data?.message) toast.success("Fetched.");
     setCode(JSON.stringify(data, null, 2));
   };
   const onClickReset = () => {
-    toast.info("Reset.", { position: "bottom-center" });
+    toast.info("Reset.");
     setCode("");
   };
 
@@ -48,20 +48,20 @@ function ApiStatus(_props: Props) {
       <div className="flex justify-between">
         <div className="flex gap-2">
           <Button variant="secondary" onClick={onClickStatus}>
-            Check API Status
+            Check API
           </Button>
           <Button variant="secondary" onClick={onClickUser}>
-            Get User
+            Get user
           </Button>
           <Button variant="secondary" onClick={onClickSession}>
-            Get Session
+            Get session
           </Button>
         </div>
         <Button variant="destructive" onClick={onClickReset}>
           Reset
         </Button>
       </div>
-      <code>{code || error || errorUser || errorSession}</code>
+      <code>{code}</code>
     </div>
   );
 }

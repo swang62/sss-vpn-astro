@@ -21,7 +21,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   if (!session && pathname.startsWith("/dashboard")) {
     console.error(pathname, "Unauthenticated");
     return context.redirect("/login");
-  } else if (session && ["/login", "/signup", "/forgot"].includes(pathname)) {
+  } else if (session && ["/login", "/signup"].includes(pathname)) {
     console.info(pathname, "Already logged in");
     return context.redirect("/dashboard");
   }

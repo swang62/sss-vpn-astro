@@ -18,12 +18,7 @@ import { Input } from "@/components/ui/input";
 import { signIn } from "@/lib/clients";
 
 const formSchema = z.object({
-  email: z
-    .string()
-    .email({
-      message: "Invalid email address",
-    })
-    .toLowerCase(),
+  email: z.string().email().toLowerCase(),
   password: z.string(),
 });
 
@@ -52,7 +47,6 @@ function LoginForm(_props: LoginProps) {
       },
       {
         onError: (ctx) => {
-          console.dir(ctx.error);
           const status = ctx.error.status;
           if (status === 401) {
             form.setError(
@@ -65,7 +59,7 @@ function LoginForm(_props: LoginProps) {
           }
           setLoading(false);
         },
-        onRequest: async () => {
+        onRequest: () => {
           setLoading(true);
         },
       },
@@ -102,7 +96,7 @@ function LoginForm(_props: LoginProps) {
                   <div className="flex items-center">
                     <FormLabel>Password</FormLabel>
                     <a
-                      href="/forgot"
+                      href="/forgot-password"
                       className="ml-auto inline-block text-right text-sm underline"
                       data-astro-reload
                     >

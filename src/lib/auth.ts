@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin } from "better-auth/plugins";
 
+import { SITE_EMAIL } from "@/config/constants";
 import db from "@/db";
 import { postmarkClient, redis } from "@/lib/backend";
 
@@ -21,7 +22,7 @@ export const auth = betterAuth({
       }
 
       postmarkClient.sendEmailWithTemplate({
-        From: "hello@sss-vpn.com",
+        From: SITE_EMAIL,
         TemplateAlias: "password-reset",
         TemplateModel: {
           email: user.email,
@@ -39,7 +40,7 @@ export const auth = betterAuth({
       }
 
       postmarkClient.sendEmailWithTemplate({
-        From: "hello@sss-vpn.com",
+        From: SITE_EMAIL,
         TemplateAlias: "verify",
         TemplateModel: {
           email: user.email,

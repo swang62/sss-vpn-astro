@@ -1,6 +1,5 @@
 import { defineConfig } from "drizzle-kit";
 
-// This file should only be triggered from CLI/node
 // !!! Must use relative imports !!!
 import { DB_LOCAL, DB_TEST } from "./src/config/constants";
 

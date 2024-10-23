@@ -33,12 +33,7 @@ import { secondsPassed } from "@/lib/utils";
 
 const formSchema = z
   .object({
-    email: z
-      .string()
-      .email({
-        message: "Invalid email address",
-      })
-      .toLowerCase(),
+    email: z.string().email().toLowerCase(),
     password: z
       .string()
       .min(8, { message: "Password must be at least 8 characters" }),
@@ -74,7 +69,7 @@ function SignUpForm({ plan }: SignUpProps) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const timeSince = secondsPassed(sentEmail);
     if (timeSince < 10) {
-      toast.warning("Too many signup requests, try again later.");
+      toast.warning("Too many signup attempts, try again later.");
       return;
     }
 
@@ -91,7 +86,7 @@ function SignUpForm({ plan }: SignUpProps) {
           if (status === 422) {
             form.setError(
               "email",
-              { message: "Email already exists, did you mean to login?" },
+              { message: "Email already exists." },
               { shouldFocus: true },
             );
           } else if (status === 429) {
@@ -99,7 +94,7 @@ function SignUpForm({ plan }: SignUpProps) {
           }
           setLoading(false);
         },
-        onRequest: async () => {
+        onRequest: () => {
           setLoading(true);
         },
         onSuccess: () => {
@@ -108,10 +103,11 @@ function SignUpForm({ plan }: SignUpProps) {
             email,
           });
 
-          toast.success("Check your email for verification!", {
+          toast.success("Email sent! Check your inbox.", {
             closeButton: true,
             duration: 30000,
           });
+          form.reset();
           setSentEmail(new Date().toISOString());
           setLoading(false);
         },
@@ -131,10 +127,10 @@ function SignUpForm({ plan }: SignUpProps) {
           If in China, use an unblocked email
           <Popover>
             <PopoverTrigger>
-              <span className="ml-1 text-secondary">provider</span>
+              <span className="ml-1 text-secondary underline">provider</span>
             </PopoverTrigger>
             <PopoverContent>
-              <h1 className="font-heading">Recommended Domains</h1>
+              <h1 className="font-heading">Recommended Providers</h1>
               <hr className="my-3" />
               <ul>
                 <li>microsoft.com</li>
@@ -214,7 +210,7 @@ function SignUpForm({ plan }: SignUpProps) {
             Terms and conditions
             <Popover>
               <PopoverTrigger>
-                <span className="ml-1 text-primary-link">here</span>
+                <span className="ml-1 font-medium text-foreground">here</span>
               </PopoverTrigger>
               <PopoverContent>
                 <h1 className="font-heading">Terms and Conditions</h1>
@@ -222,10 +218,10 @@ function SignUpForm({ plan }: SignUpProps) {
                 <p>
                   Nothing fancy here... I won't sell or distribute any of your
                   data. I don't store logs. All financial stuff is handled
-                  off-site with Stripe. Just please
+                  off-site with Stripe. Please
                   <span className="text-destructive"> don't torrent </span>
-                  any movies/tv shows. Otherwise, I'll have to shut everything
-                  down and then everyone will be sad. Thanks.
+                  any movies or TV shows. Otherwise, I'll have to shut
+                  everything down and then everyone will be sad. Thanks.
                 </p>
               </PopoverContent>
             </Popover>

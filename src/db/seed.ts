@@ -2,6 +2,8 @@ import { hashPassword } from "better-auth/crypto";
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 
+// !!! Must use relative imports !!!
+import { SITE_ADMIN } from "../config/constants";
 import { DB_LOCAL_URL } from "../config/server";
 import { account } from "./schema";
 
@@ -19,11 +21,13 @@ export async function seed() {
   const password = "password";
   const hash = await hashPassword(password);
   const id = "1";
+
   await db.insert(user).values([
     {
       banned: false,
       createdAt: new Date(),
-      email: "admin@sssvpn.com",
+      email: SITE_ADMIN,
+      emailVerified: true,
       id,
       name: "admin",
       role: "admin",
@@ -33,7 +37,7 @@ export async function seed() {
   await db.insert(account).values([
     {
       accountId: id,
-      expiresAt: new Date("2034-10-23T09:40:47.547Z"),
+      expiresAt: new Date("2050-01-01T00:00:00.000Z"),
       id,
       password: hash,
       providerId: "credential",

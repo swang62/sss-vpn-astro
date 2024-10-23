@@ -1,7 +1,7 @@
 ---
 import DashboardUI from "@/components/Dashboard";
 import { setupNewUserProfile } from "@/db/mutations";
-import { getProfileFromDB } from "@/db/queries";
+import { getProfileById } from "@/db/queries";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
 
 // Get session data
@@ -11,7 +11,7 @@ const id = userSession!.id;
 
 // For verified first time users, setup their profile
 if (isVerified) {
-  const profile = await getProfileFromDB(id);
+  const profile = await getProfileById(id);
   if (!profile) {
     await setupNewUserProfile(id);
   }
