@@ -6,14 +6,12 @@ import router from "../base.route";
 
 const client = testClient(createApp().route("/", router));
 
-describe("route /api/", () => {
+describe("route /", () => {
   it("get status", async () => {
     const response = await client.api.status.$get();
+    const data = await response.json();
 
     expect(response.status).toBe(200);
-    if (response.status === 200) {
-      const json = await response.json();
-      expect(json.production).toBe(false);
-    }
+    expect(data.production).toBe(false);
   });
 });

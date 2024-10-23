@@ -9,7 +9,6 @@ import { auth } from "@/lib/auth";
 import {
   authMiddleware,
   corsMiddleware,
-  customMiddleware,
   limiter,
   notFound,
   onError,
@@ -19,7 +18,6 @@ import {
 export interface Bindings {
   Variables: {
     logger: PinoLogger;
-    customClient: () => void;
     user: UserSession;
     session: Session;
   };
@@ -35,7 +33,6 @@ export default function createApp() {
   app.use(authMiddleware);
   app.use("/user*", (c) => auth.handler(c.req.raw));
   // app.use("/user/*", bearerAuth({ token: API_TOKEN }));
-  app.use(customMiddleware);
   app.use(pinoLogger());
   app.use(corsMiddleware());
   app.use(limiter());

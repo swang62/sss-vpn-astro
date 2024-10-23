@@ -49,7 +49,7 @@ function DashboardUI({ session, userSession }: Props) {
       {!isVerified && (
         <div className="mx-auto flex flex-col items-center justify-center gap-4">
           <span>Please verify your email address first.</span>
-          <Button onClick={onClickVerify}>Click to resend email</Button>
+          <Button onClick={onClickVerify}>Click to Resend Email</Button>
         </div>
       )}
     </div>

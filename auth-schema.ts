@@ -1,6 +1,11 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const user = sqliteTable("user", {
+  banExpires: integer("banExpires"),
+  banned: integer("banned", {
+    mode: "boolean",
+  }),
+  banReason: text("banReason"),
   createdAt: integer("createdAt", {
     mode: "timestamp",
   }).notNull(),
@@ -11,7 +16,10 @@ export const user = sqliteTable("user", {
   id: text("id").primaryKey(),
   image: text("image"),
   name: text("name").notNull(),
-  updatedAt: integer("updatedAt", { mode: "timestamp" }).notNull(),
+  role: text("role"),
+  updatedAt: integer("updatedAt", {
+    mode: "timestamp",
+  }).notNull(),
 });
 
 export const session = sqliteTable("session", {
@@ -19,6 +27,7 @@ export const session = sqliteTable("session", {
     mode: "timestamp",
   }).notNull(),
   id: text("id").primaryKey(),
+  impersonatedBy: text("impersonatedBy"),
   ipAddress: text("ipAddress"),
   userAgent: text("userAgent"),
   userId: text("userId")

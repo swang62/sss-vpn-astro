@@ -10,6 +10,7 @@ import { API_CLIENT_URL } from "@/config/client";
 // Better auth
 export const {
   $Infer,
+  admin,
   forgetPassword,
   resetPassword,
   sendVerificationEmail,

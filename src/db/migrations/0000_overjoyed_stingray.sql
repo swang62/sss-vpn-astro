@@ -24,6 +24,7 @@ CREATE UNIQUE INDEX `profile_userId_unique` ON `profile` (`userId`);--> statemen
 CREATE TABLE `session` (
 	`expiresAt` integer NOT NULL,
 	`id` text PRIMARY KEY NOT NULL,
+	`impersonatedBy` text,
 	`ipAddress` text,
 	`userAgent` text,
 	`userId` text NOT NULL,
@@ -31,12 +32,16 @@ CREATE TABLE `session` (
 );
 --> statement-breakpoint
 CREATE TABLE `user` (
+	`banExpires` integer,
+	`banned` integer,
+	`banReason` text,
 	`createdAt` integer NOT NULL,
 	`email` text NOT NULL,
 	`emailVerified` integer DEFAULT false NOT NULL,
 	`id` text PRIMARY KEY NOT NULL,
 	`image` text,
 	`name` text NOT NULL,
+	`role` text,
 	`updatedAt` integer NOT NULL
 );
 --> statement-breakpoint

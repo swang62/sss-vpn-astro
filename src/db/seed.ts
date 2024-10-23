@@ -13,17 +13,24 @@ export async function push() {
 export async function seed() {
   console.debug("Seeding database...");
 
-  // const { default: db, profile, user } = await import(".");
-
-  // await db.insert(user).values([
-  // { id: "1", name: "Steve" },
-  // { id: "2", name: "Bob" },
-  // ]);
-
-  // await db.insert(profile).values([
-  // { role: "admin", subscription_type: "premium", user_id: "1" },
-  // { role: "user", subscription_type: "trial", user_id: "2" },
-  // ]);
+  const { default: db, profile, user } = await import(".");
+  await db.insert(user).values([
+    {
+      banned: false,
+      createdAt: new Date(),
+      email: "test@test.com",
+      id: "1",
+      name: "test",
+      role: "admin",
+      updatedAt: new Date(),
+    },
+  ]);
+  await db.insert(profile).values([
+    {
+      subscription: "premium",
+      userId: "1",
+    },
+  ]);
 }
 
 export async function remove() {

@@ -16,7 +16,7 @@ export const auth = betterAuth({
     enabled: true,
     async sendResetPassword(user, url) {
       if (!postmarkClient) {
-        console.debug("RESET_PASSWORD", url);
+        console.debug("Reset Password --", url);
         return;
       }
 
@@ -34,7 +34,7 @@ export const auth = betterAuth({
   emailVerification: {
     async sendVerificationEmail(user, url) {
       if (!postmarkClient) {
-        console.debug("EMAIL_VERIFICATION", url);
+        console.debug("Verification --", url);
         return;
       }
 

@@ -1,6 +1,9 @@
 // Client-side and build/test variables (no process.env)
-if (import.meta.env.DEV) console.debug("CLIENT_ENV", import.meta.env);
+const isRuntime = !!import.meta.env;
 
-export const API_CLIENT_URL = import.meta.env.SITE; // config:SITE_URL
+if (import.meta.env?.DEV) console.debug("CLIENT_ENV", import.meta.env);
 
-export const PUBLIC_GTM_ID = import.meta.env.PUBLIC_GTM_ID;
+export const API_CLIENT_URL = isRuntime
+  ? import.meta.env.SITE
+  : process.env.SITE_URL || "";
+export const PUBLIC_GTM_ID = isRuntime ? import.meta.env.PUBLIC_GTM_ID : "";

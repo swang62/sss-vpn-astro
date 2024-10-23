@@ -50,7 +50,7 @@ const formSchema = z
   });
 
 interface SignUpProps {
-  plan: string;
+  plan?: string | null;
 }
 
 function SignUpForm({ plan }: SignUpProps) {
@@ -123,8 +123,26 @@ function SignUpForm({ plan }: SignUpProps) {
         <CardTitle className="text-2xl">Create an account</CardTitle>
         <CardDescription>
           {isFreeTrial
-            ? "Trial period will start after verification"
-            : "Pick a plan after account creation"}
+            ? "Trial period will start after verification."
+            : "Pick a plan after account creation."}
+          <br />
+          If in China, use an unblocked email
+          <Popover>
+            <PopoverTrigger>
+              <span className="ml-1 text-secondary">provider</span>
+            </PopoverTrigger>
+            <PopoverContent>
+              <h1 className="font-heading">Recommended Domains</h1>
+              <hr className="my-3" />
+              <ul>
+                <li>microsoft.com</li>
+                <li>outlook.com</li>
+                <li>live.com</li>
+                <li>icloud.com</li>
+                <li>163.com</li>
+              </ul>
+            </PopoverContent>
+          </Popover>
         </CardDescription>
       </CardHeader>
 
@@ -140,9 +158,6 @@ function SignUpForm({ plan }: SignUpProps) {
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
-                  {/* <FormDescription>
-                    If in China, use an unblocked email domain
-                  </FormDescription> */}
                   <FormMessage />
                 </FormItem>
               )}
@@ -196,9 +211,7 @@ function SignUpForm({ plan }: SignUpProps) {
                 <span className="ml-1 text-primary-link">here</span>
               </PopoverTrigger>
               <PopoverContent>
-                <h1 className="text-center font-heading text-lg">
-                  Terms and Conditions
-                </h1>
+                <h1 className="font-heading">Terms and Conditions</h1>
                 <hr className="my-3" />
                 <p>
                   Nothing fancy here... I won't sell or distribute any of your

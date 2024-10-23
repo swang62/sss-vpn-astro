@@ -109,7 +109,7 @@ function Pricing() {
     {
       description: "Good for heavy streaming/media usage",
       features: [
-        "100GB data",
+        "150GB data",
         "Heavy streaming, gaming, video conferencing",
         "More data!",
       ],
@@ -120,7 +120,7 @@ function Pricing() {
       description:
         "For multiple people, family members, or lots of IoT devices",
       features: [
-        "200GB data",
+        "300GB data",
         "Fully pre-configured WiFi6 router",
         "Remote support available",
         "Domestic shipping only*",
@@ -135,7 +135,7 @@ function Pricing() {
       <div className="py-8">
         <PricingHeader
           title="Simple pricing"
-          subtitle="Just some money for me to cover server costs, thanks."
+          subtitle="Just some money for me to cover server costs, thanks. FYI, 1 hour of streaming uses around 1-2GB."
         />
         <div className="mt-8 flex flex-col justify-center gap-8 sm:flex-row sm:flex-wrap">
           {plans.map((plan) => {

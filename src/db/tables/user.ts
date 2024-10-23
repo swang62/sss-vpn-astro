@@ -6,6 +6,11 @@ import { profile } from "./profile";
 import { session } from "./session";
 
 export const user = t.sqliteTable("user", {
+  banExpires: t.integer("banExpires"),
+  banned: t.integer("banned", {
+    mode: "boolean",
+  }),
+  banReason: t.text("banReason"),
   createdAt: t.integer("createdAt", { mode: "timestamp" }).notNull(),
   email: t.text("email").notNull().unique(),
   emailVerified: t
@@ -15,6 +20,7 @@ export const user = t.sqliteTable("user", {
   id: t.text("id").primaryKey(),
   image: t.text("image"),
   name: t.text("name").notNull(),
+  role: t.text("role"),
   updatedAt: t.integer("updatedAt", { mode: "timestamp" }).notNull(),
 });
 

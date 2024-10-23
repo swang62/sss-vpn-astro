@@ -2,7 +2,8 @@
 import SignUpForm from "@/components/SignUpForm";
 import AuthLayout from "@/layouts/AuthLayout.astro";
 
-const plan = Astro.url.searchParams.get("plan");
+const plan = Astro.url.searchParams.get("plan") || "";
+console.debug(plan);
 ---
 
 <AuthLayout title="Sign Up">

@@ -9,7 +9,7 @@ import { createMiddleware } from "hono/factory";
 import pino from "pino";
 import pretty from "pino-pretty";
 
-import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
+import { IS_PRODUCTION, IS_TESTING, LOG_LEVEL } from "@/config/server";
 import { auth } from "@/lib/auth";
 import { redis } from "@/lib/backend";
 
@@ -28,12 +28,28 @@ export const authMiddleware = createMiddleware<Bindings>(async (c, next) => {
   return next();
 });
 
-export const customMiddleware = createMiddleware<Bindings>(async (c, next) => {
-  c.set("customClient", () => {
-    // Setup up temporary context/clients/variables
-    console.debug("customClient");
+export const testMiddleware = createMiddleware<Bindings>(async (c, next) => {
+  if (!IS_TESTING) {
+    return next();
+  }
+
+  // Add some fake session/user data to context. Should match seed.ts
+  c.set("user", {
+    banned: false,
+    createdAt: new Date(),
+    email: "test@test.com",
+    emailVerified: true,
+    id: "1",
+    name: "test",
+    role: "admin",
+    updatedAt: new Date(),
   });
-  await next();
+  c.set("session", {
+    expiresAt: new Date(),
+    id: "1",
+    userId: "1",
+  });
+  return next();
 });
 
 export const notFound: NotFoundHandler = (c) => {

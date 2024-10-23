@@ -6,6 +6,7 @@ import { user } from "./user";
 export const session = t.sqliteTable("session", {
   expiresAt: t.integer("expiresAt", { mode: "timestamp" }).notNull(),
   id: t.text("id").primaryKey(),
+  impersonatedBy: t.text("impersonatedBy"),
   ipAddress: t.text("ipAddress"),
   userAgent: t.text("userAgent"),
   userId: t
