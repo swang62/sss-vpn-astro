@@ -1,17 +1,16 @@
 import { useState } from "react";
 import { toast } from "sonner";
+import useSWR from "swr";
 
 import type { Session, UserSession } from "@/lib/clients";
 
 import { Button } from "@/components/ui/button";
-import { sendVerificationEmail } from "@/lib/clients";
+import { apiClient, sendVerificationEmail } from "@/lib/clients";
 import { secondsPassed } from "@/lib/utils";
 
-// async function getUser(id: string) {
-//   return apiServer.user[":id"]
-//     .$get({ param: { id } })
-//     .then(async (res) => await res.json());
-// }
+async function getUser() {
+  return apiClient.user.$get().then((res) => res.json());
+}
 
 interface Props {
   session: NonNullable<Session>;
@@ -21,10 +20,9 @@ interface Props {
 function DashboardUI({ session, userSession }: Props) {
   // Hooks
   const [sentEmail, setSentEmail] = useState("");
+  const { data } = useSWR("/api/user", getUser);
+  const user = data?.user;
   const isVerified = userSession.emailVerified;
-
-  // const { data } = useSWR(userId, getUser);
-  // const user = data?.user;
 
   // Handlers
   const onClickVerify = async () => {
@@ -47,7 +45,7 @@ function DashboardUI({ session, userSession }: Props) {
 
   return (
     <div className="flex min-h-screen w-full flex-col gap-4 py-4">
-      <code>{JSON.stringify({ session, userSession }, null, 2)}</code>
+      <code>{JSON.stringify({ session, user, userSession }, null, 2)}</code>
       {!isVerified && (
         <div className="mx-auto flex flex-col items-center justify-center gap-4">
           <span>Please verify your email address first.</span>

@@ -1,5 +1,6 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { admin } from "better-auth/plugins";
 
 import db from "@/db";
 import { postmarkClient, redis } from "@/lib/backend";
@@ -13,12 +14,27 @@ export const auth = betterAuth({
   emailAndPassword: {
     autoSignIn: true,
     enabled: true,
-    minPasswordLength: 8,
+    async sendResetPassword(user, url) {
+      if (!postmarkClient) {
+        console.debug("RESET_PASSWORD", url);
+        return;
+      }
+
+      postmarkClient.sendEmailWithTemplate({
+        From: "hello@sss-vpn.com",
+        TemplateAlias: "password-reset",
+        TemplateModel: {
+          email: user.email,
+          reset_url: url,
+        },
+        To: user.email,
+      });
+    },
   },
   emailVerification: {
-    sendVerificationEmail: async (user, url) => {
+    async sendVerificationEmail(user, url) {
       if (!postmarkClient) {
-        console.debug("VERIFY_URL", url);
+        console.debug("EMAIL_VERIFICATION", url);
         return;
       }
 
@@ -33,6 +49,10 @@ export const auth = betterAuth({
       });
     },
   },
+  logger: {
+    verboseLogging: true,
+  },
+  plugins: [admin()],
   rateLimit: {
     enabled: true,
   },
@@ -46,4 +66,5 @@ export const auth = betterAuth({
         },
       }
     : undefined,
+  trustedOrigins: ["localhost", "127.0.0.1"],
 });

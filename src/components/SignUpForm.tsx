@@ -39,7 +39,9 @@ const formSchema = z
         message: "Invalid email address",
       })
       .toLowerCase(),
-    password: z.string().min(8),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters" }),
     passwordConfirm: z.string().optional(),
   })
   .refine((data) => data.password === data.passwordConfirm, {
