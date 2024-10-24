@@ -12,7 +12,7 @@ services:
       - LIBSQL_BOTTOMLESS_AWS_DEFAULT_REGION=${MINIO_REGION}
       - RUST_LOG=info,bottomless=info
     healthcheck:
-      interval: 10s
+      interval: 5s
       retries: 5
       start_period: 5s
       test: "sqld --version || exit 1"
@@ -29,7 +29,7 @@ services:
     command: redis-server --save 60 100 --appendonly yes --requirepass ${REDIS_PASS:-default}
     container_name: redis
     healthcheck:
-      interval: 1m
+      interval: 5s
       retries: 5
       start_period: 5s
       test: redis-cli ping

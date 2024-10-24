@@ -14,7 +14,7 @@ function RedirectCheck(_props: Props) {
 
   if (data?.session) {
     toast.success("Logged in! Redirecting...");
-    sleep(500).then(() => navigate("/dashboard"));
+    sleep(1000).then(() => navigate("/dashboard"));
   }
 
   return null;
