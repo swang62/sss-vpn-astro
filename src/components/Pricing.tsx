@@ -47,7 +47,7 @@ function PricingCard({
       <div>
         <CardHeader className="pb-6 pt-4">
           <div className="flex justify-between">
-            <CardTitle className="text-lg text-foreground">{title}</CardTitle>
+            <CardTitle className="text-xl text-foreground">{title}</CardTitle>
             {/* {plan.includes("basic") && (
               <div
                 className={cn(
@@ -60,14 +60,14 @@ function PricingCard({
             )} */}
           </div>
           <div className="flex gap-0.5">
-            <h3 className="text-3xl font-bold">{`$${monthlyPrice}`}</h3>
+            <h3 className="text-3xl font-semibold">{`$${monthlyPrice}`}</h3>
             <span className="mb-1 flex items-end text-sm">/month</span>
             {plan.includes("premium") && (
               <>
-                <span className="flex items-center px-2 text-2xl font-bold">
+                <span className="flex items-center px-2 text-2xl font-semibold">
                   +
                 </span>
-                <h3 className="text-3xl font-bold">$50</h3>
+                <h3 className="text-3xl font-semibold">$50</h3>
                 <span className="mb-1 flex items-end text-sm">router</span>
               </>
             )}
@@ -135,11 +135,13 @@ function Pricing() {
           title="Simple pricing"
           subtitle="Just some money for me to cover server costs, thanks. FYI, an hour of HD streaming uses around 1-2GB."
         />
+
         <div className="mt-8 flex flex-col justify-center gap-8 sm:flex-row sm:flex-wrap">
           {plans.map((plan) => {
             return <PricingCard key={plan.plan} {...plan} />;
           })}
         </div>
+
         <div className="mt-10 flex flex-col items-center justify-center gap-4">
           <div className="text-balance leading-normal text-muted-foreground sm:text-lg sm:leading-7">
             Try it out first before picking a plan

@@ -6,12 +6,14 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
 
 interface Props {
+  current: string;
   links: MenuLink[];
 }
 
-function DesktopMenu({ links }: Props) {
+function DashboardMenu({ current, links }: Props) {
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -21,8 +23,12 @@ function DesktopMenu({ links }: Props) {
               key={link.href}
               href={link.href}
               className={navigationMenuTriggerStyle({
-                className:
-                  "bg-transparent hover:bg-transparent hover:text-muted-foreground focus:bg-transparent",
+                className: cn(
+                  "bg-transparent text-foreground/70 hover:bg-transparent hover:text-foreground focus:bg-transparent",
+                  link.href === current
+                    ? "font-semibold text-foreground underline underline-offset-8"
+                    : null,
+                ),
               })}
             >
               {link.label}
@@ -34,4 +40,4 @@ function DesktopMenu({ links }: Props) {
   );
 }
 
-export default DesktopMenu;
+export default DashboardMenu;

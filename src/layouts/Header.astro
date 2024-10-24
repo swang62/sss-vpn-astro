@@ -1,32 +1,30 @@
 ---
-import { SITE_NAME } from "@/config/constants";
 import { cn } from "@/lib/utils";
 ---
 
 <header
   class={cn(
-    "flex items-center h-16 z-50 sticky top-0 border-b-[1px] dark:border-b-slate-700 bg-background/80 backdrop-blur-md",
+    "flex items-center h-16 z-50 sticky top-0 border-b-[1px] dark:border-b-gray-800 bg-background/80 backdrop-blur-md",
   )}
 >
   <div class="container relative flex w-full items-center justify-between">
     <div class="flex w-full gap-6 md:gap-8 lg:gap-10">
       <!-- slot:mobile -->
-      <slot name="mobile-menu" />
+      <slot name="mobile" />
 
       <a href="/#top" class="hidden items-center space-x-2 md:flex">
         <img src="/favicon.ico" alt="logo" width={32} height={32} />
-        <span class="text-nowrap text-xl font-bold md:inline-block">
-          {SITE_NAME}
-        </span>
+        <!-- slot:left -->
+        <slot name="left" />
       </a>
 
       <!-- slot:center -->
       <div class="hidden md:flex">
-        <slot name="center-header" />
+        <slot name="center" />
       </div>
     </div>
 
     <!-- slot:right  -->
-    <slot name="right-header" />
+    <slot name="right" />
   </div>
 </header>

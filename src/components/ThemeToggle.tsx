@@ -75,7 +75,7 @@ function MoonIcon() {
   );
 }
 
-export function ThemeToggle() {
+function ThemeToggle() {
   const [theme, setTheme] = useState(() => {
     // Cannot toggle on the server
     if (import.meta.env.SSR) return undefined;
@@ -121,3 +121,5 @@ export function ThemeToggle() {
     <div />
   );
 }
+
+export default ThemeToggle;

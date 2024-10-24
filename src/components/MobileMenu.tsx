@@ -1,7 +1,7 @@
 import { Menu } from "lucide-react";
 import { useState } from "react";
 
-import type { MainMenuLink } from "@/lib/types";
+import type { MenuLink } from "@/lib/types";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,9 +15,10 @@ import {
 import { SITE_NAME } from "@/config/constants";
 
 interface Props {
-  links: MainMenuLink[];
+  links: MenuLink[];
 }
-export function MobileMenu({ links }: Props) {
+
+function MobileMenu({ links }: Props) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -31,7 +32,7 @@ export function MobileMenu({ links }: Props) {
       <SheetContent side="left" className="pr-0 text-xl">
         <SheetHeader className="pl-4 pt-4">
           <a href="/#top" onClick={() => setOpen(false)}>
-            <SheetTitle className="flex flex-nowrap items-center gap-2 text-left text-3xl font-bold">
+            <SheetTitle className="flex flex-nowrap items-center gap-2 text-left text-3xl font-semibold">
               <img src="/favicon.ico" alt="logo" width={36} height={36} />
               <span>{SITE_NAME}</span>
             </SheetTitle>
@@ -60,3 +61,5 @@ export function MobileMenu({ links }: Props) {
     </Sheet>
   );
 }
+
+export default MobileMenu;

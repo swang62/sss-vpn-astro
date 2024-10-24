@@ -28,7 +28,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { sendVerificationEmail, signUp } from "@/lib/clients";
-import { subscriptionPaid } from "@/lib/types";
 import { secondsPassed } from "@/lib/utils";
 
 const formSchema = z
@@ -44,16 +43,11 @@ const formSchema = z
     path: ["passwordConfirm"],
   });
 
-interface Props {
-  plan?: string | null;
-}
+interface Props {}
 
-function SignUpForm({ plan }: Props) {
+function SignUpForm(_props: Props) {
   const [loading, setLoading] = useState(false);
   const [sentEmail, setSentEmail] = useState("");
-
-  // Setup
-  const isFreeTrial = !subscriptionPaid.includes(plan as any);
 
   // Form hook
   const form = useForm<z.infer<typeof formSchema>>({
@@ -120,9 +114,7 @@ function SignUpForm({ plan }: Props) {
       <CardHeader className="text-center">
         <CardTitle className="text-2xl">Create an account</CardTitle>
         <CardDescription>
-          {isFreeTrial
-            ? "Trial period will start after verification."
-            : "Pick a plan after account creation."}
+          Trial period will start after verification.
           <br />
           If in China, use an unblocked email
           <Popover>

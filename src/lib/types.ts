@@ -1,4 +1,4 @@
-export type MainMenuLink = {
+export type MenuLink = {
   href: string;
   label: string;
 };
@@ -18,9 +18,3 @@ export const subscriptions = [
   "premium",
 ] as const;
 export type Subscription = (typeof subscriptions)[number];
-
-export const subscriptionPaid: Subscription[] = [
-  "basic",
-  "pro",
-  "premium",
-] as const;
