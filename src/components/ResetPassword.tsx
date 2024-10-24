@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { apiClient, resetPassword, signIn } from "@/lib/clients";
+import { resetPassword, signIn } from "@/lib/clients";
 import { sleep } from "@/lib/utils";
 
 const formSchema = z
@@ -38,11 +38,18 @@ const formSchema = z
   });
 
 interface ResetPasswordFormProps {
-  token: string;
+  email?: string;
 }
 
-function ResetPasswordForm({ token }: ResetPasswordFormProps) {
+function ResetPasswordForm({ email }: ResetPasswordFormProps) {
   const [loading, setLoading] = useState(false);
+
+  // Validate token/email
+  if (!email) {
+    toast.error("Invalid token! Redirecting...");
+    sleep(1000).then(() => navigate("/forgot-password"));
+    return;
+  }
 
   // Form hook
   const form = useForm<z.infer<typeof formSchema>>({
@@ -55,13 +62,8 @@ function ResetPasswordForm({ token }: ResetPasswordFormProps) {
 
   // Submit handler
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (!email) return;
     const { password } = values;
-
-    setLoading(true);
-
-    // Figure out the email
-    const response = await apiClient["search-token"].$get({ query: { token } });
-    const { email } = await response.json();
 
     await resetPassword(
       { newPassword: password },
@@ -70,19 +72,13 @@ function ResetPasswordForm({ token }: ResetPasswordFormProps) {
           toast.warning(ctx.error.message);
           setLoading(false);
         },
+        onRequest: () => {
+          setLoading(true);
+        },
         onSuccess: async () => {
-          toast.success("Password reset! Redirecting...", {
-            closeButton: true,
-            duration: 30000,
-          });
+          toast.success("Password reset! Redirecting...");
           form.reset();
-
           await sleep(1000);
-          if (!email) {
-            navigate("/login");
-            return;
-          }
-
           await signIn.email(
             {
               callbackURL: "/dashboard",

@@ -2,6 +2,7 @@ import node from "@astrojs/node";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
+import inoxToolswhen from "@inox-tools/astro-when";
 import sentry from "@sentry/astro";
 import compressor from "astro-compressor";
 import icon from "astro-icon";
@@ -24,6 +25,7 @@ export default defineConfig({
   },
   // ORDER MATTERS
   integrations: [
+    inoxToolswhen(),
     icon({
       include: {
         lucide: ["*"],

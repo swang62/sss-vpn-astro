@@ -34,7 +34,6 @@ export const testMiddleware = createMiddleware<Bindings>(async (c, next) => {
     return next();
   }
 
-  // Add some fake session/user data to context. Should match seed.ts
   c.set("user", TEST_USER);
   c.set("session", {
     expiresAt: new Date(),

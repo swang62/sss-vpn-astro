@@ -3,7 +3,7 @@ import { captureException } from "@sentry/astro";
 import { z } from "zod";
 
 import { IS_PRODUCTION } from "@/config/server";
-import { getUserByEmail, getUserByToken } from "@/db/queries";
+import { getUserByEmail } from "@/db/queries";
 import { createBaseRouter } from "@/server/app";
 
 const route = createBaseRouter()
@@ -38,25 +38,6 @@ const route = createBaseRouter()
       }
 
       return c.json({ exists: true });
-    },
-  )
-  .get(
-    "/search-token",
-    zValidator(
-      "query",
-      z.object({
-        token: z.string().optional(),
-      }),
-    ),
-    async (c) => {
-      const { token } = c.req.valid("query");
-
-      const user = await getUserByToken(token);
-      if (!user) {
-        return c.json({ email: null });
-      }
-
-      return c.json({ email: user.email });
     },
   )
   .get("/error", (c) => {

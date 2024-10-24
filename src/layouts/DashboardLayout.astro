@@ -4,7 +4,6 @@ import { setupNewUserProfile } from "@/db/mutations";
 import { getProfileById } from "@/db/queries";
 import Base from "@/layouts/Base.astro";
 import Header from "@/layouts/Header.astro";
-import { auth } from "@/lib/auth";
 
 interface Props {
   title: string;
@@ -12,19 +11,16 @@ interface Props {
 const { title } = Astro.props;
 
 // Get session data
-const data = await auth.api.getSession({
-  headers: Astro.request.headers,
-});
-
-if (!data?.user) {
+const { userSession } = Astro.locals;
+if (!userSession) {
   Astro.redirect("/login");
   return;
 }
 
 // For verified first time users, setup their profile
-const isVerified = data.user.emailVerified;
+const isVerified = userSession.emailVerified;
 if (isVerified) {
-  const userId = data.user.id;
+  const userId = userSession.id;
   const profile = await getProfileById(userId);
   if (!profile) {
     await setupNewUserProfile(userId);
@@ -34,7 +30,7 @@ if (isVerified) {
 ---
 
 <Base title={title}>
-  <Header transition:persist>
+  <Header>
     <!-- <MobileMenu links={links} slot="mobile-menu" client:load /> -->
     <!-- <DesktopMenu links={links} slot="center-header" /> -->
 
