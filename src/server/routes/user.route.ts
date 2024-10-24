@@ -6,7 +6,7 @@ const route = createBaseRouter().get("/", async (c) => {
   const user = c.get("user");
   if (!user) {
     c.status(401);
-    throw new Error(`Not allowed`);
+    throw new Error(`User not found`);
   }
   const id = user.id;
 

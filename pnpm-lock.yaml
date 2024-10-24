@@ -38,9 +38,6 @@ importers:
       '@iconify-json/mdi':
         specifier: ^1.2.1
         version: 1.2.1
-      '@inox-tools/astro-when':
-        specifier: ^0.2.4
-        version: 0.2.4(astro@4.16.4(@types/node@22.7.5)(rollup@4.24.0)(typescript@5.5.4))
       '@libsql/client':
         specifier: ^0.14.0
         version: 0.14.0
@@ -174,6 +171,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^19.5.0
         version: 19.5.0
+      '@inox-tools/astro-when':
+        specifier: ^0.2.4
+        version: 0.2.4(astro@4.16.4(@types/node@22.7.5)(rollup@4.24.0)(typescript@5.5.4))
       '@tailwindcss/forms':
         specifier: ^0.5.9
         version: 0.5.9(tailwindcss@3.4.13)
