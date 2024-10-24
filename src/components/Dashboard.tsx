@@ -2,30 +2,23 @@ import { useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
-import type { Session, UserSession } from "@/lib/clients";
-
 import { Button } from "@/components/ui/button";
-import { apiClient, sendVerificationEmail } from "@/lib/clients";
+import { fetchUser, sendVerificationEmail } from "@/lib/clients";
 import { secondsPassed } from "@/lib/utils";
 
-async function getUser() {
-  return apiClient.user.$get().then((res) => res.json());
-}
+interface Props {}
 
-interface Props {
-  session: NonNullable<Session>;
-  userSession: NonNullable<UserSession>;
-}
-
-function DashboardUI({ session, userSession }: Props) {
+function DashboardUI(_props: Props) {
   // Hooks
   const [sentEmail, setSentEmail] = useState("");
-  const { data } = useSWR("/api/user", getUser);
+  const { data } = useSWR("/api/user", fetchUser);
   const user = data?.user;
-  const isVerified = userSession.emailVerified;
+  const isVerified = user?.emailVerified;
 
   // Handlers
   const onClickVerify = async () => {
+    if (!user) return;
+
     const minutesSince = Math.floor(secondsPassed(sentEmail) / 60);
     if (minutesSince < 3) {
       toast.warning(
@@ -36,7 +29,7 @@ function DashboardUI({ session, userSession }: Props) {
 
     sendVerificationEmail({
       callbackURL: "/dashboard",
-      email: userSession.email,
+      email: user.email,
     });
 
     toast.success("Resent verification email.");
@@ -45,7 +38,7 @@ function DashboardUI({ session, userSession }: Props) {
 
   return (
     <div className="flex min-h-screen w-full flex-col gap-4 py-4">
-      <code>{JSON.stringify({ session, user, userSession }, null, 2)}</code>
+      <code>{JSON.stringify(user, null, 2)}</code>
       {!isVerified && (
         <div className="mx-auto flex flex-col items-center justify-center gap-4">
           <span>Please verify your email address first.</span>

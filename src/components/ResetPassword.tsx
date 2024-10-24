@@ -43,7 +43,6 @@ interface ResetPasswordFormProps {
 
 function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   const [loading, setLoading] = useState(false);
-  console.log(token);
 
   // Form hook
   const form = useForm<z.infer<typeof formSchema>>({

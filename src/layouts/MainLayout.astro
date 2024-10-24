@@ -48,11 +48,12 @@ const { title } = Astro.props;
           className:
             "pr-2 pl-2 bg-transparent hover:bg-transparent hover:text-muted-foreground focus:bg-transparent",
         })}
+        data-astro-reload
       >
         Log in
       </a>
 
-      <a href="/signup">
+      <a href="/signup" data-astro-reload>
         <Button className="rounded-full">Get started</Button>
       </a>
     </div>

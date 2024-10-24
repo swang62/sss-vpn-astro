@@ -23,7 +23,11 @@ import { Icon } from "astro-icon/components";
     </p>
 
     <div class="flex justify-center">
-      <a href="/signup" class={cn(buttonVariants({}), "gap-2 rounded-full")}>
+      <a
+        href="/signup"
+        class={cn(buttonVariants({}), "gap-2 rounded-full")}
+        data-astro-reload
+      >
         <span>Get started for free</span>
         <Icon name="lucide:arrow-right" class="size-6" />
       </a>

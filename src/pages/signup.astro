@@ -2,9 +2,9 @@
 import SignUpForm from "@/components/SignUpForm";
 import AuthLayout from "@/layouts/AuthLayout.astro";
 
-const plan = Astro.url.searchParams.get("plan");
+export const prerender = true;
 ---
 
 <AuthLayout title="Sign up">
-  <SignUpForm plan={plan} client:load />
+  <SignUpForm client:load />
 </AuthLayout>

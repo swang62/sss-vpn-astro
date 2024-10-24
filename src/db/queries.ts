@@ -49,8 +49,7 @@ export async function getUserById(id: string) {
     with: {
       profile: {
         columns: {
-          createdAt: false,
-          updatedAt: false,
+          subscription: true,
         },
       },
     },

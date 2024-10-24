@@ -14,14 +14,12 @@ export const {
   forgetPassword,
   resetPassword,
   sendVerificationEmail,
-  session,
   signIn,
   signOut,
   signUp,
-  user,
   useSession,
-  verifyEmail,
 } = createAuthClient({
+  baseURL: API_CLIENT_URL,
   fetchOptions: {
     onError(e) {
       if (e.error.status === 429) {
@@ -35,5 +33,10 @@ export const {
 export type Session = typeof $Infer.Session.session | null;
 export type UserSession = typeof $Infer.Session.user | null;
 
-// Hono RPC frontend (no auth)
+// Hono RPC
 export const { api: apiClient } = hc<App>(API_CLIENT_URL);
+
+// SWR hooks
+export async function fetchUser() {
+  return apiClient.user.$get().then((res) => res.json());
+}

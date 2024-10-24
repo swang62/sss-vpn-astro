@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin } from "better-auth/plugins";
 
+import { API_CLIENT_URL } from "@/config/client";
 import { SITE_EMAIL } from "@/config/constants";
 import db from "@/db";
 import { postmarkClient, redis } from "@/lib/backend";
@@ -9,6 +10,7 @@ import { postmarkClient, redis } from "@/lib/backend";
 const client = redis ? redis.client : null;
 
 export const auth = betterAuth({
+  baseURL: API_CLIENT_URL,
   database: drizzleAdapter(db, {
     provider: "sqlite",
   }),
@@ -17,7 +19,7 @@ export const auth = betterAuth({
     enabled: true,
     async sendResetPassword(user, url) {
       if (!postmarkClient) {
-        console.debug("Reset Password --", url);
+        console.debug("Reset password link --", url);
         return;
       }
 
@@ -35,7 +37,7 @@ export const auth = betterAuth({
   emailVerification: {
     async sendVerificationEmail(user, url) {
       if (!postmarkClient) {
-        console.debug("Verification --", url);
+        console.debug("Verification link --", url);
         return;
       }
 

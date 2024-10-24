@@ -23,13 +23,6 @@ describe("route /user", () => {
     expect(data.user.id).toBe("1");
     expect(data.user.email).toBe(SITE_ADMIN);
     expect(data.user.profile?.subscription).toBe("premium");
-  });
-
-  it("get session", async () => {
-    const response = await client.api.session.$get();
-    const data = await response.json();
-
     expect(data.session?.userId).toBe("1");
-    expect(new Date(data.user.createdAt)).toBeTruthy();
   });
 });

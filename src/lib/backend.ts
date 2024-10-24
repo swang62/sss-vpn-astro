@@ -12,7 +12,6 @@ import { POSTMARK_TOKEN, REDIS_PASS, REDIS_URL } from "@/config/server";
 // export type GetUserResponse = InferResponseType<typeof _$get>;
 // export type UserProfile = Pick<GetUserResponse, "user">;
 
-// Postmark
 export const postmarkClient = POSTMARK_TOKEN
   ? new postmark.ServerClient(POSTMARK_TOKEN)
   : null;

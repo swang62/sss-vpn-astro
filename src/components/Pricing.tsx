@@ -144,7 +144,7 @@ function Pricing() {
           <div className="text-balance leading-normal text-muted-foreground sm:text-lg sm:leading-7">
             Try it out first before picking a plan
           </div>
-          <a href="/signup">
+          <a href="/signup" data-astro-reload>
             <Button className="rounded-full" variant="secondary">
               Get started
               <ArrowRight className="size-6" />
