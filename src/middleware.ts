@@ -19,8 +19,6 @@ export const authenticate: MiddlewareHandler = async (ctx, next) => {
 
   // Redirect for invalid sessions
   if (!session && needsAuth) {
-    console.error(pathname, "Unauthenticated");
-
     return ctx.redirect("/login");
   }
 

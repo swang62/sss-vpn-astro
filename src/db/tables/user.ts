@@ -29,3 +29,7 @@ export const UserRelations = relations(user, ({ many, one }) => ({
   profile: one(profile),
   session: many(session),
 }));
+
+export type User = typeof user.$inferSelect & {
+  profile: typeof profile.$inferSelect | null;
+};

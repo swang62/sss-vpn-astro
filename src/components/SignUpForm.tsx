@@ -44,11 +44,11 @@ const formSchema = z
     path: ["passwordConfirm"],
   });
 
-interface SignUpProps {
+interface Props {
   plan?: string | null;
 }
 
-function SignUpForm({ plan }: SignUpProps) {
+function SignUpForm({ plan }: Props) {
   const [loading, setLoading] = useState(false);
   const [sentEmail, setSentEmail] = useState("");
 

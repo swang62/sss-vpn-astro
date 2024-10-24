@@ -133,7 +133,7 @@ function Pricing() {
       <div className="py-8">
         <PricingHeader
           title="Simple pricing"
-          subtitle="Just some money for me to cover server costs, thanks. FYI, 1 hour of streaming uses around 1-2GB."
+          subtitle="Just some money for me to cover server costs, thanks. FYI, an hour of HD streaming uses around 1-2GB."
         />
         <div className="mt-8 flex flex-col justify-center gap-8 sm:flex-row sm:flex-wrap">
           {plans.map((plan) => {

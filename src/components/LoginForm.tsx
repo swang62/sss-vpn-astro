@@ -22,9 +22,9 @@ const formSchema = z.object({
   password: z.string(),
 });
 
-interface LoginProps {}
+interface Props {}
 
-function LoginForm(_props: LoginProps) {
+function LoginForm(_props: Props) {
   const [loading, setLoading] = useState(false);
 
   // Form hook

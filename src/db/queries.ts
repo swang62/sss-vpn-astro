@@ -41,17 +41,9 @@ export async function getUserByToken(token?: string) {
 
 export async function getUserById(id: string) {
   const user = await db.query.user.findFirst({
-    columns: {
-      createdAt: false,
-      updatedAt: false,
-    },
     where: eq(userTable.id, id),
     with: {
-      profile: {
-        columns: {
-          subscription: true,
-        },
-      },
+      profile: true,
     },
   });
 

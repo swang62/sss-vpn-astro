@@ -10,7 +10,11 @@ export const profile = t.sqliteTable("profile", {
     .integer("createdAt", { mode: "timestamp" })
     .notNull()
     .default(sql`(unixepoch())`),
-  subscription: t.text("subscription").$type<Subscription>().default("none"),
+  subscription: t
+    .text("subscription")
+    .notNull()
+    .$type<Subscription>()
+    .default("none"),
   updatedAt: t
     .integer("updatedAt", { mode: "timestamp" })
     .notNull()

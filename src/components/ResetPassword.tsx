@@ -37,11 +37,11 @@ const formSchema = z
     path: ["passwordConfirm"],
   });
 
-interface ResetPasswordFormProps {
+interface Props {
   email?: string;
 }
 
-function ResetPasswordForm({ email }: ResetPasswordFormProps) {
+function ResetPasswordForm({ email }: Props) {
   const [loading, setLoading] = useState(false);
 
   // Validate token/email

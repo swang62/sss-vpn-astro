@@ -1,4 +1,5 @@
 ---
+import AvatarMenu from "@/components/AvatarMenu";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { setupNewUserProfile } from "@/db/mutations";
 import { getProfileById } from "@/db/queries";
@@ -36,10 +37,11 @@ if (isVerified) {
 
     <div class="flex items-center gap-x-4" slot="right-header">
       <ThemeToggle client:load />
+      <AvatarMenu client:load />
     </div>
   </Header>
-
-  <main class="container mx-auto gap-4 md:gap-8">
-    <slot />
-  </main>
 </Base>
+
+<main class="container mx-auto gap-4 md:gap-8">
+  <slot />
+</main>
