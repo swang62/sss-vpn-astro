@@ -1,12 +1,14 @@
 ---
 import AvatarMenu from "@/components/AvatarMenu";
 import DashboardMenu from "@/components/DashboardMenu";
+import DashboardMobileMenu from "@/components/DashboardMobileMenu";
 import ThemeToggle from "@/components/ThemeToggle";
+import { SITE_NAME } from "@/config/constants";
 import { setupNewUserProfile } from "@/db/mutations";
 import { getProfileById } from "@/db/queries";
 import Base from "@/layouts/Base.astro";
 import Header from "@/layouts/Header.astro";
-import { MenuLink } from "@/lib/types";
+import SubHeader from "@/layouts/SubHeader.astro";
 
 interface Props {
   title: string;
@@ -31,26 +33,25 @@ if (isVerified) {
     // TODO: also setup vpn access here
   }
 }
-
-const links: MenuLink[] = [
-  { href: "/dashboard", label: "Overview" },
-  { href: "/dashboard/install", label: "How to install" },
-];
 ---
 
 <Base title={title}>
   <Header>
-    <!-- <MobileMenu links={links} slot="mobile-menu" client:load /> -->
+    <DashboardMobileMenu current={pathname} slot="mobile" client:load />
+    <span class="text-nowrap text-xl md:inline-block" slot="left">
+      {SITE_NAME}
+    </span>
 
-    <DashboardMenu current={pathname} links={links} slot="center" />
+    <DashboardMenu current={pathname} slot="center" />
 
     <div class="flex items-center gap-x-4" slot="right">
       <ThemeToggle client:load />
       <AvatarMenu client:load />
     </div>
   </Header>
-</Base>
 
-<main class="container mx-auto gap-4 md:gap-8">
-  <slot />
-</main>
+  <main class="container mx-auto gap-4 md:gap-8">
+    <SubHeader current={pathname} />
+    <slot />
+  </main>
+</Base>

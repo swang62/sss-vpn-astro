@@ -37,7 +37,7 @@ function DashboardUI(_props: Props) {
   };
 
   return (
-    <div className="flex min-h-screen w-full flex-col gap-4 py-4">
+    <div className="flex w-full flex-col gap-4 py-4">
       <code>{JSON.stringify(user, null, 2)}</code>
       {user && !isVerified && (
         <div className="mx-auto flex flex-col items-center justify-center gap-4">

@@ -1,8 +1,3 @@
-export type MenuLink = {
-  href: string;
-  label: string;
-};
-
 export type PricingCardProps = {
   plan: Subscription;
   monthlyPrice: number;

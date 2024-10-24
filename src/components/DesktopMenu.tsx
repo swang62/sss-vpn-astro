@@ -1,22 +1,19 @@
-import type { MenuLink } from "@/lib/types";
-
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { MAIN_LINKS } from "@/config/links";
 
-interface Props {
-  links: MenuLink[];
-}
+interface Props {}
 
-function DesktopMenu({ links }: Props) {
+function DesktopMenu(_props: Props) {
   return (
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem className="flex gap-2">
-          {links.map((link) => (
+          {MAIN_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}

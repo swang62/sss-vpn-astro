@@ -1,8 +1,6 @@
 import { Menu } from "lucide-react";
 import { useState } from "react";
 
-import type { MenuLink } from "@/lib/types";
-
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -13,12 +11,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { SITE_NAME } from "@/config/constants";
+import { MAIN_LINKS } from "@/config/links";
 
-interface Props {
-  links: MenuLink[];
-}
+interface Props {}
 
-function MobileMenu({ links }: Props) {
+function MobileMenu(_props: Props) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -42,13 +39,12 @@ function MobileMenu({ links }: Props) {
 
         <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-10 pt-4 text-2xl">
           <div className="flex flex-col space-y-6">
-            {links.map(
+            {MAIN_LINKS.map(
               (link) =>
                 link.href && (
                   <a
                     key={link.href}
                     href={link.href}
-                    className="text-muted-foreground"
                     onClick={() => setOpen(false)}
                   >
                     {link.label}
