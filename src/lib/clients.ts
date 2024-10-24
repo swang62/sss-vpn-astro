@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 import type { App } from "@/server";
 
-import { API_CLIENT_URL } from "@/config/client";
+import { SITE_URL } from "@/config/client";
 
 // Better auth
 export const {
@@ -19,7 +19,7 @@ export const {
   signUp,
   useSession,
 } = createAuthClient({
-  baseURL: API_CLIENT_URL,
+  baseURL: SITE_URL,
   fetchOptions: {
     onError(e) {
       if (e.error.status === 429) {
@@ -34,7 +34,7 @@ export type Session = typeof $Infer.Session.session | null;
 export type UserSession = typeof $Infer.Session.user | null;
 
 // Hono RPC
-export const { api: apiClient } = hc<App>(API_CLIENT_URL);
+export const { api: apiClient } = hc<App>(SITE_URL);
 
 // SWR hooks
 export async function fetchUser() {

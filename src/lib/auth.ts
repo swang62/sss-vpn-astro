@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin } from "better-auth/plugins";
 
-import { API_CLIENT_URL } from "@/config/client";
+import { SITE_URL } from "@/config/client";
 import { SITE_EMAIL } from "@/config/constants";
 import db from "@/db";
 import { postmarkClient, redis } from "@/lib/backend";
@@ -10,7 +10,7 @@ import { postmarkClient, redis } from "@/lib/backend";
 const client = redis ? redis.client : null;
 
 export const auth = betterAuth({
-  baseURL: API_CLIENT_URL,
+  baseURL: SITE_URL,
   database: drizzleAdapter(db, {
     provider: "sqlite",
   }),

@@ -5,7 +5,7 @@ if (import.meta.env?.DEV && import.meta.env?.MODE !== "test") {
   console.debug("CLIENT_ENV", import.meta.env);
 }
 
-export const API_CLIENT_URL = isRuntime
+export const SITE_URL = isRuntime
   ? import.meta.env.SITE
   : process.env.SITE_URL || "/";
 
