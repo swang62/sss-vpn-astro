@@ -12,7 +12,7 @@ services:
       - LIBSQL_BOTTOMLESS_AWS_DEFAULT_REGION=${MINIO_REGION}
       - RUST_LOG=info,bottomless=info
     healthcheck:
-      interval: 10s
+      interval: 5s
       retries: 5
       start_period: 5s
       test: "sqld --version || exit 1"
@@ -29,7 +29,7 @@ services:
     command: redis-server --save 60 100 --appendonly yes --requirepass ${REDIS_PASS:-default}
     container_name: redis
     healthcheck:
-      interval: 1m
+      interval: 5s
       retries: 5
       start_period: 5s
       test: redis-cli ping
@@ -60,8 +60,10 @@ services:
         condition: service_healthy
     environment:
       - API_TOKEN
+      - BETTER_AUTH_SECRET
       - DB_REMOTE=${DB_REMOTE:-http://db:8080}
       - DB_AUTH_TOKEN=${DB_AUTH_TOKEN:-default}
+      - POSTMARK_TOKEN
       - REDIS_URL=${REDIS_URL:-redis:6379}
       - REDIS_PASS=${REDIS_PASS:-default}
       - LOG_LEVEL

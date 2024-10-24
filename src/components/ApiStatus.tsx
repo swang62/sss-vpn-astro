@@ -3,25 +3,34 @@ import { toast } from "sonner";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
-import { apiClient } from "@/server/client";
+import { apiClient } from "@/lib/clients";
 
 const getStatus = () => apiClient.status.$get().then((res) => res.json());
+const getUser = () => apiClient.user.$get().then((res) => res.json());
 
 interface Props {}
 
 function ApiStatus(_props: Props) {
-  const [statusResponse, setStatusResponse] = useState("");
-  const { error, mutate } = useSWR("/api/status", getStatus);
+  const [code, setCode] = useState("");
+  const { mutate } = useSWR("/api/status", getStatus);
+  const { mutate: mutateUser } = useSWR("/api/user", getUser);
 
   // Handlers
   const onClickStatus = async () => {
     const data = await mutate();
-    toast.success("Fetched.");
-    setStatusResponse(JSON.stringify(data, null, 2));
+    // @ts-expect-error
+    if (!data?.message) toast.success("Fetched.");
+    setCode(JSON.stringify(data, null, 2));
+  };
+  const onClickUser = async () => {
+    const data = await mutateUser();
+    // @ts-expect-error
+    if (!data?.message) toast.success("Fetched user.");
+    setCode(JSON.stringify(data, null, 2));
   };
   const onClickReset = () => {
     toast.info("Reset.");
-    setStatusResponse("");
+    setCode("");
   };
 
   return (
@@ -29,17 +38,17 @@ function ApiStatus(_props: Props) {
       <div className="flex justify-between">
         <div className="flex gap-2">
           <Button variant="secondary" onClick={onClickStatus}>
-            Check API Status
+            Check API status
           </Button>
-          <a href="/debug-user">
-            <Button variant="link">Search Users</Button>
-          </a>
+          <Button variant="secondary" onClick={onClickUser}>
+            Get current user
+          </Button>
         </div>
         <Button variant="destructive" onClick={onClickReset}>
-          Reset All
+          Reset
         </Button>
       </div>
-      <code>{statusResponse || (error ? error.message : null)}</code>
+      <code>{code}</code>
     </div>
   );
 }

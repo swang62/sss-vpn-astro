@@ -1,5 +1,6 @@
 export const SITE_NAME = "SSSVPN";
 export const SITE_EMAIL = "hello@sss-vpn.com";
+export const SITE_ADMIN = "admin@sss-vpn.com";
 
 export const DB_LOCAL = "file:local.db";
 export const DB_TEST = "file:test.db";

@@ -1,13 +1,12 @@
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
-import type { PricingCardProps } from "@/types";
+import type { PricingCardProps } from "@/lib/types";
 
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -49,7 +48,7 @@ function PricingCard({
         <CardHeader className="pb-6 pt-4">
           <div className="flex justify-between">
             <CardTitle className="text-lg text-foreground">{title}</CardTitle>
-            {plan.includes("basic") && (
+            {/* {plan.includes("basic") && (
               <div
                 className={cn(
                   "h-fit rounded-xl px-2.5 py-1 text-sm",
@@ -58,7 +57,7 @@ function PricingCard({
               >
                 Recommended
               </div>
-            )}
+            )} */}
           </div>
           <div className="flex gap-0.5">
             <h3 className="text-3xl font-bold">{`$${monthlyPrice}`}</h3>
@@ -86,11 +85,9 @@ function PricingCard({
           ))}
         </CardContent>
       </div>
-      <CardFooter className="mt-2 flex justify-center">
-        <a href={`/signup?redirect=${plan}`}>
-          <Button>{`Get ${title}`}</Button>
-        </a>
-      </CardFooter>
+      {/* <CardFooter className="mt-2 flex justify-center">
+          <Button>{`Get ${title}`}</Button>∂
+      </CardFooter> */}
     </Card>
   );
 }
@@ -98,9 +95,9 @@ function PricingCard({
 function Pricing() {
   const plans: PricingCardProps[] = [
     {
-      description: "Should be enough for most people",
+      description: "Should be enough data for most people",
       features: [
-        "50GB tier",
+        "50GB data",
         "Email, messaging, music, blogs, light media usage",
         "Desktop & phone apps",
       ],
@@ -110,7 +107,7 @@ function Pricing() {
     {
       description: "Good for heavy streaming/media usage",
       features: [
-        "100GB tier",
+        "150GB data",
         "Heavy streaming, gaming, video conferencing",
         "More data!",
       ],
@@ -121,8 +118,8 @@ function Pricing() {
       description:
         "For multiple people, family members, or lots of IoT devices",
       features: [
-        "200GB tier",
-        "Fully preconfigured WiFi6 router",
+        "300GB data",
+        "Fully pre-configured WiFi6 router",
         "Remote support available",
         "Domestic shipping only*",
       ],
@@ -136,20 +133,20 @@ function Pricing() {
       <div className="py-8">
         <PricingHeader
           title="Simple pricing"
-          subtitle="Just some money for me to cover server costs, thanks."
+          subtitle="Just some money for me to cover server costs, thanks. FYI, 1 hour of streaming uses around 1-2GB."
         />
         <div className="mt-8 flex flex-col justify-center gap-8 sm:flex-row sm:flex-wrap">
           {plans.map((plan) => {
             return <PricingCard key={plan.plan} {...plan} />;
           })}
         </div>
-        <div className="mt-10 flex flex-col items-center justify-center gap-2">
-          <div className="text-md text-balance italic leading-normal text-muted-foreground sm:leading-8">
-            I recommend trying it out first, though
+        <div className="mt-10 flex flex-col items-center justify-center gap-4">
+          <div className="text-balance leading-normal text-muted-foreground sm:text-lg sm:leading-7">
+            Try it out first before picking a plan
           </div>
-          <a href="/signup">
+          <a href="/signup" data-astro-reload>
             <Button className="rounded-full" variant="secondary">
-              Get started for free
+              Get started
               <ArrowRight className="size-6" />
             </Button>
           </a>

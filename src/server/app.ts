@@ -1,13 +1,14 @@
 import type { PinoLogger } from "hono-pino";
 
 import { Hono } from "hono";
-import { bearerAuth } from "hono/bearer-auth";
 
-import { API_TOKEN } from "@/config/server";
+import type { Session, UserSession } from "@/lib/clients";
+
+import { auth } from "@/lib/auth";
 
 import {
+  authMiddleware,
   corsMiddleware,
-  customMiddleware,
   limiter,
   notFound,
   onError,
@@ -17,7 +18,8 @@ import {
 export interface Bindings {
   Variables: {
     logger: PinoLogger;
-    customClient: () => void;
+    user: UserSession;
+    session: Session;
   };
 }
 
@@ -28,8 +30,9 @@ export function createBaseRouter() {
 export default function createApp() {
   const app = createBaseRouter().basePath("/api");
 
-  app.use("/user/*", bearerAuth({ token: API_TOKEN }));
-  app.use(customMiddleware);
+  app.use(authMiddleware);
+  app.use("/user*", (c) => auth.handler(c.req.raw));
+  // app.use("/user/*", bearerAuth({ token: API_TOKEN }));
   app.use(pinoLogger());
   app.use(corsMiddleware());
   app.use(limiter());

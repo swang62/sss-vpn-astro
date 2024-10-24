@@ -1,33 +1,22 @@
-import { zValidator } from "@hono/zod-validator";
-import { eq } from "drizzle-orm";
-import { z } from "zod";
-
-import db, { users } from "@/db";
+import { getUserById } from "@/db/queries";
 import { createBaseRouter } from "@/server/app";
 
-const route = createBaseRouter().get(
-  "/:id",
-  zValidator(
-    "param",
-    z.object({
-      id: z.string(),
-    }),
-  ),
-  async (c) => {
-    const { id } = c.req.valid("param");
+const route = createBaseRouter().get("/", async (c) => {
+  const session = c.get("session");
+  const user = c.get("user");
+  if (!user) {
+    c.status(401);
+    throw new Error(`User not found`);
+  }
+  const id = user.id;
 
-    const user = await db.query.users.findFirst({
-      where: eq(users.id, id),
-      with: { profile: true },
-    });
+  const userRecord = await getUserById(id);
+  if (!userRecord) {
+    c.status(404);
+    throw new Error(`User ${id} not found`);
+  }
 
-    if (!user) {
-      c.status(404);
-      return c.json({ error: `User ${id} not found`, user: null });
-    }
-
-    return c.json({ user });
-  },
-);
+  return c.json({ session, user: userRecord });
+});
 
 export default route;

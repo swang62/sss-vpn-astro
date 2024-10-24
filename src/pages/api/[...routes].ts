@@ -2,4 +2,4 @@ import type { APIRoute } from "astro";
 
 import app from "@/server";
 
-export const ALL: APIRoute = (context) => app.fetch(context.request);
+export const ALL: APIRoute = (ctx) => app.fetch(ctx.request);

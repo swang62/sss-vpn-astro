@@ -1,12 +1,13 @@
 import createApp from "@/server/app";
 
+import auth from "./routes/auth.route";
 import base from "./routes/base.route";
 import user from "./routes/user.route";
 
 const app = createApp();
 
 // Routes
-const _routes = app.route("/", base).route("/user", user);
+const _routes = app.route("/", base).route("/user", user).route("/auth", auth);
 
 // Types
 export default app;

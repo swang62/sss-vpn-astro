@@ -9,17 +9,38 @@ import { createMiddleware } from "hono/factory";
 import pino from "pino";
 import pretty from "pino-pretty";
 
-import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
-import { redisStore } from "@/server/backend";
+import { IS_PRODUCTION, IS_TESTING, LOG_LEVEL } from "@/config/server";
+import { TEST_USER } from "@/db/seed";
+import { auth } from "@/lib/auth";
+import { redis } from "@/lib/backend";
 
 import type { Bindings } from "./app";
 
-export const customMiddleware = createMiddleware<Bindings>(async (c, next) => {
-  c.set("customClient", () => {
-    // Setup up temporary context/clients/variables
-    console.debug("customClient");
+export const authMiddleware = createMiddleware<Bindings>(async (c, next) => {
+  const session = await auth.api.getSession({ headers: c.req.raw.headers });
+  if (!session) {
+    c.set("user", null);
+    c.set("session", null);
+    return next();
+  }
+
+  c.set("user", session.user);
+  c.set("session", session.session);
+  return next();
+});
+
+export const testMiddleware = createMiddleware<Bindings>(async (c, next) => {
+  if (!IS_TESTING) {
+    return next();
+  }
+
+  c.set("user", TEST_USER);
+  c.set("session", {
+    expiresAt: new Date(),
+    id: TEST_USER.id,
+    userId: TEST_USER.id,
   });
-  await next();
+  return next();
 });
 
 export const notFound: NotFoundHandler = (c) => {
@@ -48,6 +69,8 @@ export function corsMiddleware(): MiddlewareHandler {
     allowHeaders: ["*"],
     allowMethods: ["GET", "POST", "OPTIONS"],
     credentials: true,
+    exposeHeaders: ["Content-Length"],
+    maxAge: 600,
     origin: (origin) =>
       origin.includes(".mildlybrewed.") || !IS_PRODUCTION
         ? origin
@@ -59,13 +82,13 @@ export function pinoLogger(): MiddlewareHandler {
   return logger({
     http: {
       onReqBindings: (c) => {
-        const headers = c.req.header();
-        const cookies = headers.cookie;
-        delete headers.cookie;
+        // const headers = c.req.header();
+        // const cookies = headers.cookie;
+        // delete headers.cookie;
         return {
           request: {
-            cookies: LOG_LEVEL === "debug" ? cookies : undefined,
-            headers,
+            // cookies: LOG_LEVEL === "debug" ? cookies : undefined,
+            // headers,
             method: c.req.method,
             url: c.req.path,
           },
@@ -89,8 +112,8 @@ export function limiter(): MiddlewareHandler {
       message: "Too many requests, try again later.",
     },
     standardHeaders: "draft-6",
-    // @ts-expect-error
-    store: redisStore,
+    // @ts-expect-error if undefined, automatically use in-memory storage.
+    store: redis?.store,
     windowMs: 10 * 1000,
   });
 }

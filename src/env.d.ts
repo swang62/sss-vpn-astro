@@ -1,9 +1,7 @@
 /// <reference path="../.astro/types.d.ts" />
-/// <reference types="astro/client" />
-/// <reference types="simple-stack-form/types" />
-
-interface ImportMetaEnv {}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
+declare namespace App {
+  interface Locals {
+    session: import("@/lib/clients").Session;
+    userSession: import("@/lib/clients").UserSession;
+  }
 }

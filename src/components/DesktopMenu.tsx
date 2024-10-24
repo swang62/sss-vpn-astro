@@ -1,4 +1,4 @@
-import type { MainMenuLink } from "@/types";
+import type { MainMenuLink } from "@/lib/types";
 
 import {
   NavigationMenu,
@@ -22,7 +22,7 @@ export function DesktopMenu({ links }: Props) {
               href={link.href}
               className={navigationMenuTriggerStyle({
                 className:
-                  "bg-transparent hover:bg-transparent hover:text-muted-foreground",
+                  "bg-transparent hover:bg-transparent hover:text-muted-foreground focus:bg-transparent",
               })}
             >
               {link.label}

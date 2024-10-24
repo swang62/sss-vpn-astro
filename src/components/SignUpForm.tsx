@@ -1,5 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -14,7 +16,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,18 +27,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { subscriptions } from "@/types";
+import { sendVerificationEmail, signUp } from "@/lib/clients";
+import { subscriptionPaid } from "@/lib/types";
+import { secondsPassed } from "@/lib/utils";
 
-// Validation
 const formSchema = z
   .object({
-    email: z
+    email: z.string().email().toLowerCase(),
+    password: z
       .string()
-      .email({
-        message: "Invalid email address",
-      })
-      .toLowerCase(),
-    password: z.string().min(8),
+      .min(8, { message: "Password must be at least 8 characters" }),
     passwordConfirm: z.string().optional(),
   })
   .refine((data) => data.password === data.passwordConfirm, {
@@ -46,13 +45,17 @@ const formSchema = z
   });
 
 interface SignUpProps {
-  redirect: string;
+  plan?: string | null;
 }
 
-function SignUpForm({ redirect }: SignUpProps) {
-  const isFreeTrial = !subscriptions.includes(redirect as any);
+function SignUpForm({ plan }: SignUpProps) {
+  const [loading, setLoading] = useState(false);
+  const [sentEmail, setSentEmail] = useState("");
 
-  // Setup form
+  // Setup
+  const isFreeTrial = !subscriptionPaid.includes(plan as any);
+
+  // Form hook
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       email: "",
@@ -63,8 +66,53 @@ function SignUpForm({ redirect }: SignUpProps) {
   });
 
   // Submit handler
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const timeSince = secondsPassed(sentEmail);
+    if (timeSince < 10) {
+      toast.warning("Too many signup attempts, try again later.");
+      return;
+    }
+
+    const { email, password } = values;
+    await signUp.email(
+      {
+        email,
+        name: "",
+        password,
+      },
+      {
+        onError: (ctx) => {
+          const status = ctx.error.status;
+          if (status === 422) {
+            form.setError(
+              "email",
+              { message: "Email already exists." },
+              { shouldFocus: true },
+            );
+          } else if (status === 429) {
+            toast.warning(ctx.error.message);
+          }
+          setLoading(false);
+        },
+        onRequest: () => {
+          setLoading(true);
+        },
+        onSuccess: () => {
+          sendVerificationEmail({
+            callbackURL: "/dashboard",
+            email,
+          });
+
+          toast.success("Email sent! Check your inbox.", {
+            closeButton: true,
+            duration: 30000,
+          });
+          form.reset();
+          setSentEmail(new Date().toISOString());
+          setLoading(false);
+        },
+      },
+    );
   }
 
   return (
@@ -73,8 +121,26 @@ function SignUpForm({ redirect }: SignUpProps) {
         <CardTitle className="text-2xl">Create an account</CardTitle>
         <CardDescription>
           {isFreeTrial
-            ? "Trial period will start immediately after signup"
-            : "Pick a plan after account creation"}
+            ? "Trial period will start after verification."
+            : "Pick a plan after account creation."}
+          <br />
+          If in China, use an unblocked email
+          <Popover>
+            <PopoverTrigger>
+              <span className="ml-1 text-secondary underline">provider</span>
+            </PopoverTrigger>
+            <PopoverContent>
+              <h1 className="font-heading">Recommended Providers</h1>
+              <hr className="my-3" />
+              <ul>
+                <li>microsoft.com</li>
+                <li>outlook.com</li>
+                <li>live.com</li>
+                <li>icloud.com</li>
+                <li>163.com</li>
+              </ul>
+            </PopoverContent>
+          </Popover>
         </CardDescription>
       </CardHeader>
 
@@ -90,9 +156,6 @@ function SignUpForm({ redirect }: SignUpProps) {
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
-                  <FormDescription>
-                    If in China, use an unblocked provider
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -106,7 +169,6 @@ function SignUpForm({ redirect }: SignUpProps) {
                   <FormControl>
                     <Input type="password" {...field} />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
@@ -125,7 +187,7 @@ function SignUpForm({ redirect }: SignUpProps) {
               )}
             />
 
-            <Button className="w-full" type="submit">
+            <Button className="w-full" type="submit" loading={loading}>
               Create account
             </Button>
           </form>
@@ -133,30 +195,33 @@ function SignUpForm({ redirect }: SignUpProps) {
 
         <div className="mt-4 text-center text-sm">
           Already have an account?
-          <a href="/login" className="ml-2 text-primary-link underline">
-            Login
+          <a
+            href="/login"
+            className="ml-2 text-primary-link underline"
+            data-astro-reload
+          >
+            Log in
           </a>
         </div>
       </CardContent>
       <CardFooter>
-        <div className="flex w-full justify-center border-t pt-4">
+        <div className="flex w-full justify-center border-t pt-6">
           <p className="text-center text-xs text-muted-foreground">
             Terms and conditions
             <Popover>
               <PopoverTrigger>
-                <span className="ml-1 text-primary-link">here</span>
+                <span className="ml-1 font-medium text-foreground">here</span>
               </PopoverTrigger>
               <PopoverContent>
-                <h1 className="text-center font-heading text-lg">
-                  Terms and Conditions
-                </h1>
+                <h1 className="font-heading">Terms and Conditions</h1>
                 <hr className="my-3" />
                 <p>
-                  Nothing fancy here, I won't sell or distribute any of your
-                  data. All financial stuff is handled off-site with Stripe. The
-                  VPN doesn't store any logs, just don't torrent any movies/tv
-                  shows. Otherwise, I'll have to shut everything down and then
-                  everyone will be sad. Thanks.
+                  Nothing fancy here... I won't sell or distribute any of your
+                  data. I don't store logs. All financial stuff is handled
+                  off-site with Stripe. Please
+                  <span className="text-destructive"> don't torrent </span>
+                  any movies or TV shows. Otherwise, I'll have to shut
+                  everything down and then everyone will be sad. Thanks.
                 </p>
               </PopoverContent>
             </Popover>

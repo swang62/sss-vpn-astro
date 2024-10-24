@@ -1,0 +1,10 @@
+---
+import DashboardUI from "@/components/Dashboard";
+import DashboardLayout from "@/layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout title="Dashboard">
+  <div class="flex min-h-screen w-full flex-col gap-4 py-4">
+    <DashboardUI client:load />
+  </div>
+</DashboardLayout>
