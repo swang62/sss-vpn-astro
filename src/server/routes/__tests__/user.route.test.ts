@@ -1,6 +1,7 @@
 import { testClient } from "hono/testing";
 
 import { SITE_ADMIN } from "@/config/constants";
+import { TEST_USER } from "@/db/seed";
 import createApp from "@/server/app";
 import { testMiddleware } from "@/server/middleware";
 
@@ -20,9 +21,9 @@ describe("route /user", () => {
     const response = await client.api.$get();
     const data = await response.json();
 
-    expect(data.user.id).toBe("1");
+    expect(data.user.id).toBe(TEST_USER.id);
     expect(data.user.email).toBe(SITE_ADMIN);
     expect(data.user.profile?.subscription).toBe("premium");
-    expect(data.session?.userId).toBe("1");
+    expect(data.session?.userId).toBe(TEST_USER.id);
   });
 });

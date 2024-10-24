@@ -10,6 +10,7 @@ import pino from "pino";
 import pretty from "pino-pretty";
 
 import { IS_PRODUCTION, IS_TESTING, LOG_LEVEL } from "@/config/server";
+import { TEST_USER } from "@/db/seed";
 import { auth } from "@/lib/auth";
 import { redis } from "@/lib/backend";
 
@@ -34,20 +35,11 @@ export const testMiddleware = createMiddleware<Bindings>(async (c, next) => {
   }
 
   // Add some fake session/user data to context. Should match seed.ts
-  c.set("user", {
-    banned: false,
-    createdAt: new Date(),
-    email: "test@test.com",
-    emailVerified: true,
-    id: "1",
-    name: "test",
-    role: "admin",
-    updatedAt: new Date(),
-  });
+  c.set("user", TEST_USER);
   c.set("session", {
     expiresAt: new Date(),
-    id: "1",
-    userId: "1",
+    id: TEST_USER.id,
+    userId: TEST_USER.id,
   });
   return next();
 });
