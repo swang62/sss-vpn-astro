@@ -46,7 +46,7 @@ function ResetPasswordForm({ email }: Props) {
 
   // Validate token/email
   if (!email) {
-    toast.error("Invalid token! Redirecting...");
+    toast.error("Invalid token, redirecting...");
     sleep(1000).then(() => navigate("/forgot-password"));
     return;
   }
@@ -76,7 +76,7 @@ function ResetPasswordForm({ email }: Props) {
           setLoading(true);
         },
         onSuccess: async () => {
-          toast.success("Password reset! Redirecting...");
+          toast.success("Password reset, redirecting...");
           form.reset();
           await sleep(1000);
           await signIn.email(

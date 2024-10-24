@@ -13,7 +13,7 @@ function RedirectCheck(_props: Props) {
   if (error || isLoading) return null;
 
   if (data?.session) {
-    toast.success("Logged in! Redirecting...");
+    toast.success("Already logged in, redirecting...");
     sleep(1000).then(() => navigate("/dashboard"));
   }
 

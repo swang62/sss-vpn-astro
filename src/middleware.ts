@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth";
 
 export const authenticate: MiddlewareHandler = async (ctx, next) => {
   const { pathname } = ctx.url;
+
   const needsAuth = pathname.startsWith("/dashboard");
   if (!needsAuth) return next();
 

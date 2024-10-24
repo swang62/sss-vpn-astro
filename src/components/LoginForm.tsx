@@ -97,7 +97,7 @@ function LoginForm(_props: Props) {
                     <FormLabel>Password</FormLabel>
                     <a
                       href="/forgot-password"
-                      className="ml-auto inline-block text-right text-sm underline"
+                      className="ml-auto inline-block text-right text-xs text-muted-foreground"
                       data-astro-reload
                     >
                       Forgot password?

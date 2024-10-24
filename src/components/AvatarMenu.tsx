@@ -20,6 +20,7 @@ function AvatarMenu(_props: Props) {
   const { data } = useSWR("/api/user", fetchUser);
   const user = data?.user;
 
+  // Handlers
   const logout = async () => {
     await signOut();
     navigate("/login");
@@ -27,6 +28,7 @@ function AvatarMenu(_props: Props) {
 
   // Styles
   const cssButton = cn("py-0 px-0 h-6");
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -44,7 +46,7 @@ function AvatarMenu(_props: Props) {
           <a href="/dashboard">
             <Button variant="ghost" className={cssButton}>
               <Home />
-              Dashboard
+              <span>Dashboard</span>
             </Button>
           </a>
         </DropdownMenuItem>
@@ -53,7 +55,7 @@ function AvatarMenu(_props: Props) {
           <a href="/dashboard/subscription">
             <Button variant="ghost" className={cssButton}>
               <Edit />
-              Manage Subscription
+              <span>Manage Subscription</span>
             </Button>
           </a>
         </DropdownMenuItem>
@@ -61,7 +63,7 @@ function AvatarMenu(_props: Props) {
           <a href="/dashboard/settings">
             <Button variant="ghost" className={cssButton}>
               <Cog />
-              Settings
+              <span>Settings</span>
             </Button>
           </a>
         </DropdownMenuItem>
@@ -70,7 +72,7 @@ function AvatarMenu(_props: Props) {
           <a href="/dashboard">
             <Button variant="ghost" className={cssButton} onClick={logout}>
               <LogOut />
-              Log out
+              <span>Log out</span>
             </Button>
           </a>
         </DropdownMenuItem>
