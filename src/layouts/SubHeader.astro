@@ -1,19 +1,12 @@
 ---
-import { DASHBOARD_LINKS } from "@/config/links";
-
 interface Props {
-  current: string;
+  title: string;
 }
-const { current } = Astro.props;
-
-const label = DASHBOARD_LINKS.filter((link) => link.href === current)?.[0]
-  .label;
-if (!label) return null;
+const { title } = Astro.props;
 ---
 
-<header class="md:hidden">
-  <h1 class="py-6 text-2xl font-semibold text-foreground">
-    {label}
+<header>
+  <h1 class="px-1 py-6 text-2xl font-semibold text-foreground">
+    {title}
   </h1>
-  <hr class="border-t border-border" />
 </header>

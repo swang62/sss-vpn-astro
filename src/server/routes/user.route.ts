@@ -1,8 +1,9 @@
 import { getUserById } from "@/db/queries";
 import { createBaseRouter } from "@/server/app";
 
+// All /api/user routes must be authenticated
+
 const route = createBaseRouter().get("/", async (c) => {
-  const session = c.get("session");
   const user = c.get("user");
   if (!user) {
     c.status(401);
@@ -16,6 +17,7 @@ const route = createBaseRouter().get("/", async (c) => {
     throw new Error(`User ${id} not found`);
   }
 
+  const session = c.get("session");
   return c.json({ session, user: userRecord });
 });
 

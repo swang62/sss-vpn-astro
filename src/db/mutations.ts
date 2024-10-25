@@ -27,8 +27,6 @@ export async function updateSubscription(
     userId,
   };
 
-  console.dir(data);
-
   // Add subscription if it exists
   await db.insert(profile).values([data]).onConflictDoUpdate({
     set: data,

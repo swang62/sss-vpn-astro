@@ -53,10 +53,10 @@ function AvatarMenu(_props: Props) {
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem className={menuStyle}>
-          <a href="/dashboard/subscription" className="w-full">
+          <a href="/dashboard/account" className="w-full">
             <Button variant="ghost" className={buttonStyle}>
               <Edit />
-              <span>Manage Subscription</span>
+              <span>Manage account</span>
             </Button>
           </a>
         </DropdownMenuItem>

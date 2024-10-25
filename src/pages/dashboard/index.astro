@@ -1,10 +1,12 @@
 ---
 import DashboardUI from "@/components/Dashboard";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
+import SubHeader from "@/layouts/SubHeader.astro";
 ---
 
 <DashboardLayout title="Dashboard">
-  <div class="flex min-h-screen w-full max-w-4xl py-4 mx-auto">
+  <div class="flex flex-col min-h-screen w-full max-w-4xl py-4 mx-auto">
+    <SubHeader title="Dashboard" />
     <DashboardUI client:load />
   </div>
 </DashboardLayout>

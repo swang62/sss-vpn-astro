@@ -119,7 +119,9 @@ function SignUpForm(_props: Props) {
           If in China, use an unblocked email
           <Popover>
             <PopoverTrigger>
-              <span className="ml-1 text-secondary underline">provider</span>
+              <span className="ml-1 text-secondary-link underline">
+                provider
+              </span>
             </PopoverTrigger>
             <PopoverContent>
               <h1 className="font-heading">Recommended Providers</h1>

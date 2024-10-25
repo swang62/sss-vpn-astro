@@ -65,12 +65,16 @@ export default {
           foreground: "hsl(var(--primary-foreground))",
         },
         "primary-link": {
-          DEFAULT: "hsl(var(--link))",
+          DEFAULT: "hsl(var(--primary-link))",
           foreground: "hsl(var(--primary-foreground))",
         },
         "ring": "hsl(var(--ring))",
         "secondary": {
           DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        "secondary-link": {
+          DEFAULT: "hsl(var(--secondary-link))",
           foreground: "hsl(var(--secondary-foreground))",
         },
       },

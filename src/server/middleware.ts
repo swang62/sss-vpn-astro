@@ -69,7 +69,7 @@ export function corsMiddleware(): MiddlewareHandler {
     allowHeaders: ["*"],
     allowMethods: ["GET", "POST", "OPTIONS"],
     credentials: true,
-    exposeHeaders: ["Content-Length"],
+    exposeHeaders: ["*"],
     maxAge: 600,
     origin: (origin) =>
       origin.includes(".mildlybrewed.") || !IS_PRODUCTION
