@@ -1,7 +1,8 @@
 /// <reference path="../.astro/types.d.ts" />
 declare namespace App {
   interface Locals {
-    session: import("@/lib/api-clients").Session;
-    userSession: import("@/lib/api-clients").UserSession;
+    session: import("@/lib/auth-client").Session;
+    userSession: import("@/lib/auth-client").UserSession;
+    user: import("@/db").User;
   }
 }

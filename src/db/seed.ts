@@ -7,15 +7,13 @@ import { SITE_ADMIN } from "../config/constants";
 import { DB_LOCAL_URL } from "../config/server";
 import { account } from "./schema";
 
-const id = "test";
-
 export const TEST_USER = {
   banned: false,
   createdAt: new Date(),
   email: SITE_ADMIN,
   emailVerified: true,
-  id,
-  name: "admin",
+  id: "admin-id",
+  name: "steve",
   role: "admin",
   updatedAt: new Date(),
 };
@@ -30,7 +28,7 @@ export async function push() {
 export async function seed() {
   console.debug("Seeding database...");
 
-  const { default: db, profile, user } = await import(".");
+  const { default: db, user } = await import(".");
   const password = "password";
   const hash = await hashPassword(password);
 
@@ -39,15 +37,9 @@ export async function seed() {
     {
       accountId: TEST_USER.id,
       expiresAt: new Date("2050-01-01T00:00:00.000Z"),
-      id,
+      id: "admin-account",
       password: hash,
       providerId: "credential",
-      userId: TEST_USER.id,
-    },
-  ]);
-  await db.insert(profile).values([
-    {
-      subscription: "premium",
       userId: TEST_USER.id,
     },
   ]);

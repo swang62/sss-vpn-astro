@@ -15,7 +15,7 @@ export function capitalize(str = "") {
 
 export function secondsPassed(modified: string) {
   const now = new Date().getTime();
-  const compare = new Date(modified).getTime();
+  const compare = new Date(modified || 0).getTime();
 
   return Math.floor((now - compare) / 1000);
 }

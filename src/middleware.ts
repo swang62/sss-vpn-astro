@@ -4,6 +4,8 @@ import { When, whenAmI } from "@it-astro:when";
 
 import { auth } from "@/lib/auth";
 
+import { getUserById } from "./db/queries";
+
 export const authenticate: MiddlewareHandler = async (ctx, next) => {
   const { pathname } = ctx.url;
 
@@ -15,12 +17,20 @@ export const authenticate: MiddlewareHandler = async (ctx, next) => {
     headers: ctx.request.headers,
   });
 
-  ctx.locals.session = session?.session || null;
-  ctx.locals.userSession = session?.user || null;
-
   // Redirect for invalid sessions
-  if (!session && needsAuth) {
-    return ctx.redirect("/login");
+  if (needsAuth) {
+    if (!session) {
+      return ctx.redirect("/login");
+    } else {
+      const user = await getUserById(session.user.id);
+      if (user) {
+        ctx.locals.session = session.session;
+        ctx.locals.userSession = session.user;
+        ctx.locals.user = user;
+      } else {
+        return ctx.redirect("/login");
+      }
+    }
   }
 
   return next();

@@ -1,15 +1,16 @@
 export type PricingCardProps = {
-  plan: Subscription;
+  plan: SubscriptionType;
   monthlyPrice: number;
   description: string;
   features: string[];
 };
 
-export const subscriptions = [
+export const subscription = [
   "none",
   "trial",
   "basic",
   "pro",
   "premium",
 ] as const;
-export type Subscription = (typeof subscriptions)[number];
+
+export type SubscriptionType = (typeof subscription)[number];

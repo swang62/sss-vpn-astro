@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { apiClient } from "@/lib/api-clients";
+import { apiClient, parseApi } from "@/lib/api-clients";
 import { forgetPassword } from "@/lib/auth-client";
 import { secondsPassed } from "@/lib/utils";
 
@@ -47,17 +47,19 @@ function ForgotPasswordForm(_props: Props) {
     }
 
     const { email } = values;
-    const response = await apiClient["search-email"].$get({ query: { email } });
-    if (response.ok) {
-      const { exists } = await response.json();
-      if (!exists) {
-        form.setError(
-          "email",
-          { message: "Email not found in our system." },
-          { shouldFocus: true },
-        );
-        return;
-      }
+    const { data } = await parseApi(
+      apiClient["search-email"].$get({
+        query: { email },
+      }),
+    );
+
+    if (!data?.exists) {
+      form.setError(
+        "email",
+        { message: "Email not found in our system." },
+        { shouldFocus: true },
+      );
+      return;
     }
 
     await forgetPassword(

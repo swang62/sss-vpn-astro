@@ -1,4 +1,4 @@
-import { hc } from "hono/client";
+import { type ClientResponse, hc } from "hono/client";
 
 import type { App } from "@/server";
 
@@ -8,6 +8,16 @@ import { SITE_URL } from "@/config/client";
 
 // Hono
 export const { api: apiClient } = hc<App>(SITE_URL);
+
+export async function parseApi<T>(request: Promise<ClientResponse<T>>) {
+  const response = await request;
+  if (!response.ok) {
+    const error = await response.text();
+    return { error, status: response.status };
+  }
+  const data = (await response.json()) as T;
+  return { data, status: response.status };
+}
 
 // SWR
 export async function fetchUser() {
