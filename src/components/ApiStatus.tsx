@@ -1,38 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
-import { apiClient } from "@/lib/clients";
-
-const getStatus = () => apiClient.status.$get().then((res) => res.json());
-const getUser = () => apiClient.user.$get().then((res) => res.json());
+import { fetchStatus, fetchUser } from "@/lib/api-clients";
 
 interface Props {}
 
 function ApiStatus(_props: Props) {
   const [code, setCode] = useState("");
-  const { mutate } = useSWR("/api/status", getStatus);
-  const { mutate: mutateUser } = useSWR("/api/user", getUser);
+  const [statusKey, setStatusKey] = useState("");
+  const [userKey, setUserKey] = useState("");
+  const { mutate } = useSWR(statusKey, fetchStatus);
+  const { mutate: mutateUser } = useSWR(userKey, fetchUser);
 
-  // Handlers
-  const onClickStatus = async () => {
+  // Functions
+  const getStatus = async () => {
     const data = await mutate();
     // @ts-expect-error
-    if (!data?.message) toast.success("Fetched.");
+    if (!data?.message) toast.success("Fetched status.");
     setCode(JSON.stringify(data, null, 2));
   };
-  const onClickUser = async () => {
+  const getUser = async () => {
     const data = await mutateUser();
     // @ts-expect-error
     if (!data?.message) toast.success("Fetched user.");
     setCode(JSON.stringify(data, null, 2));
+  };
+
+  // Handlers
+  const onClickStatus = async () => {
+    setStatusKey("fetchStatus");
+    getStatus();
+  };
+  const onClickUser = async () => {
+    setUserKey("fetchUser");
+    getUser();
   };
   const onClickReset = () => {
     toast.info("Reset.");
     setCode("");
   };
 
+  useEffect(() => {
+    if (statusKey) getStatus();
+    if (userKey) getUser();
+  }, [statusKey, userKey]);
   return (
     <div className="flex min-h-screen w-full flex-col gap-4 py-4">
       <div className="flex justify-between">

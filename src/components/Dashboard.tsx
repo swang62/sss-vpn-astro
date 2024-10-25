@@ -3,7 +3,8 @@ import { toast } from "sonner";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
-import { fetchUser, sendVerificationEmail } from "@/lib/clients";
+import { fetchUser } from "@/lib/api-clients";
+import { sendVerificationEmail } from "@/lib/auth-client";
 import { secondsPassed } from "@/lib/utils";
 
 interface Props {}
@@ -11,7 +12,7 @@ interface Props {}
 function DashboardUI(_props: Props) {
   // Hooks
   const [sentEmail, setSentEmail] = useState("");
-  const { data } = useSWR("/api/user", fetchUser);
+  const { data } = useSWR("fetchUser", fetchUser);
   const user = data?.user;
   const isVerified = user?.emailVerified;
 

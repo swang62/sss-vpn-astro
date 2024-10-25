@@ -1,9 +1,6 @@
 import { adminClient } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
-import { hc } from "hono/client";
 import { toast } from "sonner";
-
-import type { App } from "@/server";
 
 import { SITE_URL } from "@/config/client";
 
@@ -32,11 +29,3 @@ export const {
 
 export type Session = typeof $Infer.Session.session | null;
 export type UserSession = typeof $Infer.Session.user | null;
-
-// Hono RPC
-export const { api: apiClient } = hc<App>(SITE_URL);
-
-// SWR hooks
-export async function fetchUser() {
-  return apiClient.user.$get().then((res) => res.json());
-}

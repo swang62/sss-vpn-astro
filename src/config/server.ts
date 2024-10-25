@@ -16,9 +16,12 @@ const EnvSchema = z.object({
     "placeholder",
   ]),
   NODE_ENV: z.string().default("development"),
-  POSTMARK_TOKEN: z.string().default(""),
+  POSTMARK_TOKEN: z.string().optional(),
   REDIS_PASS: z.string().optional(),
   REDIS_URL: z.string().optional(),
+  STRIPE_PUBLIC_KEY: z.string(),
+  STRIPE_SECRET_KEY: z.string(),
+  STRIPE_WEBHOOK_SECRET: z.string(),
 });
 
 // @ts-ignore
@@ -37,17 +40,19 @@ if (import.meta.env?.DEV && data.LOG_LEVEL !== "silent")
   console.debug("SERVER_ENV", data);
 
 //* Constants *//
-const DEFAULT = "placeholder"; // Catch build errors
+const _ = "placeholder"; // Catch build errors
 
 export const API_TOKEN = data.API_TOKEN;
 export const DB_AUTH_TOKEN = data.DB_AUTH_TOKEN;
-export const DB_REMOTE = data.DB_REMOTE === DEFAULT ? "" : data.DB_REMOTE;
-export const LOG_LEVEL = data.LOG_LEVEL === DEFAULT ? "debug" : data.LOG_LEVEL;
+export const DB_REMOTE = data.DB_REMOTE === _ ? "" : data.DB_REMOTE;
+export const LOG_LEVEL = data.LOG_LEVEL === _ ? "debug" : data.LOG_LEVEL;
 export const NODE_ENV = data.NODE_ENV;
-export const POSTMARK_TOKEN =
-  data.POSTMARK_TOKEN === DEFAULT ? "" : data.POSTMARK_TOKEN;
-export const REDIS_URL = data.REDIS_URL === DEFAULT ? "" : data.REDIS_URL;
-export const REDIS_PASS = data.REDIS_PASS === DEFAULT ? "" : data.REDIS_PASS;
+export const POSTMARK_TOKEN = data.POSTMARK_TOKEN === _ ? "" : data.POSTMARK_TOKEN; // prettier-ignore
+export const REDIS_URL = data.REDIS_URL === _ ? "" : data.REDIS_URL; // prettier-ignore
+export const REDIS_PASS = data.REDIS_PASS === _ ? "" : data.REDIS_PASS; // prettier-ignore
+export const STRIPE_PUBLIC_KEY = data.STRIPE_PUBLIC_KEY === _ ? "" : data.STRIPE_PUBLIC_KEY; // prettier-ignore
+export const STRIPE_SECRET_KEY = data.STRIPE_SECRET_KEY === _ ? "" : data.STRIPE_SECRET_KEY; // prettier-ignore
+export const STRIPE_WEBHOOK_SECRET = data.STRIPE_WEBHOOK_SECRET === _ ? "" : data.STRIPE_WEBHOOK_SECRET; // prettier-ignore
 
 //* Computed *//
 export const IS_PRODUCTION = NODE_ENV === "production";

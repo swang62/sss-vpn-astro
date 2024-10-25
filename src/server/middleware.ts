@@ -12,7 +12,7 @@ import pretty from "pino-pretty";
 import { IS_PRODUCTION, IS_TESTING, LOG_LEVEL } from "@/config/server";
 import { TEST_USER } from "@/db/seed";
 import { auth } from "@/lib/auth";
-import { redis } from "@/lib/backend";
+import { redis } from "@/lib/context";
 
 import type { Bindings } from "./app";
 

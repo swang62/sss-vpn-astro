@@ -2,7 +2,7 @@ import type { PinoLogger } from "hono-pino";
 
 import { Hono } from "hono";
 
-import type { Session, UserSession } from "@/lib/clients";
+import type { Session, UserSession } from "@/lib/api-clients";
 
 import { auth } from "@/lib/auth";
 

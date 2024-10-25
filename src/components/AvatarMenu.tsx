@@ -11,13 +11,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { fetchUser, signOut } from "@/lib/clients";
+import { fetchUser } from "@/lib/api-clients";
+import { signOut } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
 interface Props {}
 
 function AvatarMenu(_props: Props) {
-  const { data } = useSWR("/api/user", fetchUser);
+  const { data } = useSWR("fetchUser", fetchUser);
   const user = data?.user;
 
   // Handlers
@@ -27,7 +28,8 @@ function AvatarMenu(_props: Props) {
   };
 
   // Styles
-  const cssButton = cn("py-0 px-0 h-6");
+  const buttonStyle = cn("py-0 px-2 h-8 w-full m-0 justify-start");
+  const menuStyle = "px-0 py-1";
 
   return (
     <DropdownMenu>
@@ -42,39 +44,36 @@ function AvatarMenu(_props: Props) {
           {user?.email}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <a href="/dashboard">
-            <Button variant="ghost" className={cssButton}>
+        <DropdownMenuItem className={menuStyle}>
+          <a href="/dashboard" className="w-full">
+            <Button variant="ghost" className={buttonStyle}>
               <Home />
               <span>Dashboard</span>
             </Button>
           </a>
         </DropdownMenuItem>
-
-        <DropdownMenuItem asChild>
-          <a href="/dashboard/subscription">
-            <Button variant="ghost" className={cssButton}>
+        <DropdownMenuItem className={menuStyle}>
+          <a href="/dashboard/subscription" className="w-full">
+            <Button variant="ghost" className={buttonStyle}>
               <Edit />
               <span>Manage Subscription</span>
             </Button>
           </a>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <a href="/dashboard/settings">
-            <Button variant="ghost" className={cssButton}>
+        <DropdownMenuItem className={menuStyle}>
+          <a href="/dashboard/settings" className="w-full">
+            <Button variant="ghost" className={buttonStyle}>
               <Cog />
               <span>Settings</span>
             </Button>
           </a>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <a href="/dashboard">
-            <Button variant="ghost" className={cssButton} onClick={logout}>
-              <LogOut />
-              <span>Log out</span>
-            </Button>
-          </a>
+        <DropdownMenuItem className={menuStyle}>
+          <Button variant="ghost" className={buttonStyle} onClick={logout}>
+            <LogOut />
+            <span>Log out</span>
+          </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -5,7 +5,7 @@ import { admin } from "better-auth/plugins";
 import { SITE_URL } from "@/config/client";
 import { SITE_EMAIL } from "@/config/constants";
 import db from "@/db";
-import { postmarkClient, redis } from "@/lib/backend";
+import { postmarkClient, redis } from "@/lib/context";
 
 const client = redis ? redis.client : null;
 

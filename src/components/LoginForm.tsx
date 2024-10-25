@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { signIn } from "@/lib/clients";
+import { signIn } from "@/lib/auth-client";
 
 const formSchema = z.object({
   email: z.string().email().toLowerCase(),
