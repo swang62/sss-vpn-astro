@@ -1,6 +1,9 @@
 import { eq } from "drizzle-orm";
 
+import type { SubscriptionType } from "@/lib/types";
+
 import db, {
+  product as productTable,
   profile as profileTable,
   user as userTable,
   verification as verificationTable,
@@ -48,4 +51,22 @@ export async function getUserById(id: string) {
   });
 
   return user;
+}
+
+export async function getProductByKey(id: SubscriptionType | "router") {
+  const product = await db.query.product.findFirst({
+    where: eq(productTable.id, id),
+  });
+
+  return product;
+}
+
+export async function getProductByPriceId(priceId?: string) {
+  if (!priceId) return;
+
+  const product = await db.query.product.findFirst({
+    where: eq(productTable.priceId, priceId),
+  });
+
+  return product;
 }

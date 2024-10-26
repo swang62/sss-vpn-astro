@@ -1,5 +1,6 @@
 import { SITE_URL } from "@/config/client";
 import { STRIPE_WEBHOOK_SECRET } from "@/config/server";
+import { updateProduct } from "@/db/mutations-product";
 import { stripe } from "@/lib/context";
 import { authUser, createBaseRouter } from "@/server/app";
 
@@ -38,8 +39,7 @@ const route = createBaseRouter()
       }
       case "product.updated": {
         const product = event.data.object;
-        c.var.logger.debug(product);
-
+        await updateProduct(product);
         break;
       }
       default:

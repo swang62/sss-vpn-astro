@@ -1,21 +1,27 @@
-export async function updateProduct(
-  _product: string,
-) {
-  // const data: typeof profile.$inferInsert = {
-  //   stripeCustomerId,
-  //   subsiptionEndAt: subscription
-  //     ? new Date(subscription.current_period_end * 1000)
-  //     : undefined,
-  //   subscriptionId: subscription ? subscription.id : undefined,
-  //   subscriptionStartAt: subscription
-  //     ? new Date(subscription.current_period_start * 1000)
-  //     : undefined,
-  //   subscriptionType,
-  //   userId,
-  // };
+import type Stripe from "stripe";
 
-  // await db.insert(profile).values([data]).onConflictDoUpdate({
-  //   set: data,
-  //   target: profile.userId,
-  // });
+import db, { product as productTable } from "@/db";
+import { stripe } from "@/lib/context";
+
+export async function updateProduct(
+  product: Stripe.Product,
+) {
+  const priceId = product.default_price as string;
+  const price = await stripe.prices.retrieve(priceId);
+
+  // Don't update products without lookup keys
+  const lookupKey = price.lookup_key;
+  if (!lookupKey) return;
+
+  const data: typeof productTable.$inferInsert = {
+    id: lookupKey.toLowerCase().trim(),
+    name: product.name,
+    priceId,
+    productId: product.id,
+  };
+
+  await db.insert(productTable).values([data]).onConflictDoUpdate({
+    set: data,
+    target: productTable.id,
+  });
 }

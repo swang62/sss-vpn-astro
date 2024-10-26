@@ -5,14 +5,16 @@ import type { SubscriptionType } from "@/lib/types";
 import db, { profile, type User } from "@/db";
 import { stripe } from "@/lib/context";
 
+import { getProductByKey, getProductByPriceId } from "./queries";
+
 export async function updateProfileSubscription(
   userId: string,
   stripeCustomerId: string,
   subscription?: Stripe.Subscription,
 ) {
-  const subscriptionType
-    = (subscription?.items.data[0]?.price.lookup_key as SubscriptionType)
-    ?? "none";
+  const priceId = subscription?.items.data[0]?.price.id;
+  const product = await getProductByPriceId(priceId);
+
   const data: typeof profile.$inferInsert = {
     stripeCustomerId,
     subscriptionEndAt: subscription
@@ -22,7 +24,7 @@ export async function updateProfileSubscription(
     subscriptionStartAt: subscription
       ? new Date(subscription.current_period_start * 1000)
       : undefined,
-    subscriptionType,
+    subscriptionType: product?.id as SubscriptionType ?? "none",
     userId,
   };
 
@@ -30,15 +32,15 @@ export async function updateProfileSubscription(
     set: data,
     target: profile.userId,
   });
+
+  console.debug(`Successfully updated profile for ${userId}`);
 }
 
 export async function updateUser(
   userId: string,
   stripeCustomerId: string,
 ) {
-  const customer = await stripe.customers.retrieve(stripeCustomerId, {
-    expand: ["subscriptions"],
-  });
+  const customer = await stripe.customers.retrieve(stripeCustomerId, { expand: ["subscriptions"] });
   if (customer.deleted) return;
 
   await updateProfileSubscription(
@@ -72,14 +74,12 @@ export async function setupNewUser(user: User) {
     throw new Error(`Profile failed, could not create stripe for ${email}`);
   }
   stripeCustomerId = customer.id;
+
+  const product = await getProductByKey("trial");
   const subscription = await stripe.subscriptions.create({
     cancel_at_period_end: true,
     customer: stripeCustomerId,
-    items: [
-      {
-        price: "price_1QDiWIFr5myvOSqHhjDnKpE6",
-      },
-    ],
+    items: [{ price: product?.priceId }],
   });
 
   await updateProfileSubscription(userId, stripeCustomerId, subscription);
