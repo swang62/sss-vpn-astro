@@ -93,7 +93,7 @@ function ResetPasswordForm({ email }: Props) {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-xs flex-col">
+    <div className="flex flex-col w-full max-w-xs mx-auto">
       <Card className="">
         <CardHeader className="pb-4 text-center">
           <CardTitle>Reset password</CardTitle>

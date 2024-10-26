@@ -34,7 +34,7 @@ function AvatarMenu(_props: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="icon" className="h-8 w-8 rounded-full">
+        <Button size="icon" className="w-8 h-8 rounded-full">
           <User />
           <span className="sr-only">Toggle user menu</span>
         </Button>

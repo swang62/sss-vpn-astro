@@ -41,7 +41,7 @@ function AccountDetails(_props: Props) {
           portal below to update your payment details, or view past invoices.
         </p>
       </CardContent>
-      <CardFooter className="justify-between gap-4 border-t bg-accent py-4">
+      <CardFooter className="justify-between py-4 border-t gap-4 bg-accent">
         <span className="text-muted-foreground">
           Manage your account on Stripe
         </span>

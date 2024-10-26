@@ -19,7 +19,7 @@ const { title } = Astro.props;
 <Base title={title}>
   <Header>
     <MobileMenu slot="mobile" client:load />
-    <span class="text-nowrap text-xl md:inline-block" slot="left">
+    <span class="text-xl text-nowrap md:inline-block" slot="left">
       {SITE_NAME}
     </span>
 

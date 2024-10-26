@@ -110,7 +110,7 @@ function SignUpForm(_props: Props) {
   }
 
   return (
-    <Card className="mx-auto w-full max-w-sm">
+    <Card className="w-full max-w-sm mx-auto">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl">Create an account</CardTitle>
         <CardDescription>
@@ -119,7 +119,7 @@ function SignUpForm(_props: Props) {
           If in China, use an unblocked email
           <Popover>
             <PopoverTrigger>
-              <span className="ml-1 text-secondary-link underline">
+              <span className="ml-1 underline text-secondary-link">
                 provider
               </span>
             </PopoverTrigger>
@@ -187,11 +187,11 @@ function SignUpForm(_props: Props) {
           </form>
         </Form>
 
-        <div className="mt-4 text-center text-sm">
+        <div className="mt-4 text-sm text-center">
           Already have an account?
           <a
             href="/login"
-            className="ml-2 text-primary-link underline"
+            className="ml-2 underline text-primary-link"
             data-astro-reload
           >
             Log in
@@ -199,8 +199,8 @@ function SignUpForm(_props: Props) {
         </div>
       </CardContent>
       <CardFooter>
-        <div className="flex w-full justify-center border-t pt-6">
-          <p className="text-center text-xs text-muted-foreground">
+        <div className="flex justify-center w-full pt-6 border-t">
+          <p className="text-xs text-center text-muted-foreground">
             Terms and conditions
             <Popover>
               <PopoverTrigger>

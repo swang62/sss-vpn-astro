@@ -26,7 +26,7 @@ function DashboardMobileMenu({ current: _current }: Props) {
         <Button
           variant="outline"
           size="icon"
-          className="shrink-0 gap-0 p-0 md:hidden"
+          className="p-0 shrink-0 gap-0 md:hidden"
         >
           <Sidebar />
           <span className="sr-only">Toggle navigation menu</span>
@@ -34,7 +34,7 @@ function DashboardMobileMenu({ current: _current }: Props) {
       </SheetTrigger>
       <SheetContent side="left" className="pr-0">
         <SheetHeader>
-          <SheetTitle className="pl-4 pt-4 text-left text-sm text-muted-foreground">
+          <SheetTitle className="pt-4 pl-4 text-sm text-left text-muted-foreground">
             Dashboard
           </SheetTitle>
           <SheetDescription className="sr-only">Dashboard</SheetDescription>

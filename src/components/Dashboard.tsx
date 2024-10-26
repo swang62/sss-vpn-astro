@@ -38,10 +38,10 @@ function DashboardUI(_props: Props) {
   };
 
   return (
-    <div className="flex w-full flex-col gap-4 py-4">
+    <div className="flex flex-col w-full py-4 gap-4">
       <code>{JSON.stringify(user, null, 2)}</code>
       {user && !isVerified && (
-        <div className="mx-auto flex flex-col items-center justify-center gap-4">
+        <div className="flex flex-col items-center justify-center mx-auto gap-4">
           <span>Please verify your email address first.</span>
           <Button onClick={onClickVerify}>Click to Resend Email</Button>
         </div>

@@ -20,7 +20,7 @@ function PricingHeader({
   title: string;
 }) {
   return (
-    <div className="mx-auto flex flex-col items-center justify-center gap-4 pb-3 text-center">
+    <div className="flex flex-col items-center justify-center pb-3 mx-auto text-center gap-4">
       <h2 className="font-heading text-3xl leading-[1.1] sm:text-4xl md:text-5xl">
         {title}
       </h2>
@@ -45,7 +45,7 @@ function PricingCard({
       )}
     >
       <div>
-        <CardHeader className="pb-6 pt-4">
+        <CardHeader className="pt-4 pb-6">
           <div className="flex justify-between">
             <CardTitle className="text-xl text-foreground">{title}</CardTitle>
             {/* {plan.includes("basic") && (
@@ -61,14 +61,14 @@ function PricingCard({
           </div>
           <div className="flex gap-0.5">
             <h3 className="text-3xl font-semibold">{`$${monthlyPrice}`}</h3>
-            <span className="mb-1 flex items-end text-sm">/month</span>
+            <span className="flex items-end mb-1 text-sm">/month</span>
             {plan.includes("premium") && (
               <>
                 <span className="flex items-center px-2 text-2xl font-semibold">
                   +
                 </span>
                 <h3 className="text-3xl font-semibold">$50</h3>
-                <span className="mb-1 flex items-end text-sm">router</span>
+                <span className="flex items-end mb-1 text-sm">router</span>
               </>
             )}
           </div>
@@ -85,7 +85,7 @@ function PricingCard({
           ))}
         </CardContent>
       </div>
-      {/* <CardFooter className="mt-2 flex justify-center">
+      {/* <CardFooter className="flex justify-center mt-2">
           <Button>{`Get ${title}`}</Button>∂
       </CardFooter> */}
     </Card>
@@ -136,14 +136,14 @@ function Pricing() {
           subtitle="Just some money for me to cover server costs, thanks. FYI, an hour of HD streaming uses around 1-2GB."
         />
 
-        <div className="mt-8 flex flex-col justify-center gap-8 sm:flex-row sm:flex-wrap">
+        <div className="flex flex-col justify-center mt-8 gap-8 sm:flex-row sm:flex-wrap">
           {plans.map((plan) => {
             return <PricingCard key={plan.plan} {...plan} />;
           })}
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-center gap-4">
-          <div className="text-balance leading-normal text-muted-foreground sm:text-lg sm:leading-7">
+        <div className="flex flex-col items-center justify-center mt-10 gap-4">
+          <div className="leading-normal text-balance text-muted-foreground sm:text-lg sm:leading-7">
             Try it out first before picking a plan
           </div>
           <a href="/signup" data-astro-reload>

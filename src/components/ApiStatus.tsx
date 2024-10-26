@@ -47,7 +47,7 @@ function ApiStatus(_props: Props) {
     if (userKey) getUser();
   }, [statusKey, userKey]);
   return (
-    <div className="flex min-h-screen w-full flex-col gap-4 py-4">
+    <div className="flex flex-col w-full min-h-screen py-4 gap-4">
       <div className="flex justify-between">
         <div className="flex gap-2">
           <Button variant="secondary" onClick={onClickStatus}>

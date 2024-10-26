@@ -89,7 +89,7 @@ function ForgotPasswordForm(_props: Props) {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-xs flex-col">
+    <div className="flex flex-col w-full max-w-xs mx-auto">
       <Card className="">
         <CardHeader className="pb-4 text-center">
           <CardTitle className="text-2xl">Forgot password?</CardTitle>
@@ -119,10 +119,10 @@ function ForgotPasswordForm(_props: Props) {
           </Form>
         </CardContent>
       </Card>
-      <div className="mt-4 text-center text-sm">
+      <div className="mt-4 text-sm text-center">
         <a
           href="/login"
-          className="mr-4 flex items-center justify-center text-center text-foreground hover:underline"
+          className="flex items-center justify-center mr-4 text-center text-foreground hover:underline"
           data-astro-reload
         >
           <ChevronLeft className="h-4" />

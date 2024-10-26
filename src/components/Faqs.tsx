@@ -36,9 +36,9 @@ function Faqs() {
   return (
     <section id="faqs" className="container max-w-2xl py-8 sm:py-16">
       <div className="py-8">
-        <h1 className="text-balance font-heading text-4xl sm:text-5xl md:text-6xl">
+        <h1 className="text-4xl text-balance font-heading sm:text-5xl md:text-6xl">
           Frequently Asked
-          <span className="text-gradient font-extrabold"> Questions</span>
+          <span className="font-extrabold text-gradient"> Questions</span>
         </h1>
 
         <Accordion type="single" collapsible className="w-full py-4">

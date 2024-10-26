@@ -10,12 +10,15 @@ export const profile = t.sqliteTable("profile", {
     .integer("createdAt", { mode: "timestamp_ms" })
     .notNull()
     .$default(() => new Date()),
-  stripeCustomerId: t.text("stripeCustomerId").notNull(),
-  subscriptionEndAt: t.integer("subscriptionEndAt", { mode: "timestamp_ms" }),
-  subscriptionId: t.text("subscriptionId"),
-  subscriptionStartAt: t.integer("subscriptionStartAt", {
-    mode: "timestamp_ms",
-  }),
+  stripeCustomerId: t
+    .text("stripeCustomerId")
+    .notNull(),
+  subscriptionEndAt: t
+    .integer("subscriptionEndAt", { mode: "timestamp_ms" }),
+  subscriptionId: t
+    .text("subscriptionId"),
+  subscriptionStartAt: t
+    .integer("subscriptionStartAt", { mode: "timestamp_ms" }),
   subscriptionType: t
     .text("subscriptionType")
     .notNull()
