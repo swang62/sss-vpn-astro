@@ -43,7 +43,7 @@ function DashboardMobileMenu({ current: _current }: Props) {
         <div className="my-2 h-[calc(100vh-8rem)] w-full py-2">
           <div className="flex flex-col space-y-2">
             {DASHBOARD_LINKS.map(
-              (link) =>
+              link =>
                 link.href && (
                   <a
                     key={link.href}

@@ -21,8 +21,8 @@ export async function parseApi<T>(request: Promise<ClientResponse<T>>) {
 
 // SWR
 export async function fetchUser() {
-  return apiClient.user.$get().then((res) => res.json());
+  return apiClient.user.$get().then(res => res.json());
 }
 export async function fetchStatus() {
-  return apiClient.status.$get().then((res) => res.json());
+  return apiClient.status.$get().then(res => res.json());
 }

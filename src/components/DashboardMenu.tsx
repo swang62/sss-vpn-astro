@@ -16,7 +16,7 @@ function DashboardMenu({ current }: Props) {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem className="flex gap-2">
-          {DASHBOARD_LINKS.map((link) => (
+          {DASHBOARD_LINKS.map(link => (
             <a
               key={link.href}
               href={link.href}

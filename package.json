@@ -21,8 +21,6 @@
     "start": "node ./dist/server/entry.mjs",
     "start:docker": "docker compose up -d --remove-orphans",
     "stop": "docker compose down --remove-orphans",
-    "styles": "prettier --check \"./src/**/*.(js|jsx|ts|tsx)\"",
-    "styles:fix": "prettier --write --list-different \"./src/**/*.(js|jsx|ts|tsx)\"",
     "test": "vitest run --changed",
     "test:all": "vitest run",
     "test:watch": "vitest"
@@ -113,16 +111,8 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "pnpm styles:fix",
       "pnpm lint:fix"
     ]
-  },
-  "prettier": {
-    "plugins": [
-      "prettier-plugin-tailwindcss",
-      "prettier-plugin-astro"
-    ],
-    "trailingComma": "all"
   },
   "volta": {
     "node": "22.9.0",

@@ -40,7 +40,7 @@ function MobileMenu(_props: Props) {
         <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-10 pt-4 text-2xl">
           <div className="flex flex-col space-y-6">
             {MAIN_LINKS.map(
-              (link) =>
+              link =>
                 link.href && (
                   <a
                     key={link.href}

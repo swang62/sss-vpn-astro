@@ -23,16 +23,12 @@ export default antfu(
   {
     rules: {
       "antfu/if-newline": ["off"],
-      "format/prettier": ["off"],
       "jsonc/sort-keys": ["off"],
       "no-console": ["off"],
       "node/prefer-global/process": ["off"],
       "perfectionist/sort-imports": ["warn", { internalPattern: ["@/**"] }],
       "perfectionist/sort-objects": ["warn"],
-      "style/arrow-parens": ["off"],
       "style/brace-style": ["off"],
-      "style/multiline-ternary": ["off"],
-      "style/operator-linebreak": ["off"],
       "ts/ban-ts-comment": ["off"],
       "ts/consistent-type-definitions": ["off"],
       "yaml/sort-keys": ["warn"],

@@ -10,7 +10,7 @@ export const profile = t.sqliteTable("profile", {
     .integer("createdAt", { mode: "timestamp_ms" })
     .notNull()
     .$default(() => new Date()),
-  stripeCustomerId: t.text("stripeCustomerId"),
+  stripeCustomerId: t.text("stripeCustomerId").notNull(),
   subscriptionEndAt: t.integer("subscriptionEndAt", { mode: "timestamp_ms" }),
   subscriptionId: t.text("subscriptionId"),
   subscriptionStartAt: t.integer("subscriptionStartAt", {

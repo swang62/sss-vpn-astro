@@ -61,8 +61,8 @@ export const auth = betterAuth({
   },
   secondaryStorage: client
     ? {
-        delete: async (key) => client.del(key).toString(),
-        get: async (key) => client.get(key),
+        delete: async key => client.del(key).toString(),
+        get: async key => client.get(key),
         set: async (key, value, ttl) => {
           if (ttl) client.set(key, value, { EX: ttl });
           else client.set(key, value);

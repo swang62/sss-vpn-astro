@@ -10,8 +10,7 @@ const features = [
   },
   {
     title: "Unbeatable customer service.",
-    description:
-      "Personal customer support from someone you actually know and trust.",
+    description: "Personal customer support from someone you actually know and trust.",
     icon: "lucide:heart-handshake",
   },
   {
@@ -33,12 +32,8 @@ const features = [
   <div class="py-8">
     <div class="container max-w-6xl">
       <div class="flex flex-col items-center text-center">
-        <div class="text-gradient mb-6 font-semibold text-xl md:text-2xl">
-          Features
-        </div>
-        <h2 class="font-heading text-3xl md:text-4xl lg:text-[40px]">
-          What makes this VPN unique?
-        </h2>
+        <div class="text-gradient mb-6 font-semibold text-xl md:text-2xl">Features</div>
+        <h2 class="font-heading text-3xl md:text-4xl lg:text-[40px]">What makes this VPN unique?</h2>
       </div>
 
       <div class="mt-12 grid gap-4 sm:grid-cols-2">
@@ -52,15 +47,11 @@ const features = [
               <div class="relative" aria-label={feature.title}>
                 <div class="flex flex-row items-center gap-2">
                   <div class="flex relative size-12 rounded-xl border border-border shadow-sm *:relative *:m-auto *:size-6 ">
-                    {feature.icon && (
-                      <Icon name={feature.icon} class="size-5" />
-                    )}
+                    {feature.icon && <Icon name={feature.icon} class="size-5" />}
                   </div>
                   <h1>{feature.title}</h1>
                 </div>
-                <p class="mt-6 pb-6 text-muted-foreground">
-                  {feature.description}
-                </p>
+                <p class="mt-6 pb-6 text-muted-foreground">{feature.description}</p>
               </div>
             </div>
           ))

@@ -42,7 +42,7 @@ function Faqs() {
         </h1>
 
         <Accordion type="single" collapsible className="w-full py-4">
-          {data.map((item) => (
+          {data.map(item => (
             <AccordionItem key={item.id} value={item.id}>
               <AccordionTrigger className="text-left">
                 {item.question}

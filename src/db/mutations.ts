@@ -10,24 +10,22 @@ export async function updateSubscription(
   stripeCustomerId: string,
   subscription?: Stripe.Subscription,
 ) {
-  const subscriptionType =
-    (subscription?.items.data[0]?.price.lookup_key as SubscriptionType) ??
-    "none";
-
-  const data = {
+  const subscriptionType
+    = (subscription?.items.data[0]?.price.lookup_key as SubscriptionType)
+    ?? "none";
+  const data: typeof profile.$inferInsert = {
     stripeCustomerId,
     subscriptionEndAt: subscription
       ? new Date(subscription.current_period_end * 1000)
-      : null,
-    subscriptionId: subscription ? subscription.id : null,
+      : undefined,
+    subscriptionId: subscription ? subscription.id : undefined,
     subscriptionStartAt: subscription
       ? new Date(subscription.current_period_start * 1000)
-      : null,
+      : undefined,
     subscriptionType,
     userId,
   };
 
-  // Add subscription if it exists
   await db.insert(profile).values([data]).onConflictDoUpdate({
     set: data,
     target: profile.userId,
@@ -68,12 +66,11 @@ export async function setupNewUser(user: User) {
     return;
   }
 
+  // Sign them up for free trial
   const customer = await stripe.customers.create({ email });
   if (!customer?.id) {
-    throw new Error(`Could not create stripe customer for ${email}`);
+    throw new Error(`Profile failed, could not create stripe for ${email}`);
   }
-
-  // Sign them up for free trial
   stripeCustomerId = customer.id;
   const subscription = await stripe.subscriptions.create({
     cancel_at_period_end: true,
