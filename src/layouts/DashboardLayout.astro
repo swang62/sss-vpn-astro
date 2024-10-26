@@ -4,7 +4,7 @@ import DashboardMenu from "@/components/DashboardMenu";
 import DashboardMobileMenu from "@/components/DashboardMobileMenu";
 import ThemeToggle from "@/components/ThemeToggle";
 import { SITE_NAME } from "@/config/constants";
-import { setupNewUser } from "@/db/mutations";
+import { setupNewUser } from "@/db/mutations-user";
 import Base from "@/layouts/Base.astro";
 import Header from "@/layouts/Header.astro";
 
@@ -43,7 +43,7 @@ if (isVerified && !user.profile?.stripeCustomerId) {
     </div>
   </Header>
 
-  <main class="container mx-auto gap-4 md:gap-8">
+  <main class="container gap-4 mx-auto md:gap-8">
     <slot />
   </main>
 </Base>

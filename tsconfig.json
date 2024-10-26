@@ -8,7 +8,6 @@
         "./src/*"
       ]
     },
-    "verbatimModuleSyntax": false,
     "types": [
       "node",
       "vitest/globals"

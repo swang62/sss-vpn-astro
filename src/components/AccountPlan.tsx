@@ -76,34 +76,36 @@ function AccountPlan(_props: Props) {
           <div key={index}>
             <h1 className="h-8 my-2 text-xl font-semibold">{title}</h1>
             <div className="px-4 text-muted-foreground">
-              {profile ? value : <Skeleton className="w-[100px] h-6" />}
+              {profile ? value : <Skeleton className="w-40 h-6" />}
             </div>
           </div>
         ))}
 
       </CardContent>
       <CardFooter className="justify-end gap-4 py-4 border-t bg-accent">
-        {endDate
-          ? (
-              <Button
-                disabled={isDisabled}
-                loading={loading}
-                variant="secondary"
-                onClick={renewPlan}
-              >
-                <span>Turn on auto-renewal</span>
-              </Button>
-            )
-          : (
-              <Button
-                disabled={isDisabled}
-                loading={loading}
-                variant="destructive"
-                onClick={cancelPlan}
-              >
-                <span>Cancel subscription</span>
-              </Button>
-            )}
+        {!profile
+          ? <Skeleton className="w-40 h-10" />
+          : endDate
+            ? (
+                <Button
+                  disabled={isDisabled}
+                  loading={loading}
+                  variant="secondary"
+                  onClick={renewPlan}
+                >
+                  <span>Turn on auto-renewal</span>
+                </Button>
+              )
+            : (
+                <Button
+                  disabled={isDisabled}
+                  loading={loading}
+                  variant="destructive"
+                  onClick={cancelPlan}
+                >
+                  <span>Cancel subscription</span>
+                </Button>
+              )}
       </CardFooter>
     </Card>
   );

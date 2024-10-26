@@ -4,7 +4,6 @@ import { DB_LOCAL, DB_TEST } from "./constants";
 
 // Server-side variables
 const EnvSchema = z.object({
-  API_TOKEN: z.string(),
   DB_AUTH_TOKEN: z.string().default("default"),
   DB_REMOTE: z.string().optional(),
   LOG_LEVEL: z.enum([
@@ -42,7 +41,6 @@ if (import.meta.env?.DEV && data.LOG_LEVEL !== "silent")
 //* Constants *//
 const _ = "placeholder"; // Catch build errors
 
-export const API_TOKEN = data.API_TOKEN;
 export const DB_AUTH_TOKEN = data.DB_AUTH_TOKEN;
 export const DB_REMOTE = data.DB_REMOTE === _ ? "" : data.DB_REMOTE;
 export const LOG_LEVEL = data.LOG_LEVEL === _ ? "debug" : data.LOG_LEVEL;

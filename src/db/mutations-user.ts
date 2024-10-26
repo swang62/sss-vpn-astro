@@ -5,7 +5,7 @@ import type { SubscriptionType } from "@/lib/types";
 import db, { profile, type User } from "@/db";
 import { stripe } from "@/lib/context";
 
-export async function updateSubscription(
+export async function updateProfileSubscription(
   userId: string,
   stripeCustomerId: string,
   subscription?: Stripe.Subscription,
@@ -32,7 +32,7 @@ export async function updateSubscription(
   });
 }
 
-export async function updateUserProfile(
+export async function updateUser(
   userId: string,
   stripeCustomerId: string,
 ) {
@@ -41,7 +41,7 @@ export async function updateUserProfile(
   });
   if (customer.deleted) return;
 
-  await updateSubscription(
+  await updateProfileSubscription(
     userId,
     stripeCustomerId,
     customer.subscriptions?.data[0],
@@ -62,7 +62,7 @@ export async function setupNewUser(user: User) {
 
   // User has already been setup but is somehow missing data
   if (stripeCustomerId) {
-    await updateUserProfile(userId, stripeCustomerId);
+    await updateUser(userId, stripeCustomerId);
     return;
   }
 
@@ -82,5 +82,5 @@ export async function setupNewUser(user: User) {
     ],
   });
 
-  await updateSubscription(userId, stripeCustomerId, subscription);
+  await updateProfileSubscription(userId, stripeCustomerId, subscription);
 }
