@@ -8,6 +8,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { fetchUser } from "@/lib/api-clients";
 import { FREE_PLANS } from "@/lib/types";
 import { capitalize } from "@/lib/utils";
@@ -34,6 +35,7 @@ function AccountPlan(_props: Props) {
   };
 
   const subType = profile?.subscriptionType;
+  const isDisabled = (!!subType && FREE_PLANS.includes(subType));
   const startDate = new Date(profile?.subscriptionStartAt || "").toLocaleDateString("us", { dateStyle: "long" });
   const endDate = profile?.subscriptionEndAt
     ? new Date(profile?.subscriptionEndAt || "").toLocaleDateString("us", { dateStyle: "long" })
@@ -73,11 +75,9 @@ function AccountPlan(_props: Props) {
         {planDetails.map(({ title, value }, index) => (
           <div key={index}>
             <h1 className="h-8 my-2 text-xl font-semibold">{title}</h1>
-            {profile && (
-              <div className="px-4 text-muted-foreground">
-                {value}
-              </div>
-            )}
+            <div className="px-4 text-muted-foreground">
+              {profile ? value : <Skeleton className="w-[100px] h-6" />}
+            </div>
           </div>
         ))}
 
@@ -86,7 +86,7 @@ function AccountPlan(_props: Props) {
         {endDate
           ? (
               <Button
-                disabled={(!!subType && FREE_PLANS.includes(subType))}
+                disabled={isDisabled}
                 loading={loading}
                 variant="secondary"
                 onClick={renewPlan}
@@ -96,7 +96,7 @@ function AccountPlan(_props: Props) {
             )
           : (
               <Button
-                disabled={(!!subType && FREE_PLANS.includes(subType))}
+                disabled={isDisabled}
                 loading={loading}
                 variant="destructive"
                 onClick={cancelPlan}
