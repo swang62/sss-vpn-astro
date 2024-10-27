@@ -11,7 +11,8 @@ export const profile = t.sqliteTable("profile", {
     .notNull()
     .$default(() => new Date()),
   purchasedRouter: t
-    .integer("purchasedRouter", { mode: "boolean" }),
+    .integer("purchasedRouter", { mode: "boolean" })
+    .default(false),
   stripeCustomerId: t
     .text("stripeCustomerId")
     .notNull(),

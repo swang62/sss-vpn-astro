@@ -1,0 +1,1 @@
+ALTER TABLE `profile` ADD `purchasedRouter` integer DEFAULT false;

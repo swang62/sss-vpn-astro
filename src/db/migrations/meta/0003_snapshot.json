@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "c436f392-1bdd-4c8d-8840-d4fde25a443d",
+  "id": "8749e7a7-3273-43bc-b7a0-e917c866caab",
   "prevId": "e1170719-c13c-4fdd-903d-83bb163a43ad",
   "tables": {
     "account": {
@@ -164,7 +164,8 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": false
         },
         "stripeCustomerId": {
           "name": "stripeCustomerId",

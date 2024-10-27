@@ -57,7 +57,7 @@ function PricingCard({
 
   return (
     <Card
-      className={cn(isCurrentPlan && "opacity-50", `mx-auto flex max-w-80 flex-col justify-between bg-background py-1 text-foreground sm:mx-0`)}
+      className={cn(`mx-auto flex max-w-80 flex-col justify-between bg-background py-1 text-foreground sm:mx-0`)}
     >
       <div>
         <CardHeader className="pt-4 pb-6">
@@ -100,7 +100,7 @@ function PricingCard({
       {user && (
         <CardFooter className="flex justify-center mt-2">
           {isCurrentPlan
-            ? <Button variant="outline" disabled>Current plan</Button>
+            ? <a href="/dashboard/account"><Button variant="outline">Manage plan</Button></a>
             : <Button loading={loading} onClick={() => onClickCheckout(plan)}>{`Get ${title}`}</Button>}
         </CardFooter>
       )}

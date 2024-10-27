@@ -63,7 +63,7 @@ export async function setupNewUser(user: User) {
     stripeCustomerId = customer.data[0]?.id;
   }
 
-  // User has already been setup but is somehow missing data
+  // User has already been setup but is missing data
   if (stripeCustomerId) {
     await updateUser(userId, stripeCustomerId);
     return;
