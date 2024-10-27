@@ -1,8 +1,9 @@
 import type Stripe from "stripe";
 
-import type { SubscriptionType } from "@/lib/types";
+import type { SubscriptionType } from "@/config/types";
+import type { User } from "@/lib/api-clients";
 
-import db, { profile, type User } from "@/db";
+import db, { profile } from "@/db";
 import { stripe } from "@/lib/context";
 
 import { getProductByKey, getProductByPriceId } from "./queries";

@@ -22,6 +22,13 @@
       "when": 1729925972100,
       "tag": "0002_majestic_whistler",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1730006720356,
+      "tag": "0003_complete_madame_masque",
+      "breakpoints": true
     }
   ]
 }

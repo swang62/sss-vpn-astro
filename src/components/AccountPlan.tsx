@@ -9,8 +9,8 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { FREE_PLANS } from "@/config/types";
 import { fetchUser } from "@/lib/api-clients";
-import { FREE_PLANS } from "@/lib/types";
 import { capitalize } from "@/lib/utils";
 
 interface Props {}
@@ -36,7 +36,6 @@ function AccountPlan(_props: Props) {
 
   const subType = profile?.subscriptionType;
   const isDisabled = (!!subType && FREE_PLANS.includes(subType));
-  const startDate = new Date(profile?.subscriptionStartAt || "").toLocaleDateString("us", { dateStyle: "long" });
   const endDate = profile?.subscriptionEndAt
     ? new Date(profile?.subscriptionEndAt || "").toLocaleDateString("us", { dateStyle: "long" })
     : "";
@@ -60,8 +59,8 @@ function AccountPlan(_props: Props) {
       value: capitalize(profile?.subscriptionType),
     },
     {
-      title: "Billing cycle",
-      value: `${startDate} - ${endDate}`,
+      title: "Duration",
+      value: `Plan will end on ${endDate}`,
     },
     {
       title: "Auto-renewal",

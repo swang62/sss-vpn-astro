@@ -23,6 +23,8 @@ export async function parseApi<T>(request: Promise<ClientResponse<T>>) {
 export async function fetchUser() {
   return apiClient.user.$get().then(res => res.json());
 }
+export type User = Awaited<ReturnType<typeof fetchUser>>["user"];
+
 export async function fetchStatus() {
   return apiClient.status.$get().then(res => res.json());
 }

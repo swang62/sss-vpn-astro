@@ -44,6 +44,7 @@
     "@radix-ui/react-navigation-menu": "^1.2.1",
     "@radix-ui/react-popover": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-switch": "^1.1.1",
     "@sentry/astro": "^8.34.0",
     "astro": "^4.16.4",
     "astro-compressor": "^0.4.1",

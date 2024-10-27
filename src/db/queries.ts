@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 
-import type { SubscriptionType } from "@/lib/types";
+import type { SubscriptionType } from "@/config/types";
 
 import db, {
   product as productTable,

@@ -1,11 +1,11 @@
-export type PricingCardProps = {
-  plan: SubscriptionType;
-  monthlyPrice: number;
-  description: string;
-  features: string[];
+export type MenuLink = {
+  href: string;
+  label: string;
+  icon?: JSX.Element;
 };
 
 export const ALL_PLANS = ["none", "trial", "basic", "pro", "premium"] as const;
+
 export type SubscriptionType = (typeof ALL_PLANS)[number];
 
 export const FREE_PLANS: SubscriptionType[] = ["none", "trial"] as const;
