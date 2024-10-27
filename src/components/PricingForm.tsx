@@ -16,7 +16,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { PLANS } from "@/config/links";
+import { PRICING_PLANS } from "@/config/links";
 import { apiClient, fetchUser, parseApi, type User } from "@/lib/api-clients";
 import { capitalize, cn } from "@/lib/utils";
 
@@ -25,8 +25,6 @@ export type PricingCardProps = {
   price: number;
   description: string;
   features: string[];
-  monthly?: boolean;
-  user?: User;
 };
 
 function PricingCard({
@@ -36,16 +34,15 @@ function PricingCard({
   plan,
   price,
   user,
-}: PricingCardProps) {
+}: PricingCardProps & { monthly: boolean; user?: User }) {
   const [loading, setLoading] = useState(false);
   const title = capitalize(plan);
   const isCurrentPlan = user?.profile?.subscriptionType === plan;
 
   const onClickCheckout = async (plan: SubscriptionType) => {
-    // create checkout session, then redirect
     setLoading(true);
     const { data } = await parseApi(
-      apiClient.stripe["customer-portal"].$post({ json: { monthly, plan } }),
+      apiClient.stripe.checkout.$post({ json: { monthly, plan } }),
     );
     if (data?.url) {
       navigate(data.url);
@@ -79,7 +76,7 @@ function PricingCard({
             {!monthly ? <span className="flex items-end mb-1 text-sm"></span> : <span className="flex items-end mb-1 text-sm">/month</span>}
             {plan.includes("premium") && (
               <>
-                <h3 className="text-3xl font-semibold">+$50</h3>
+                <h3 className="text-3xl font-semibold">+$60</h3>
                 <span className="flex items-end mb-1 text-sm">router</span>
               </>
             )}
@@ -125,7 +122,7 @@ function PricingForm(_props: Props) {
         <span className={cn(!monthly && "text-accent")}>Subscription</span>
       </div>
       <div className="flex flex-col justify-center mt-8 gap-8 sm:flex-row sm:flex-wrap">
-        {PLANS.map((plan) => {
+        {PRICING_PLANS.map((plan) => {
           return <PricingCard key={plan.plan} {...plan} user={data?.user} monthly={monthly} />;
         })}
       </div>

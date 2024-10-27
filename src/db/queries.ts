@@ -9,15 +9,9 @@ import db, {
   verification as verificationTable,
 } from "@/db";
 
-export async function getProfileById(id: string) {
-  const profile = await db.query.profile.findFirst({
-    where: eq(profileTable.userId, id),
-  });
+// User
 
-  return profile;
-}
-
-export async function getUserByEmail(email: string) {
+export async function getUserByEmail(email?: string) {
   if (!email) return;
 
   const user = await db.query.user.findFirst({
@@ -29,12 +23,12 @@ export async function getUserByEmail(email: string) {
 
 export async function getUserByToken(token?: string) {
   if (!token) return;
-  const search = `reset-password:${token}`;
-  const row = await db.query.verification.findFirst({
-    where: eq(verificationTable.identifier, search),
-  });
 
+  const row = await db.query.verification.findFirst({
+    where: eq(verificationTable.identifier, `reset-password:${token}`),
+  });
   if (!row) return;
+
   const user = await db.query.user.findFirst({
     where: eq(userTable.id, row.value),
   });
@@ -52,6 +46,29 @@ export async function getUserById(id: string) {
 
   return user;
 }
+
+// Profile
+
+export async function getProfileById(id: string) {
+  const profile = await db.query.profile.findFirst({
+    where: eq(profileTable.userId, id),
+  });
+
+  return profile;
+}
+
+export async function getProfileByStripeId(stripeCustomerId: string) {
+  const profile = await db.query.profile.findFirst({
+    where: eq(profileTable.stripeCustomerId, stripeCustomerId),
+    with: {
+      user: true,
+    },
+  });
+
+  return profile;
+}
+
+// Product
 
 export async function getProductByKey(id: SubscriptionType | "router") {
   const product = await db.query.product.findFirst({

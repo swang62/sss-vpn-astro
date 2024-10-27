@@ -1,5 +1,6 @@
 import { Rocket } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
@@ -10,34 +11,37 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FREE_PLANS } from "@/config/types";
-import { fetchUser } from "@/lib/api-clients";
+import { apiClient, fetchUser, parseApi } from "@/lib/api-clients";
 import { capitalize } from "@/lib/utils";
 
 interface Props {}
 
 function AccountPlan(_props: Props) {
   const [loading, setLoading] = useState(false);
-  const { data } = useSWR("fetchUser", fetchUser);
+  const { data, mutate } = useSWR("fetchUser", fetchUser);
   const profile = data?.user?.profile;
 
   // Handlers
-  const cancelPlan = async () => {
+  const renewPlan = async (renew: boolean) => {
     setLoading(true);
-    // immediately set plan to cancel on end and update billing cycle
-    // mutate to update screen
-    setLoading(false);
-  };
-  const renewPlan = async () => {
-    setLoading(true);
-    // set plan to renew on end
-    // mutate to update screen, make sure free trial is blocked on server side
+    const { error } = await parseApi(
+      apiClient.stripe.renew.$post({ json: { renew } }),
+    );
+    if (!error) {
+      await mutate();
+    } else {
+      toast.error("Failed to update subscription, please try again later.");
+    }
     setLoading(false);
   };
 
   const subType = profile?.subscriptionType;
-  const isDisabled = (!!subType && FREE_PLANS.includes(subType));
+  const isDisabled = !!subType && FREE_PLANS.includes(subType);
   const endDate = profile?.subscriptionEndAt
-    ? new Date(profile?.subscriptionEndAt || "").toLocaleDateString("us", { dateStyle: "long" })
+    ? new Date(profile?.subscriptionEndAt).toLocaleDateString("us", { dateStyle: "long" })
+    : "";
+  const billingCycle = profile?.subscriptionStartAt
+    ? new Date(profile?.subscriptionStartAt).getDate().toString()
     : "";
   const autoRenew = endDate ? <span className="text-red-500">Off</span> : <span className="text-green-500">On</span>;
   const planDetails = [
@@ -60,10 +64,10 @@ function AccountPlan(_props: Props) {
     },
     {
       title: "Duration",
-      value: `Plan will end on ${endDate}`,
+      value: endDate ? `Plan will end on ${endDate}` : billingCycle ? `Will renew on the ${billingCycle}` : `None`,
     },
     {
-      title: "Auto-renewal",
+      title: "Auto-Renewal",
       value: autoRenew,
     },
   ];
@@ -90,9 +94,9 @@ function AccountPlan(_props: Props) {
                   disabled={isDisabled}
                   loading={loading}
                   variant="secondary"
-                  onClick={renewPlan}
+                  onClick={() => renewPlan(true)}
                 >
-                  <span>Turn on auto-renewal</span>
+                  <span>Re-enable plan</span>
                 </Button>
               )
             : (
@@ -100,9 +104,9 @@ function AccountPlan(_props: Props) {
                   disabled={isDisabled}
                   loading={loading}
                   variant="destructive"
-                  onClick={cancelPlan}
+                  onClick={() => renewPlan(false)}
                 >
-                  <span>Cancel subscription</span>
+                  <span>Cancel plan</span>
                 </Button>
               )}
       </CardFooter>

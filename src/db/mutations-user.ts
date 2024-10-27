@@ -8,7 +8,7 @@ import { stripe } from "@/lib/context";
 
 import { getProductByKey, getProductByPriceId } from "./queries";
 
-export async function updateProfileSubscription(
+export async function updateProfile(
   userId: string,
   stripeCustomerId: string,
   subscription?: Stripe.Subscription,
@@ -20,11 +20,11 @@ export async function updateProfileSubscription(
     stripeCustomerId,
     subscriptionEndAt: subscription
       ? new Date(subscription.current_period_end * 1000)
-      : undefined,
-    subscriptionId: subscription ? subscription.id : undefined,
+      : null,
+    subscriptionId: subscription ? subscription.id : null,
     subscriptionStartAt: subscription
       ? new Date(subscription.current_period_start * 1000)
-      : undefined,
+      : null,
     subscriptionType: product?.id as SubscriptionType ?? "none",
     userId,
   };
@@ -44,7 +44,7 @@ export async function updateUser(
   const customer = await stripe.customers.retrieve(stripeCustomerId, { expand: ["subscriptions"] });
   if (customer.deleted) return;
 
-  await updateProfileSubscription(
+  await updateProfile(
     userId,
     stripeCustomerId,
     customer.subscriptions?.data[0],
@@ -63,13 +63,13 @@ export async function setupNewUser(user: User) {
     stripeCustomerId = customer.data[0]?.id;
   }
 
-  // User has already been setup but is missing data
   if (stripeCustomerId) {
+    // User is missing data
     await updateUser(userId, stripeCustomerId);
     return;
   }
 
-  // Sign them up for free trial
+  // Sign up for free trial
   const customer = await stripe.customers.create({ email });
   if (!customer?.id) {
     throw new Error(`Profile failed, could not create stripe for ${email}`);
@@ -83,5 +83,5 @@ export async function setupNewUser(user: User) {
     items: [{ price: product?.priceId }],
   });
 
-  await updateProfileSubscription(userId, stripeCustomerId, subscription);
+  await updateProfile(userId, stripeCustomerId, subscription);
 }

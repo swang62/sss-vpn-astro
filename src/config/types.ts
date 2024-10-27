@@ -4,9 +4,15 @@ export type MenuLink = {
   icon?: JSX.Element;
 };
 
-export const ALL_PLANS = ["none", "trial", "basic", "pro", "premium"] as const;
+export const SUBSCRIPTION_PLANS = [
+  "none",
+  "trial",
+  "basic",
+  "pro",
+  "premium",
+] as const;
 
-export type SubscriptionType = (typeof ALL_PLANS)[number];
+export type SubscriptionType = (typeof SUBSCRIPTION_PLANS)[number];
 
 export const FREE_PLANS: SubscriptionType[] = ["none", "trial"] as const;
 

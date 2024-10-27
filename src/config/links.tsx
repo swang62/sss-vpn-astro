@@ -45,7 +45,7 @@ export const DASHBOARD_LINKS: MenuLink[] = [
   },
 ];
 
-export const PLANS: PricingCardProps[] = [
+export const PRICING_PLANS: PricingCardProps[] = [
   {
     description: "Should be enough data for most people",
     features: ["50GB data", "Email, messaging, music, blogs, light media usage", "Desktop & phone apps"],

@@ -47,7 +47,6 @@ function AccountDetails(_props: Props) {
         </span>
         <Button
           loading={loading}
-          variant="secondary"
           onClick={redirectCustomerPortal}
         >
           <span>Visit customer portal</span>
