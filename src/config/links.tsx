@@ -50,7 +50,7 @@ export const PRICING_PLANS: PricingCardProps[] = [
     description: "Should be enough data for most people",
     features: ["50GB data", "Email, messaging, music, blogs, light media usage", "Desktop & phone apps"],
     plan: "basic",
-    price: 5,
+    price: 6,
 
   },
   {
@@ -68,6 +68,6 @@ export const PRICING_PLANS: PricingCardProps[] = [
       "China shipping only*",
     ],
     plan: "premium",
-    price: 20,
+    price: 15,
   },
 ];

@@ -133,7 +133,7 @@ function PricingForm(_props: Props) {
   const { data } = useSWR("fetchUser", fetchUser);
   const [monthly, setMonthly] = useState(true);
   const isActive = !!data?.user?.profile?.subscriptionId;
-  const hasPurchasedRouter = data?.user?.profile?.purchasedRouter;
+  const purchasedRouter = data?.user?.profile?.purchasedRouter;
 
   const onClickRouter = async () => {
     setLoading(true);
@@ -171,7 +171,7 @@ function PricingForm(_props: Props) {
         })}
       </div>
       <div className="flex flex-col justify-center gap-8 sm:mt-4 sm:flex-row sm:flex-wrap">
-        {data?.user && !hasPurchasedRouter && isActive && (
+        {data?.user && !purchasedRouter && isActive && (
           <div className="px-8 mt-8 text-center text-muted-foreground">
             Still feel like purchasing the router package? Buy it separately
             <Button loading={loading} variant="link" className="p-0 m-0 ml-1 text-base underline" onClick={onClickRouter}>here</Button>
