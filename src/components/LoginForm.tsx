@@ -15,16 +15,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { signIn } from "@/lib/clients";
+import { signIn } from "@/lib/auth-client";
 
 const formSchema = z.object({
   email: z.string().email().toLowerCase(),
   password: z.string(),
 });
 
-interface LoginProps {}
+interface Props {}
 
-function LoginForm(_props: LoginProps) {
+function LoginForm(_props: Props) {
   const [loading, setLoading] = useState(false);
 
   // Form hook
@@ -67,7 +67,7 @@ function LoginForm(_props: LoginProps) {
   }
 
   return (
-    <Card className="mx-auto w-full max-w-xs">
+    <Card className="w-full max-w-xs mx-auto">
       <CardHeader className="pb-4 text-center">
         <CardTitle className="text-2xl">Log in</CardTitle>
       </CardHeader>
@@ -97,7 +97,7 @@ function LoginForm(_props: LoginProps) {
                     <FormLabel>Password</FormLabel>
                     <a
                       href="/forgot-password"
-                      className="ml-auto inline-block text-right text-sm underline"
+                      className="inline-block ml-auto text-xs text-right text-muted-foreground"
                       data-astro-reload
                     >
                       Forgot password?
@@ -117,11 +117,11 @@ function LoginForm(_props: LoginProps) {
           </form>
         </Form>
 
-        <div className="mt-4 text-center text-sm">
+        <div className="mt-4 text-sm text-center">
           Don't have an account?
           <a
             href="/signup"
-            className="ml-2 text-primary-link underline"
+            className="ml-2 underline text-primary-link"
             data-astro-reload
           >
             Sign up

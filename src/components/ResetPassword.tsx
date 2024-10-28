@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { resetPassword, signIn } from "@/lib/clients";
+import { resetPassword, signIn } from "@/lib/auth-client";
 import { sleep } from "@/lib/utils";
 
 const formSchema = z
@@ -32,21 +32,21 @@ const formSchema = z
       .min(8, { message: "Password must be at least 8 characters" }),
     passwordConfirm: z.string().optional(),
   })
-  .refine((data) => data.password === data.passwordConfirm, {
+  .refine(data => data.password === data.passwordConfirm, {
     message: "Passwords don't match",
     path: ["passwordConfirm"],
   });
 
-interface ResetPasswordFormProps {
+interface Props {
   email?: string;
 }
 
-function ResetPasswordForm({ email }: ResetPasswordFormProps) {
+function ResetPasswordForm({ email }: Props) {
   const [loading, setLoading] = useState(false);
 
   // Validate token/email
   if (!email) {
-    toast.error("Invalid token! Redirecting...");
+    toast.error("Invalid token, redirecting...");
     sleep(1000).then(() => navigate("/forgot-password"));
     return;
   }
@@ -76,7 +76,7 @@ function ResetPasswordForm({ email }: ResetPasswordFormProps) {
           setLoading(true);
         },
         onSuccess: async () => {
-          toast.success("Password reset! Redirecting...");
+          toast.success("Password reset, redirecting...");
           form.reset();
           await sleep(1000);
           await signIn.email(
@@ -93,7 +93,7 @@ function ResetPasswordForm({ email }: ResetPasswordFormProps) {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-xs flex-col">
+    <div className="flex flex-col w-full max-w-xs mx-auto">
       <Card className="">
         <CardHeader className="pb-4 text-center">
           <CardTitle>Reset password</CardTitle>

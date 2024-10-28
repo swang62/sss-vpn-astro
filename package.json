@@ -8,8 +8,9 @@
     "build:docker": "pnpm start:docker --build",
     "db:migrate": "drizzle-kit generate && drizzle-kit migrate",
     "db:migrate:docker": "docker compose run sssvpn pnpm drizzle-kit migrate",
-    "db:push": "rm -f local.db && drizzle-kit push --force",
+    "db:push": "drizzle-kit push --force",
     "db:seed": "dotenv -- tsx ./scripts/seed-local-db.ts",
+    "db:seed:products": "dotenv -- tsx ./scripts/seed-products.ts",
     "db:studio": "drizzle-kit studio",
     "dev": "astro dev",
     "lint": "eslint .",
@@ -21,8 +22,6 @@
     "start": "node ./dist/server/entry.mjs",
     "start:docker": "docker compose up -d --remove-orphans",
     "stop": "docker compose down --remove-orphans",
-    "styles": "prettier --check \"./src/**/*.(js|jsx|ts|tsx)\"",
-    "styles:fix": "prettier --write --list-different \"./src/**/*.(js|jsx|ts|tsx)\"",
     "test": "vitest run --changed",
     "test:all": "vitest run",
     "test:watch": "vitest"
@@ -41,10 +40,12 @@
     "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/react-accordion": "^1.2.1",
     "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-dropdown-menu": "^2.1.2",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-navigation-menu": "^1.2.1",
     "@radix-ui/react-popover": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-switch": "^1.1.1",
     "@sentry/astro": "^8.34.0",
     "astro": "^4.16.4",
     "astro-compressor": "^0.4.1",
@@ -61,7 +62,6 @@
     "hono-pino": "^0.3.0",
     "hono-rate-limiter": "^0.4.0",
     "lucide-react": "^0.453.0",
-    "nanostores": "^0.11.3",
     "next-themes": "^0.3.0",
     "pino": "^9.4.0",
     "pino-pretty": "^11.2.2",
@@ -72,6 +72,7 @@
     "react-hook-form": "^7.53.1",
     "redis": "^4.7.0",
     "sonner": "^1.5.0",
+    "stripe": "^17.2.1",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.5.4",
     "tailwindcss": "^3.4.13",
@@ -112,16 +113,8 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "pnpm styles:fix",
       "pnpm lint:fix"
     ]
-  },
-  "prettier": {
-    "plugins": [
-      "prettier-plugin-tailwindcss",
-      "prettier-plugin-astro"
-    ],
-    "trailingComma": "all"
   },
   "volta": {
     "node": "22.9.0",

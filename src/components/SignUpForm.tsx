@@ -27,8 +27,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { sendVerificationEmail, signUp } from "@/lib/clients";
-import { subscriptionPaid } from "@/lib/types";
+import { sendVerificationEmail, signUp } from "@/lib/auth-client";
 import { secondsPassed } from "@/lib/utils";
 
 const formSchema = z
@@ -39,21 +38,16 @@ const formSchema = z
       .min(8, { message: "Password must be at least 8 characters" }),
     passwordConfirm: z.string().optional(),
   })
-  .refine((data) => data.password === data.passwordConfirm, {
+  .refine(data => data.password === data.passwordConfirm, {
     message: "Passwords don't match",
     path: ["passwordConfirm"],
   });
 
-interface SignUpProps {
-  plan?: string | null;
-}
+interface Props {}
 
-function SignUpForm({ plan }: SignUpProps) {
+function SignUpForm(_props: Props) {
   const [loading, setLoading] = useState(false);
   const [sentEmail, setSentEmail] = useState("");
-
-  // Setup
-  const isFreeTrial = !subscriptionPaid.includes(plan as any);
 
   // Form hook
   const form = useForm<z.infer<typeof formSchema>>({
@@ -116,18 +110,18 @@ function SignUpForm({ plan }: SignUpProps) {
   }
 
   return (
-    <Card className="mx-auto w-full max-w-sm">
+    <Card className="w-full max-w-sm mx-auto">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl">Create an account</CardTitle>
         <CardDescription>
-          {isFreeTrial
-            ? "Trial period will start after verification."
-            : "Pick a plan after account creation."}
+          Trial period will start after verification.
           <br />
           If in China, use an unblocked email
           <Popover>
             <PopoverTrigger>
-              <span className="ml-1 text-secondary underline">provider</span>
+              <span className="ml-1 underline text-secondary-link">
+                provider
+              </span>
             </PopoverTrigger>
             <PopoverContent>
               <h1 className="font-heading">Recommended Providers</h1>
@@ -193,11 +187,11 @@ function SignUpForm({ plan }: SignUpProps) {
           </form>
         </Form>
 
-        <div className="mt-4 text-center text-sm">
+        <div className="mt-4 text-sm text-center">
           Already have an account?
           <a
             href="/login"
-            className="ml-2 text-primary-link underline"
+            className="ml-2 underline text-primary-link"
             data-astro-reload
           >
             Log in
@@ -205,8 +199,8 @@ function SignUpForm({ plan }: SignUpProps) {
         </div>
       </CardContent>
       <CardFooter>
-        <div className="flex w-full justify-center border-t pt-6">
-          <p className="text-center text-xs text-muted-foreground">
+        <div className="flex justify-center w-full pt-6 border-t">
+          <p className="text-xs text-center text-muted-foreground">
             Terms and conditions
             <Popover>
               <PopoverTrigger>

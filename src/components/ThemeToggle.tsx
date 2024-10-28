@@ -75,7 +75,7 @@ function MoonIcon() {
   );
 }
 
-export function ThemeToggle() {
+function ThemeToggle() {
   const [theme, setTheme] = useState(() => {
     // Cannot toggle on the server
     if (import.meta.env.SSR) return undefined;
@@ -106,18 +106,22 @@ export function ThemeToggle() {
     }
   }, [theme]);
 
-  return mounted ? (
-    <button
-      role="button"
-      onClick={toggleTheme}
-      className="block min-h-[40px] focus:outline-none"
-    >
-      <span className="sr-only">Toggle mode</span>
-      <AnimatePresence initial={false}>
-        {theme !== "dark" ? <SunIcon /> : <MoonIcon />}
-      </AnimatePresence>
-    </button>
-  ) : (
-    <div />
-  );
+  return mounted
+    ? (
+        <button
+          role="button"
+          onClick={toggleTheme}
+          className="block min-h-[40px] focus:outline-none"
+        >
+          <span className="sr-only">Toggle mode</span>
+          <AnimatePresence initial={false}>
+            {theme !== "dark" ? <SunIcon /> : <MoonIcon />}
+          </AnimatePresence>
+        </button>
+      )
+    : (
+        <div />
+      );
 }
+
+export default ThemeToggle;

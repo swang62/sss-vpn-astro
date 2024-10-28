@@ -1,6 +1,6 @@
-/** @type {import('tailwindcss').Config} */
 const { fontFamily } = require("tailwindcss/defaultTheme");
 
+/** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
@@ -65,12 +65,16 @@ export default {
           foreground: "hsl(var(--primary-foreground))",
         },
         "primary-link": {
-          DEFAULT: "hsl(var(--link))",
+          DEFAULT: "hsl(var(--primary-link))",
           foreground: "hsl(var(--primary-foreground))",
         },
         "ring": "hsl(var(--ring))",
         "secondary": {
           DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        "secondary-link": {
+          DEFAULT: "hsl(var(--secondary-link))",
           foreground: "hsl(var(--secondary-foreground))",
         },
       },

@@ -1,6 +1,6 @@
 ---
 import RedirectCheck from "@/components/RedirectCheck";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import ThemeToggle from "@/components/ThemeToggle";
 import Base from "@/layouts/Base.astro";
 
 interface Props {
@@ -11,14 +11,12 @@ const { title } = Astro.props;
 ---
 
 <Base title={title}>
-  <header class="px-4 flex w-full justify-end fixed py-2">
+  <header class="fixed flex justify-end w-full px-4 py-2">
     <ThemeToggle client:load />
     <RedirectCheck client:load />
   </header>
 
-  <main
-    class="container mx-auto min-h-screen flex items-center justify-center px-4"
-  >
+  <main class="container flex items-center justify-center min-h-screen px-4 mx-auto">
     <slot />
   </main>
 </Base>

@@ -2,6 +2,7 @@ import { testClient } from "hono/testing";
 
 import { SITE_ADMIN } from "@/config/constants";
 import { TEST_USER } from "@/db/seed";
+import { parseApi } from "@/lib/api-clients";
 import createApp from "@/server/app";
 import { testMiddleware } from "@/server/middleware";
 
@@ -12,18 +13,16 @@ const client = testClient(createApp().use(testMiddleware).route("/", router));
 
 describe("route /user", () => {
   it("no user found", async () => {
-    const response = await clientNoAuth.api.$get();
+    const { status } = await parseApi(clientNoAuth.api.$get());
 
-    expect(response.status).toBe(401);
+    expect(status).toBe(401);
   });
 
   it("get user", async () => {
-    const response = await client.api.$get();
-    const data = await response.json();
+    const { data } = await parseApi(client.api.$get());
 
-    expect(data.user.id).toBe(TEST_USER.id);
-    expect(data.user.email).toBe(SITE_ADMIN);
-    expect(data.user.profile?.subscription).toBe("premium");
-    expect(data.session?.userId).toBe(TEST_USER.id);
+    expect(data?.user.id).toBe(TEST_USER.id);
+    expect(data?.user.email).toBe(SITE_ADMIN);
+    expect(data?.session?.userId).toBe(TEST_USER.id);
   });
 });

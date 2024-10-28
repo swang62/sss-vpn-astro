@@ -5,7 +5,8 @@ import { admin } from "better-auth/plugins";
 import { SITE_URL } from "@/config/client";
 import { SITE_EMAIL } from "@/config/constants";
 import db from "@/db";
-import { postmarkClient, redis } from "@/lib/backend";
+import { redis } from "@/lib/redis";
+import { postmarkClient } from "@/lib/server-clients";
 
 const client = redis ? redis.client : null;
 
@@ -61,8 +62,8 @@ export const auth = betterAuth({
   },
   secondaryStorage: client
     ? {
-        delete: async (key) => client.del(key).toString(),
-        get: async (key) => client.get(key),
+        delete: async key => client.del(key).toString(),
+        get: async key => client.get(key),
         set: async (key, value, ttl) => {
           if (ttl) client.set(key, value, { EX: ttl });
           else client.set(key, value);

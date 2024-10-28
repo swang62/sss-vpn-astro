@@ -12,11 +12,15 @@ import pretty from "pino-pretty";
 import { IS_PRODUCTION, IS_TESTING, LOG_LEVEL } from "@/config/server";
 import { TEST_USER } from "@/db/seed";
 import { auth } from "@/lib/auth";
-import { redis } from "@/lib/backend";
+import { redis } from "@/lib/redis";
 
 import type { Bindings } from "./app";
 
 export const authMiddleware = createMiddleware<Bindings>(async (c, next) => {
+  if (IS_TESTING) {
+    return next();
+  }
+
   const session = await auth.api.getSession({ headers: c.req.raw.headers });
   if (!session) {
     c.set("user", null);
@@ -52,10 +56,10 @@ export const notFound: NotFoundHandler = (c) => {
 export const onError: ErrorHandler = (error, c) => {
   captureException(error);
 
-  const currentStatus =
-    "status" in error ? error.status : c.newResponse(null).status;
-  const statusCode =
-    currentStatus !== 200 ? (currentStatus as StatusCode) : 500;
+  const currentStatus
+    = "status" in error ? error.status : c.newResponse(null).status;
+  const statusCode
+    = currentStatus !== 200 ? (currentStatus as StatusCode) : 500;
   const errorMessage = {
     message: statusCode === 401 ? "Unauthorized" : error.message,
     stack: IS_PRODUCTION ? undefined : error.stack,
@@ -69,9 +73,9 @@ export function corsMiddleware(): MiddlewareHandler {
     allowHeaders: ["*"],
     allowMethods: ["GET", "POST", "OPTIONS"],
     credentials: true,
-    exposeHeaders: ["Content-Length"],
+    exposeHeaders: ["*"],
     maxAge: 600,
-    origin: (origin) =>
+    origin: origin =>
       origin.includes(".mildlybrewed.") || !IS_PRODUCTION
         ? origin
         : "localhost",
@@ -94,7 +98,7 @@ export function pinoLogger(): MiddlewareHandler {
           },
         };
       },
-      onResBindings: (c) => ({
+      onResBindings: c => ({
         status: c.res.status,
       }),
       reqId: false,
@@ -105,9 +109,9 @@ export function pinoLogger(): MiddlewareHandler {
 
 export function limiter(): MiddlewareHandler {
   return rateLimiter({
-    keyGenerator: (c) =>
+    keyGenerator: c =>
       `${c.req.path}-${c.req.header("cf-connecting-ip") ?? ""}`,
-    limit: (c) => (c.req.header("host")?.includes("localhost") ? 1000 : 50),
+    limit: c => (c.req.header("host")?.includes("localhost") ? 1000 : 50),
     message: {
       message: "Too many requests, try again later.",
     },

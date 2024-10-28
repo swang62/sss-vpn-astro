@@ -1,8 +1,6 @@
 import { Menu } from "lucide-react";
 import { useState } from "react";
 
-import type { MainMenuLink } from "@/lib/types";
-
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -13,11 +11,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { SITE_NAME } from "@/config/constants";
+import { MAIN_LINKS } from "@/config/links";
 
-interface Props {
-  links: MainMenuLink[];
-}
-export function MobileMenu({ links }: Props) {
+interface Props {}
+
+function MobileMenu(_props: Props) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -29,9 +27,9 @@ export function MobileMenu({ links }: Props) {
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="pr-0 text-xl">
-        <SheetHeader className="pl-4 pt-4">
+        <SheetHeader className="pt-4 pl-4">
           <a href="/#top" onClick={() => setOpen(false)}>
-            <SheetTitle className="flex flex-nowrap items-center gap-2 text-left text-3xl font-bold">
+            <SheetTitle className="flex items-center text-3xl font-semibold text-left flex-nowrap gap-2">
               <img src="/favicon.ico" alt="logo" width={36} height={36} />
               <span>{SITE_NAME}</span>
             </SheetTitle>
@@ -41,13 +39,12 @@ export function MobileMenu({ links }: Props) {
 
         <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-10 pt-4 text-2xl">
           <div className="flex flex-col space-y-6">
-            {links.map(
-              (link) =>
+            {MAIN_LINKS.map(
+              link =>
                 link.href && (
                   <a
                     key={link.href}
                     href={link.href}
-                    className="text-muted-foreground"
                     onClick={() => setOpen(false)}
                   >
                     {link.label}
@@ -60,3 +57,5 @@ export function MobileMenu({ links }: Props) {
     </Sheet>
   );
 }
+
+export default MobileMenu;

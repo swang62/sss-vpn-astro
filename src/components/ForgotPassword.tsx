@@ -16,16 +16,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { apiClient, forgetPassword } from "@/lib/clients";
+import { apiClient, parseApi } from "@/lib/api-clients";
+import { forgetPassword } from "@/lib/auth-client";
 import { secondsPassed } from "@/lib/utils";
 
 const formSchema = z.object({
   email: z.string().email().toLowerCase(),
 });
 
-interface ForgotPasswordFormProps {}
+interface Props {}
 
-function ForgotPasswordForm(_props: ForgotPasswordFormProps) {
+function ForgotPasswordForm(_props: Props) {
   const [loading, setLoading] = useState(false);
   const [sentEmail, setSentEmail] = useState("");
 
@@ -46,17 +47,19 @@ function ForgotPasswordForm(_props: ForgotPasswordFormProps) {
     }
 
     const { email } = values;
-    const response = await apiClient["search-email"].$get({ query: { email } });
-    if (response.ok) {
-      const { exists } = await response.json();
-      if (!exists) {
-        form.setError(
-          "email",
-          { message: "Email not found in our system." },
-          { shouldFocus: true },
-        );
-        return;
-      }
+    const { data } = await parseApi(
+      apiClient["search-email"].$get({
+        query: { email },
+      }),
+    );
+
+    if (!data?.exists) {
+      form.setError(
+        "email",
+        { message: "Email not found in our system." },
+        { shouldFocus: true },
+      );
+      return;
     }
 
     await forgetPassword(
@@ -86,7 +89,7 @@ function ForgotPasswordForm(_props: ForgotPasswordFormProps) {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-xs flex-col">
+    <div className="flex flex-col w-full max-w-xs mx-auto">
       <Card className="">
         <CardHeader className="pb-4 text-center">
           <CardTitle className="text-2xl">Forgot password?</CardTitle>
@@ -116,10 +119,10 @@ function ForgotPasswordForm(_props: ForgotPasswordFormProps) {
           </Form>
         </CardContent>
       </Card>
-      <div className="mt-4 text-center text-sm">
+      <div className="mt-4 text-sm text-center">
         <a
           href="/login"
-          className="mr-4 flex items-center justify-center text-center text-foreground hover:underline"
+          className="flex items-center justify-center mr-4 text-center text-foreground hover:underline"
           data-astro-reload
         >
           <ChevronLeft className="h-4" />

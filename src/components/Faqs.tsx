@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const faqData = [
+const data = [
   {
     answer:
       "Once you create an account, you'll get instant access to the VPN and instructions on how to install it. The trial period will last for 3 days. I want to make sure everyone tries out the VPN first, before giving me any money.",
@@ -36,18 +36,18 @@ function Faqs() {
   return (
     <section id="faqs" className="container max-w-2xl py-8 sm:py-16">
       <div className="py-8">
-        <h1 className="text-balance font-heading text-4xl sm:text-5xl md:text-6xl">
+        <h1 className="text-4xl text-balance font-heading sm:text-5xl md:text-6xl">
           Frequently Asked
-          <span className="text-gradient font-extrabold"> Questions</span>
+          <span className="font-extrabold text-gradient"> Questions</span>
         </h1>
 
         <Accordion type="single" collapsible className="w-full py-4">
-          {faqData.map((faqItem) => (
-            <AccordionItem key={faqItem.id} value={faqItem.id}>
+          {data.map(item => (
+            <AccordionItem key={item.id} value={item.id}>
               <AccordionTrigger className="text-left">
-                {faqItem.question}
+                {item.question}
               </AccordionTrigger>
-              <AccordionContent>{faqItem.answer}</AccordionContent>
+              <AccordionContent>{item.answer}</AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
