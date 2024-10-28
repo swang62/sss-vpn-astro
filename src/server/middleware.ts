@@ -12,11 +12,15 @@ import pretty from "pino-pretty";
 import { IS_PRODUCTION, IS_TESTING, LOG_LEVEL } from "@/config/server";
 import { TEST_USER } from "@/db/seed";
 import { auth } from "@/lib/auth";
-import { redis } from "@/lib/context";
+import { redis } from "@/lib/redis";
 
 import type { Bindings } from "./app";
 
 export const authMiddleware = createMiddleware<Bindings>(async (c, next) => {
+  if (IS_TESTING) {
+    return next();
+  }
+
   const session = await auth.api.getSession({ headers: c.req.raw.headers });
   if (!session) {
     c.set("user", null);

@@ -5,7 +5,6 @@ import { type Context, Hono } from "hono";
 import type { Session, UserSession } from "@/lib/auth-client";
 
 import { getUserById } from "@/db/queries";
-import { auth } from "@/lib/auth";
 
 import {
   authMiddleware,
@@ -49,7 +48,6 @@ export default function createApp() {
   const app = createBaseRouter().basePath("/api");
 
   app.use(authMiddleware);
-  app.on(["*"], ["/user/*", "/stripe/*"], c => auth.handler(c.req.raw));
   app.use(pinoLogger());
   app.use(corsMiddleware());
   app.use(limiter());

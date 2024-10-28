@@ -9,7 +9,7 @@ import { FREE_PLANS, PAID_PLANS } from "@/config/types";
 import { updateProduct } from "@/db/mutations-product";
 import { cancelProfileSubscription, handleRouterPurchase, setSubscriptionRenew, updateProfileSubscription } from "@/db/mutations-subscription";
 import { getProductByKey } from "@/db/queries";
-import { stripe } from "@/lib/context";
+import { stripe } from "@/lib/server-clients";
 import { authUser, createBaseRouter } from "@/server/app";
 
 // All /api/stripe routes must be authenticated
@@ -141,7 +141,7 @@ const route = createBaseRouter()
     const event = await stripe.webhooks.constructEventAsync(
       body,
       signature,
-      STRIPE_WEBHOOK_SECRET,
+      STRIPE_WEBHOOK_SECRET || "",
     );
 
     switch (event.type) {
@@ -150,15 +150,14 @@ const route = createBaseRouter()
 
         const subscriptionId = session.subscription as string;
         const stripeCustomerId = session.customer as string;
-
         const isNewSubscription = session.custom_fields?.find(field => field.key = "auto_renew");
         const isAutoRenew = isNewSubscription?.dropdown?.value === "yes";
+
         if (session.status === "complete") {
           // Configure auto-renew if necessary
           if (subscriptionId && isNewSubscription) {
             await setSubscriptionRenew(subscriptionId, isAutoRenew);
           }
-
           // Check for router purchase
           await handleRouterPurchase(stripeCustomerId, session, c.var.logger);
         }

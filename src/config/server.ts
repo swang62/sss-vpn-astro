@@ -18,9 +18,8 @@ const EnvSchema = z.object({
   POSTMARK_TOKEN: z.string().optional(),
   REDIS_PASS: z.string().optional(),
   REDIS_URL: z.string().optional(),
-  STRIPE_PUBLIC_KEY: z.string(),
-  STRIPE_SECRET_KEY: z.string(),
-  STRIPE_WEBHOOK_SECRET: z.string(),
+  STRIPE_SECRET_KEY: z.string().optional(),
+  STRIPE_WEBHOOK_SECRET: z.string().optional(),
 });
 
 // @ts-ignore
@@ -48,7 +47,6 @@ export const NODE_ENV = data.NODE_ENV;
 export const POSTMARK_TOKEN = data.POSTMARK_TOKEN === _ ? "" : data.POSTMARK_TOKEN; // prettier-ignore
 export const REDIS_URL = data.REDIS_URL === _ ? "" : data.REDIS_URL; // prettier-ignore
 export const REDIS_PASS = data.REDIS_PASS === _ ? "" : data.REDIS_PASS; // prettier-ignore
-export const STRIPE_PUBLIC_KEY = data.STRIPE_PUBLIC_KEY === _ ? "" : data.STRIPE_PUBLIC_KEY; // prettier-ignore
 export const STRIPE_SECRET_KEY = data.STRIPE_SECRET_KEY === _ ? "" : data.STRIPE_SECRET_KEY; // prettier-ignore
 export const STRIPE_WEBHOOK_SECRET = data.STRIPE_WEBHOOK_SECRET === _ ? "" : data.STRIPE_WEBHOOK_SECRET; // prettier-ignore
 

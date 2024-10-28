@@ -2,7 +2,7 @@ import type { SubscriptionType } from "@/config/types";
 import type { User } from "@/lib/api-clients";
 
 import db, { profile, type ProfileInsert } from "@/db";
-import { stripe } from "@/lib/context";
+import { stripe } from "@/lib/server-clients";
 
 import { getProductByPriceId } from "./queries";
 

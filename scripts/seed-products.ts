@@ -1,5 +1,5 @@
 import db, { product as productTable } from "@/db";
-import { stripe } from "@/lib/context";
+import { stripe } from "@/lib/server-clients";
 
 const { data } = await stripe.prices.list();
 

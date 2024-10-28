@@ -1,7 +1,7 @@
 import type Stripe from "stripe";
 
 import db, { type ProductInsert, product as productTable } from "@/db";
-import { stripe } from "@/lib/context";
+import { stripe } from "@/lib/server-clients";
 
 export async function updateProduct(
   product: Stripe.Product,

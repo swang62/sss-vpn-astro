@@ -1,27 +1,7 @@
-import postmark from "postmark";
 import { RedisStore } from "rate-limit-redis";
 import { createClient } from "redis";
-import { Stripe } from "stripe";
 
-import {
-  POSTMARK_TOKEN,
-  REDIS_PASS,
-  REDIS_URL,
-  STRIPE_SECRET_KEY,
-} from "@/config/server";
-
-//* Should only contain server-side clients/actions
-
-// Stripe
-export const stripe = new Stripe(STRIPE_SECRET_KEY, {
-  maxNetworkRetries: 3,
-  timeout: 10 * 1000,
-});
-
-// Postmark
-export const postmarkClient = POSTMARK_TOKEN
-  ? new postmark.ServerClient(POSTMARK_TOKEN)
-  : null;
+import { REDIS_PASS, REDIS_URL } from "@/config/server";
 
 // Redis
 async function getRedisStore() {

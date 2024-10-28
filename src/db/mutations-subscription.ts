@@ -7,7 +7,7 @@ import type { SubscriptionType } from "@/config/types";
 
 import { SITE_ADMIN, SITE_EMAIL } from "@/config/constants";
 import db, { profile as profileTable } from "@/db";
-import { postmarkClient, stripe } from "@/lib/context";
+import { postmarkClient, stripe } from "@/lib/server-clients";
 
 import { getProductByPriceId, getProfileByStripeId } from "./queries";
 
