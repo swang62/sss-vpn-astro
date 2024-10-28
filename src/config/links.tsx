@@ -50,7 +50,7 @@ export const PRICING_PLANS: PricingCardProps[] = [
     description: "Should be enough data for most people",
     features: ["50GB data", "Email, messaging, music, blogs, light media usage", "Desktop & phone apps"],
     plan: "basic",
-    price: 4,
+    price: 5,
 
   },
   {
@@ -60,7 +60,7 @@ export const PRICING_PLANS: PricingCardProps[] = [
     price: 10,
   },
   {
-    description: "For multiple people, family members, or lots of IoT devices",
+    description: "One device can connect multiple people, family members, or lots of IoT devices",
     features: [
       "300GB data",
       "Fully pre-configured WiFi6 router",
