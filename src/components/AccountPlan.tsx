@@ -10,9 +10,10 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { PRICING_PLANS } from "@/config/links";
 import { FREE_PLANS } from "@/config/types";
 import { apiClient, fetchUser, parseApi } from "@/lib/api-clients";
-import { capitalize } from "@/lib/utils";
+import { capitalize, dateToString, sleep } from "@/lib/utils";
 
 interface Props {}
 
@@ -28,6 +29,7 @@ function AccountPlan(_props: Props) {
       apiClient.stripe.renew.$post({ json: { renew } }),
     );
     if (!error) {
+      await sleep(2000);
       await mutate();
     } else {
       toast.error("Failed to update subscription, please try again later.");
@@ -35,20 +37,23 @@ function AccountPlan(_props: Props) {
     setLoading(false);
   };
 
-  const subType = profile?.subscriptionType;
-  const isDisabled = !!subType && FREE_PLANS.includes(subType);
   const endDate = profile?.subscriptionEndAt
     ? new Date(profile?.subscriptionEndAt).toLocaleDateString("us", { dateStyle: "long" })
     : "";
   const billingCycle = profile?.subscriptionStartAt
-    ? new Date(profile?.subscriptionStartAt).getDate().toString()
+    ? dateToString(new Date(profile?.subscriptionStartAt).getDate())
     : "";
-  const autoRenew = endDate ? <span className="text-red-500">Off</span> : <span className="text-green-500">On</span>;
+  const subscriptionType = profile?.subscriptionType;
+  const plan = PRICING_PLANS.find(plan => plan.plan === subscriptionType);
+  const description = plan ? ` tier - ${plan.features[0]} - $${plan.price}/month` : "";
+
+  const isDisqualified = !!subscriptionType && FREE_PLANS.includes(subscriptionType as any);
+  const autoRenew = isDisqualified || endDate ? <span className="text-red-500">Off</span> : <span className="text-green-500">On</span>;
   const planDetails = [
     {
       title: (
         <div className="flex items-center justify-between">
-          <span>Plan type</span>
+          <span>Plan</span>
           <a href="/dashboard/pricing">
             <Button
               variant="outline"
@@ -60,11 +65,11 @@ function AccountPlan(_props: Props) {
           </a>
         </div>
       ),
-      value: capitalize(profile?.subscriptionType),
+      value: capitalize(subscriptionType) + description,
     },
     {
       title: "Duration",
-      value: endDate ? `Plan will end on ${endDate}` : billingCycle ? `Will renew on the ${billingCycle}` : `None`,
+      value: endDate ? `Plan will end on ${endDate}` : billingCycle ? `Will renew on the ${billingCycle}` : `N/A`,
     },
     {
       title: "Auto-Renewal",
@@ -78,7 +83,7 @@ function AccountPlan(_props: Props) {
         {planDetails.map(({ title, value }, index) => (
           <div key={index}>
             <h1 className="h-8 my-2 text-xl font-semibold">{title}</h1>
-            <div className="px-4 text-muted-foreground">
+            <div className="px-6 text-lg text-muted-foreground">
               {profile ? value : <Skeleton className="w-40 h-6" />}
             </div>
           </div>
@@ -91,22 +96,22 @@ function AccountPlan(_props: Props) {
           : endDate
             ? (
                 <Button
-                  disabled={isDisabled}
+                  disabled={isDisqualified}
                   loading={loading}
                   variant="secondary"
                   onClick={() => renewPlan(true)}
                 >
-                  <span>Re-enable plan</span>
+                  <span>Re-enable subscription</span>
                 </Button>
               )
             : (
                 <Button
-                  disabled={isDisabled}
+                  disabled={isDisqualified}
                   loading={loading}
                   variant="destructive"
                   onClick={() => renewPlan(false)}
                 >
-                  <span>Cancel plan</span>
+                  <span>Cancel subscription</span>
                 </Button>
               )}
       </CardFooter>

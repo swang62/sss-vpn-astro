@@ -41,7 +41,7 @@ export const DASHBOARD_LINKS: MenuLink[] = [
   {
     href: "/dashboard/pricing",
     icon: <DollarSign />,
-    label: "Purchase / Upgrade",
+    label: "Upgrade",
   },
 ];
 
@@ -65,7 +65,7 @@ export const PRICING_PLANS: PricingCardProps[] = [
       "300GB data",
       "Fully pre-configured WiFi6 router",
       "Remote support available",
-      "Domestic shipping only*",
+      "China shipping only*",
     ],
     plan: "premium",
     price: 20,

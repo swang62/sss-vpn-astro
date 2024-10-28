@@ -22,3 +22,5 @@ export const product = t.sqliteTable("product", {
     .$default(() => new Date())
     .$onUpdate(() => new Date()),
 });
+
+export type ProductInsert = Omit<typeof product.$inferInsert, "id" >;

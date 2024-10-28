@@ -1,6 +1,6 @@
 import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
 import { navigate } from "astro:transitions/client";
-import { Cog, Edit, Home, LogOut, User } from "lucide-react";
+import { Edit, Home, LogOut, User } from "lucide-react";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
@@ -60,14 +60,14 @@ function AvatarMenu(_props: Props) {
             </Button>
           </a>
         </DropdownMenuItem>
-        <DropdownMenuItem className={menuStyle}>
+        {/* <DropdownMenuItem className={menuStyle}>
           <a href="/dashboard/settings" className="w-full">
             <Button variant="ghost" className={buttonStyle}>
               <Cog />
               <span>Settings</span>
             </Button>
           </a>
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
         <DropdownMenuSeparator />
         <DropdownMenuItem className={menuStyle}>
           <Button variant="ghost" className={buttonStyle} onClick={logout}>

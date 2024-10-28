@@ -1,3 +1,4 @@
+import type { PinoLogger } from "hono-pino";
 import type Stripe from "stripe";
 
 import { eq } from "drizzle-orm";
@@ -18,24 +19,21 @@ export async function setSubscriptionRenew(subscriptionId: string, isAutoRenew: 
 }
 
 export async function updateProfileSubscription(subscription: Stripe.Subscription) {
-  const subscriptionId = subscription.id;
   const stripeCustomerId = subscription.customer as string;
+  const subscriptionId = subscription.id;
   const subscriptionStartAt = new Date(subscription.current_period_start * 1000);
   const subscriptionEndAt = new Date(subscription.current_period_end * 1000);
   const status = subscription.status;
   const insertAt = eq(profileTable.stripeCustomerId, stripeCustomerId);
 
-  let purchasedRouter = false;
+  let subscriptionItemId = "";
   let subscriptionType: SubscriptionType = "none";
   for (const item of subscription.items.data) {
     const priceId = item.price.id;
     const product = await getProductByPriceId(priceId);
-    if (product) {
-      if (product.id !== "router") {
-        subscriptionType = product.id as SubscriptionType;
-      } else if (product.id === "router") {
-        purchasedRouter = true;
-      }
+    if (product && product.id !== "router") {
+      subscriptionType = product.id as SubscriptionType;
+      subscriptionItemId = item.id;
     }
   }
 
@@ -46,6 +44,7 @@ export async function updateProfileSubscription(subscription: Stripe.Subscriptio
       await db.update(profileTable).set({
         subscriptionEndAt: null,
         subscriptionId,
+        subscriptionItemId,
         subscriptionStartAt,
         subscriptionType,
       }).where(insertAt);
@@ -54,11 +53,22 @@ export async function updateProfileSubscription(subscription: Stripe.Subscriptio
       await db.update(profileTable).set({
         subscriptionEndAt,
         subscriptionId,
+        subscriptionItemId,
         subscriptionStartAt,
         subscriptionType,
       }).where(insertAt);
     }
-  } else if (status === "canceled") {
+  }
+}
+
+export async function cancelProfileSubscription(subscription: Stripe.Subscription) {
+  const subscriptionId = subscription.id;
+  const stripeCustomerId = subscription.customer as string;
+  const profile = await getProfileByStripeId(stripeCustomerId);
+  const status = subscription.status;
+  const insertAt = eq(profileTable.stripeCustomerId, stripeCustomerId);
+
+  if (status === "canceled" && profile?.subscriptionId === subscriptionId) {
     await db.update(profileTable).set({
       subscriptionEndAt: null,
       subscriptionId: null,
@@ -66,9 +76,25 @@ export async function updateProfileSubscription(subscription: Stripe.Subscriptio
       subscriptionType: "none",
     }).where(insertAt);
   }
+}
+
+export async function handleRouterPurchase(stripeCustomerId: string, session: Stripe.Checkout.Session, logger: PinoLogger) {
+  const invoiceId = session.invoice as string;
+  const invoice = await stripe.invoices.retrieve(invoiceId);
+  const lineItems = invoice.lines.data;
+
+  let purchasedRouter = false;
+  for (const item of lineItems) {
+    const priceId = item.price?.id;
+    const product = await getProductByPriceId(priceId);
+    if (product && product.id === "router") {
+      purchasedRouter = true;
+    }
+  }
 
   if (purchasedRouter) {
     const profile = await getProfileByStripeId(stripeCustomerId);
+    const insertAt = eq(profileTable.stripeCustomerId, stripeCustomerId);
     await db.update(profileTable).set({
       purchasedRouter: true,
     }).where(insertAt);
@@ -83,8 +109,6 @@ export async function updateProfileSubscription(subscription: Stripe.Subscriptio
       });
     }
 
-    console.debug(`Sent router email to ${profile?.user.email}`);
+    logger.debug(`Sent router email to ${profile?.user.email}`);
   }
-
-  console.debug(`Successfully updated subscription for ${stripeCustomerId}`);
 }

@@ -16,7 +16,7 @@ const { pathname } = Astro.url;
 
 // Get session data
 const { session, user } = Astro.locals;
-if (!session) {
+if (!session || !user) {
   Astro.redirect("/login");
   return;
 }

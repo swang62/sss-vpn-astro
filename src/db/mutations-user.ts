@@ -1,54 +1,43 @@
-import type Stripe from "stripe";
-
 import type { SubscriptionType } from "@/config/types";
 import type { User } from "@/lib/api-clients";
 
-import db, { profile } from "@/db";
+import db, { profile, type ProfileInsert } from "@/db";
 import { stripe } from "@/lib/context";
 
-import { getProductByKey, getProductByPriceId } from "./queries";
+import { getProductByPriceId } from "./queries";
 
 export async function updateProfile(
-  userId: string,
-  stripeCustomerId: string,
-  subscription?: Stripe.Subscription,
-) {
-  const priceId = subscription?.items.data[0]?.price.id;
-  const product = await getProductByPriceId(priceId);
-
-  const data: typeof profile.$inferInsert = {
-    stripeCustomerId,
-    subscriptionEndAt: subscription
-      ? new Date(subscription.current_period_end * 1000)
-      : null,
-    subscriptionId: subscription ? subscription.id : null,
-    subscriptionStartAt: subscription
-      ? new Date(subscription.current_period_start * 1000)
-      : null,
-    subscriptionType: product?.id as SubscriptionType ?? "none",
-    userId,
-  };
-
-  await db.insert(profile).values([data]).onConflictDoUpdate({
-    set: data,
-    target: profile.userId,
-  });
-
-  console.debug(`Successfully updated profile for ${userId}`);
-}
-
-export async function updateUser(
   userId: string,
   stripeCustomerId: string,
 ) {
   const customer = await stripe.customers.retrieve(stripeCustomerId, { expand: ["subscriptions"] });
   if (customer.deleted) return;
 
-  await updateProfile(
-    userId,
-    stripeCustomerId,
-    customer.subscriptions?.data[0],
-  );
+  const subscription = customer.subscriptions?.data[0];
+  const itemId = subscription?.items.data[0]?.id;
+  const priceId = subscription?.items.data[0]?.price.id;
+  const product = await getProductByPriceId(priceId);
+
+  const data: ProfileInsert = subscription
+    ? {
+        stripeCustomerId,
+        subscriptionEndAt: new Date(subscription.current_period_end * 1000),
+        subscriptionId: subscription.id,
+        subscriptionItemId: itemId,
+        subscriptionStartAt: new Date(subscription.current_period_start * 1000),
+        subscriptionType: product?.id as SubscriptionType,
+      }
+    : {
+        stripeCustomerId,
+        subscriptionType: "none" as SubscriptionType,
+      };
+
+  await db.insert(profile).values([{ ...data, userId }]).onConflictDoUpdate({
+    set: data,
+    target: profile.userId,
+  });
+
+  console.debug(`Successfully updated profile for ${userId}`);
 }
 
 export async function setupNewUser(user: User) {
@@ -64,24 +53,35 @@ export async function setupNewUser(user: User) {
   }
 
   if (stripeCustomerId) {
-    // User is missing data
-    await updateUser(userId, stripeCustomerId);
-    return;
+    await updateProfile(userId, stripeCustomerId);
+  } else {
+    await startFreeTrial(userId, email);
   }
+}
 
-  // Sign up for free trial
+export async function startFreeTrial(userId: string, email: string) {
   const customer = await stripe.customers.create({ email });
   if (!customer?.id) {
-    throw new Error(`Profile failed, could not create stripe for ${email}`);
+    throw new Error(`Profile failed, could not create profile for ${email}`);
   }
-  stripeCustomerId = customer.id;
+  const stripeCustomerId = customer.id;
 
-  const product = await getProductByKey("trial");
-  const subscription = await stripe.subscriptions.create({
-    cancel_at_period_end: true,
-    customer: stripeCustomerId,
-    items: [{ price: product?.priceId }],
+  const now = new Date();
+  const endDate = new Date(now);
+  endDate.setDate(now.getDate() + 3);
+
+  const data: ProfileInsert = {
+    stripeCustomerId,
+    subscriptionEndAt: endDate,
+    subscriptionId: null,
+    subscriptionStartAt: now,
+    subscriptionType: "trial" as SubscriptionType,
+  };
+
+  await db.insert(profile).values([{ ...data, userId }]).onConflictDoUpdate({
+    set: data,
+    target: profile.userId,
   });
 
-  await updateProfile(userId, stripeCustomerId, subscription);
+  console.debug(`Successfully created profile for ${userId}`);
 }

@@ -10,6 +10,7 @@
     "db:migrate:docker": "docker compose run sssvpn pnpm drizzle-kit migrate",
     "db:push": "drizzle-kit push --force",
     "db:seed": "dotenv -- tsx ./scripts/seed-local-db.ts",
+    "db:seed:products": "dotenv -- tsx ./scripts/seed-products.ts",
     "db:studio": "drizzle-kit studio",
     "dev": "astro dev",
     "lint": "eslint .",

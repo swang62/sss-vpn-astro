@@ -37,13 +37,12 @@ function AccountDetails(_props: Props) {
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
         <p>
-          All billing and financial payments are handled by Stripe. Visit the
-          portal below to update your payment details, or view past invoices.
+          Use the link below to manage your plan manually, update your payment details, or view past invoices.
         </p>
       </CardContent>
-      <CardFooter className="justify-between py-4 border-t gap-4 bg-accent">
+      <CardFooter className="justify-between gap-4 py-4 border-t bg-accent">
         <span className="text-muted-foreground">
-          Manage your account on Stripe
+          Powered by Stripe
         </span>
         <Button
           loading={loading}

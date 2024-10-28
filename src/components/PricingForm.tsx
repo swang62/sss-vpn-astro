@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
-import type { SubscriptionType } from "@/config/types";
+import type { PaidPlan } from "@/config/types";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +21,7 @@ import { apiClient, fetchUser, parseApi, type User } from "@/lib/api-clients";
 import { capitalize, cn } from "@/lib/utils";
 
 export type PricingCardProps = {
-  plan: SubscriptionType;
+  plan: PaidPlan;
   price: number;
   description: string;
   features: string[];
@@ -30,20 +30,26 @@ export type PricingCardProps = {
 function PricingCard({
   description,
   features,
+  isActive,
   monthly,
   plan,
   price,
   user,
-}: PricingCardProps & { monthly: boolean; user?: User }) {
+}: PricingCardProps & { monthly: boolean; isActive: boolean; user?: User }) {
   const [loading, setLoading] = useState(false);
   const title = capitalize(plan);
   const isCurrentPlan = user?.profile?.subscriptionType === plan;
+  const hasPurchasedRouter = user?.profile?.purchasedRouter;
 
-  const onClickCheckout = async (plan: SubscriptionType) => {
+  const onClickCheckout = async () => {
     setLoading(true);
-    const { data } = await parseApi(
-      apiClient.stripe.checkout.$post({ json: { monthly, plan } }),
-    );
+    const { data } = isActive
+      ? await parseApi(
+        apiClient.stripe["customer-portal"].$post({ json: { plan } }),
+      )
+      : await parseApi(
+        apiClient.stripe.checkout.$post({ json: { monthly, plan } }),
+      );
     if (data?.url) {
       navigate(data.url);
     } else {
@@ -54,13 +60,13 @@ function PricingCard({
 
   return (
     <Card
-      className={cn(`mx-auto flex max-w-80 flex-col justify-between bg-background py-1 text-foreground sm:mx-0`)}
+      className={cn(`mx-auto flex max-w-80 flex-col justify-between bg-background py-1 text-foreground sm:mx-0`, user && isCurrentPlan && "border-rose-400")}
     >
       <div>
         <CardHeader className="pt-4 pb-6">
           <div className="flex justify-between">
             <CardTitle className="text-xl">{title}</CardTitle>
-            {user && plan.includes("basic") && (
+            {user && plan.includes("basic") && !isActive && (
               <div
                 className={cn(
                   "h-fit rounded-xl px-2.5 py-1 text-sm",
@@ -70,11 +76,21 @@ function PricingCard({
                 Recommended
               </div>
             )}
+            {user && isCurrentPlan && (
+              <div
+                className={cn(
+                  "h-fit rounded-xl px-2.5 py-1 text-sm",
+                  "bg-gradient-to-r from-orange-300 to-rose-400 dark:text-black",
+                )}
+              >
+                Current plan
+              </div>
+            )}
           </div>
           <div className="flex gap-0.5">
             <h3 className="text-3xl font-semibold">{`$${price}`}</h3>
-            {!monthly ? <span className="flex items-end mb-1 text-sm"></span> : <span className="flex items-end mb-1 text-sm">/month</span>}
-            {plan.includes("premium") && (
+            {!monthly && !isActive ? <span className="flex items-end mb-1 text-sm"></span> : <span className="flex items-end mb-1 text-sm">/month</span>}
+            {plan.includes("premium") && !hasPurchasedRouter && !isActive && (
               <>
                 <h3 className="text-3xl font-semibold">+$60</h3>
                 <span className="flex items-end mb-1 text-sm">router</span>
@@ -97,8 +113,13 @@ function PricingCard({
       {user && (
         <CardFooter className="flex justify-center mt-2">
           {isCurrentPlan
-            ? <a href="/dashboard/account"><Button variant="outline">Manage plan</Button></a>
-            : <Button loading={loading} onClick={() => onClickCheckout(plan)}>{`Get ${title}`}</Button>}
+            ? <a href="/dashboard/account"><Button variant="outline">Manage</Button></a>
+            : (
+                <Button loading={loading} onClick={onClickCheckout}>
+                  {isActive ? `Switch to ` : `Get `}
+                  {title}
+                </Button>
+              )}
         </CardFooter>
       )}
     </Card>
@@ -108,23 +129,54 @@ function PricingCard({
 interface Props {}
 
 function PricingForm(_props: Props) {
+  const [loading, setLoading] = useState(false);
   const { data } = useSWR("fetchUser", fetchUser);
-  const [monthly, setMonthly] = useState(false);
+  const [monthly, setMonthly] = useState(true);
+  const isActive = !!data?.user?.profile?.subscriptionId;
+  const hasPurchasedRouter = data?.user?.profile?.purchasedRouter;
+
+  const onClickRouter = async () => {
+    setLoading(true);
+    const { data } = await parseApi(
+      apiClient.stripe["buy-router"].$post(),
+    );
+    if (data?.url) {
+      navigate(data.url);
+    } else {
+      toast.error("Unknown error, please try again later.");
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="flex items-center flex-col py-4">
-      <div className="flex justify-center gap-4 text-xl items-center">
-        <span className={cn(monthly && "text-accent")}>Single month</span>
-        <Switch
-          checked={monthly}
-          onCheckedChange={() => setMonthly(!monthly)}
-        />
-        <span className={cn(!monthly && "text-accent")}>Subscription</span>
-      </div>
-      <div className="flex flex-col justify-center mt-8 gap-8 sm:flex-row sm:flex-wrap">
+    <div className="flex flex-col items-center py-4">
+      {data?.user && !isActive && (
+        <div className="flex flex-col items-center gap-6 text-center">
+          <p className="max-w-md leading-normal text-muted-foreground sm:text-lg sm:leading-7">
+            You have a choice between buying a single month or signing up for a regular subscription
+          </p>
+          <div className="flex items-center justify-center gap-4 text-xl">
+            <span className={cn(monthly && "text-muted-foreground/60")}>Single month</span>
+            <Switch
+              checked={monthly}
+              onCheckedChange={() => setMonthly(!monthly)}
+            />
+            <span className={cn(!monthly && "text-muted-foreground/60")}>Subscription</span>
+          </div>
+        </div>
+      )}
+      <div className="flex flex-col justify-center gap-8 mt-8 sm:flex-row sm:flex-wrap">
         {PRICING_PLANS.map((plan) => {
-          return <PricingCard key={plan.plan} {...plan} user={data?.user} monthly={monthly} />;
+          return <PricingCard key={plan.plan} {...plan} user={data?.user} monthly={monthly} isActive={isActive} />;
         })}
+      </div>
+      <div className="flex flex-col justify-center gap-8 sm:mt-4 sm:flex-row sm:flex-wrap">
+        {data?.user && !hasPurchasedRouter && isActive && (
+          <div className="px-8 mt-8 text-center text-muted-foreground">
+            Still feel like purchasing the router package? Buy it separately
+            <Button loading={loading} variant="link" className="p-0 m-0 ml-1 text-base underline" onClick={onClickRouter}>here</Button>
+          </div>
+        )}
       </div>
     </div>
   );

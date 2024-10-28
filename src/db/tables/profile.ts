@@ -20,6 +20,8 @@ export const profile = t.sqliteTable("profile", {
     .integer("subscriptionEndAt", { mode: "timestamp_ms" }),
   subscriptionId: t
     .text("subscriptionId"),
+  subscriptionItemId: t
+    .text("subscriptionItemId"),
   subscriptionStartAt: t
     .integer("subscriptionStartAt", { mode: "timestamp_ms" }),
   subscriptionType: t
@@ -45,3 +47,5 @@ export const ProfileRelations = relations(profile, ({ one }) => ({
     references: [user.id],
   }),
 }));
+
+export type ProfileInsert = Omit<typeof profile.$inferInsert, "userId" >;

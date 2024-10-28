@@ -11,15 +11,17 @@ export const SUBSCRIPTION_PLANS = [
   "pro",
   "premium",
 ] as const;
-
 export type SubscriptionType = (typeof SUBSCRIPTION_PLANS)[number];
 
-export const FREE_PLANS: SubscriptionType[] = ["none", "trial"] as const;
-
-export const PAID_PLANS: SubscriptionType[] = [
+export const FREE_PLANS = [
   "none",
   "trial",
+] as const;
+export type FreePlan = (typeof FREE_PLANS)[number];
+
+export const PAID_PLANS = [
   "basic",
   "pro",
   "premium",
 ] as const;
+export type PaidPlan = (typeof PAID_PLANS)[number];

@@ -1,6 +1,6 @@
 import type Stripe from "stripe";
 
-import db, { product as productTable } from "@/db";
+import db, { type ProductInsert, product as productTable } from "@/db";
 import { stripe } from "@/lib/context";
 
 export async function updateProduct(
@@ -9,18 +9,17 @@ export async function updateProduct(
   const priceId = product.default_price as string;
   const price = await stripe.prices.retrieve(priceId);
 
-  // Don't update products without lookup keys
-  const lookupKey = price.lookup_key;
-  if (!lookupKey) return;
+  // Don't update products without lookup keys or have been deleted
+  const lookupKey = price.lookup_key?.toLowerCase().trim();
+  if (!lookupKey || !product.active) return;
 
-  const data: typeof productTable.$inferInsert = {
-    id: lookupKey.toLowerCase().trim(),
+  const data: ProductInsert = {
     name: product.name,
     priceId,
     productId: product.id,
   };
 
-  await db.insert(productTable).values([data]).onConflictDoUpdate({
+  await db.insert(productTable).values([{ ...data, id: lookupKey }]).onConflictDoUpdate({
     set: data,
     target: productTable.id,
   });

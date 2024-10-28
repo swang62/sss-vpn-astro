@@ -5,9 +5,9 @@ import { z } from "zod";
 
 import { SITE_URL } from "@/config/client";
 import { STRIPE_WEBHOOK_SECRET } from "@/config/server";
-import { FREE_PLANS, SUBSCRIPTION_PLANS } from "@/config/types";
+import { FREE_PLANS, PAID_PLANS } from "@/config/types";
 import { updateProduct } from "@/db/mutations-product";
-import { setSubscriptionRenew, updateProfileSubscription } from "@/db/mutations-subscription";
+import { cancelProfileSubscription, handleRouterPurchase, setSubscriptionRenew, updateProfileSubscription } from "@/db/mutations-subscription";
 import { getProductByKey } from "@/db/queries";
 import { stripe } from "@/lib/context";
 import { authUser, createBaseRouter } from "@/server/app";
@@ -19,7 +19,7 @@ const route = createBaseRouter()
     "json",
     z.object({
       monthly: z.boolean(),
-      plan: z.enum(SUBSCRIPTION_PLANS),
+      plan: z.enum(PAID_PLANS),
     }),
   ), async (c) => {
     const { profile } = await authUser(c);
@@ -64,16 +64,56 @@ const route = createBaseRouter()
 
     return c.json({ url: session.url });
   })
-  .post("/customer-portal", async (c) => {
+  .post("/buy-router", async (c) => {
     const { profile } = await authUser(c);
 
-    const stripeCustomerId = profile?.stripeCustomerId ?? "";
-    const session = await stripe.billingPortal.sessions.create({
-      customer: stripeCustomerId,
-      return_url: `${SITE_URL}/dashboard/account`,
+    const product = await getProductByKey("router");
+    if (!product) throw new Error("Router missing");
+
+    const session = await stripe.checkout.sessions.create({
+      customer: profile?.stripeCustomerId || "",
+      invoice_creation: {
+        enabled: true,
+      },
+      line_items: [{ price: product.priceId, quantity: 1 }],
+      mode: "payment",
+      success_url: `${SITE_URL}/dashboard`,
     });
 
     return c.json({ url: session.url });
+  })
+  .post("/customer-portal", zValidator(
+    "json",
+    z.object({
+      plan: z.enum(PAID_PLANS).optional(),
+    }).optional(),
+  ), async (c) => {
+    const { profile } = await authUser(c);
+    const body = c.req.valid("json");
+    const plan = body?.plan;
+    const product = await getProductByKey(plan);
+
+    const stripeCustomerId = profile?.stripeCustomerId ?? "";
+    const subscriptionId = profile?.subscriptionId;
+    const itemId = profile?.subscriptionItemId;
+    const config: Stripe.BillingPortal.SessionCreateParams = plan && product && subscriptionId && itemId
+      ? {
+          customer: stripeCustomerId,
+          flow_data: {
+            subscription_update_confirm: {
+              items: [{ id: itemId, price: product.priceId }],
+              subscription: subscriptionId,
+            },
+            type: "subscription_update_confirm",
+          },
+        }
+      : {
+          customer: stripeCustomerId,
+          return_url: `${SITE_URL}/dashboard/account`,
+        };
+    const portal = await stripe.billingPortal.sessions.create(config);
+
+    return c.json({ url: portal.url });
   })
   .post("/renew", zValidator(
     "json",
@@ -86,10 +126,9 @@ const route = createBaseRouter()
 
     const subscriptionId = profile?.subscriptionId;
     const subscriptionType = profile?.subscriptionType ?? "none";
-    if (!subscriptionId || FREE_PLANS.includes(subscriptionType)) {
+    if (!subscriptionId || FREE_PLANS.includes(subscriptionType as any)) {
       throw new Error("Not a valid subscription");
     }
-
     await setSubscriptionRenew(subscriptionId, renew);
 
     return c.json({}, 200);
@@ -108,20 +147,40 @@ const route = createBaseRouter()
     switch (event.type) {
       case "checkout.session.completed":{
         const session = event.data.object;
-        const status = session.status;
-        const isAutoRenew = session.custom_fields?.find(field => field.key = "auto_renew")?.dropdown?.value === "yes";
+
         const subscriptionId = session.subscription as string;
-        if (status === "complete") await setSubscriptionRenew(subscriptionId, isAutoRenew);
+        const stripeCustomerId = session.customer as string;
+
+        const isNewSubscription = session.custom_fields?.find(field => field.key = "auto_renew");
+        const isAutoRenew = isNewSubscription?.dropdown?.value === "yes";
+        if (session.status === "complete") {
+          // Configure auto-renew if necessary
+          if (subscriptionId && isNewSubscription) {
+            await setSubscriptionRenew(subscriptionId, isAutoRenew);
+          }
+
+          // Check for router purchase
+          await handleRouterPurchase(stripeCustomerId, session, c.var.logger);
+        }
         break;
       }
       case "customer.subscription.updated": {
         const subscription = event.data.object;
         await updateProfileSubscription(subscription);
+        c.var.logger.debug(`Subscription updated for ${subscription.customer}`);
         break;
       }
+      case "customer.subscription.deleted": {
+        const subscription = event.data.object;
+        await cancelProfileSubscription(subscription);
+        c.var.logger.debug(`Subscription cancelled for ${subscription.customer}`);
+        break;
+      }
+      case "product.created":
       case "product.updated": {
         const product = event.data.object;
         await updateProduct(product);
+        c.var.logger.debug(`${product.name} synced to DB`);
         break;
       }
       default:
