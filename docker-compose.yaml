@@ -65,6 +65,8 @@ services:
       - POSTMARK_TOKEN
       - REDIS_URL=${REDIS_URL:-redis:6379}
       - REDIS_PASS=${REDIS_PASS:-default}
+      - STRIPE_SECRET_KEY
+      - STRIPE_WEBHOOK_SECRET
       - LOG_LEVEL
     healthcheck:
       interval: 1m
