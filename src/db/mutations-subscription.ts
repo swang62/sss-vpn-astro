@@ -49,7 +49,6 @@ export async function updateProfileSubscription(subscription: Stripe.Subscriptio
         subscriptionType,
       }).where(insertAt);
     } else {
-      // End date implies no renewal
       await db.update(profileTable).set({
         subscriptionEndAt,
         subscriptionId,
@@ -72,6 +71,7 @@ export async function cancelProfileSubscription(subscription: Stripe.Subscriptio
     await db.update(profileTable).set({
       subscriptionEndAt: null,
       subscriptionId: null,
+      subscriptionItemId: null,
       subscriptionStartAt: null,
       subscriptionType: "none",
     }).where(insertAt);

@@ -131,11 +131,11 @@ const route = createBaseRouter()
     }
     await setSubscriptionRenew(subscriptionId, renew);
 
-    return c.json({}, 200);
+    return c.json({ message: "Successfully updated subscription" }, 200);
   })
   .post("/webhook", async (c) => {
     const signature = c.req.raw.headers.get("stripe-signature");
-    if (!signature) return c.json({}, 400);
+    if (!signature) return c.json({ message: "Missing headers" }, 400);
 
     const body = await c.req.text();
     const event = await stripe.webhooks.constructEventAsync(
@@ -175,7 +175,6 @@ const route = createBaseRouter()
         c.var.logger.debug(`Subscription cancelled for ${subscription.customer}`);
         break;
       }
-      case "product.created":
       case "product.updated": {
         const product = event.data.object;
         await updateProduct(product);
@@ -185,7 +184,7 @@ const route = createBaseRouter()
       default:
         break;
     }
-    return c.json({}, 200);
+    return c.json({ message: "Successfully processed webhook" }, 200);
   });
 
 export default route;
