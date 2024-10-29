@@ -52,7 +52,7 @@ const route = createBaseRouter()
         },
         key: "auto_renew",
         label: {
-          custom: "Auto-Renew",
+          custom: "Auto-renew",
           type: "custom",
         },
         type: "dropdown",
@@ -183,6 +183,7 @@ const route = createBaseRouter()
         break;
       }
       default:
+        c.var.logger.debug(`Receive webhook event:${event.type}`);
         break;
     }
     return c.json({ message: "Successfully processed webhook" }, 200);

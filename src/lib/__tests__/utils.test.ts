@@ -10,24 +10,24 @@ describe("getDaysLeft", () => {
   });
 
   it("no reset, limited time left", () => {
-    const today = new Date("2024-07-12");
+    const today = new Date("2024-07-29");
     vi.setSystemTime(today);
 
-    expect(getDaysLeft("2024-07-10", "no_reset", 5)).toBe(3);
+    expect(getDaysLeft("2024-07-28", "no_reset", 5)).toStrictEqual({ daysLeft: 4, endDate: "Aug 2, 2024" });
   });
 
   it("monthly reset, start after reset", () => {
     const today = new Date("2024-07-20");
     vi.setSystemTime(today);
 
-    expect(getDaysLeft("2024-07-12", "monthly")).toBe(23);
+    expect(getDaysLeft("2024-07-12", "monthly").daysLeft).toBe(23);
   });
 
   it("monthly reset, start before reset", () => {
     const today = new Date("2024-07-12");
     vi.setSystemTime(today);
 
-    expect(getDaysLeft("2024-07-20", "monthly")).toBe(8);
+    expect(getDaysLeft("2024-07-20", "monthly")).toStrictEqual({ daysLeft: 8, endDate: "Aug 20, 2024" });
   });
 });
 

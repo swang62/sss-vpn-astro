@@ -45,6 +45,7 @@ function AccountDetails(_props: Props) {
           Powered by Stripe
         </span>
         <Button
+          disabled={loading}
           loading={loading}
           onClick={redirectCustomerPortal}
         >

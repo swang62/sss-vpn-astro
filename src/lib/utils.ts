@@ -30,27 +30,28 @@ export function dateToString(date: number) {
   }
 }
 
-export function getDaysLeft(packageStart: string, mode: string, packageDays = 0) {
+export function getDaysLeft(packageStart?: string, mode = "no_reset", packageDays = 0) {
+  let daysLeft = 0;
+
   const now = new Date();
-  const start = new Date(packageStart);
-  let end = new Date(start);
+  const start = new Date(packageStart ?? now);
+  const end = new Date(start);
 
   if (mode === "no_reset") {
     end.setDate(start.getDate() + packageDays);
   } else if (mode === "monthly") {
-    end = start;
+    end.setMonth(start.getMonth() + 1);
   }
 
   const lastDay = end.getDate();
   const today = now.getDate();
-  console.log("today", today, "lastDay", lastDay);
-
   if (today < lastDay) {
-    return lastDay - today;
+    daysLeft = lastDay - today;
   } else if (today > lastDay) {
     const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-    console.log("lastdayofmonth", lastDayOfMonth);
-    return lastDay + (lastDayOfMonth - today);
+    daysLeft = lastDay + (lastDayOfMonth - today);
   }
-  return 0;
+  const endDate = end.toLocaleDateString("us", { dateStyle: "medium" });
+
+  return { daysLeft, endDate }; ;
 }

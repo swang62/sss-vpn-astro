@@ -45,7 +45,7 @@ function AccountPlan(_props: Props) {
     : "";
   const subscriptionType = profile?.subscriptionType;
   const plan = PRICING_PLANS.find(plan => plan.plan === subscriptionType);
-  const description = plan ? ` tier - ${plan.features[0]} - $${plan.price}/month` : "";
+  const description = plan ? ` tier • ${plan.features[0]}` : "";
 
   const isDisqualified = !!subscriptionType && FREE_PLANS.includes(subscriptionType as any);
   const autoRenew = isDisqualified || endDate ? <span className="text-red-500">Off</span> : <span className="text-green-500">On</span>;
@@ -69,10 +69,10 @@ function AccountPlan(_props: Props) {
     },
     {
       title: "Duration",
-      value: endDate ? `Plan will end on ${endDate}` : billingCycle ? `Will renew on the ${billingCycle}` : `N/A`,
+      value: endDate ? `Will end on ${endDate}` : billingCycle ? `Will renew on the ${billingCycle}` : `N/A`,
     },
     {
-      title: "Auto-Renew",
+      title: "Auto-renew",
       value: autoRenew,
     },
   ];
@@ -96,7 +96,7 @@ function AccountPlan(_props: Props) {
           : endDate
             ? (
                 <Button
-                  disabled={isDisqualified}
+                  disabled={loading || isDisqualified}
                   loading={loading}
                   variant="secondary"
                   onClick={() => renewPlan(true)}
@@ -106,7 +106,7 @@ function AccountPlan(_props: Props) {
               )
             : (
                 <Button
-                  disabled={isDisqualified}
+                  disabled={loading || isDisqualified}
                   loading={loading}
                   variant="destructive"
                   onClick={() => renewPlan(false)}

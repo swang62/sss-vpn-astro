@@ -130,7 +130,7 @@ function ResetPasswordForm({ email }: Props) {
                 )}
               />
 
-              <Button className="w-full" type="submit" loading={loading}>
+              <Button className="w-full" type="submit" loading={loading} disabled={loading}>
                 Reset
               </Button>
             </form>

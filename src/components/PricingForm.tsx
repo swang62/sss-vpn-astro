@@ -115,7 +115,7 @@ function PricingCard({
           {isCurrentPlan
             ? <a href="/dashboard/account"><Button variant="outline">Manage</Button></a>
             : (
-                <Button loading={loading} onClick={onClickCheckout}>
+                <Button loading={loading} disabled={loading} onClick={onClickCheckout}>
                   {isActive ? `Switch to ` : `Get `}
                   {title}
                 </Button>
@@ -149,7 +149,7 @@ function PricingForm(_props: Props) {
   };
 
   return (
-    <div className="flex flex-col items-center py-4">
+    <div className="flex flex-col items-center py-4 mb-8">
       {data?.user && !isActive && (
         <div className="flex flex-col items-center gap-6 text-center">
           <p className="max-w-md leading-normal text-muted-foreground sm:text-lg sm:leading-7">
@@ -174,7 +174,7 @@ function PricingForm(_props: Props) {
         {data?.user && !purchasedRouter && isActive && (
           <div className="px-8 mt-8 text-center text-muted-foreground">
             Still want to purchase the router package? Buy it separately
-            <Button loading={loading} variant="link" className="p-0 m-0 ml-1 text-base underline" onClick={onClickRouter}>here</Button>
+            <Button loading={loading} disabled={loading} variant="link" className="p-0 m-0 ml-1 text-base underline" onClick={onClickRouter}>here</Button>
           </div>
         )}
       </div>

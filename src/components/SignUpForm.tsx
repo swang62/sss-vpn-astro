@@ -181,7 +181,7 @@ function SignUpForm(_props: Props) {
               )}
             />
 
-            <Button className="w-full" type="submit" loading={loading}>
+            <Button className="w-full" type="submit" loading={loading} disabled={loading}>
               Create account
             </Button>
           </form>

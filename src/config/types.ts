@@ -30,8 +30,7 @@ export type HiddifyUser = {
   current_usage_GB: number;
   enable: boolean;
   is_active: boolean;
-  last_online: null;
-  last_reset_time: null;
+  last_online: Date | null;
   mode: string;
   name: string;
   package_days: number;
