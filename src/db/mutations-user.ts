@@ -1,15 +1,18 @@
-import type { SubscriptionType } from "@/config/types";
+import type { HiddifyUser, SubscriptionType } from "@/config/types";
 import type { User } from "@/lib/api-clients";
 
 import db, { profile, type ProfileInsert } from "@/db";
-import { stripe } from "@/lib/server-clients";
+import { axiosHiddify, stripe } from "@/lib/server-clients";
 
-import { getProductByPriceId } from "./queries";
+import { getProductByPriceId, searchHiddifyUser } from "./queries";
 
-export async function updateProfile(
-  userId: string,
+async function updateProfile(
+  user: User,
   stripeCustomerId: string,
+  hiddifyId: string,
 ) {
+  const userId = user.id;
+
   const customer = await stripe.customers.retrieve(stripeCustomerId, { expand: ["subscriptions"] });
   if (customer.deleted) return;
 
@@ -20,6 +23,7 @@ export async function updateProfile(
 
   const data: ProfileInsert = subscription
     ? {
+        hiddifyId,
         stripeCustomerId,
         subscriptionEndAt: new Date(subscription.current_period_end * 1000),
         subscriptionId: subscription.id,
@@ -28,6 +32,7 @@ export async function updateProfile(
         subscriptionType: product?.id as SubscriptionType,
       }
     : {
+        hiddifyId,
         stripeCustomerId,
         subscriptionType: "none" as SubscriptionType,
       };
@@ -40,38 +45,22 @@ export async function updateProfile(
   console.debug(`Successfully updated profile for ${userId}`);
 }
 
-export async function setupNewUser(user: User) {
+async function startFreeTrial(user: User, email: string, hiddifyId: string) {
   const userId = user.id;
-  const email = user.email;
 
-  let stripeCustomerId = user.profile?.stripeCustomerId;
-  if (!stripeCustomerId) {
-    const customer = await stripe.customers.search({
-      query: `email:"${email}"`,
-    });
-    stripeCustomerId = customer.data[0]?.id;
-  }
-
-  if (stripeCustomerId) {
-    await updateProfile(userId, stripeCustomerId);
-  } else {
-    await startFreeTrial(userId, email);
-  }
-}
-
-export async function startFreeTrial(userId: string, email: string) {
   const customer = await stripe.customers.create({ email });
   if (!customer?.id) {
     throw new Error(`Profile failed, could not create profile for ${email}`);
   }
-  const stripeCustomerId = customer.id;
 
+  // 3 day trial
   const now = new Date();
   const endDate = new Date(now);
   endDate.setDate(now.getDate() + 3);
 
   const data: ProfileInsert = {
-    stripeCustomerId,
+    hiddifyId,
+    stripeCustomerId: customer.id,
     subscriptionEndAt: endDate,
     subscriptionId: null,
     subscriptionStartAt: now,
@@ -84,4 +73,46 @@ export async function startFreeTrial(userId: string, email: string) {
   });
 
   console.debug(`Successfully created profile for ${userId}`);
+}
+
+async function createHiddifyUser(email: string) {
+  const body = {
+    enable: true,
+    mode: "no_reset",
+    name: email,
+    package_days: 3,
+    start_date: new Date().toISOString().substring(0, 10),
+    usage_limit_GB: 3,
+  };
+  const { data } = await axiosHiddify.post<HiddifyUser>("/admin/user", body);
+
+  return data.uuid;
+}
+
+export async function setupNewUser(user: User) {
+  const email = user.email;
+
+  // Validate stripe user
+  let stripeCustomerId = user.profile?.stripeCustomerId;
+  if (!stripeCustomerId) {
+    const customer = await stripe.customers.search({
+      query: `email:"${email}"`,
+    });
+    stripeCustomerId = customer.data[0]?.id;
+  }
+
+  // Validate hiddify account
+  let hiddifyId = user.profile?.hiddifyId;
+  if (!hiddifyId) {
+    hiddifyId = await searchHiddifyUser(email);
+    if (!hiddifyId) {
+      hiddifyId = await createHiddifyUser(email);
+    }
+  }
+
+  if (stripeCustomerId) {
+    await updateProfile(user, stripeCustomerId, hiddifyId);
+  } else {
+    await startFreeTrial(user, email, hiddifyId);
+  }
 }

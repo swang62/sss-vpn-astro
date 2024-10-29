@@ -10,6 +10,9 @@ export const profile = t.sqliteTable("profile", {
     .integer("createdAt", { mode: "timestamp_ms" })
     .notNull()
     .$default(() => new Date()),
+  hiddifyId: t
+    .text("hiddifyId")
+    .notNull(),
   purchasedRouter: t
     .integer("purchasedRouter", { mode: "boolean" })
     .default(false),

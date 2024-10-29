@@ -41,6 +41,7 @@ const route = createBaseRouter()
     }
 
     const session = await stripe.checkout.sessions.create({
+      allow_promotion_codes: true,
       custom_fields: [{
         dropdown: {
           default_value: monthly ? "yes" : "no",
@@ -51,7 +52,7 @@ const route = createBaseRouter()
         },
         key: "auto_renew",
         label: {
-          custom: "Auto-Renewal",
+          custom: "Auto-Renew",
           type: "custom",
         },
         type: "dropdown",

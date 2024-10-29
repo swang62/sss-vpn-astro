@@ -60,7 +60,7 @@ export const PRICING_PLANS: PricingCardProps[] = [
     price: 10,
   },
   {
-    description: "One device can connect multiple people, family members, or lots of IoT devices",
+    description: "One device to connect multiple people, family members, or lots of IoT devices",
     features: [
       "300GB data",
       "Fully pre-configured WiFi6 router",

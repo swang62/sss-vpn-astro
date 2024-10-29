@@ -72,7 +72,7 @@ function AccountPlan(_props: Props) {
       value: endDate ? `Plan will end on ${endDate}` : billingCycle ? `Will renew on the ${billingCycle}` : `N/A`,
     },
     {
-      title: "Auto-Renewal",
+      title: "Auto-Renew",
       value: autoRenew,
     },
   ];
