@@ -12,7 +12,7 @@ import db, {
 } from "@/db";
 import { axiosHiddify } from "@/lib/server-clients";
 
-// User
+/// //////////////////// USER ///////////////////////
 
 export async function getUserByEmail(email?: string) {
   if (!email) return;
@@ -43,10 +43,9 @@ export async function getUserById(id: string) {
     },
   });
 }
-
 export type UserDB = NonNullable<Awaited<ReturnType<typeof getUserById>>>;
 
-// Profile
+/// //////////////////// PROFILE ///////////////////////
 
 export async function getProfileById(id: string) {
   return await db.query.profile.findFirst({
@@ -63,7 +62,7 @@ export async function getProfileByStripeId(stripeCustomerId: string) {
   });
 }
 
-// Product
+/// //////////////////// PRODUCT ///////////////////////
 
 export async function getProductByKey(id?: SubscriptionType | "router") {
   if (!id) return;
@@ -81,13 +80,13 @@ export async function getProductByPriceId(priceId?: string) {
   });
 }
 
-// Hiddify
+/// //////////////////// HIDDIFY ///////////////////////
+
 export async function searchHiddifyUser(email?: string) {
-  if (!email) return;
+  if (!email) return "";
 
   const { data } = await axiosHiddify.get<HiddifyUser[]>(`/admin/user`);
   const user = data.find(user => user.name === email);
-
   return user?.uuid || "";
 }
 
@@ -96,12 +95,10 @@ export async function getHiddifyUser(id?: string) {
 
   const { data } = await axiosHiddify.get<HiddifyUser>(`/admin/user/${id}`);
   if (!data.uuid) return null;
-
   return data;
 }
 
-// With async/await
-export async function getHiddifyQR(id: string, email: string) {
+export async function getHiddifyQR(email: string, id?: string) {
   if (!id) return "";
 
   const url = `${HIDDIFY_SETUP_LINK}/${id}/#${email}`;

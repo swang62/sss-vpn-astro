@@ -26,7 +26,7 @@ function AccountPlan(_props: Props) {
   const renewPlan = async (renew: boolean) => {
     setLoading(true);
     const { error } = await parseApi(
-      apiClient.stripe.renew.$post({ json: { renew } }),
+      apiClient.stripe["renew-plan"].$post({ json: { renew } }),
     );
     if (!error) {
       await sleep(2000);

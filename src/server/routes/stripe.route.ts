@@ -65,6 +65,7 @@ const route = createBaseRouter()
 
     return c.json({ url: session.url });
   })
+
   .post("/buy-router", async (c) => {
     const { profile } = await authUser(c);
 
@@ -83,6 +84,7 @@ const route = createBaseRouter()
 
     return c.json({ url: session.url });
   })
+
   .post("/customer-portal", zValidator(
     "json",
     z.object({
@@ -116,7 +118,8 @@ const route = createBaseRouter()
 
     return c.json({ url: portal.url });
   })
-  .post("/renew", zValidator(
+
+  .post("/renew-plan", zValidator(
     "json",
     z.object({
       renew: z.boolean(),
@@ -134,6 +137,7 @@ const route = createBaseRouter()
 
     return c.json({ message: "Successfully updated subscription" }, 200);
   })
+
   .post("/webhook", async (c) => {
     const signature = c.req.raw.headers.get("stripe-signature");
     if (!signature) return c.json({ message: "Missing headers" }, 400);

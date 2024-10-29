@@ -1,9 +1,10 @@
-import type { HiddifyUser, SubscriptionType } from "@/config/types";
+import type { SubscriptionType } from "@/config/types";
 
 import { TRIAL_PERIOD } from "@/config/constants";
 import db, { profile, type ProfileInsert } from "@/db";
-import { axiosHiddify, stripe } from "@/lib/server-clients";
+import { stripe } from "@/lib/server-clients";
 
+import { createHiddifyUser } from "./mutations-hiddify";
 import { getProductByPriceId, searchHiddifyUser, type UserDB } from "./queries";
 
 async function updateProfile(
@@ -73,20 +74,6 @@ async function startFreeTrial(user: UserDB, email: string, hiddifyId: string) {
   });
 
   console.debug(`Successfully created profile for ${userId}`);
-}
-
-async function createHiddifyUser(email: string) {
-  const body = {
-    enable: true,
-    mode: "no_reset",
-    name: email,
-    package_days: TRIAL_PERIOD,
-    start_date: new Date().toISOString().substring(0, 10),
-    usage_limit_GB: TRIAL_PERIOD,
-  };
-  const { data } = await axiosHiddify.post<HiddifyUser>("/admin/user", body);
-
-  return data.uuid;
 }
 
 export async function setupNewUser(user: UserDB) {
