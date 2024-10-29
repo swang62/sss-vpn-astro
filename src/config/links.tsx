@@ -2,6 +2,8 @@ import { DollarSign, Download, Home } from "lucide-react";
 
 import type { PricingCardProps } from "@/components/PricingForm";
 
+import { BASIC_DATA, PREMIUM_DATA, PRO_DATA } from "./constants";
+
 export type MenuLink = {
   href: string;
   label: string;
@@ -48,21 +50,21 @@ export const DASHBOARD_LINKS: MenuLink[] = [
 export const PRICING_PLANS: PricingCardProps[] = [
   {
     description: "Should be enough data for most people",
-    features: ["50GB data", "Email, messaging, music, blogs, light media usage", "Desktop & phone apps"],
+    features: [`${BASIC_DATA}GB data`, "Email, messaging, music, blogs, light media usage", "Desktop & phone apps"],
     plan: "basic",
     price: 5,
 
   },
   {
     description: "Good for heavy streaming/media usage",
-    features: ["150GB data", "Heavy streaming, gaming, video conferencing", "More data!"],
+    features: [`${PRO_DATA}GB data`, "Heavy streaming, gaming, video conferencing", "More data!"],
     plan: "pro",
     price: 10,
   },
   {
     description: "One device to connect multiple people, family members, or lots of IoT devices",
     features: [
-      "300GB data",
+      `${PREMIUM_DATA}GB data`,
       "Fully pre-configured WiFi6 router",
       "China shipping only*",
     ],

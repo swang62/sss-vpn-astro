@@ -1,6 +1,6 @@
 import type { SubscriptionType } from "@/config/types";
 
-import { TRIAL_PERIOD } from "@/config/constants";
+import { TRIAL_TIME } from "@/config/constants";
 import db, { profile, type ProfileInsert } from "@/db";
 import { stripe } from "@/lib/server-clients";
 
@@ -57,7 +57,7 @@ async function startFreeTrial(user: UserDB, email: string, hiddifyId: string) {
 
   const now = new Date();
   const endDate = new Date(now);
-  endDate.setDate(now.getDate() + TRIAL_PERIOD);
+  endDate.setDate(now.getDate() + TRIAL_TIME);
 
   const data: ProfileInsert = {
     hiddifyId,
@@ -76,6 +76,7 @@ async function startFreeTrial(user: UserDB, email: string, hiddifyId: string) {
   console.debug(`Successfully created profile for ${userId}`);
 }
 
+// Profile is most likely missing for this route
 export async function setupNewUser(user: UserDB) {
   const email = user.email;
 

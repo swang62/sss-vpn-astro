@@ -26,14 +26,14 @@ const route = createBaseRouter()
     const { monthly, plan } = c.req.valid("json");
 
     const product = await getProductByKey(plan);
-    if (!product) throw new Error("Invalid plan");
+    if (!product || !profile) throw new Error("Invalid plan");
 
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [
       { price: product.priceId, quantity: 1 },
     ];
 
     // Optional router
-    if (plan === "premium" && !profile?.purchasedRouter) {
+    if (plan === "premium" && !profile.purchasedRouter) {
       const router = await getProductByKey("router");
       if (router) {
         line_items.push({ price: router.priceId, quantity: 1 });
@@ -52,12 +52,12 @@ const route = createBaseRouter()
         },
         key: "auto_renew",
         label: {
-          custom: "Auto-renew",
+          custom: "Auto-renewal",
           type: "custom",
         },
         type: "dropdown",
       }],
-      customer: profile?.stripeCustomerId || "",
+      customer: profile.stripeCustomerId || "",
       line_items,
       mode: "subscription",
       success_url: `${SITE_URL}/dashboard`,
@@ -70,10 +70,10 @@ const route = createBaseRouter()
     const { profile } = await authUser(c);
 
     const product = await getProductByKey("router");
-    if (!product) throw new Error("Router missing");
+    if (!product || !profile) throw new Error("Router missing");
 
     const session = await stripe.checkout.sessions.create({
-      customer: profile?.stripeCustomerId || "",
+      customer: profile.stripeCustomerId || "",
       invoice_creation: {
         enabled: true,
       },
@@ -92,13 +92,15 @@ const route = createBaseRouter()
     }).optional(),
   ), async (c) => {
     const { profile } = await authUser(c);
+    if (!profile) throw new Error("Profile missing");
+
     const body = c.req.valid("json");
     const plan = body?.plan;
     const product = await getProductByKey(plan);
 
-    const stripeCustomerId = profile?.stripeCustomerId ?? "";
-    const subscriptionId = profile?.subscriptionId;
-    const itemId = profile?.subscriptionItemId;
+    const stripeCustomerId = profile.stripeCustomerId ?? "";
+    const subscriptionId = profile.subscriptionId;
+    const itemId = profile.subscriptionItemId;
     const config: Stripe.BillingPortal.SessionCreateParams = plan && product && subscriptionId && itemId
       ? {
           customer: stripeCustomerId,
@@ -126,10 +128,12 @@ const route = createBaseRouter()
     }),
   ), async (c) => {
     const { profile } = await authUser(c);
+    if (!profile) throw new Error("Profile missing");
+
     const { renew } = c.req.valid("json");
 
-    const subscriptionId = profile?.subscriptionId;
-    const subscriptionType = profile?.subscriptionType ?? "none";
+    const subscriptionId = profile.subscriptionId;
+    const subscriptionType = profile.subscriptionType;
     if (!subscriptionId || FREE_PLANS.includes(subscriptionType as any)) {
       throw new Error("Not a valid subscription");
     }
@@ -159,7 +163,6 @@ const route = createBaseRouter()
         const isAutoRenew = isNewSubscription?.dropdown?.value === "yes";
 
         if (session.status === "complete") {
-          // Configure auto-renew if necessary
           if (subscriptionId && isNewSubscription) {
             await setSubscriptionRenew(subscriptionId, isAutoRenew);
           }

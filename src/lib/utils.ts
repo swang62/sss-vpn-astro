@@ -31,26 +31,31 @@ export function dateToString(date: number) {
 }
 
 export function getDaysLeft(packageStart?: string, mode = "no_reset", packageDays = 0) {
-  let daysLeft = 0;
-
   const now = new Date();
   const start = new Date(packageStart ?? now);
+
+  if (mode === "monthly") {
+    // For auto-renew, use current monthly cycle
+    start.setFullYear(now.getFullYear());
+    start.setMonth(now.getMonth());
+  }
+
+  // Subtract 1 month if start time occurs in the future
+  if (start > now) {
+    start.setMonth(start.getMonth() - 1);
+  }
+
   const end = new Date(start);
-
   if (mode === "no_reset") {
-    end.setDate(start.getDate() + packageDays);
+    // If no auto-renew, add fixed days
+    end.setDate(end.getDate() + packageDays);
   } else if (mode === "monthly") {
-    end.setMonth(start.getMonth() + 1);
+    end.setMonth(end.getMonth() + 1);
   }
 
-  const lastDay = end.getDate();
-  const today = now.getDate();
-  if (today < lastDay) {
-    daysLeft = lastDay - today;
-  } else if (today > lastDay) {
-    const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-    daysLeft = lastDay + (lastDayOfMonth - today);
-  }
+  const DAY_LENGTH = 24 * 60 * 60 * 1000;
+  const days = Math.floor((end.valueOf() - now.valueOf()) / DAY_LENGTH);
+  const daysLeft = days > 0 ? days : 0;
   const endDate = end.toLocaleDateString("us", { dateStyle: "medium" });
 
   return { daysLeft, endDate }; ;

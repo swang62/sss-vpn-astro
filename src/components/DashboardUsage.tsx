@@ -26,11 +26,12 @@ function DashboardOverview(_props: Props) {
   const usage = currentUsed / totalAllowed * 100;
   const date = hiddify?.last_online && new Date(hiddify.last_online).toLocaleDateString("us", { dateStyle: "medium" });
   const time = hiddify?.last_online && new Date(hiddify.last_online).toLocaleTimeString();
-  const lastConnected = hiddify?.last_online ? `${date} - ${time}` : "";
+  const lastConnected = hiddify?.last_online ? `${date} - ${time}` : "-";
 
   const { daysLeft, endDate } = getDaysLeft(hiddify?.start_date, hiddify?.mode, hiddify?.package_days);
+
   const resetMode = hiddify?.mode === "no_reset" ? "end" : "reset";
-  const serviceStatus = hiddify?.enable
+  const serviceStatus = hiddify?.enable && daysLeft > 0
     ? <span className="text-green-500">Active</span>
     : <span className="text-red-500">Inactive</span>;
 
@@ -43,11 +44,11 @@ function DashboardOverview(_props: Props) {
   // Markup
   const details = [
     {
-      title: "Usage",
+      title: "Total used",
       value: `${currentUsed.toFixed(2)} GB of ${totalAllowed} GB`,
     },
     {
-      title: "Billing cycle",
+      title: "Current cycle",
       value: `Will ${resetMode} on ${endDate} (${daysLeft} days left)`,
     },
     {
@@ -63,7 +64,7 @@ function DashboardOverview(_props: Props) {
   return (
     <Card x-chunk="Dashboard usage">
       <CardHeader className="flex flex-row items-center content-center gap-2 pt-4 align-middle">
-        <CardTitle>Data</CardTitle>
+        <CardTitle>Data usage</CardTitle>
         <Button variant="link" onClick={onClickRefresh}>
           <RefreshCcw />
           <span>Refresh</span>

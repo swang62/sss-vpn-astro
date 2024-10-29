@@ -12,7 +12,9 @@ const route = createBaseRouter()
   })
   .get("/usage", async (c) => {
     const user = await authUser(c);
-    const hiddify = await getHiddifyUser(user.profile?.hiddifyId);
+    if (!user.profile) throw new Error("Profile missing");
+
+    const hiddify = await getHiddifyUser(user.profile.hiddifyId);
 
     return c.json({ hiddify, user });
   });

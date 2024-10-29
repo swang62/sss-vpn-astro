@@ -9,6 +9,7 @@ import { SITE_ADMIN, SITE_EMAIL } from "@/config/constants";
 import db, { profile as profileTable } from "@/db";
 import { postmarkClient, stripe } from "@/lib/server-clients";
 
+import { cancelHiddifyUser, updateHiddifyUser } from "./mutations-hiddify";
 import { getProductByPriceId, getProfileByStripeId } from "./queries";
 
 export async function setSubscriptionRenew(subscriptionId: string, isAutoRenew: boolean) {
@@ -38,7 +39,10 @@ export async function updateProfileSubscription(subscription: Stripe.Subscriptio
   }
 
   if (status === "active") {
-    // Auto-renew has no end date
+    const profile = await getProfileByStripeId(stripeCustomerId);
+    if (!profile || !profile.hiddifyId) throw new Error(`Subscription update failed for ${stripeCustomerId}`);
+
+    await updateHiddifyUser(profile.hiddifyId, subscriptionStartAt, subscriptionType, isAutoRenew);
     await db.update(profileTable).set({
       subscriptionEndAt: isAutoRenew ? null : subscriptionEndAt,
       subscriptionId,
@@ -52,10 +56,12 @@ export async function updateProfileSubscription(subscription: Stripe.Subscriptio
 export async function cancelProfileSubscription(subscription: Stripe.Subscription) {
   const subscriptionId = subscription.id;
   const stripeCustomerId = subscription.customer as string;
-  const profile = await getProfileByStripeId(stripeCustomerId);
   const status = subscription.status;
+  const profile = await getProfileByStripeId(stripeCustomerId);
+  if (!profile || !profile.hiddifyId) throw new Error(`Subscription cancellation failed for ${stripeCustomerId}`);
 
-  if (status === "canceled" && profile?.subscriptionId === subscriptionId) {
+  if (status === "canceled" && profile.subscriptionId === subscriptionId) {
+    await cancelHiddifyUser(profile.hiddifyId);
     await db.update(profileTable).set({
       subscriptionEndAt: null,
       subscriptionId: null,
@@ -82,6 +88,8 @@ export async function handleRouterPurchase(stripeCustomerId: string, session: St
 
   if (purchasedRouter) {
     const profile = await getProfileByStripeId(stripeCustomerId);
+    if (!profile) throw new Error(`Router setup failed for ${stripeCustomerId}`);
+
     await db.update(profileTable).set({
       purchasedRouter: true,
     }).where(eq(profileTable.stripeCustomerId, stripeCustomerId));
@@ -92,10 +100,10 @@ export async function handleRouterPurchase(stripeCustomerId: string, session: St
         From: SITE_EMAIL,
         TemplateAlias: "router",
         TemplateModel: {},
-        To: profile?.user.email,
+        To: profile.user.email,
       });
     }
 
-    logger.debug(`Sent router email to ${profile?.user.email}`);
+    logger.debug(`Sent router email to ${profile.user.email}`);
   }
 }
