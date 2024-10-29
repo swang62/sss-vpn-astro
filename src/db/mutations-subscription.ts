@@ -24,7 +24,7 @@ export async function updateProfileSubscription(subscription: Stripe.Subscriptio
   const subscriptionStartAt = new Date(subscription.current_period_start * 1000);
   const subscriptionEndAt = new Date(subscription.current_period_end * 1000);
   const status = subscription.status;
-  const insertAt = eq(profileTable.stripeCustomerId, stripeCustomerId);
+  const isAutoRenew = !subscription.cancel_at_period_end;
 
   let subscriptionItemId = "";
   let subscriptionType: SubscriptionType = "none";
@@ -38,25 +38,14 @@ export async function updateProfileSubscription(subscription: Stripe.Subscriptio
   }
 
   if (status === "active") {
-    const isAutoRenew = !subscription.cancel_at_period_end;
-    if (isAutoRenew) {
-      // Auto-renew has no end date
-      await db.update(profileTable).set({
-        subscriptionEndAt: null,
-        subscriptionId,
-        subscriptionItemId,
-        subscriptionStartAt,
-        subscriptionType,
-      }).where(insertAt);
-    } else {
-      await db.update(profileTable).set({
-        subscriptionEndAt,
-        subscriptionId,
-        subscriptionItemId,
-        subscriptionStartAt,
-        subscriptionType,
-      }).where(insertAt);
-    }
+    // Auto-renew has no end date
+    await db.update(profileTable).set({
+      subscriptionEndAt: isAutoRenew ? null : subscriptionEndAt,
+      subscriptionId,
+      subscriptionItemId,
+      subscriptionStartAt,
+      subscriptionType,
+    }).where(eq(profileTable.stripeCustomerId, stripeCustomerId));
   }
 }
 
@@ -65,7 +54,6 @@ export async function cancelProfileSubscription(subscription: Stripe.Subscriptio
   const stripeCustomerId = subscription.customer as string;
   const profile = await getProfileByStripeId(stripeCustomerId);
   const status = subscription.status;
-  const insertAt = eq(profileTable.stripeCustomerId, stripeCustomerId);
 
   if (status === "canceled" && profile?.subscriptionId === subscriptionId) {
     await db.update(profileTable).set({
@@ -74,7 +62,7 @@ export async function cancelProfileSubscription(subscription: Stripe.Subscriptio
       subscriptionItemId: null,
       subscriptionStartAt: null,
       subscriptionType: "none",
-    }).where(insertAt);
+    }).where(eq(profileTable.stripeCustomerId, stripeCustomerId));
   }
 }
 
@@ -94,10 +82,9 @@ export async function handleRouterPurchase(stripeCustomerId: string, session: St
 
   if (purchasedRouter) {
     const profile = await getProfileByStripeId(stripeCustomerId);
-    const insertAt = eq(profileTable.stripeCustomerId, stripeCustomerId);
     await db.update(profileTable).set({
       purchasedRouter: true,
-    }).where(insertAt);
+    }).where(eq(profileTable.stripeCustomerId, stripeCustomerId));
 
     if (postmarkClient) {
       postmarkClient.sendEmailWithTemplate({

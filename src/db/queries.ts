@@ -44,6 +44,8 @@ export async function getUserById(id: string) {
   });
 }
 
+export type UserDB = NonNullable<Awaited<ReturnType<typeof getUserById>>>;
+
 // Profile
 
 export async function getProfileById(id: string) {
@@ -90,10 +92,10 @@ export async function searchHiddifyUser(email?: string) {
 }
 
 export async function getHiddifyUser(id?: string) {
-  if (!id) return;
+  if (!id) return null;
 
   const { data } = await axiosHiddify.get<HiddifyUser>(`/admin/user/${id}`);
-  if (!data.uuid) throw new Error(`Missing hiddify user for ${id}`);
+  if (!data.uuid) return null;
 
   return data;
 }

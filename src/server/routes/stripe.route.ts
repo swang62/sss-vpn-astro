@@ -12,7 +12,7 @@ import { getProductByKey } from "@/db/queries";
 import { stripe } from "@/lib/server-clients";
 import { authUser, createBaseRouter } from "@/server/app";
 
-// All /api/stripe routes must be authenticated
+// All stripe routes must be authenticated
 
 const route = createBaseRouter()
   .post("/checkout", zValidator(

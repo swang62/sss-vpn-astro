@@ -84,7 +84,7 @@ function AccountPlan(_props: Props) {
           <div key={index}>
             <h1 className="h-8 my-2 text-xl font-semibold">{title}</h1>
             <div className="px-6 text-lg text-muted-foreground">
-              {profile ? value : <Skeleton className="w-40 h-6" />}
+              {profile ? value : <Skeleton className="w-40 h-7" />}
             </div>
           </div>
         ))}

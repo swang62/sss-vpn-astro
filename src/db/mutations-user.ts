@@ -1,13 +1,13 @@
 import type { HiddifyUser, SubscriptionType } from "@/config/types";
-import type { User } from "@/lib/api-clients";
 
+import { TRIAL_PERIOD } from "@/config/constants";
 import db, { profile, type ProfileInsert } from "@/db";
 import { axiosHiddify, stripe } from "@/lib/server-clients";
 
-import { getProductByPriceId, searchHiddifyUser } from "./queries";
+import { getProductByPriceId, searchHiddifyUser, type UserDB } from "./queries";
 
 async function updateProfile(
-  user: User,
+  user: UserDB,
   stripeCustomerId: string,
   hiddifyId: string,
 ) {
@@ -20,12 +20,13 @@ async function updateProfile(
   const itemId = subscription?.items.data[0]?.id;
   const priceId = subscription?.items.data[0]?.price.id;
   const product = await getProductByPriceId(priceId);
+  const isAutoRenew = !subscription?.cancel_at_period_end;
 
   const data: ProfileInsert = subscription
     ? {
         hiddifyId,
         stripeCustomerId,
-        subscriptionEndAt: new Date(subscription.current_period_end * 1000),
+        subscriptionEndAt: isAutoRenew ? null : new Date(subscription.current_period_end * 1000),
         subscriptionId: subscription.id,
         subscriptionItemId: itemId,
         subscriptionStartAt: new Date(subscription.current_period_start * 1000),
@@ -45,7 +46,7 @@ async function updateProfile(
   console.debug(`Successfully updated profile for ${userId}`);
 }
 
-async function startFreeTrial(user: User, email: string, hiddifyId: string) {
+async function startFreeTrial(user: UserDB, email: string, hiddifyId: string) {
   const userId = user.id;
 
   const customer = await stripe.customers.create({ email });
@@ -53,10 +54,9 @@ async function startFreeTrial(user: User, email: string, hiddifyId: string) {
     throw new Error(`Profile failed, could not create profile for ${email}`);
   }
 
-  // 3 day trial
   const now = new Date();
   const endDate = new Date(now);
-  endDate.setDate(now.getDate() + 3);
+  endDate.setDate(now.getDate() + TRIAL_PERIOD);
 
   const data: ProfileInsert = {
     hiddifyId,
@@ -80,16 +80,16 @@ async function createHiddifyUser(email: string) {
     enable: true,
     mode: "no_reset",
     name: email,
-    package_days: 3,
+    package_days: TRIAL_PERIOD,
     start_date: new Date().toISOString().substring(0, 10),
-    usage_limit_GB: 3,
+    usage_limit_GB: TRIAL_PERIOD,
   };
   const { data } = await axiosHiddify.post<HiddifyUser>("/admin/user", body);
 
   return data.uuid;
 }
 
-export async function setupNewUser(user: User) {
+export async function setupNewUser(user: UserDB) {
   const email = user.email;
 
   // Validate stripe user

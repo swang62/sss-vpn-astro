@@ -29,3 +29,28 @@ export function dateToString(date: number) {
     default: return `${date}th`;
   }
 }
+
+export function getDaysLeft(packageStart: string, mode: string, packageDays = 0) {
+  const now = new Date();
+  const start = new Date(packageStart);
+  let end = new Date(start);
+
+  if (mode === "no_reset") {
+    end.setDate(start.getDate() + packageDays);
+  } else if (mode === "monthly") {
+    end = start;
+  }
+
+  const lastDay = end.getDate();
+  const today = now.getDate();
+  console.log("today", today, "lastDay", lastDay);
+
+  if (today < lastDay) {
+    return lastDay - today;
+  } else if (today > lastDay) {
+    const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    console.log("lastdayofmonth", lastDayOfMonth);
+    return lastDay + (lastDayOfMonth - today);
+  }
+  return 0;
+}
