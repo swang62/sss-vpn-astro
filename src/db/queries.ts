@@ -99,13 +99,14 @@ export async function getHiddifyUser(id?: string) {
 }
 
 export async function getHiddifyQR(email: string, id?: string) {
-  if (!id) return "";
+  if (!id) return { qrcode: "", url: "" };
 
   const url = `${HIDDIFY_SETUP_LINK}/${id}/#${email}`;
   try {
-    return await QRCode.toDataURL(url);
+    const qrcode = await QRCode.toDataURL(url);
+    return { qrcode, url };
   } catch (error) {
     console.error(error);
-    return "";
+    return { qrcode: "", url: "" };
   }
 }

@@ -7,7 +7,7 @@ import { UAParser } from "ua-parser-js";
 
 const { session, user } = Astro.locals;
 
-const qrcode = await getHiddifyQR(user.email, user.profile?.hiddifyId);
+const { url, qrcode } = await getHiddifyQR(user.email, user.profile?.hiddifyId);
 const device = new UAParser(session?.userAgent).getDevice().type;
 const os = new UAParser(session?.userAgent).getOS().name;
 ---
@@ -15,6 +15,6 @@ const os = new UAParser(session?.userAgent).getOS().name;
 <DashboardLayout title="Dashboard">
   <div class="flex flex-col w-full max-w-2xl min-h-screen gap-6 py-4 mx-auto">
     <SubHeader title="How to Install" />
-    <HowToInstall qrcode={qrcode} device={device} os={os} client:load />
+    <HowToInstall url={url} qrcode={qrcode} device={device} os={os} client:load />
   </div>
 </DashboardLayout>

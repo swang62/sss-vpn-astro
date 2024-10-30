@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
+import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -59,4 +60,25 @@ export function getDaysLeft(packageStart?: string, mode = "no_reset", packageDay
   const endDate = end.toLocaleDateString("us", { dateStyle: "medium" });
 
   return { daysLeft, endDate }; ;
+}
+
+export async function copyToClipboard(text: string) {
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(text);
+  } else {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "absolute";
+    textarea.style.left = "-99999999px";
+    document.body.prepend(textarea);
+    textarea.select();
+    try {
+      document.execCommand("copy");
+      toast.success("Copied to clipboard!");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      textarea.remove();
+    }
+  }
 }

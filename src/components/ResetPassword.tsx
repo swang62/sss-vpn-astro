@@ -21,7 +21,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { resetPassword, signIn } from "@/lib/auth-client";
 import { sleep } from "@/lib/utils";
 
@@ -46,7 +46,7 @@ function ResetPasswordForm({ email }: Props) {
 
   // Validate token/email
   if (!email) {
-    toast.error("Invalid token, redirecting...");
+    toast.error("Invalid token! Redirecting...");
     sleep(1000).then(() => navigate("/forgot-password"));
     return;
   }
@@ -76,7 +76,7 @@ function ResetPasswordForm({ email }: Props) {
           setLoading(true);
         },
         onSuccess: async () => {
-          toast.success("Password reset, redirecting...");
+          toast.success("Password reset. Redirecting...");
           form.reset();
           await sleep(1000);
           await signIn.email(
@@ -110,7 +110,7 @@ function ResetPasswordForm({ email }: Props) {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input type="password" {...field} />
+                      <PasswordInput {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -123,7 +123,7 @@ function ResetPasswordForm({ email }: Props) {
                   <FormItem>
                     <FormLabel>Confirm Password</FormLabel>
                     <FormControl>
-                      <Input type="password" {...field} />
+                      <PasswordInput {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

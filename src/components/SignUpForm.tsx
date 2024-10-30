@@ -22,6 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import {
   Popover,
   PopoverContent,
@@ -60,7 +61,9 @@ function SignUpForm(_props: Props) {
   });
 
   // Submit handler
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>, event?: React.BaseSyntheticEvent) {
+    event?.preventDefault();
+
     const timeSince = secondsPassed(sentEmail);
     if (timeSince < 10) {
       toast.warning("Too many signup attempts, try again later.");
@@ -101,7 +104,8 @@ function SignUpForm(_props: Props) {
             closeButton: true,
             duration: 30000,
           });
-          form.reset();
+          form.resetField("password");
+          form.resetField("passwordConfirm");
           setSentEmail(new Date().toISOString());
           setLoading(false);
         },
@@ -161,7 +165,7 @@ function SignUpForm(_props: Props) {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type="password" {...field} />
+                    <PasswordInput {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -174,7 +178,7 @@ function SignUpForm(_props: Props) {
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
-                    <Input type="password" {...field} />
+                    <PasswordInput {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -171,6 +171,7 @@ const route = createBaseRouter()
         }
         break;
       }
+      case "customer.subscription.created":
       case "customer.subscription.updated": {
         const subscription = event.data.object;
         await updateProfileSubscription(subscription);
@@ -183,6 +184,7 @@ const route = createBaseRouter()
         c.var.logger.debug(`Subscription cancelled for ${subscription.customer}`);
         break;
       }
+      case "product.created":
       case "product.updated": {
         const product = event.data.object;
         await updateProduct(product);
@@ -190,7 +192,7 @@ const route = createBaseRouter()
         break;
       }
       default:
-        c.var.logger.debug(`Receive webhook event:${event.type}`);
+        c.var.logger.debug(`Receive webhook event:${event.type} but did not process it.`);
         break;
     }
     return c.json({ message: "Successfully processed webhook" }, 200);
