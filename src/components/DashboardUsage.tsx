@@ -19,6 +19,7 @@ interface Props {}
 
 function DashboardOverview(_props: Props) {
   const { data, mutate } = useSWR("fetchUsage", fetchUsage);
+
   const user = data?.user;
   const hiddify = data?.hiddify;
   const currentUsed = hiddify?.current_usage_GB ?? 0;
@@ -28,7 +29,7 @@ function DashboardOverview(_props: Props) {
   const time = hiddify?.last_online && new Date(hiddify.last_online).toLocaleTimeString();
   const lastConnected = hiddify?.last_online ? `${date} - ${time}` : "-";
 
-  const { daysLeft, endDate } = getDaysLeft(hiddify?.start_date, hiddify?.mode, hiddify?.package_days);
+  const { daysLeft, endDate: _endDate } = getDaysLeft(hiddify?.start_date, hiddify?.mode, hiddify?.package_days);
 
   const resetMode = hiddify?.mode === "no_reset" ? "end" : "reset";
   const serviceStatus = hiddify?.enable && daysLeft > 0
@@ -49,7 +50,7 @@ function DashboardOverview(_props: Props) {
     },
     {
       title: "Current cycle",
-      value: `Will ${resetMode} on ${endDate} (${daysLeft} days left)`,
+      value: `${daysLeft} days left till ${resetMode}`,
     },
     {
       title: "Last connected to VPN",

@@ -60,7 +60,7 @@ function AccountDetails(_props: Props) {
               className="flex flex-nowrap"
             >
               <Rocket />
-              <span>Upgrade plan</span>
+              <span>Upgrade</span>
             </Button>
           </a>
         </div>
