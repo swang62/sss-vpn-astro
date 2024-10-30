@@ -1,6 +1,5 @@
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-
-import { Badge } from "./ui/badge";
 
 export interface StepProps {
   idx?: number;
@@ -8,7 +7,7 @@ export interface StepProps {
   content: JSX.Element | string;
 }
 
-function StepInstructions({ content, idx = 0, title }: StepProps) {
+function Step({ content, idx = 0, title }: StepProps) {
   return (
     <Card x-chunk="Step" className="relative pt-6 pb-4 mb-6 ml-4 border-l border-transparent rounded-none border-l-border">
       <Badge variant="secondary" className="absolute top-0 w-8 h-8 -left-4">
@@ -24,4 +23,4 @@ function StepInstructions({ content, idx = 0, title }: StepProps) {
   );
 }
 
-export default StepInstructions;
+export default Step;

@@ -15,7 +15,7 @@ import { MAIN_LINKS } from "@/config/links";
 
 interface Props {}
 
-function MobileMenu(_props: Props) {
+function MainMobileMenu(_props: Props) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -58,4 +58,4 @@ function MobileMenu(_props: Props) {
   );
 }
 
-export default MobileMenu;
+export default MainMobileMenu;

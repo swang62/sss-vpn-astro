@@ -14,5 +14,6 @@
   },
   "peacock.color": "#1a4a47",
   "prettier.enable": false,
-  "editor.formatOnSave": false
+  "editor.formatOnSave": false,
+  "cSpell.enabled": true
 }

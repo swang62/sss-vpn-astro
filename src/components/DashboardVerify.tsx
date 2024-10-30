@@ -38,7 +38,7 @@ function DashboardVerify({ user }: Props) {
       <span className="text-center">
         Please verify your email address first.
         <br />
-        <span className="text-muted-foreground text-sm">Sometimes the email can be delayed by a couple minutes</span>
+        <span className="text-sm text-muted-foreground">Sometimes the email can be delayed by a couple minutes or sent to your spam folder</span>
       </span>
 
       <Button onClick={onClickVerify}>Click to resend</Button>

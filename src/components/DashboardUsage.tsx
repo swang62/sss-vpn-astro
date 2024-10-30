@@ -9,11 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { fetchUsage } from "@/lib/api-clients";
 import { getDaysLeft } from "@/lib/utils";
-
-import { Progress } from "./ui/progress";
 
 interface Props {}
 
@@ -22,6 +21,7 @@ function DashboardOverview(_props: Props) {
 
   const user = data?.user;
   const hiddify = data?.hiddify;
+  const currentPlan = user?.profile?.subscriptionType;
   const currentUsed = hiddify?.current_usage_GB ?? 0;
   const totalAllowed = hiddify?.usage_limit_GB ?? 0;
   const usage = currentUsed / totalAllowed * 100;
@@ -31,7 +31,7 @@ function DashboardOverview(_props: Props) {
 
   const { daysLeft, endDate: _endDate } = getDaysLeft(hiddify?.start_date, hiddify?.mode, hiddify?.package_days);
 
-  const resetMode = hiddify?.mode === "no_reset" ? "plan ends" : "data resets";
+  const resetMode = hiddify?.mode !== "no_reset" ? "data resets" : currentPlan === "trial" ? "trial ends" : "plan ends";
   const serviceStatus = hiddify?.enable && daysLeft > 0
     ? <span className="text-green-500">Active</span>
     : <span className="text-red-500">Inactive</span>;

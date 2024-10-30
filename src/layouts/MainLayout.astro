@@ -1,6 +1,6 @@
 ---
-import DesktopMenu from "@/components/DesktopMenu";
-import MobileMenu from "@/components/MobileMenu";
+import MainDesktopMenu from "@/components/MainDesktopMenu";
+import MainMobileMenu from "@/components/MainMobileMenu";
 import ThemeToggle from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
@@ -18,12 +18,12 @@ const { title } = Astro.props;
 
 <Base title={title}>
   <Header>
-    <MobileMenu slot="mobile" client:load />
+    <MainMobileMenu slot="mobile" client:load />
     <span class="text-xl text-nowrap md:inline-block" slot="left">
       {SITE_NAME}
     </span>
 
-    <DesktopMenu slot="center" />
+    <MainDesktopMenu slot="center" />
 
     <div class="flex items-center gap-x-4" slot="right">
       <ThemeToggle client:load />
@@ -42,7 +42,7 @@ const { title } = Astro.props;
     </div>
   </Header>
 
-  <main class="container mx-auto gap-4 md:gap-8">
+  <main class="container gap-4 mx-auto md:gap-8">
     <slot />
   </main>
 

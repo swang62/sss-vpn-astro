@@ -8,7 +8,7 @@ import { MAIN_LINKS } from "@/config/links";
 
 interface Props {}
 
-function DesktopMenu(_props: Props) {
+function MainDesktopMenu(_props: Props) {
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -31,4 +31,4 @@ function DesktopMenu(_props: Props) {
   );
 }
 
-export default DesktopMenu;
+export default MainDesktopMenu;

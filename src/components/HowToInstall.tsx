@@ -2,6 +2,7 @@ import type UAParser from "ua-parser-js";
 
 import { Copy, Download, PartyPopper } from "lucide-react";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,7 +12,6 @@ import { copyToClipboard } from "@/lib/utils";
 import type { StepProps } from "./Step";
 
 import Step from "./Step";
-import { Badge } from "./ui/badge";
 
 const IMAGE_WIDTH = 400;
 
@@ -93,15 +93,15 @@ function getSteps(
         </div>
         <div>
           Go back to the app and click on the
-          <Badge variant="outline" className="py-1 mx-2 text-muted-foreground bg-muted">+ New Profile</Badge>
+          <Badge variant="outline" className="mx-2 text-muted-foreground bg-muted">+ New Profile</Badge>
           button in the center of the screen. A popup should appear:
         </div>
         <br />
         <img src="/setup/add-profile.png" width={IMAGE_WIDTH} alt="add profile screen" className="self-center" loading="lazy" />
         <br />
         <div>
-          Click the option
-          <Badge variant="outline" className="py-1 mx-2 text-muted-foreground bg-muted">Add from clipboard</Badge>
+          Click
+          <Badge variant="outline" className="mx-2 text-muted-foreground bg-muted">Add from clipboard</Badge>
           and you should see your profile added to the top.
         </div>
         <br />
@@ -115,11 +115,11 @@ function getSteps(
       content:
       <>
         <div>
-          Click on the giant button and you should be connected!
+          Tap the giant button in the middle and you should be connected!
         </div>
         {isWindows && (
           <div className="text-muted-foreground">
-            Troubleshooting: If your internet is disconnected in windows, go to Config Options in the left side panel.
+            Note: if your internet is disconnected in windows, go to Config Options in the left side panel.
             Scroll down and find Direct DNS and make sure it's set to udp://1.1.1.1 or 8.8.8.8
           </div>
         )}
@@ -128,7 +128,7 @@ function getSteps(
         <br />
         {isMobile && (
           <div>
-            On mobile, you will see a key icon in the top right corner.
+            You should see a key icon in the top right corner.
             A new notification will also appear showing your connection speed.
           </div>
         )}
@@ -136,8 +136,8 @@ function getSteps(
       </>,
       title: (
         <div className="flex flex-nowrap">
-          All done
-          <PartyPopper className="ml-2" />
+          All done!
+          <PartyPopper className="ml-2 text-orange-400" />
         </div>
       ),
     },
@@ -145,11 +145,11 @@ function getSteps(
       content:
       <>
         <div>
-          Although not strictly necessary, I highly recommend checking out the
+          Although not strictly necessary, I recommend visiting the
           {" "}
           <a href="/dashboard/tips" className="text-primary-link">Tips & Tricks</a>
           {" "}
-          page to maximize your VPN speeds and troubleshooting.
+          page to maximize your speeds and general troubleshooting.
         </div>
       </>,
       title: "Optional final steps",

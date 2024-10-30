@@ -1,6 +1,6 @@
 ---
 import AvatarMenu from "@/components/AvatarMenu";
-import DashboardMenu from "@/components/DashboardMenu";
+import DashboardDesktopMenu from "@/components/DashboardDesktopMenu";
 import DashboardMobileMenu from "@/components/DashboardMobileMenu";
 import DashboardVerify from "@/components/DashboardVerify";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -36,7 +36,7 @@ if (isVerified && !user.profile?.stripeCustomerId) {
       {SITE_NAME}
     </span>
 
-    <DashboardMenu current={pathname} slot="center" />
+    <DashboardDesktopMenu current={pathname} slot="center" />
 
     <div class="flex items-center gap-x-4" slot="right">
       <ThemeToggle client:load />

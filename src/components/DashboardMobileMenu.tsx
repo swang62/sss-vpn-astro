@@ -10,6 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { SITE_NAME } from "@/config/constants";
 import { DASHBOARD_LINKS } from "@/config/links";
 import { cn } from "@/lib/utils";
 
@@ -26,15 +27,25 @@ function DashboardMobileMenu({ current: _current }: Props) {
         <Button
           variant="outline"
           size="icon"
-          className="p-0 shrink-0 gap-0 md:hidden"
+          className="gap-0 p-0 shrink-0 md:hidden"
         >
           <Sidebar />
           <span className="sr-only">Toggle navigation menu</span>
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="pr-0">
+        <SheetHeader className="py-4 pl-4">
+          <a href="/#top" onClick={() => setOpen(false)}>
+            <SheetTitle className="flex items-center gap-2 text-3xl font-semibold text-left flex-nowrap">
+              <img src="/favicon.ico" alt="logo" width={36} height={36} />
+              <span>{SITE_NAME}</span>
+            </SheetTitle>
+          </a>
+          <SheetDescription className="sr-only">Main menu</SheetDescription>
+        </SheetHeader>
+
         <SheetHeader>
-          <SheetTitle className="pt-4 pl-4 text-sm text-left text-muted-foreground">
+          <SheetTitle className="pl-4 mt-6 mb-0 text-sm text-left text-muted-foreground">
             Dashboard
           </SheetTitle>
           <SheetDescription className="sr-only">Dashboard</SheetDescription>
@@ -54,7 +65,7 @@ function DashboardMobileMenu({ current: _current }: Props) {
                     <Button
                       variant="ghost"
                       className={cn(
-                        "m-0 flex h-6 w-11/12 justify-start gap-4 py-6 text-lg",
+                        "m-0 flex h-6 w-11/12 justify-start gap-4 py-6 text-xl",
                       )}
                     >
                       <span>{link.icon}</span>

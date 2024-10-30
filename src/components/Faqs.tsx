@@ -17,17 +17,17 @@ const data = [
     answer:
       "Don't panic! Sometimes during chinese holidays, there's a much higher chance of VPN throttling and restrictions. If the app is down for more than a day, let me know.",
     id: "2",
-    question: "The VPN suddenly stopped working/connecting.",
+    question: "The VPN suddenly stopped working, what should I do?",
   },
   {
     answer:
       "This is a common issue with chinese apps like Taobao/Alipay that are geo-restricted to only work within China. Make sure you turn on the per-app proxy in the settings to selectively allow chinese apps to bypass the VPN.",
     id: "3",
-    question: "My chinese app doesn't work with the VPN.",
+    question: "Why doesn't this app work when the VPN is turned on?",
   },
   {
     answer:
-      "Everything is managed by Stripe, just log into your account, then click your avatar > Manage Subscription.",
+      "Once logged in, click on your avatar, go to manage account and cancel subscription.",
     id: "4",
     question: "How do I unsubscribe?",
   },

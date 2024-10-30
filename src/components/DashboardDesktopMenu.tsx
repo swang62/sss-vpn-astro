@@ -11,7 +11,7 @@ interface Props {
   current: string;
 }
 
-function DashboardMenu({ current }: Props) {
+function DashboardDesktopMenu({ current }: Props) {
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -39,4 +39,4 @@ function DashboardMenu({ current }: Props) {
   );
 }
 
-export default DashboardMenu;
+export default DashboardDesktopMenu;
