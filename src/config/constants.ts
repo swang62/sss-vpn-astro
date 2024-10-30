@@ -23,3 +23,5 @@ export const PLAN_LIMITS: Record<SubscriptionType, number> = {
 
 // Time limits
 export const TRIAL_TIME = 3;
+
+export const HIDDIFY_DOWNLOAD_URL = "https://nextcloud.mildlybrewed.com/s/9kMknzTdRk4GjiB/download?files=";

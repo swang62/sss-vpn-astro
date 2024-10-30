@@ -118,7 +118,7 @@ function SignUpForm(_props: Props) {
       <CardHeader className="text-center">
         <CardTitle className="text-2xl">Create an account</CardTitle>
         <CardDescription>
-          Trial period will start after verification.
+          Trial period will start after email verification.
           <br />
           If in China, use an unblocked email
           <Popover>

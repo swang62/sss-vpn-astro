@@ -49,6 +49,7 @@ function DashboardMobileMenu({ current: _current }: Props) {
                     key={link.href}
                     href={link.href}
                     onClick={() => setOpen(false)}
+                    data-astro-reload
                   >
                     <Button
                       variant="ghost"

@@ -3,21 +3,21 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Badge } from "./ui/badge";
 
 export interface StepProps {
-  step?: number;
-  title: string;
-  content: JSX.Element;
+  idx?: number;
+  title: JSX.Element | string;
+  content: JSX.Element | string;
 }
 
-function StepInstructions({ content, step, title }: StepProps) {
+function StepInstructions({ content, idx = 0, title }: StepProps) {
   return (
-    <Card x-chunk="Step" className="relative w-full mx-4 border-transparent border-l-border">
-      <Badge variant="secondary" className="absolute w-8 h-8 -top-1 -left-4">
-        <span className="absolute font-mono text-xl left-2.5">{step}</span>
+    <Card x-chunk="Step" className="relative pt-6 pb-4 mb-6 ml-4 border-l border-transparent rounded-none border-l-border">
+      <Badge variant="secondary" className="absolute top-0 w-8 h-8 -left-4">
+        <span className="absolute font-mono text-lg left-2.5">{idx + 1}</span>
       </Badge>
       <CardTitle className="mb-2 ml-8">
         {title}
       </CardTitle>
-      <CardContent className="flex flex-col gap-4 px-8 py-4">
+      <CardContent className="flex flex-col gap-4 px-8 py-4 whitespace-break-spaces text-wrap">
         {content}
       </CardContent>
     </Card>

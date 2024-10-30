@@ -1,73 +1,191 @@
 import type UAParser from "ua-parser-js";
 
-import { Copy } from "lucide-react";
+import { Copy, Download, PartyPopper } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { HIDDIFY_DOWNLOAD_URL } from "@/config/constants";
 import { copyToClipboard } from "@/lib/utils";
 
 import type { StepProps } from "./Step";
 
 import Step from "./Step";
+import { Badge } from "./ui/badge";
+
+const IMAGE_WIDTH = 400;
+
+function getSteps(
+  platform: "mobile" | "desktop",
+  downloadFile: string,
+  downloadIcon: string,
+  url: string,
+): StepProps[] {
+  const isMobile = platform === "mobile";
+  const isMacOS = downloadFile.includes(".dmg");
+  const isWindows = downloadFile.includes(".exe");
+
+  return [
+    {
+      content:
+    <>
+      <p>Click the button below to download the app.</p>
+      <a href={`${HIDDIFY_DOWNLOAD_URL}${downloadFile}`} className="self-center pr-8">
+        <Button>
+          <Download />
+          Download for
+          <img width="20" height="20" src={downloadIcon} alt="Download icon" loading="eager" />
+        </Button>
+      </a>
+    </>,
+      title: "Download",
+    },
+    {
+      content:
+      <>
+        <div>
+          Navigate to where you downloaded the
+          {" "}
+          <u>{downloadFile}</u>
+          {" "}
+          file and double-click to install.
+          {isMobile && " You may have to allow install from unknown sources and accept all permissions."}
+        </div>
+        {isMacOS && (
+          <div className="text-muted-foreground">
+            Note: for macOS, you will need download an extra file
+            {" "}
+            <a href={`${HIDDIFY_DOWNLOAD_URL}start_hiddify_vpn.command`} className="text-primary-link">here.</a>
+            {" "}
+            Save this file to your desktop and double-click it to launch Hiddify instead of the usual way.
+          </div>
+        )}
+        {isWindows && (
+          <div className="text-muted-foreground">
+            Note: for windows, you might get a warning during install, just click on More Info and Run Anyways. Always use the desktop shortcut to launch Hiddify.
+          </div>
+        )}
+      </>,
+      title: "Install",
+    },
+    {
+      content:
+      <>
+        <div>
+          Open up the app, and you should see the following screen:
+        </div>
+        <br />
+        <img src="/setup/welcome-screen.png" width={IMAGE_WIDTH} alt="welcome screen" className="self-center" loading="lazy" />
+        <br />
+        <div>Change the language to English for now and set the region to China, then click Start.</div>
+      </>,
+      title: "Initial setup",
+    },
+    {
+      content:
+      <>
+        <div>First, copy your unique profile link:</div>
+        <div className="flex items-center gap-2">
+          <Input defaultValue={url} readOnly className="bg-muted text-muted-foreground" />
+          <Button size="sm" onClick={() => copyToClipboard(url)}>
+            <Copy className="w-4 h-4" />
+          </Button>
+        </div>
+        <div>
+          Go back to the app and click on the
+          <Badge variant="outline" className="py-1 mx-2 text-muted-foreground bg-muted">+ New Profile</Badge>
+          button in the center of the screen. A popup should appear:
+        </div>
+        <br />
+        <img src="/setup/add-profile.png" width={IMAGE_WIDTH} alt="add profile screen" className="self-center" loading="lazy" />
+        <br />
+        <div>
+          Click the option
+          <Badge variant="outline" className="py-1 mx-2 text-muted-foreground bg-muted">Add from clipboard</Badge>
+          and you should see your profile added to the top.
+        </div>
+        <br />
+        <img src="/setup/start-screen.png" width={IMAGE_WIDTH} alt="start screen" className="self-center" loading="lazy" />
+        <br />
+        <div className="text-muted-foreground">Note: for monthly subscriptions, the billing cycle will show infinity but will still reset each month.</div>
+      </>,
+      title: "Add your profile",
+    },
+    {
+      content:
+      <>
+        <div>
+          Click on the giant button and you should be connected!
+        </div>
+        {isWindows && (
+          <div className="text-muted-foreground">
+            Troubleshooting: If your internet is disconnected in windows, go to Config Options in the left side panel.
+            Scroll down and find Direct DNS and make sure it's set to udp://1.1.1.1 or 8.8.8.8
+          </div>
+        )}
+        <br />
+        <img src="/setup/connected.png" width={IMAGE_WIDTH} alt="connected" className="self-center" loading="lazy" />
+        <br />
+        {isMobile && (
+          <div>
+            On mobile, you will see a key icon in the top right corner.
+            A new notification will also appear showing your connection speed.
+          </div>
+        )}
+
+      </>,
+      title: (
+        <div className="flex flex-nowrap">
+          All done
+          <PartyPopper className="ml-2" />
+        </div>
+      ),
+    },
+    {
+      content:
+      <>
+        <div>
+          Although not strictly necessary, I highly recommend checking out the
+          {" "}
+          <a href="/dashboard/tips" className="text-primary-link">Tips & Tricks</a>
+          {" "}
+          page to maximize your VPN speeds and troubleshooting.
+        </div>
+      </>,
+      title: "Optional final steps",
+    },
+  ];
+};
 
 interface Props {
   device: UAParser.IDevice["type"];
   os?: string;
-  qrcode: string;
   url: string;
 }
 
-function HowToInstall({ device, os, qrcode, url }: Props) {
-  const stepsForMobile: StepProps[] = [
-    {
-      content: <img src={qrcode} width="200" height="200" alt="Hiddify QR Code" className="self-center" />,
-      title: "test",
-    },
-    {
-      content:
-        <>
-          <div>{device}</div>
-          <div>{os}</div>
-        </>,
-      title: "test",
-    },
-    {
-      content: (
-        <div className="flex items-center space-x-2">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="link" className="sr-only">
-              Setup link
-            </Label>
-            <Input
-              id="link"
-              defaultValue={url}
-              readOnly
-            />
-          </div>
-          <Button size="sm" className="px-3" onClick={() => copyToClipboard(url)}>
-            <span className="sr-only">Copy</span>
-            <Copy className="w-4 h-4" />
-          </Button>
-        </div>
-      ),
-      title: "Configuration",
-    },
-  ];
+function HowToInstall({ device, os, url }: Props) {
+  const defaultTab = !device ? "desktop" : "mobile";
 
-  const tabStyle = "flex flex-col gap-6 py-4";
+  const isApple = os === "macOS" || os === "iOS";
+  const mobileFile = isApple ? "Hiddify.ipa" : "Hiddify.apk";
+  const desktopFile = isApple ? "Hiddify.dmg" : "Hiddify.exe";
+
+  const mobileIcon = isApple ? "/setup/ios.png" : "/setup/google-play.png";
+  const desktopIcon = isApple ? "/setup/mac.png" : "/setup/microsoft.png";
 
   return (
-    <Tabs defaultValue="mobile">
-      <TabsList className="grid w-full grid-cols-2">
+    <Tabs defaultValue={defaultTab}>
+      <TabsList className="grid w-full grid-cols-2 mb-8">
         <TabsTrigger value="mobile">Mobile</TabsTrigger>
         <TabsTrigger value="desktop">Desktop</TabsTrigger>
       </TabsList>
-      <TabsContent value="mobile" className={tabStyle}>
-        {stepsForMobile.map((step, idx) => <Step key={idx} {...step} step={idx + 1} />)}
+      <TabsContent value="mobile">
+        {getSteps("mobile", mobileFile, mobileIcon, url)
+          .map((step, idx) => <Step key={idx} content={step.content} title={step.title} idx={idx} />)}
       </TabsContent>
-      <TabsContent value="desktop" className={tabStyle}>
+      <TabsContent value="desktop">
+        {getSteps("desktop", desktopFile, desktopIcon, url)
+          .map((step, idx) => <Step key={idx} content={step.content} title={step.title} idx={idx} />)}
       </TabsContent>
     </Tabs>
   );

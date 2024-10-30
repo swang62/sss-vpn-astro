@@ -128,7 +128,7 @@ function PricingCard({
 
 interface Props {}
 
-function PricingForm(_props: Props) {
+function PricingPlans(_props: Props) {
   const [loading, setLoading] = useState(false);
   const { data } = useSWR("fetchUser", fetchUser);
   const [monthly, setMonthly] = useState(true);
@@ -182,4 +182,4 @@ function PricingForm(_props: Props) {
   );
 }
 
-export default PricingForm;
+export default PricingPlans;

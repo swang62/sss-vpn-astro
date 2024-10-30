@@ -28,6 +28,7 @@ function DashboardMenu({ current }: Props) {
                     : null,
                 ),
               })}
+              data-astro-reload
             >
               {link.label}
             </a>

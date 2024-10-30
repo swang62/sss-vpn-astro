@@ -1,6 +1,6 @@
 import { DollarSign, Download, Home } from "lucide-react";
 
-import type { PricingCardProps } from "@/components/PricingForm";
+import type { PricingCardProps } from "@/components/PricingPlans";
 
 import { BASIC_DATA, PREMIUM_DATA, PRO_DATA } from "./constants";
 

@@ -31,7 +31,7 @@ function DashboardOverview(_props: Props) {
 
   const { daysLeft, endDate: _endDate } = getDaysLeft(hiddify?.start_date, hiddify?.mode, hiddify?.package_days);
 
-  const resetMode = hiddify?.mode === "no_reset" ? "end" : "reset";
+  const resetMode = hiddify?.mode === "no_reset" ? "plan ends" : "data resets";
   const serviceStatus = hiddify?.enable && daysLeft > 0
     ? <span className="text-green-500">Active</span>
     : <span className="text-red-500">Inactive</span>;
