@@ -1,0 +1,16 @@
+---
+import { getHiddifyQR } from "@/db/queries";
+import DashboardLayout from "@/layouts/DashboardLayout.astro";
+import SubHeader from "@/layouts/SubHeader.astro";
+
+const { user } = Astro.locals;
+
+const qrcode = await getHiddifyQR(user.email, user.profile?.hiddifyId);
+---
+
+<DashboardLayout title="Dashboard">
+  <div class="flex flex-col w-full max-w-2xl min-h-screen gap-6 py-4 mx-auto">
+    <SubHeader title="How to Install" />
+    <img src={qrcode} width="200" height="200" alt="Hiddify QR Code" class="self-center" />
+  </div>
+</DashboardLayout>

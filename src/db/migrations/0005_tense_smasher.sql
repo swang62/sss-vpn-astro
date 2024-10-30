@@ -1,0 +1,1 @@
+ALTER TABLE `profile` ADD `hiddifyId` text NOT NULL;

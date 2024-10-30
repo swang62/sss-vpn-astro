@@ -45,7 +45,7 @@ function AvatarMenu(_props: Props) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className={menuStyle}>
-          <a href="/dashboard" className="w-full">
+          <a href="/dashboard" className="w-full" data-astro-reload>
             <Button variant="ghost" className={buttonStyle}>
               <Home />
               <span>Dashboard</span>
@@ -53,7 +53,7 @@ function AvatarMenu(_props: Props) {
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem className={menuStyle}>
-          <a href="/dashboard/account" className="w-full">
+          <a href="/dashboard/account" className="w-full" data-astro-reload>
             <Button variant="ghost" className={buttonStyle}>
               <Edit />
               <span>Manage account</span>

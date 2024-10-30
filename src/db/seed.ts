@@ -2,7 +2,7 @@ import { hashPassword } from "better-auth/crypto";
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 
-// !!! Must use relative imports !!!
+// !!! Must use relative imports and conditional imports !!!
 import { SITE_ADMIN } from "../config/constants";
 import { DB_LOCAL_URL } from "../config/server";
 import { account } from "./schema";
@@ -43,6 +43,35 @@ export async function seed() {
       userId: TEST_USER.id,
     },
   ]);
+}
+
+// Don't use this during testing as stripe is disabled
+export async function seedProducts() {
+  console.debug("Seeding products...");
+
+  const { stripe } = await import("@/lib/server-clients");
+  const { default: db, product } = await import(".");
+
+  const { data } = await stripe.prices.list();
+
+  for (const price of data) {
+    const priceId = price.id;
+
+    // Don't update products without lookup keys or have been deleted
+    const lookupKey = price.lookup_key?.toLowerCase().trim();
+    if (!lookupKey || !price.active || price.deleted) continue;
+
+    const data = {
+      name: lookupKey,
+      priceId,
+      productId: price.product as string,
+    };
+
+    await db.insert(product).values([{ ...data, id: lookupKey }]).onConflictDoUpdate({
+      set: data,
+      target: product.id,
+    });
+  }
 }
 
 export async function remove() {

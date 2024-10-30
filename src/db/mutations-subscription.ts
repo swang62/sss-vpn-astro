@@ -9,6 +9,7 @@ import { SITE_ADMIN, SITE_EMAIL } from "@/config/constants";
 import db, { profile as profileTable } from "@/db";
 import { postmarkClient, stripe } from "@/lib/server-clients";
 
+import { cancelHiddifyUser, updateHiddifyUser } from "./mutations-hiddify";
 import { getProductByPriceId, getProfileByStripeId } from "./queries";
 
 export async function setSubscriptionRenew(subscriptionId: string, isAutoRenew: boolean) {
@@ -24,7 +25,7 @@ export async function updateProfileSubscription(subscription: Stripe.Subscriptio
   const subscriptionStartAt = new Date(subscription.current_period_start * 1000);
   const subscriptionEndAt = new Date(subscription.current_period_end * 1000);
   const status = subscription.status;
-  const insertAt = eq(profileTable.stripeCustomerId, stripeCustomerId);
+  const isAutoRenew = !subscription.cancel_at_period_end;
 
   let subscriptionItemId = "";
   let subscriptionType: SubscriptionType = "none";
@@ -38,43 +39,36 @@ export async function updateProfileSubscription(subscription: Stripe.Subscriptio
   }
 
   if (status === "active") {
-    const isAutoRenew = !subscription.cancel_at_period_end;
-    if (isAutoRenew) {
-      // Auto-renew has no end date
-      await db.update(profileTable).set({
-        subscriptionEndAt: null,
-        subscriptionId,
-        subscriptionItemId,
-        subscriptionStartAt,
-        subscriptionType,
-      }).where(insertAt);
-    } else {
-      // End date implies no renewal
-      await db.update(profileTable).set({
-        subscriptionEndAt,
-        subscriptionId,
-        subscriptionItemId,
-        subscriptionStartAt,
-        subscriptionType,
-      }).where(insertAt);
-    }
+    const profile = await getProfileByStripeId(stripeCustomerId);
+    if (!profile || !profile.hiddifyId) throw new Error(`Subscription update failed for ${stripeCustomerId}`);
+
+    await updateHiddifyUser(profile.hiddifyId, subscriptionStartAt, subscriptionType, isAutoRenew);
+    await db.update(profileTable).set({
+      subscriptionEndAt: isAutoRenew ? null : subscriptionEndAt,
+      subscriptionId,
+      subscriptionItemId,
+      subscriptionStartAt,
+      subscriptionType,
+    }).where(eq(profileTable.stripeCustomerId, stripeCustomerId));
   }
 }
 
 export async function cancelProfileSubscription(subscription: Stripe.Subscription) {
   const subscriptionId = subscription.id;
   const stripeCustomerId = subscription.customer as string;
-  const profile = await getProfileByStripeId(stripeCustomerId);
   const status = subscription.status;
-  const insertAt = eq(profileTable.stripeCustomerId, stripeCustomerId);
+  const profile = await getProfileByStripeId(stripeCustomerId);
+  if (!profile || !profile.hiddifyId) throw new Error(`Subscription cancellation failed for ${stripeCustomerId}`);
 
-  if (status === "canceled" && profile?.subscriptionId === subscriptionId) {
+  if (status === "canceled" && profile.subscriptionId === subscriptionId) {
+    await cancelHiddifyUser(profile.hiddifyId);
     await db.update(profileTable).set({
       subscriptionEndAt: null,
       subscriptionId: null,
+      subscriptionItemId: null,
       subscriptionStartAt: null,
       subscriptionType: "none",
-    }).where(insertAt);
+    }).where(eq(profileTable.stripeCustomerId, stripeCustomerId));
   }
 }
 
@@ -94,10 +88,11 @@ export async function handleRouterPurchase(stripeCustomerId: string, session: St
 
   if (purchasedRouter) {
     const profile = await getProfileByStripeId(stripeCustomerId);
-    const insertAt = eq(profileTable.stripeCustomerId, stripeCustomerId);
+    if (!profile) throw new Error(`Router setup failed for ${stripeCustomerId}`);
+
     await db.update(profileTable).set({
       purchasedRouter: true,
-    }).where(insertAt);
+    }).where(eq(profileTable.stripeCustomerId, stripeCustomerId));
 
     if (postmarkClient) {
       postmarkClient.sendEmailWithTemplate({
@@ -105,10 +100,10 @@ export async function handleRouterPurchase(stripeCustomerId: string, session: St
         From: SITE_EMAIL,
         TemplateAlias: "router",
         TemplateModel: {},
-        To: profile?.user.email,
+        To: profile.user.email,
       });
     }
 
-    logger.debug(`Sent router email to ${profile?.user.email}`);
+    logger.debug(`Sent router email to ${profile.user.email}`);
   }
 }

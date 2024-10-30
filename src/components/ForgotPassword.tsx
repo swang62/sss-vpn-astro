@@ -112,7 +112,7 @@ function ForgotPasswordForm(_props: Props) {
                 )}
               />
 
-              <Button className="w-full" type="submit" loading={loading}>
+              <Button className="w-full" type="submit" loading={loading} disabled={loading}>
                 Send reset link
               </Button>
             </form>

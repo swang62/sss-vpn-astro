@@ -12,7 +12,7 @@ import { getProductByKey } from "@/db/queries";
 import { stripe } from "@/lib/server-clients";
 import { authUser, createBaseRouter } from "@/server/app";
 
-// All /api/stripe routes must be authenticated
+// All stripe routes must be authenticated
 
 const route = createBaseRouter()
   .post("/checkout", zValidator(
@@ -26,14 +26,14 @@ const route = createBaseRouter()
     const { monthly, plan } = c.req.valid("json");
 
     const product = await getProductByKey(plan);
-    if (!product) throw new Error("Invalid plan");
+    if (!product || !profile) throw new Error("Invalid plan");
 
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [
       { price: product.priceId, quantity: 1 },
     ];
 
     // Optional router
-    if (plan === "premium" && !profile?.purchasedRouter) {
+    if (plan === "premium" && !profile.purchasedRouter) {
       const router = await getProductByKey("router");
       if (router) {
         line_items.push({ price: router.priceId, quantity: 1 });
@@ -41,6 +41,7 @@ const route = createBaseRouter()
     }
 
     const session = await stripe.checkout.sessions.create({
+      allow_promotion_codes: true,
       custom_fields: [{
         dropdown: {
           default_value: monthly ? "yes" : "no",
@@ -51,12 +52,12 @@ const route = createBaseRouter()
         },
         key: "auto_renew",
         label: {
-          custom: "Auto-Renewal",
+          custom: "Auto-renewal",
           type: "custom",
         },
         type: "dropdown",
       }],
-      customer: profile?.stripeCustomerId || "",
+      customer: profile.stripeCustomerId || "",
       line_items,
       mode: "subscription",
       success_url: `${SITE_URL}/dashboard`,
@@ -64,14 +65,15 @@ const route = createBaseRouter()
 
     return c.json({ url: session.url });
   })
+
   .post("/buy-router", async (c) => {
     const { profile } = await authUser(c);
 
     const product = await getProductByKey("router");
-    if (!product) throw new Error("Router missing");
+    if (!product || !profile) throw new Error("Router missing");
 
     const session = await stripe.checkout.sessions.create({
-      customer: profile?.stripeCustomerId || "",
+      customer: profile.stripeCustomerId || "",
       invoice_creation: {
         enabled: true,
       },
@@ -82,6 +84,7 @@ const route = createBaseRouter()
 
     return c.json({ url: session.url });
   })
+
   .post("/customer-portal", zValidator(
     "json",
     z.object({
@@ -89,13 +92,15 @@ const route = createBaseRouter()
     }).optional(),
   ), async (c) => {
     const { profile } = await authUser(c);
+    if (!profile) throw new Error("Profile missing");
+
     const body = c.req.valid("json");
     const plan = body?.plan;
     const product = await getProductByKey(plan);
 
-    const stripeCustomerId = profile?.stripeCustomerId ?? "";
-    const subscriptionId = profile?.subscriptionId;
-    const itemId = profile?.subscriptionItemId;
+    const stripeCustomerId = profile.stripeCustomerId ?? "";
+    const subscriptionId = profile.subscriptionId;
+    const itemId = profile.subscriptionItemId;
     const config: Stripe.BillingPortal.SessionCreateParams = plan && product && subscriptionId && itemId
       ? {
           customer: stripeCustomerId,
@@ -115,27 +120,31 @@ const route = createBaseRouter()
 
     return c.json({ url: portal.url });
   })
-  .post("/renew", zValidator(
+
+  .post("/renew-plan", zValidator(
     "json",
     z.object({
       renew: z.boolean(),
     }),
   ), async (c) => {
     const { profile } = await authUser(c);
+    if (!profile) throw new Error("Profile missing");
+
     const { renew } = c.req.valid("json");
 
-    const subscriptionId = profile?.subscriptionId;
-    const subscriptionType = profile?.subscriptionType ?? "none";
+    const subscriptionId = profile.subscriptionId;
+    const subscriptionType = profile.subscriptionType;
     if (!subscriptionId || FREE_PLANS.includes(subscriptionType as any)) {
       throw new Error("Not a valid subscription");
     }
     await setSubscriptionRenew(subscriptionId, renew);
 
-    return c.json({}, 200);
+    return c.json({ message: "Successfully updated subscription" }, 200);
   })
+
   .post("/webhook", async (c) => {
     const signature = c.req.raw.headers.get("stripe-signature");
-    if (!signature) return c.json({}, 400);
+    if (!signature) return c.json({ message: "Missing headers" }, 400);
 
     const body = await c.req.text();
     const event = await stripe.webhooks.constructEventAsync(
@@ -154,7 +163,6 @@ const route = createBaseRouter()
         const isAutoRenew = isNewSubscription?.dropdown?.value === "yes";
 
         if (session.status === "complete") {
-          // Configure auto-renew if necessary
           if (subscriptionId && isNewSubscription) {
             await setSubscriptionRenew(subscriptionId, isAutoRenew);
           }
@@ -175,7 +183,6 @@ const route = createBaseRouter()
         c.var.logger.debug(`Subscription cancelled for ${subscription.customer}`);
         break;
       }
-      case "product.created":
       case "product.updated": {
         const product = event.data.object;
         await updateProduct(product);
@@ -183,9 +190,10 @@ const route = createBaseRouter()
         break;
       }
       default:
+        c.var.logger.debug(`Receive webhook event:${event.type}`);
         break;
     }
-    return c.json({}, 200);
+    return c.json({ message: "Successfully processed webhook" }, 200);
   });
 
 export default route;

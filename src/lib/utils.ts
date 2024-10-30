@@ -29,3 +29,34 @@ export function dateToString(date: number) {
     default: return `${date}th`;
   }
 }
+
+export function getDaysLeft(packageStart?: string, mode = "no_reset", packageDays = 0) {
+  const now = new Date();
+  const start = new Date(packageStart ?? now);
+
+  if (mode === "monthly") {
+    // For auto-renew, use current monthly cycle
+    start.setFullYear(now.getFullYear());
+    start.setMonth(now.getMonth());
+  }
+
+  // Subtract 1 month if start time occurs in the future
+  if (start > now) {
+    start.setMonth(start.getMonth() - 1);
+  }
+
+  const end = new Date(start);
+  if (mode === "no_reset") {
+    // If no auto-renew, add fixed days
+    end.setDate(end.getDate() + packageDays);
+  } else if (mode === "monthly") {
+    end.setMonth(end.getMonth() + 1);
+  }
+
+  const DAY_LENGTH = 24 * 60 * 60 * 1000;
+  const days = Math.floor((end.valueOf() - now.valueOf()) / DAY_LENGTH);
+  const daysLeft = days > 0 ? days : 0;
+  const endDate = end.toLocaleDateString("us", { dateStyle: "medium" });
+
+  return { daysLeft, endDate }; ;
+}

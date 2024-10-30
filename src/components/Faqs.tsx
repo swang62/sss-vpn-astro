@@ -4,11 +4,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { TRIAL_TIME } from "@/config/constants";
 
 const data = [
   {
     answer:
-      "Once you create an account, you'll get instant access to the VPN and instructions on how to install it. The trial period will last for 3 days. I want to make sure everyone tries out the VPN first, before giving me any money.",
+      `Once you create an account, you'll get instant access to the VPN and instructions on how to install it. The trial period will last for ${TRIAL_TIME} days. I want to make sure everyone tries out the VPN first, before giving me any money.`,
     id: "1",
     question: "How does the trial period work?",
   },

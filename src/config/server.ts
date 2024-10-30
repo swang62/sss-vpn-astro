@@ -6,6 +6,7 @@ import { DB_LOCAL, DB_TEST } from "./constants";
 const EnvSchema = z.object({
   DB_AUTH_TOKEN: z.string().default("default"),
   DB_REMOTE: z.string().optional(),
+  HIDDIFY_API_KEY: z.string().optional(),
   LOG_LEVEL: z.enum([
     "silent",
     "debug",
@@ -42,6 +43,8 @@ const _ = "placeholder"; // Catch build errors
 
 export const DB_AUTH_TOKEN = data.DB_AUTH_TOKEN;
 export const DB_REMOTE = data.DB_REMOTE === _ ? "" : data.DB_REMOTE;
+export const HIDDIFY_API_KEY = data.HIDDIFY_API_KEY;
+
 export const LOG_LEVEL = data.LOG_LEVEL === _ ? "debug" : data.LOG_LEVEL;
 export const NODE_ENV = data.NODE_ENV;
 export const POSTMARK_TOKEN = data.POSTMARK_TOKEN === _ ? "" : data.POSTMARK_TOKEN; // prettier-ignore
@@ -58,4 +61,6 @@ export const DB_LOCAL_URL = IS_TESTING ? DB_TEST : DB_LOCAL;
 export const DB_SYNC_URL = IS_TESTING ? undefined : DB_REMOTE;
 
 //* Hard-coded *//
-export const API_SERVER_URL = "http://localhost:4321";
+export const HONO_LOCALHOST = "http://localhost:4321";
+export const HIDDIFY_API_URL = "https://link.sss-vpn.com/QwId8HABKn9c6GYrnRNcxMj/api/v2";
+export const HIDDIFY_SETUP_LINK = "https://link.sss-vpn.com/rjsn7TPtBHgNGA1KBI3mfP2aNaLG";

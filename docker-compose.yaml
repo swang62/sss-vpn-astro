@@ -62,6 +62,7 @@ services:
       - BETTER_AUTH_SECRET
       - DB_REMOTE=${DB_REMOTE:-http://db:8080}
       - DB_AUTH_TOKEN=${DB_AUTH_TOKEN:-default}
+      - HIDDIFY_API_KEY
       - POSTMARK_TOKEN
       - REDIS_URL=${REDIS_URL:-redis:6379}
       - REDIS_PASS=${REDIS_PASS:-default}

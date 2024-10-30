@@ -2,6 +2,7 @@
 import AvatarMenu from "@/components/AvatarMenu";
 import DashboardMenu from "@/components/DashboardMenu";
 import DashboardMobileMenu from "@/components/DashboardMobileMenu";
+import DashboardVerify from "@/components/DashboardVerify";
 import ThemeToggle from "@/components/ThemeToggle";
 import { SITE_NAME } from "@/config/constants";
 import { setupNewUser } from "@/db/mutations-user";
@@ -44,6 +45,6 @@ if (isVerified && !user.profile?.stripeCustomerId) {
   </Header>
 
   <main class="container gap-4 mx-auto md:gap-8">
-    <slot />
+    {isVerified ? <slot /> : <DashboardVerify client:load user={user} />}
   </main>
 </Base>
