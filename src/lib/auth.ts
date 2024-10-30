@@ -70,5 +70,5 @@ export const auth = betterAuth({
         },
       }
     : undefined,
-  trustedOrigins: ["localhost", "127.0.0.1"],
+  trustedOrigins: ["localhost", "127.0.0.1", "192.168.8.129"],
 });

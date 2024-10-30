@@ -99,7 +99,7 @@ export default {
     },
     fontFamily: {
       heading: ["CalSans Semibold", ...fontFamily.sans],
-      mono: [...fontFamily.mono],
+      mono: ["Menlo", "Monaco", "Consolas", ...fontFamily.mono],
       sans: ["Inter", ...fontFamily.sans],
       serif: [...fontFamily.serif],
     },

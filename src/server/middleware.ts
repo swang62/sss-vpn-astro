@@ -69,17 +69,19 @@ export const onError: ErrorHandler = (error, c) => {
 };
 
 export function corsMiddleware(): MiddlewareHandler {
-  return cors({
-    allowHeaders: ["*"],
-    allowMethods: ["GET", "POST", "OPTIONS"],
-    credentials: true,
-    exposeHeaders: ["*"],
-    maxAge: 600,
-    origin: origin =>
-      origin.includes(".mildlybrewed.") || !IS_PRODUCTION
-        ? origin
-        : "localhost",
-  });
+  return !IS_PRODUCTION
+    ? createMiddleware((_c, next) => next())
+    : cors({
+      allowHeaders: ["*"],
+      allowMethods: ["GET", "POST", "OPTIONS"],
+      credentials: true,
+      exposeHeaders: ["*"],
+      maxAge: 600,
+      origin: origin =>
+        origin.includes(".mildlybrewed.")
+          ? origin
+          : "localhost",
+    });
 }
 
 export function pinoLogger(): MiddlewareHandler {

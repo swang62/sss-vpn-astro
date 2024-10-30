@@ -83,8 +83,8 @@ function AccountDetails(_props: Props) {
         {planDetails.map(({ title, value }, index) => (
           <div key={index}>
             <h1 className="h-8 mb-1 text-xl font-semibold">{title}</h1>
-            <div className="text-lg text-muted-foreground">
-              {profile ? value : <Skeleton className="w-56 h-7" />}
+            <div className="text-muted-foreground">
+              {profile ? value : <Skeleton className="w-56 h-6" />}
             </div>
           </div>
         ))}

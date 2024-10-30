@@ -176,6 +176,9 @@ importers:
       typescript:
         specifier: 5.5.4
         version: 5.5.4
+      ua-parser-js:
+        specifier: 2.0.0-rc.1
+        version: 2.0.0-rc.1
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -3477,6 +3480,9 @@ packages:
     resolution: {integrity: sha512-2sJGJTaXIIaR1w4iJSNoN0hnMY7Gpc/n8D4qSCJw8QqFWXf7cuAgnEHxBpweaVcPevC2l3KpjYCx3NypQQgaJg==}
     engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
 
+  detect-europe-js@0.1.1:
+    resolution: {integrity: sha512-+bUXDf+tI3L4dcEuRdAFa44Amx9aEaJzoZssx7Xis4H1bXWc5fAcOP850BOj0wJPRzOdovOuOVEvrg6T+GflZA==}
+
   detect-libc@2.0.2:
     resolution: {integrity: sha512-UX6sGumvvqSaXgdKGUsgZWqcUyIXZ/vZTrlRT/iobiKhGL0zL4d3osHj3uqllWJK+i+sixDS/3COVEOFbupFyw==}
     engines: {node: '>=8'}
@@ -6138,6 +6144,10 @@ packages:
   typescript@5.5.4:
     resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
     engines: {node: '>=14.17'}
+    hasBin: true
+
+  ua-parser-js@2.0.0-rc.1:
+    resolution: {integrity: sha512-H+kTJv7j04XbMuASIIrp7TwKj8rVHfGLR9dI36FAWneGHyQ6JZVwFukFgxSyM/OChmk7dxsV82R/tnEQxb1EXg==}
     hasBin: true
 
   ufo@1.5.4:
@@ -10021,6 +10031,8 @@ snapshots:
 
   destroy@1.2.0: {}
 
+  detect-europe-js@0.1.1: {}
+
   detect-libc@2.0.2: {}
 
   detect-libc@2.0.3: {}
@@ -12979,6 +12991,10 @@ snapshots:
       semver: 7.6.3
 
   typescript@5.5.4: {}
+
+  ua-parser-js@2.0.0-rc.1:
+    dependencies:
+      detect-europe-js: 0.1.1
 
   ufo@1.5.4: {}
 

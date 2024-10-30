@@ -87,7 +87,7 @@ function DashboardOverview(_props: Props) {
           {details.map(({ title, value }, index) => (
             <div className="flex flex-col justify-start gap-1" key={index}>
               <h1 className="text-lg font-semibold">{title}</h1>
-              <span className="text-base text-muted-foreground">
+              <span className="text-muted-foreground">
                 {user ? value : <Skeleton className="w-56 h-6" />}
               </span>
             </div>
