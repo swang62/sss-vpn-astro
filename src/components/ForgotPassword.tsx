@@ -47,11 +47,7 @@ function ForgotPasswordForm(_props: Props) {
     }
 
     const { email } = values;
-    const { data } = await parseApi(
-      apiClient["search-email"].$get({
-        query: { email },
-      }),
-    );
+    const { data } = await parseApi(apiClient["search-email"].$get({ query: { email } }));
 
     if (!data?.exists) {
       form.setError(

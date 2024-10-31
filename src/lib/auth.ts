@@ -28,7 +28,7 @@ export const auth = betterAuth({
         From: SITE_EMAIL,
         TemplateAlias: "password-reset",
         TemplateModel: {
-          email: user.email,
+          email: user.name || user.email,
           reset_url: url,
         },
         To: user.email,
@@ -46,7 +46,7 @@ export const auth = betterAuth({
         From: SITE_EMAIL,
         TemplateAlias: "verify",
         TemplateModel: {
-          email: user.email,
+          email: user.name || user.email,
           verification_url: url,
         },
         To: user.email,

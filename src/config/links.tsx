@@ -1,4 +1,4 @@
-import { DollarSign, Download, Home } from "lucide-react";
+import { DollarSign, Download, HelpingHand, Home } from "lucide-react";
 
 import type { PricingCardProps } from "@/components/PricingPlans";
 
@@ -39,6 +39,11 @@ export const DASHBOARD_LINKS: MenuLink[] = [
     href: "/dashboard/install",
     icon: <Download />,
     label: "Install VPN",
+  },
+  {
+    href: "/dashboard/tips",
+    icon: <HelpingHand />,
+    label: "Tips & Tricks",
   },
   {
     href: "/dashboard/pricing",

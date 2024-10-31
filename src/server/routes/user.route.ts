@@ -1,3 +1,7 @@
+import { zValidator } from "@hono/zod-validator";
+import { z } from "zod";
+
+import { updateStripeName, updateUser } from "@/db/mutations-user";
 import { getHiddifyUser } from "@/db/queries";
 import { authUser, createBaseRouter } from "@/server/app";
 
@@ -9,6 +13,21 @@ const route = createBaseRouter()
     const session = c.get("session");
 
     return c.json({ session, user });
+  })
+  .post("/", zValidator(
+    "json",
+    z.object({
+      name: z.string().max(50),
+    }),
+  ), async (c) => {
+    const user = await authUser(c);
+    const { name } = c.req.valid("json");
+    const stripeCustomerId = user.profile?.stripeCustomerId;
+
+    const updatedUser = await updateUser(user.id, name);
+    if (stripeCustomerId) await updateStripeName(stripeCustomerId, name);
+
+    return c.json({ user: updatedUser });
   })
   .get("/usage", async (c) => {
     const user = await authUser(c);

@@ -4,13 +4,14 @@ import ShowWelcome from "@/components/WelcomeMsg";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
 import SubHeader from "@/layouts/SubHeader.astro";
 
-const showedWelcome = Astro.cookies.get("showedWelcome")
+const { user } = Astro.locals;
+const showedWelcome = Astro.cookies.get("showedWelcome");
 ---
 
 <DashboardLayout title="Dashboard">
   <div class="flex flex-col w-full max-w-2xl min-h-screen gap-6 py-4 mx-auto">
     <SubHeader title="Overview" />
-    <ShowWelcome client:load showedWelcome={showedWelcome?.value} />
+    <ShowWelcome client:load showedWelcome={showedWelcome?.value} name={user?.name} />
     <DashboardUsage client:load />
   </div>
 </DashboardLayout>
