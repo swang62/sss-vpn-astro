@@ -154,6 +154,7 @@ const route = createBaseRouter()
       STRIPE_WEBHOOK_SECRET || "",
     );
 
+    let processed = true;
     switch (event.type) {
       case "checkout.session.completed":{
         const session = event.data.object;
@@ -203,10 +204,11 @@ const route = createBaseRouter()
         break;
       }
       default:
-        c.var.logger.debug(`Receive webhook event:${event.type} but did not process it.`);
+        processed = false;
+        c.var.logger.debug(`Receive webhook event:${event.type} but did not process.`);
         break;
     }
-    return c.json({ message: "Successfully processed webhook" }, 200);
+    return c.json({ message: processed ? "Successfully processed" : "Failed to process" }, 200);
   });
 
 export default route;

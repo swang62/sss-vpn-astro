@@ -69,7 +69,11 @@ function AccountDetails(_props: Props) {
     },
     {
       title: "Subscription",
-      value: endDate ? `Will end on ${endDate}` : billingCycle ? `Will renew every month on the ${billingCycle}` : `N/A`,
+      value: endDate
+        ? `Will end on ${endDate}`
+        : billingCycle && subscriptionType !== "none"
+          ? `Will renew every month on the ${billingCycle}`
+          : `N/A`,
     },
     {
       title: "Auto-renewal",

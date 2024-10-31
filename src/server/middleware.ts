@@ -105,7 +105,8 @@ export function pinoLogger(): MiddlewareHandler {
       }),
       reqId: false,
     },
-    pino: pino({ level: LOG_LEVEL }, IS_PRODUCTION ? undefined : pretty()),
+    // pino: pino({ level: LOG_LEVEL }, IS_PRODUCTION ? undefined : pretty()),
+    pino: pino({ level: LOG_LEVEL }, pretty()),
   });
 }
 

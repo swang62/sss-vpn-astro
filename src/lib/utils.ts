@@ -65,6 +65,7 @@ export function getDaysLeft(packageStart?: string, mode = "no_reset", packageDay
 export async function copyToClipboard(text: string) {
   if (navigator.clipboard && window.isSecureContext) {
     await navigator.clipboard.writeText(text);
+    toast.success("Copied to clipboard!");
   } else {
     const textarea = document.createElement("textarea");
     textarea.value = text;
