@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 
 import type { SubscriptionType } from "@/config/types";
 
-import { TRIAL_TIME } from "@/config/constants";
+import { NAME_MAX_LENGTH, TRIAL_TIME } from "@/config/constants";
 import db, { type ProfileInsert, profile as profileTable, user as userTable } from "@/db";
 import { stripe } from "@/lib/server-clients";
 
@@ -17,8 +17,10 @@ export async function updateUser(
   userId: string,
   name: string,
 ) {
+  const nameFixed = name.length > NAME_MAX_LENGTH ? name.slice(0, NAME_MAX_LENGTH - 1) : name;
+
   const user = await db.update(userTable).set({
-    name,
+    name: nameFixed,
   }).where(eq(userTable.id, userId)).returning();
 
   return user[0];

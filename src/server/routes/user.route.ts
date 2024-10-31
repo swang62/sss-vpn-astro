@@ -1,6 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 
+import { NAME_MAX_LENGTH } from "@/config/constants";
 import { updateStripeName, updateUser } from "@/db/mutations-user";
 import { getHiddifyUser } from "@/db/queries";
 import { authUser, createBaseRouter } from "@/server/app";
@@ -17,7 +18,7 @@ const route = createBaseRouter()
   .post("/", zValidator(
     "json",
     z.object({
-      name: z.string().max(50),
+      name: z.string().max(NAME_MAX_LENGTH),
     }),
   ), async (c) => {
     const user = await authUser(c);

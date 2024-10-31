@@ -15,12 +15,12 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { NAME_MAX_LENGTH } from "@/config/constants";
 import { apiClient, parseApi } from "@/lib/api-clients";
 
-import { Input } from "./ui/input";
-
 const formSchema = z.object({
-  name: z.string().max(20),
+  name: z.string().max(NAME_MAX_LENGTH),
 });
 
 interface Props {

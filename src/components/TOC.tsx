@@ -3,7 +3,7 @@ import {
   TableOfContentsLink,
   TableOfContentsList,
   TableOfContentsTitle,
-} from "./ui/toc";
+} from "@/components/ui/toc";
 
 function TipsTableOfContents() {
   return (

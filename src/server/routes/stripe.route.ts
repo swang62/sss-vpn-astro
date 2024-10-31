@@ -8,7 +8,8 @@ import { STRIPE_WEBHOOK_SECRET } from "@/config/server";
 import { FREE_PLANS, PAID_PLANS } from "@/config/types";
 import { updateProduct } from "@/db/mutations-product";
 import { cancelProfileSubscription, handleRouterPurchase, setSubscriptionRenew, updateProfileSubscription } from "@/db/mutations-subscription";
-import { getProductByKey } from "@/db/queries";
+import { updateUser } from "@/db/mutations-user";
+import { getProductByKey, getProfileByStripeId } from "@/db/queries";
 import { stripe } from "@/lib/server-clients";
 import { authUser, createBaseRouter } from "@/server/app";
 
@@ -169,6 +170,16 @@ const route = createBaseRouter()
           // Check for router purchase
           await handleRouterPurchase(stripeCustomerId, session, c.var.logger);
         }
+        break;
+      }
+      case "customer.updated": {
+        const customer = event.data.object;
+        const stripeCustomerId = customer.id;
+        const profile = await getProfileByStripeId(stripeCustomerId);
+        if (!profile) throw new Error(`Customer update failed for ${stripeCustomerId}`);
+        await updateUser(profile.userId, customer.name || "");
+
+        c.var.logger.debug(`Customer updated for ${stripeCustomerId}`);
         break;
       }
       case "customer.subscription.created":

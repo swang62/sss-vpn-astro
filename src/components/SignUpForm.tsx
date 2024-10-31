@@ -28,13 +28,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { NAME_MAX_LENGTH } from "@/config/constants";
 import { sendVerificationEmail, signUp } from "@/lib/auth-client";
 import { secondsPassed } from "@/lib/utils";
 
 const formSchema = z
   .object({
     email: z.string().email().toLowerCase(),
-    name: z.string().max(20),
+    name: z.string().max(NAME_MAX_LENGTH),
     password: z
       .string()
       .min(8, { message: "Password must be at least 8 characters" }),
