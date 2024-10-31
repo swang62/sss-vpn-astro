@@ -13,7 +13,7 @@ import type { StepProps } from "./Step";
 
 import Step from "./Step";
 
-const IMAGE_WIDTH = 400;
+const imageWidth = 400;
 
 function getSteps(
   platform: "mobile" | "desktop",
@@ -75,7 +75,7 @@ function getSteps(
           Open up the app, and you should see the following screen:
         </div>
         <br />
-        <img src="/setup/welcome-screen.png" width={IMAGE_WIDTH} alt="welcome screen" className="self-center" loading="lazy" />
+        <img src="/setup/welcome-screen.png" width={imageWidth} alt="welcome screen" className="self-center" loading="lazy" />
         <br />
         <div>Change the language to English for now and set the region to China, then click Start.</div>
       </>,
@@ -97,7 +97,7 @@ function getSteps(
           button in the center of the screen. A popup should appear:
         </div>
         <br />
-        <img src="/setup/add-profile.png" width={IMAGE_WIDTH} alt="add profile screen" className="self-center" loading="lazy" />
+        <img src="/setup/add-profile.png" width={imageWidth} alt="add profile screen" className="self-center" loading="lazy" />
         <br />
         <div>
           Click
@@ -105,7 +105,7 @@ function getSteps(
           and you should see your profile added to the top.
         </div>
         <br />
-        <img src="/setup/start-screen.png" width={IMAGE_WIDTH} alt="start screen" className="self-center" loading="lazy" />
+        <img src="/setup/start-screen.png" width={imageWidth} alt="start screen" className="self-center" loading="lazy" />
         <br />
         <div className="text-muted-foreground">Note: for monthly subscriptions, the billing cycle will show infinity but will still reset each month.</div>
       </>,
@@ -124,7 +124,7 @@ function getSteps(
           </div>
         )}
         <br />
-        <img src="/setup/connected.png" width={IMAGE_WIDTH} alt="connected" className="self-center" loading="lazy" />
+        <img src="/setup/connected.png" width={imageWidth} alt="connected" className="self-center" loading="lazy" />
         <br />
         {isMobile && (
           <div>

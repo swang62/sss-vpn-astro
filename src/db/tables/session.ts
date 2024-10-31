@@ -4,13 +4,20 @@ import * as t from "drizzle-orm/sqlite-core";
 import { user } from "./user";
 
 export const session = t.sqliteTable("session", {
-  expiresAt: t.integer("expiresAt", { mode: "timestamp" }).notNull(),
-  id: t.text("id").primaryKey(),
-  impersonatedBy: t.text("impersonatedBy"),
-  ipAddress: t.text("ipAddress"),
-  userAgent: t.text("userAgent"),
+  expiresAt: t
+    .integer({ mode: "timestamp" })
+    .notNull(),
+  id: t
+    .text()
+    .primaryKey(),
+  impersonatedBy: t
+    .text(),
+  ipAddress: t
+    .text(),
+  userAgent: t
+    .text(),
   userId: t
-    .text("userId")
+    .text()
     .notNull()
     .references(() => user.id, { onDelete: "cascade", onUpdate: "cascade" }),
 });

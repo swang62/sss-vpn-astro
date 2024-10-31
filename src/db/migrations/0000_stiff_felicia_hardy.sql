@@ -12,10 +12,26 @@ CREATE TABLE `account` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `account_userId_unique` ON `account` (`userId`);--> statement-breakpoint
+CREATE TABLE `product` (
+	`createdAt` integer NOT NULL,
+	`id` text PRIMARY KEY NOT NULL,
+	`name` text,
+	`priceId` text NOT NULL,
+	`productId` text NOT NULL,
+	`updatedAt` integer NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE `profile` (
-	`createdAt` integer DEFAULT (unixepoch()) NOT NULL,
-	`subscription` text DEFAULT 'none',
-	`updatedAt` integer DEFAULT (unixepoch()) NOT NULL,
+	`createdAt` integer NOT NULL,
+	`hiddifyId` text NOT NULL,
+	`purchasedRouter` integer DEFAULT false,
+	`stripeCustomerId` text NOT NULL,
+	`subscriptionEndAt` integer,
+	`subscriptionId` text,
+	`subscriptionItemId` text,
+	`subscriptionStartAt` integer,
+	`subscriptionType` text DEFAULT 'none' NOT NULL,
+	`updatedAt` integer NOT NULL,
 	`userId` text NOT NULL,
 	FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON UPDATE cascade ON DELETE cascade
 );

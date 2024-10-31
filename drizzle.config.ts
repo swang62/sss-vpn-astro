@@ -12,8 +12,16 @@ const DB_URL = IS_TESTING ? DB_TEST : DB_REMOTE;
 console.debug("Connecting to DB -", DB_URL);
 
 export default defineConfig({
-  dbCredentials: { authToken: DB_AUTH_TOKEN, url: DB_URL },
+  breakpoints: false,
+  casing: "camelCase",
+  dbCredentials: {
+    authToken: DB_AUTH_TOKEN,
+    url: DB_URL,
+  },
   dialect: "turso",
+  introspect: {
+    casing: "camel",
+  },
   out: "./src/db/migrations",
   schema: "./src/db/schema.ts",
   strict: true,
