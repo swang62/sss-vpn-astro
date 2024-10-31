@@ -24,6 +24,7 @@ function getSteps(
   const isMobile = platform === "mobile";
   const isMacOS = downloadFile.includes(".dmg");
   const isWindows = downloadFile.includes(".exe");
+  const isIOS = downloadFile.includes(".ipa");
 
   return [
     {
@@ -51,11 +52,23 @@ function getSteps(
           file and double-click to install.
           {isMobile && " You may have to allow install from unknown sources and accept all permissions."}
         </div>
+        {isIOS && (
+          <div className="text-muted-foreground">
+            Note: for iOS/iPhone, the process is a little bit trickier. There are 2 options: 1)
+            You will need to install iTunes on your Mac/PC, then connect your phone, and drag the
+            .ipa file to your phone's Apps folder when it pops up. 2) Install another app like eSign,
+            bullfrog assistant, flekstore, and install the file through that. You will need to look up
+            guides for whichever one you choose. Unfortunately, Apple is extremely protective of their App store
+            and will not allow software like this VPN.
+          </div>
+        )}
         {isMacOS && (
           <div className="text-muted-foreground">
             Note: for macOS, you will need download an extra file
             {" "}
-            <a href={`${HIDDIFY_DOWNLOAD_URL}start_hiddify_vpn.command`} className="text-primary-link">here.</a>
+            <a href={`${HIDDIFY_DOWNLOAD_URL}start_hiddify_vpn.command`} className="text-primary-link">here</a>
+            {" "}
+            after installing the app.
             {" "}
             Save this file to your desktop and double-click it to launch Hiddify instead of the usual way.
           </div>
