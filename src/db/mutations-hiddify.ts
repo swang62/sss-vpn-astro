@@ -35,6 +35,7 @@ export async function updateHiddifyUser(id: string, startAt: Date, plan: Subscri
 
 export async function cancelHiddifyUser(id: string) {
   const body = {
+    current_usage_GB: 0,
     enable: false,
     mode: "no_reset",
     package_days: 0,

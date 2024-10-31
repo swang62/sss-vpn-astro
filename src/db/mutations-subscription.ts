@@ -19,7 +19,7 @@ export async function setSubscriptionRenew(subscriptionId: string, isAutoRenew: 
   );
 }
 
-export async function updateProfileSubscription(subscription: Stripe.Subscription) {
+export async function updateSubscription(subscription: Stripe.Subscription) {
   const stripeCustomerId = subscription.customer as string;
   const subscriptionId = subscription.id;
   const subscriptionStartAt = new Date(subscription.current_period_start * 1000);
@@ -53,7 +53,7 @@ export async function updateProfileSubscription(subscription: Stripe.Subscriptio
   }
 }
 
-export async function cancelProfileSubscription(subscription: Stripe.Subscription) {
+export async function cancelSubscription(subscription: Stripe.Subscription) {
   const subscriptionId = subscription.id;
   const stripeCustomerId = subscription.customer as string;
   const status = subscription.status;

@@ -7,7 +7,7 @@ import { SITE_URL } from "@/config/client";
 import { STRIPE_WEBHOOK_SECRET } from "@/config/server";
 import { FREE_PLANS, PAID_PLANS } from "@/config/types";
 import { updateProduct } from "@/db/mutations-product";
-import { cancelProfileSubscription, handleRouterPurchase, setSubscriptionRenew, updateProfileSubscription } from "@/db/mutations-subscription";
+import { cancelSubscription, handleRouterPurchase, setSubscriptionRenew, updateSubscription } from "@/db/mutations-subscription";
 import { updateUser } from "@/db/mutations-user";
 import { getProductByKey, getProfileByStripeId } from "@/db/queries";
 import { stripe } from "@/lib/server-clients";
@@ -186,13 +186,13 @@ const route = createBaseRouter()
       case "customer.subscription.created":
       case "customer.subscription.updated": {
         const subscription = event.data.object;
-        await updateProfileSubscription(subscription);
+        await updateSubscription(subscription);
         c.var.logger.debug(`Subscription updated for ${subscription.customer}`);
         break;
       }
       case "customer.subscription.deleted": {
         const subscription = event.data.object;
-        await cancelProfileSubscription(subscription);
+        await cancelSubscription(subscription);
         c.var.logger.debug(`Subscription cancelled for ${subscription.customer}`);
         break;
       }

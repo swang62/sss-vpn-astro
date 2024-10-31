@@ -70,5 +70,9 @@ export const auth = betterAuth({
         },
       }
     : undefined,
+  session: {
+    storeSessionInDatabase: true,
+
+  },
   trustedOrigins: ["localhost", "127.0.0.1", "192.168.8.129"],
 });
