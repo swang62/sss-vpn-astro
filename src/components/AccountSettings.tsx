@@ -79,7 +79,7 @@ function AccountSettings({ user }: Props) {
 
           </CardContent>
           <CardFooter className="justify-between gap-4 py-4 border-t bg-muted">
-            <span className="flex text-muted-foreground text-nowrap flex-nowrap">
+            <span className="flex text-muted-foreground">
               Feel free to call yourself whatever you like :)
             </span>
             <Button

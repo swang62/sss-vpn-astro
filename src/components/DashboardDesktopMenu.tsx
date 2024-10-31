@@ -24,7 +24,7 @@ function DashboardDesktopMenu({ current }: Props) {
                 className: cn(
                   "bg-transparent text-foreground/70 hover:bg-transparent hover:text-foreground focus:bg-transparent",
                   link.href === current
-                    ? "font-semibold text-foreground underline underline-offset-8"
+                    ? "text-foreground underline underline-offset-8"
                     : null,
                 ),
               })}

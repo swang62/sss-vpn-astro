@@ -7,24 +7,38 @@ import {
 
 function TipsTableOfContents() {
   return (
-    <TableOfContentsList className="mx-auto lg:mx-0 lg:fixed lg:top-24 lg:left-8">
-      <TableOfContentsTitle>Table of Contents</TableOfContentsTitle>
-      <TableOfContentsItem>
-        <TableOfContentsLink href="#first-section">
-          Configuration
-        </TableOfContentsLink>
-      </TableOfContentsItem>
-      <TableOfContentsItem indent>
-        <TableOfContentsLink href="#second-section">
-          Second Section
-        </TableOfContentsLink>
-      </TableOfContentsItem>
-      <TableOfContentsItem>
-        <TableOfContentsLink href="#third-section">
-          Third Section
-        </TableOfContentsLink>
-      </TableOfContentsItem>
-    </TableOfContentsList>
+    <div className="mx-auto lg:mx-0 lg:fixed lg:top-24 lg:left-12 xl:left-32 2xl:left-64">
+
+      <TableOfContentsList>
+        <TableOfContentsTitle>Table of Contents</TableOfContentsTitle>
+        <TableOfContentsItem>
+          <TableOfContentsLink href="#configuration">
+            Configuration
+          </TableOfContentsLink>
+        </TableOfContentsItem>
+        <TableOfContentsItem indent>
+          <TableOfContentsLink href="#proxies">
+            Proxies
+          </TableOfContentsLink>
+        </TableOfContentsItem>
+        <TableOfContentsItem indent>
+          <TableOfContentsLink href="#options">
+            Options
+          </TableOfContentsLink>
+        </TableOfContentsItem>
+        <TableOfContentsItem indent>
+          <TableOfContentsLink href="#updates">
+            Updates
+          </TableOfContentsLink>
+        </TableOfContentsItem>
+
+        <TableOfContentsItem>
+          <TableOfContentsLink href="#mobile">
+            Mobile / 5G Tips
+          </TableOfContentsLink>
+        </TableOfContentsItem>
+      </TableOfContentsList>
+    </div>
   );
 }
 
