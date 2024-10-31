@@ -2,14 +2,14 @@ import { navigate } from "astro:transitions/client";
 import { toast } from "sonner";
 import useSWR from "swr";
 
-import { fetchUser } from "@/lib/api-clients";
+import { fetchSession } from "@/lib/api-clients";
 import { sleep } from "@/lib/utils";
 
 interface Props {}
 
 function RedirectCheck(_props: Props) {
   // Hooks
-  const { data, error, isLoading } = useSWR("fetchUser", fetchUser);
+  const { data, error, isLoading } = useSWR("fetchSession", fetchSession);
   if (error || isLoading) return null;
 
   if (data?.session) {

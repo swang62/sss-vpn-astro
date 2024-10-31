@@ -37,6 +37,17 @@ const route = createBaseRouter()
     const hiddify = await getHiddifyUser(user.profile.hiddifyId);
 
     return c.json({ hiddify, user });
+  })
+  // Public route is often used unauthenticated, fail silently
+  .get("/session", async (c) => {
+    try {
+      const session = c.get("session");
+      return c.json({ session });
+    } catch (e) {
+      const _error = e as Error;
+    }
+
+    return c.json({ session: null });
   });
 
 export default route;

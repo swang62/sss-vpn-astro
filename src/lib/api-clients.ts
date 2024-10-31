@@ -25,6 +25,10 @@ export async function fetchUser() {
 }
 export type User = Awaited<ReturnType<typeof fetchUser>>["user"];
 
+export async function fetchSession() {
+  return apiClient.user.session.$get().then(res => res.json());
+}
+
 export async function fetchUsage() {
   return apiClient.user.usage.$get().then(res => res.json());
 }
