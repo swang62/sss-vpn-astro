@@ -2,22 +2,22 @@ import * as t from "drizzle-orm/sqlite-core";
 
 export const product = t.sqliteTable("product", {
   createdAt: t
-    .integer("createdAt", { mode: "timestamp_ms" })
+    .integer({ mode: "timestamp_ms" })
     .notNull()
     .$default(() => new Date()),
   id: t
-    .text("id")
+    .text()
     .primaryKey(),
   name: t
-    .text("name"),
+    .text(),
   priceId: t
-    .text("priceId")
+    .text()
     .notNull(),
   productId: t
-    .text("productId")
+    .text()
     .notNull(),
   updatedAt: t
-    .integer("updatedAt", { mode: "timestamp_ms" })
+    .integer({ mode: "timestamp_ms" })
     .notNull()
     .$default(() => new Date())
     .$onUpdate(() => new Date()),

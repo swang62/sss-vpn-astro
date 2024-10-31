@@ -4,29 +4,22 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { DASHBOARD_LINKS } from "@/config/links";
-import { cn } from "@/lib/utils";
+import { MAIN_LINKS } from "@/config/links";
 
-interface Props {
-  current: string;
-}
+interface Props {}
 
-function DashboardMenu({ current }: Props) {
+function MainDesktopMenu(_props: Props) {
   return (
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem className="flex gap-2">
-          {DASHBOARD_LINKS.map(link => (
+          {MAIN_LINKS.map(link => (
             <a
               key={link.href}
               href={link.href}
               className={navigationMenuTriggerStyle({
-                className: cn(
-                  "bg-transparent text-foreground/70 hover:bg-transparent hover:text-foreground focus:bg-transparent",
-                  link.href === current
-                    ? "font-semibold text-foreground underline underline-offset-8"
-                    : null,
-                ),
+                className:
+                  "bg-transparent hover:bg-transparent hover:text-muted-foreground focus:bg-transparent",
               })}
             >
               {link.label}
@@ -38,4 +31,4 @@ function DashboardMenu({ current }: Props) {
   );
 }
 
-export default DashboardMenu;
+export default MainDesktopMenu;

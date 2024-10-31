@@ -34,11 +34,10 @@ function DashboardVerify({ user }: Props) {
   };
 
   return (
-    <div className="flex flex-col w-full max-w-xl min-h-[90vh] py-4 mx-auto items-center justify-center gap-4 px-4">
-      <span className="text-center">
-        Please verify your email address first.
-        <br />
-        <span className="text-muted-foreground text-sm">Sometimes the email can be delayed by a couple minutes</span>
+    <div className="flex flex-col w-full max-w-xl min-h-[90vh] py-4 mx-auto items-center justify-center gap-6 px-4">
+      <span>Please verify your email address first.</span>
+      <span className="text-center max-w-96">
+        <span className="text-sm text-muted-foreground">Sometimes the email can be delayed by a couple minutes or sent to your spam folder</span>
       </span>
 
       <Button onClick={onClickVerify}>Click to resend</Button>

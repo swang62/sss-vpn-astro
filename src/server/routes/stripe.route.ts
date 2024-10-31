@@ -8,7 +8,8 @@ import { STRIPE_WEBHOOK_SECRET } from "@/config/server";
 import { FREE_PLANS, PAID_PLANS } from "@/config/types";
 import { updateProduct } from "@/db/mutations-product";
 import { cancelProfileSubscription, handleRouterPurchase, setSubscriptionRenew, updateProfileSubscription } from "@/db/mutations-subscription";
-import { getProductByKey } from "@/db/queries";
+import { updateUser } from "@/db/mutations-user";
+import { getProductByKey, getProfileByStripeId } from "@/db/queries";
 import { stripe } from "@/lib/server-clients";
 import { authUser, createBaseRouter } from "@/server/app";
 
@@ -171,6 +172,17 @@ const route = createBaseRouter()
         }
         break;
       }
+      case "customer.updated": {
+        const customer = event.data.object;
+        const stripeCustomerId = customer.id;
+        const profile = await getProfileByStripeId(stripeCustomerId);
+        if (!profile) throw new Error(`Customer update failed for ${stripeCustomerId}`);
+        await updateUser(profile.userId, customer.name || "");
+
+        c.var.logger.debug(`Customer updated for ${stripeCustomerId}`);
+        break;
+      }
+      case "customer.subscription.created":
       case "customer.subscription.updated": {
         const subscription = event.data.object;
         await updateProfileSubscription(subscription);
@@ -183,6 +195,7 @@ const route = createBaseRouter()
         c.var.logger.debug(`Subscription cancelled for ${subscription.customer}`);
         break;
       }
+      case "product.created":
       case "product.updated": {
         const product = event.data.object;
         await updateProduct(product);
@@ -190,7 +203,7 @@ const route = createBaseRouter()
         break;
       }
       default:
-        c.var.logger.debug(`Receive webhook event:${event.type}`);
+        c.var.logger.debug(`Receive webhook event:${event.type} but did not process it.`);
         break;
     }
     return c.json({ message: "Successfully processed webhook" }, 200);

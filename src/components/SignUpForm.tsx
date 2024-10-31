@@ -22,17 +22,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { NAME_MAX_LENGTH } from "@/config/constants";
 import { sendVerificationEmail, signUp } from "@/lib/auth-client";
 import { secondsPassed } from "@/lib/utils";
 
 const formSchema = z
   .object({
     email: z.string().email().toLowerCase(),
+    name: z.string().max(NAME_MAX_LENGTH),
     password: z
       .string()
       .min(8, { message: "Password must be at least 8 characters" }),
@@ -53,6 +56,7 @@ function SignUpForm(_props: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       email: "",
+      name: "",
       password: "",
       passwordConfirm: "",
     },
@@ -60,18 +64,20 @@ function SignUpForm(_props: Props) {
   });
 
   // Submit handler
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>, event?: React.BaseSyntheticEvent) {
+    event?.preventDefault();
+
     const timeSince = secondsPassed(sentEmail);
     if (timeSince < 10) {
       toast.warning("Too many signup attempts, try again later.");
       return;
     }
 
-    const { email, password } = values;
+    const { email, name, password } = values;
     await signUp.email(
       {
         email,
-        name: "",
+        name,
         password,
       },
       {
@@ -101,7 +107,8 @@ function SignUpForm(_props: Props) {
             closeButton: true,
             duration: 30000,
           });
-          form.reset();
+          form.resetField("password");
+          form.resetField("passwordConfirm");
           setSentEmail(new Date().toISOString());
           setLoading(false);
         },
@@ -114,7 +121,7 @@ function SignUpForm(_props: Props) {
       <CardHeader className="text-center">
         <CardTitle className="text-2xl">Create an account</CardTitle>
         <CardDescription>
-          Trial period will start after verification.
+          Trial period will start after email verification.
           <br />
           If in China, use an unblocked email
           <Popover>
@@ -143,6 +150,19 @@ function SignUpForm(_props: Props) {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nickname</FormLabel>
+                  <FormControl>
+                    <Input placeholder="(optional)" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
@@ -161,7 +181,7 @@ function SignUpForm(_props: Props) {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type="password" {...field} />
+                    <PasswordInput {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -174,7 +194,7 @@ function SignUpForm(_props: Props) {
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
-                    <Input type="password" {...field} />
+                    <PasswordInput {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -192,7 +212,6 @@ function SignUpForm(_props: Props) {
           <a
             href="/login"
             className="ml-2 underline text-primary-link"
-            data-astro-reload
           >
             Log in
           </a>

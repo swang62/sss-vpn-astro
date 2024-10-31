@@ -28,7 +28,7 @@ export const auth = betterAuth({
         From: SITE_EMAIL,
         TemplateAlias: "password-reset",
         TemplateModel: {
-          email: user.email,
+          email: user.name || user.email,
           reset_url: url,
         },
         To: user.email,
@@ -46,11 +46,11 @@ export const auth = betterAuth({
         From: SITE_EMAIL,
         TemplateAlias: "verify",
         TemplateModel: {
-          email: user.email,
+          email: user.name || user.email,
           verification_url: url,
         },
         To: user.email,
-      });
+      }).catch(() => console.error(`Failed to send email to ${user.email}, manual verification link --`, url));
     },
   },
   logger: {
@@ -70,5 +70,5 @@ export const auth = betterAuth({
         },
       }
     : undefined,
-  trustedOrigins: ["localhost", "127.0.0.1"],
+  trustedOrigins: ["localhost", "127.0.0.1", "192.168.8.129"],
 });

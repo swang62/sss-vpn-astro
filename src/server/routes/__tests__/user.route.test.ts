@@ -26,3 +26,18 @@ describe("route /user", () => {
     expect(data?.session?.userId).toBe(TEST_USER.id);
   });
 });
+
+describe("route /session", () => {
+  it("no session", async () => {
+    const { data, status } = await parseApi(clientNoAuth.api.session.$get());
+
+    expect(status).toBe(200);
+    expect(data?.session).toBeFalsy();
+  });
+
+  it("get session", async () => {
+    const { data } = await parseApi(client.api.session.$get());
+
+    expect(data?.session?.userId).toBe(TEST_USER.id);
+  });
+});

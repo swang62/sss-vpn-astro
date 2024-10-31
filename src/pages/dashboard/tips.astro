@@ -1,0 +1,93 @@
+---
+import TipsTableOfContents from "@/components/TipsTableOfContents";
+import DashboardLayout from "@/layouts/DashboardLayout.astro";
+import SubHeader from "@/layouts/SubHeader.astro";
+
+const headingStyle = "text-3xl py-4";
+const sectionStyle = "flex flex-col";
+const paragraphStyle = "mb-6";
+const imageWidth = 300;
+---
+
+<DashboardLayout title="Tips & Tricks">
+  <div class="flex flex-row gap-4 pb-16">
+    <div class="container flex flex-col w-full max-w-2xl min-h-screen gap-6 py-4 mx-auto">
+      <SubHeader title="Tips & Tricks" />
+
+      <hr />
+      <TipsTableOfContents />
+      <hr class="lg:hidden" />
+
+      <section id="configuration" class={sectionStyle}>
+        <h1 class={headingStyle}>Configuration</h1>
+        <p class={paragraphStyle}>
+          There are a couple of submenus on the left side panel when opened. I'll be covering the most important ones.
+        </p>
+        <img src="/tips/config.png" alt="Configuration" width={imageWidth / 2} class="self-center" loading="lazy" />
+      </section>
+
+      <hr />
+
+      <section id="proxies" class={sectionStyle}>
+        <h1 class={headingStyle}>Proxies</h1>
+        <p class={paragraphStyle}>
+          By default, the app will automatically choose the proxy with the lowest ping. However, if
+          streaming/downloading feels slow, I recommend manually selecting 'WS CDN Vless' and 'WS CDN Vmess'.
+          <br />
+          <br />
+          Both of those in my experience have pretty fast download speeds (despite having higher ping). There isn't much
+          difference between tls and tls_h2.
+        </p>
+        <img src="/tips/proxy.png" alt="proxy" width={imageWidth} class="self-center" loading="lazy" />
+      </section>
+
+      <hr />
+
+      <section id="options" class={sectionStyle}>
+        <h1 class={headingStyle}>Options</h1>
+        <p class={paragraphStyle}>
+          Under Config Options > DNS Options > Remote DNS, there's a couple of IP addresses you can choose from. Most of
+          the time, udp://1.1.1.1 will work fine. But if the internet suddenly stops working, you can try changing this
+          to tcp://1.1.1.1 or 8.8.8.8.
+          <br />
+          <br />
+          This is especially true when on mobile 4G/5G networks. Sometimes you need to play around and find a working remote
+          DNS server. Direct DNS doesn't have much of any effect on phones, only desktop computers.
+        </p>
+        <img src="/tips/options.png" alt="proxy" width={imageWidth} class="self-center" loading="lazy" />
+      </section>
+
+      <hr />
+
+      <section id="updates" class={sectionStyle}>
+        <h1 class={headingStyle}>Updates</h1>
+        <p class={paragraphStyle}>
+          As a last resort, under the About section, you can update the app itself. It is extremely rare that the app
+          will require an update, 99% of the time it is the VPN server, or during holidays.
+        </p>
+        <img src="/tips/update.png" alt="update" width={imageWidth} class="self-center" loading="lazy" />
+
+        <p class={paragraphStyle}>
+          You can also try updating your profile by pressing the refresh button on the main page. Occasionally, I will
+          push out updates in case things stop working.
+        </p>
+        <img src="/tips/refresh.png" alt="update" width={imageWidth / 2} class="self-center" loading="lazy" />
+      </section>
+
+      <hr />
+
+      <section id="mobile" class={sectionStyle}>
+        <h1 class={headingStyle}>Mobile Tips</h1>
+        <p class={paragraphStyle}>
+          This feature is only available on mobile. Under Settings > Advanced > Per-App Proxy. If you have mainly
+          Chinese apps, select 'Proxy only selected apps" and pick which apps to use the VPN like Google/Youtube.
+          <br />
+          <br />
+          However, if you only have a few Chinese apps, choose "Do not proxy selected apps" and pick those rare Chinese apps
+          like Alipay/WeChat. This way you can avoid constantly turning the VPN on/off.
+        </p>
+        <img src="/tips/per-app.png" alt="pre-app" width={imageWidth} class="self-center" loading="lazy" />
+      </section>
+    </div>
+  </div>
+</DashboardLayout>

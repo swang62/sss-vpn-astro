@@ -1,5 +1,5 @@
 ---
-import PricingForm from "@/components/PricingForm";
+import PricingPlans from "@/components/PricingPlans";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 ---
@@ -9,17 +9,17 @@ import { ArrowRight } from "lucide-react";
     <div class="flex flex-col items-center justify-center gap-4 pb-3 mx-auto text-center">
       <h2 class="font-heading text-3xl leading-[1.1] sm:text-4xl md:text-5xl">Simple pricing</h2>
       <p class="max-w-lg leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-        Just some money for me to cover server costs, thanks. FYI, an hour of HD streaming uses around 1-2GB.
+        Just some money for me to cover server costs. FYI, an hour of HD streaming uses around 1-2GB.
       </p>
     </div>
 
-    <PricingForm />
+    <PricingPlans />
 
     <div class="flex flex-col items-center justify-center gap-4 mt-10">
       <div class="leading-normal text-balance text-muted-foreground sm:text-lg sm:leading-7">
         Try it out first before picking a plan
       </div>
-      <a href="/signup" data-astro-reload>
+      <a href="/signup">
         <Button className="rounded-full" variant="secondary">
           Get started
           <ArrowRight className="size-6" />

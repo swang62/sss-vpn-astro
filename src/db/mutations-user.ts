@@ -1,11 +1,30 @@
+import { eq } from "drizzle-orm";
+
 import type { SubscriptionType } from "@/config/types";
 
-import { TRIAL_TIME } from "@/config/constants";
-import db, { profile, type ProfileInsert } from "@/db";
+import { NAME_MAX_LENGTH, TRIAL_TIME } from "@/config/constants";
+import db, { type ProfileInsert, profile as profileTable, user as userTable } from "@/db";
 import { stripe } from "@/lib/server-clients";
 
 import { createHiddifyUser } from "./mutations-hiddify";
 import { getProductByPriceId, searchHiddifyUser, type UserDB } from "./queries";
+
+export async function updateStripeName(stripeCustomerId: string, name: string) {
+  await stripe.customers.update(stripeCustomerId, { name });
+}
+
+export async function updateUser(
+  userId: string,
+  name: string,
+) {
+  const nameFixed = name.length > NAME_MAX_LENGTH ? name.slice(0, NAME_MAX_LENGTH - 1) : name;
+
+  const user = await db.update(userTable).set({
+    name: nameFixed,
+  }).where(eq(userTable.id, userId)).returning();
+
+  return user[0];
+}
 
 async function updateProfile(
   user: UserDB,
@@ -39,9 +58,9 @@ async function updateProfile(
         subscriptionType: "none" as SubscriptionType,
       };
 
-  await db.insert(profile).values([{ ...data, userId }]).onConflictDoUpdate({
+  await db.insert(profileTable).values([{ ...data, userId }]).onConflictDoUpdate({
     set: data,
-    target: profile.userId,
+    target: profileTable.userId,
   });
 
   console.debug(`Successfully updated profile for ${userId}`);
@@ -50,7 +69,7 @@ async function updateProfile(
 async function startFreeTrial(user: UserDB, email: string, hiddifyId: string) {
   const userId = user.id;
 
-  const customer = await stripe.customers.create({ email });
+  const customer = await stripe.customers.create({ email, name: user.name });
   if (!customer?.id) {
     throw new Error(`Profile failed, could not create profile for ${email}`);
   }
@@ -68,9 +87,9 @@ async function startFreeTrial(user: UserDB, email: string, hiddifyId: string) {
     subscriptionType: "trial" as SubscriptionType,
   };
 
-  await db.insert(profile).values([{ ...data, userId }]).onConflictDoUpdate({
+  await db.insert(profileTable).values([{ ...data, userId }]).onConflictDoUpdate({
     set: data,
-    target: profile.userId,
+    target: profileTable.userId,
   });
 
   console.debug(`Successfully created profile for ${userId}`);

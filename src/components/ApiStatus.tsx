@@ -8,6 +8,7 @@ import { fetchStatus, fetchUser } from "@/lib/api-clients";
 interface Props {}
 
 function ApiStatus(_props: Props) {
+  const [loading, setLoading] = useState(false);
   const [code, setCode] = useState("");
   const [statusKey, setStatusKey] = useState("");
   const [userKey, setUserKey] = useState("");
@@ -16,16 +17,20 @@ function ApiStatus(_props: Props) {
 
   // Functions
   const getStatus = async () => {
+    setLoading(true);
     const data = await mutate();
     // @ts-expect-error
     if (!data?.message) toast.success("Fetched status.");
     setCode(JSON.stringify(data, null, 2));
+    setLoading(false);
   };
   const getUser = async () => {
+    setLoading(true);
     const data = await mutateUser();
     // @ts-expect-error
     if (!data?.message) toast.success("Fetched user.");
     setCode(JSON.stringify(data, null, 2));
+    setLoading(false);
   };
 
   // Handlers
@@ -50,10 +55,10 @@ function ApiStatus(_props: Props) {
     <div className="flex flex-col w-full min-h-screen py-4 gap-4">
       <div className="flex justify-between">
         <div className="flex gap-2">
-          <Button variant="secondary" onClick={onClickStatus}>
+          <Button loading={loading} variant="secondary" onClick={onClickStatus}>
             Check API status
           </Button>
-          <Button variant="secondary" onClick={onClickUser}>
+          <Button loading={loading} variant="secondary" onClick={onClickUser}>
             Get current user
           </Button>
         </div>

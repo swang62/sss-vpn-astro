@@ -6,22 +6,38 @@ import { profile } from "./profile";
 import { session } from "./session";
 
 export const user = t.sqliteTable("user", {
-  banExpires: t.integer("banExpires"),
-  banned: t.integer("banned", {
-    mode: "boolean",
-  }),
-  banReason: t.text("banReason"),
-  createdAt: t.integer("createdAt", { mode: "timestamp" }).notNull(),
-  email: t.text("email").notNull().unique(),
+  banExpires: t
+    .integer(),
+  banned: t
+    .integer({
+      mode: "boolean",
+    }),
+  banReason: t
+    .text(),
+  createdAt: t
+    .integer({ mode: "timestamp" })
+    .notNull(),
+  email: t
+    .text()
+    .notNull()
+    .unique(),
   emailVerified: t
-    .integer("emailVerified", { mode: "boolean" })
+    .integer({ mode: "boolean" })
     .notNull()
     .default(false),
-  id: t.text("id").primaryKey(),
-  image: t.text("image"),
-  name: t.text("name").notNull(),
-  role: t.text("role"),
-  updatedAt: t.integer("updatedAt", { mode: "timestamp" }).notNull(),
+  id: t
+    .text()
+    .primaryKey(),
+  image: t
+    .text(),
+  name: t
+    .text()
+    .notNull(),
+  role: t
+    .text(),
+  updatedAt: t
+    .integer({ mode: "timestamp" })
+    .notNull(),
 });
 
 export const UserRelations = relations(user, ({ many, one }) => ({

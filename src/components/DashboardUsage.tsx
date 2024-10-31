@@ -9,28 +9,28 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { fetchUsage } from "@/lib/api-clients";
 import { getDaysLeft } from "@/lib/utils";
-
-import { Progress } from "./ui/progress";
 
 interface Props {}
 
 function DashboardOverview(_props: Props) {
   const { data, mutate } = useSWR("fetchUsage", fetchUsage);
+
   const user = data?.user;
   const hiddify = data?.hiddify;
+  const currentPlan = user?.profile?.subscriptionType;
   const currentUsed = hiddify?.current_usage_GB ?? 0;
   const totalAllowed = hiddify?.usage_limit_GB ?? 0;
   const usage = currentUsed / totalAllowed * 100;
   const date = hiddify?.last_online && new Date(hiddify.last_online).toLocaleDateString("us", { dateStyle: "medium" });
   const time = hiddify?.last_online && new Date(hiddify.last_online).toLocaleTimeString();
-  const lastConnected = hiddify?.last_online ? `${date} - ${time}` : "-";
+  const lastConnected = hiddify?.last_online && !hiddify.last_online.startsWith("000") ? `${date} - ${time}` : "-";
+  const { daysLeft, endDate: _endDate } = getDaysLeft(hiddify?.start_date, hiddify?.mode, hiddify?.package_days);
 
-  const { daysLeft, endDate } = getDaysLeft(hiddify?.start_date, hiddify?.mode, hiddify?.package_days);
-
-  const resetMode = hiddify?.mode === "no_reset" ? "end" : "reset";
+  const resetMode = hiddify?.mode !== "no_reset" ? "data resets" : currentPlan === "trial" ? "trial ends" : "plan ends";
   const serviceStatus = hiddify?.enable && daysLeft > 0
     ? <span className="text-green-500">Active</span>
     : <span className="text-red-500">Inactive</span>;
@@ -49,7 +49,7 @@ function DashboardOverview(_props: Props) {
     },
     {
       title: "Current cycle",
-      value: `Will ${resetMode} on ${endDate} (${daysLeft} days left)`,
+      value: `${daysLeft} days left till ${resetMode}`,
     },
     {
       title: "Last connected to VPN",
@@ -87,7 +87,7 @@ function DashboardOverview(_props: Props) {
           {details.map(({ title, value }, index) => (
             <div className="flex flex-col justify-start gap-1" key={index}>
               <h1 className="text-lg font-semibold">{title}</h1>
-              <span className="text-base text-muted-foreground">
+              <span className="text-muted-foreground">
                 {user ? value : <Skeleton className="w-56 h-6" />}
               </span>
             </div>

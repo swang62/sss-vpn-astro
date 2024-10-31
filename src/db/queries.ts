@@ -101,11 +101,17 @@ export async function getHiddifyUser(id?: string) {
 export async function getHiddifyQR(email: string, id?: string) {
   if (!id) return "";
 
-  const url = `${HIDDIFY_SETUP_LINK}/${id}/#${email}`;
   try {
-    return await QRCode.toDataURL(url);
+    const link = getHiddifyLink(email, id);
+    return await QRCode.toDataURL(link);
   } catch (error) {
     console.error(error);
     return "";
   }
+}
+
+export function getHiddifyLink(email: string, id?: string) {
+  if (!id) return "";
+
+  return `${HIDDIFY_SETUP_LINK}/${id}/#${email}`;
 }

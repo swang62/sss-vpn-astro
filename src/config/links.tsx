@@ -1,6 +1,6 @@
-import { DollarSign, Download, Home } from "lucide-react";
+import { CircleDollarSign, Download, Home, Lightbulb } from "lucide-react";
 
-import type { PricingCardProps } from "@/components/PricingForm";
+import type { PricingCardProps } from "@/components/PricingPlans";
 
 import { BASIC_DATA, PREMIUM_DATA, PRO_DATA } from "./constants";
 
@@ -41,8 +41,13 @@ export const DASHBOARD_LINKS: MenuLink[] = [
     label: "Install VPN",
   },
   {
+    href: "/dashboard/tips",
+    icon: <Lightbulb />,
+    label: "Tips & Tricks",
+  },
+  {
     href: "/dashboard/pricing",
-    icon: <DollarSign />,
+    icon: <CircleDollarSign />,
     label: "Upgrade",
   },
 ];

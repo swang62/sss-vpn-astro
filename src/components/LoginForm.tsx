@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { signIn } from "@/lib/auth-client";
 
 const formSchema = z.object({
@@ -97,14 +98,13 @@ function LoginForm(_props: Props) {
                     <FormLabel>Password</FormLabel>
                     <a
                       href="/forgot-password"
-                      className="inline-block ml-auto text-xs text-right text-muted-foreground"
-                      data-astro-reload
+                      className="inline-block ml-auto text-sm text-right text-muted-foreground"
                     >
                       Forgot password?
                     </a>
                   </div>
                   <FormControl>
-                    <Input type="password" {...field} />
+                    <PasswordInput {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -122,7 +122,6 @@ function LoginForm(_props: Props) {
           <a
             href="/signup"
             className="ml-2 underline text-primary-link"
-            data-astro-reload
           >
             Sign up
           </a>

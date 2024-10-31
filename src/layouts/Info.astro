@@ -23,7 +23,7 @@ const info = [
   {
     info.map((data) => (
       <div class="container py-8">
-        <div class="px-0 mx-auto grid max-w-7xl gap-10 sm:gap-16 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-4">
+        <div class="grid gap-10 px-0 mx-auto max-w-7xl sm:gap-16 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-4">
           <div class={cn(data.reverse ? "lg:order-2" : "lg:order-1")}>
             <h2 class="font-heading text-3xl text-foreground md:text-4xl lg:text-[40px]">{data.title}</h2>
             <p class="mt-6 text-lg text-muted-foreground" set:html={data.description} />
@@ -36,7 +36,7 @@ const info = [
                 alt={data.title}
                 width={800}
                 height={400}
-                loading="eager"
+                loading="lazy"
               />
             </div>
           </div>

@@ -61,6 +61,5 @@ export const DB_LOCAL_URL = IS_TESTING ? DB_TEST : DB_LOCAL;
 export const DB_SYNC_URL = IS_TESTING ? undefined : DB_REMOTE;
 
 //* Hard-coded *//
-export const HONO_LOCALHOST = "http://localhost:4321";
 export const HIDDIFY_API_URL = "https://link.sss-vpn.com/QwId8HABKn9c6GYrnRNcxMj/api/v2";
 export const HIDDIFY_SETUP_LINK = "https://link.sss-vpn.com/rjsn7TPtBHgNGA1KBI3mfP2aNaLG";

@@ -7,33 +7,33 @@ import { user } from "./user";
 
 export const profile = t.sqliteTable("profile", {
   createdAt: t
-    .integer("createdAt", { mode: "timestamp_ms" })
+    .integer({ mode: "timestamp_ms" })
     .notNull()
     .$default(() => new Date()),
   hiddifyId: t
-    .text("hiddifyId")
+    .text()
     .notNull(),
   purchasedRouter: t
-    .integer("purchasedRouter", { mode: "boolean" })
+    .integer({ mode: "boolean" })
     .default(false),
   stripeCustomerId: t
-    .text("stripeCustomerId")
+    .text()
     .notNull(),
   subscriptionEndAt: t
-    .integer("subscriptionEndAt", { mode: "timestamp_ms" }),
+    .integer({ mode: "timestamp_ms" }),
   subscriptionId: t
-    .text("subscriptionId"),
+    .text(),
   subscriptionItemId: t
-    .text("subscriptionItemId"),
+    .text(),
   subscriptionStartAt: t
-    .integer("subscriptionStartAt", { mode: "timestamp_ms" }),
+    .integer({ mode: "timestamp_ms" }),
   subscriptionType: t
-    .text("subscriptionType")
+    .text()
     .notNull()
     .$type<SubscriptionType>()
     .default("none"),
   updatedAt: t
-    .integer("updatedAt", { mode: "timestamp_ms" })
+    .integer({ mode: "timestamp_ms" })
     .notNull()
     .$default(() => new Date())
     .$onUpdate(() => new Date()),

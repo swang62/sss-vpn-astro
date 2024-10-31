@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1729666091376,
-      "tag": "0000_overjoyed_stingray",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1729867480631,
-      "tag": "0001_dashing_pepper_potts",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1729925972100,
-      "tag": "0002_majestic_whistler",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1730008677551,
-      "tag": "0003_tricky_starbolt",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "6",
-      "when": 1730089721814,
-      "tag": "0004_strange_cerebro",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "6",
-      "when": 1730184109095,
-      "tag": "0005_tense_smasher",
+      "when": 1730369116063,
+      "tag": "0000_stiff_felicia_hardy",
       "breakpoints": true
     }
   ]
