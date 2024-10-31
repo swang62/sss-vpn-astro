@@ -70,7 +70,7 @@ function AccountSettings({ user }: Props) {
                 <FormItem>
                   <FormLabel className="text-lg">Nickname</FormLabel>
                   <FormControl>
-                    <Input autoComplete="off" className="max-w-80" {...field} />
+                    <Input autoComplete="off" className="max-w-64" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

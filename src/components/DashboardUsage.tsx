@@ -27,8 +27,7 @@ function DashboardOverview(_props: Props) {
   const usage = currentUsed / totalAllowed * 100;
   const date = hiddify?.last_online && new Date(hiddify.last_online).toLocaleDateString("us", { dateStyle: "medium" });
   const time = hiddify?.last_online && new Date(hiddify.last_online).toLocaleTimeString();
-  const lastConnected = hiddify?.last_online ? `${date} - ${time}` : "-";
-
+  const lastConnected = hiddify?.last_online && !hiddify.last_online.startsWith("000") ? `${date} - ${time}` : "-";
   const { daysLeft, endDate: _endDate } = getDaysLeft(hiddify?.start_date, hiddify?.mode, hiddify?.package_days);
 
   const resetMode = hiddify?.mode !== "no_reset" ? "data resets" : currentPlan === "trial" ? "trial ends" : "plan ends";

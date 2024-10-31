@@ -1,11 +1,16 @@
 ---
+import TipsTableOfContents from "@/components/TOC";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
 import SubHeader from "@/layouts/SubHeader.astro";
 ---
 
 <DashboardLayout title="Tips & Tricks">
-  <div class="flex flex-col w-full max-w-2xl min-h-screen gap-6 py-4 mx-auto">
-    <SubHeader title="Tips & Tricks" />
-
+  <div class="flex flex-row gap-4">
+    <div class="flex flex-col w-full max-w-2xl min-h-screen gap-6 py-4 mx-auto border-border border order-1">
+      <SubHeader title="Tips & Tricks" />
+      <hr />
+      <TipsTableOfContents />
+      <hr class="lg:hidden" />
+    </div>
   </div>
 </DashboardLayout>

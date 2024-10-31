@@ -21,7 +21,7 @@ function WelcomeMsg({ name, showedWelcome }: Props) {
       ! Looks like it's your first time here. This is your homepage which
       contains important information about your current plan usage. Visit this
       {" "}
-      <a href="/dashboard/install" className="underline text-secondary-link" data-astro-reload>link</a>
+      <a href="/dashboard/install" className="underline text-secondary-link">link</a>
       {" "}
       for instructions on how to get connected.
     </p>

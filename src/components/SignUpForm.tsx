@@ -34,6 +34,7 @@ import { secondsPassed } from "@/lib/utils";
 const formSchema = z
   .object({
     email: z.string().email().toLowerCase(),
+    name: z.string().max(20),
     password: z
       .string()
       .min(8, { message: "Password must be at least 8 characters" }),
@@ -54,6 +55,7 @@ function SignUpForm(_props: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       email: "",
+      name: "",
       password: "",
       passwordConfirm: "",
     },
@@ -70,11 +72,11 @@ function SignUpForm(_props: Props) {
       return;
     }
 
-    const { email, password } = values;
+    const { email, name, password } = values;
     await signUp.email(
       {
         email,
-        name: "",
+        name,
         password,
       },
       {
@@ -147,6 +149,19 @@ function SignUpForm(_props: Props) {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nickname</FormLabel>
+                  <FormControl>
+                    <Input placeholder="(optional)" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
@@ -196,7 +211,6 @@ function SignUpForm(_props: Props) {
           <a
             href="/login"
             className="ml-2 underline text-primary-link"
-            data-astro-reload
           >
             Log in
           </a>

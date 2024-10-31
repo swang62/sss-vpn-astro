@@ -132,7 +132,6 @@ function getSteps(
             A new notification will also appear showing your connection speed.
           </div>
         )}
-
       </>,
       title: (
         <div className="flex flex-nowrap">

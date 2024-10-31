@@ -9,7 +9,7 @@ const { session, user } = Astro.locals;
 
 const url = getHiddifyLink(user.email, user.profile?.hiddifyId);
 
-const userAgent = new UAParser(session?.userAgent)
+const userAgent = new UAParser(session?.userAgent);
 const device = userAgent.getDevice().type;
 const os = userAgent.getOS().name;
 ---

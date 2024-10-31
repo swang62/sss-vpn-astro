@@ -23,7 +23,6 @@ export default antfu(
   {
     rules: {
       "antfu/if-newline": ["off"],
-      "format/prettier": ["off"],
       "jsonc/sort-keys": ["off"],
       "no-console": ["off"],
       "node/prefer-global/process": ["off"],

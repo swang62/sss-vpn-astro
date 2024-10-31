@@ -8,7 +8,6 @@ import { DB_LOCAL_URL } from "../config/server";
 import { account } from "./schema";
 
 export const TEST_USER = {
-  banned: false,
   createdAt: new Date(),
   email: SITE_ADMIN,
   emailVerified: true,

@@ -50,7 +50,7 @@ export const auth = betterAuth({
           verification_url: url,
         },
         To: user.email,
-      });
+      }).catch(() => console.error(`Failed to send email to ${user.email}, manual verification link --`, url));
     },
   },
   logger: {

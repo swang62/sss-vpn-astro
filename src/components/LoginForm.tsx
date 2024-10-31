@@ -99,7 +99,6 @@ function LoginForm(_props: Props) {
                     <a
                       href="/forgot-password"
                       className="inline-block ml-auto text-sm text-right text-muted-foreground"
-                      data-astro-reload
                     >
                       Forgot password?
                     </a>
@@ -123,7 +122,6 @@ function LoginForm(_props: Props) {
           <a
             href="/signup"
             className="ml-2 underline text-primary-link"
-            data-astro-reload
           >
             Sign up
           </a>

@@ -119,7 +119,6 @@ function ForgotPasswordForm(_props: Props) {
         <a
           href="/login"
           className="flex items-center justify-center mr-4 text-center text-foreground hover:underline"
-          data-astro-reload
         >
           <ChevronLeft className="h-4" />
           Back to login
