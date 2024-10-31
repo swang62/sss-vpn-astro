@@ -55,7 +55,7 @@ export function getDaysLeft(packageStart?: string, mode = "no_reset", packageDay
   }
 
   const DAY_LENGTH = 24 * 60 * 60 * 1000;
-  const days = Math.round((end.valueOf() - now.valueOf()) / DAY_LENGTH);
+  const days = Math.ceil((end.valueOf() - now.valueOf()) / DAY_LENGTH);
   const daysLeft = days > 0 ? days : 0;
   const endDate = end.toLocaleDateString("us", { dateStyle: "medium" });
 

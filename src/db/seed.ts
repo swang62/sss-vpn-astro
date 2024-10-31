@@ -3,14 +3,14 @@ import { execSync } from "node:child_process";
 import fs from "node:fs";
 
 // !!! Must use relative imports and conditional imports !!!
-import { SITE_ADMIN } from "../config/constants";
+import { TEST_EMAIL } from "../config/constants";
 import { DB_LOCAL_URL } from "../config/server";
 import { account } from "./schema";
 
 export const TEST_USER = {
   banned: undefined,
   createdAt: new Date(),
-  email: SITE_ADMIN,
+  email: TEST_EMAIL,
   emailVerified: true,
   id: "admin-id",
   name: "steve",

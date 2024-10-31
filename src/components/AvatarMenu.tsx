@@ -20,6 +20,7 @@ interface Props {}
 function AvatarMenu(_props: Props) {
   const { data } = useSWR("fetchUser", fetchUser);
   const user = data?.user;
+  const nameLetter = user?.name?.length && user.name[0].toUpperCase();
 
   // Handlers
   const logout = async () => {
@@ -35,7 +36,7 @@ function AvatarMenu(_props: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button size="icon" className="w-8 h-8 rounded-full">
-          <User />
+          {nameLetter || <User />}
           <span className="sr-only">Toggle user menu</span>
         </Button>
       </DropdownMenuTrigger>

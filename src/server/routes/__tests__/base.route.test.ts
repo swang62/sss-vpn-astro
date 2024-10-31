@@ -1,6 +1,6 @@
 import { testClient } from "hono/testing";
 
-import { SITE_ADMIN } from "@/config/constants";
+import { TEST_EMAIL } from "@/config/constants";
 import { parseApi } from "@/lib/api-clients";
 import createApp from "@/server/app";
 
@@ -19,7 +19,7 @@ describe("route /", () => {
   it("get user by email", async () => {
     const { data, status } = await parseApi(
       client.api["search-email"].$get({
-        query: { email: SITE_ADMIN },
+        query: { email: TEST_EMAIL },
       }),
     );
 
