@@ -1,4 +1,4 @@
-import { Rocket } from "lucide-react";
+import { Copy, Rocket } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
@@ -9,18 +9,21 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PRICING_PLANS } from "@/config/links";
 import { FREE_PLANS } from "@/config/types";
 import { apiClient, fetchUser, parseApi } from "@/lib/api-clients";
-import { capitalize, dateToString, sleep } from "@/lib/utils";
+import { capitalize, copyToClipboard, dateToString, getHiddifyLink, sleep } from "@/lib/utils";
 
 interface Props {}
 
 function AccountDetails(_props: Props) {
   const [loading, setLoading] = useState(false);
   const { data, mutate } = useSWR("fetchUser", fetchUser);
-  const profile = data?.user?.profile;
+  const user = data?.user;
+  const profile = user?.profile;
+  const url = getHiddifyLink(user?.email, profile?.hiddifyId);
 
   // Handlers
   const renewPlan = async (renew: boolean) => {
@@ -74,6 +77,18 @@ function AccountDetails(_props: Props) {
         : billingCycle && subscriptionType !== "none"
           ? `Will renew every month on the ${billingCycle}`
           : `N/A`,
+    },
+
+    {
+      title: "Profile Import URL",
+      value: (
+        <div className="flex items-center gap-2 max-w-64">
+          <Input defaultValue={url} readOnly className="h-6 px-2 m-0 bg-muted/40 text-muted-foreground" />
+          <Button size="sm" className="h-6 m-0" onClick={() => copyToClipboard(url)}>
+            <Copy className="w-4 h-4" />
+          </Button>
+        </div>
+      ),
     },
     {
       title: "Auto-renewal",

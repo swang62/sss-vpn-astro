@@ -2,6 +2,8 @@ import { type ClassValue, clsx } from "clsx";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
+import { HIDDIFY_SETUP_LINK } from "@/config/constants";
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -60,6 +62,12 @@ export function getDaysLeft(packageStart?: string, mode = "no_reset", packageDay
   const endDate = end.toLocaleDateString("us", { dateStyle: "medium" });
 
   return { daysLeft, endDate }; ;
+}
+
+export function getHiddifyLink(email = "", id?: string) {
+  if (!id) return "";
+
+  return `${HIDDIFY_SETUP_LINK}/${id}/#${email}`;
 }
 
 export async function copyToClipboard(text: string) {

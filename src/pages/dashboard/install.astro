@@ -1,8 +1,8 @@
 ---
 import HowToInstall from "@/components/HowToInstall";
-import { getHiddifyLink } from "@/db/queries";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
 import SubHeader from "@/layouts/SubHeader.astro";
+import { getHiddifyLink } from "@/lib/utils";
 import { UAParser } from "ua-parser-js";
 
 const { session, user } = Astro.locals;

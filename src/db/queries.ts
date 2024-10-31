@@ -3,7 +3,6 @@ import QRCode from "qrcode";
 
 import type { HiddifyUser, SubscriptionType } from "@/config/types";
 
-import { HIDDIFY_SETUP_LINK } from "@/config/server";
 import db, {
   product as productTable,
   profile as profileTable,
@@ -11,6 +10,7 @@ import db, {
   verification as verificationTable,
 } from "@/db";
 import { axiosHiddify } from "@/lib/server-clients";
+import { getHiddifyLink } from "@/lib/utils";
 
 /// //////////////////// USER ///////////////////////
 
@@ -108,10 +108,4 @@ export async function getHiddifyQR(email: string, id?: string) {
     console.error(error);
     return "";
   }
-}
-
-export function getHiddifyLink(email: string, id?: string) {
-  if (!id) return "";
-
-  return `${HIDDIFY_SETUP_LINK}/${id}/#${email}`;
 }

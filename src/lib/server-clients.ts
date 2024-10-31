@@ -2,9 +2,9 @@ import axios from "axios";
 import postmark from "postmark";
 import { Stripe } from "stripe";
 
+import { HIDDIFY_API_URL } from "@/config/constants";
 import {
   HIDDIFY_API_KEY,
-  HIDDIFY_API_URL,
   POSTMARK_TOKEN,
   STRIPE_SECRET_KEY,
 } from "@/config/server";
