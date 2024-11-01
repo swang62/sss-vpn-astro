@@ -35,6 +35,7 @@ export default defineConfig({
     react(),
     tailwind({
       applyBaseStyles: false,
+      configFile: "tailwind.config.mjs",
       nesting: true,
     }),
     sentry({

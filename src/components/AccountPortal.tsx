@@ -8,6 +8,7 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { apiClient, parseApi } from "@/lib/api-clients";
 
@@ -33,7 +34,7 @@ function AccountPortal(_props: Props) {
   return (
     <Card x-chunk="Subscription plan details">
       <CardHeader>
-        <h1 className="text-xl">Billing & Invoices</h1>
+        <CardTitle>Billing & Invoices</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
         <p>

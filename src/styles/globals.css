@@ -3,6 +3,22 @@
 @tailwind utilities;
 
 @layer base {
+  @font-face {
+    font-display: swap;
+    font-family: "inter";
+    font-style: normal;
+    font-weight: normal;
+    src: url("/fonts/inter.woff2") format("woff2");
+  }
+
+  @font-face {
+    font-family: "calsans";
+    src: url("/fonts/calsans.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
   :root {
     --background: 0 0% 98.46%;
     --foreground: 252 0% 10%;
@@ -51,32 +67,9 @@
     --destructive-foreground: 0 0% 0%;
     --ring: 27.06 100% 80%;
   }
-}
-
-@layer base {
-  @font-face {
-    font-display: swap;
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: normal;
-    src: url("/fonts/inter-regular.woff2") format("woff2");
-  }
-
-  @font-face {
-    font-family: "CalSans Semibold";
-    src: url("/fonts/calsans-semibold.woff2") format("woff2");
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
 
   * {
     @apply border-border;
-  }
-
-  html {
-    /* scroll-padding-top: 4rem; */
-    @apply scroll-pt-16;
   }
 
   body {
@@ -100,5 +93,12 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  /* Must be last to avoid stylesheet flashing */
+  html {
+    @apply scroll-pt-16;
+    visibility: visible;
+    opacity: 1;
   }
 }

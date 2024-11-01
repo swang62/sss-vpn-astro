@@ -161,7 +161,7 @@ function getSteps(
           {" "}
           <a href="/dashboard/tips" className="text-primary-link">Tips & Tricks</a>
           {" "}
-          page to learn more on how to optimize your connection speeds and for general troubleshooting.
+          page to learn more about optimizing your speeds and general troubleshooting.
         </div>
       </>,
       title: "Optional final steps",

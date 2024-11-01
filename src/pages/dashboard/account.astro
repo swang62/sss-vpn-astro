@@ -1,5 +1,6 @@
 ---
 import AccountDetails from "@/components/AccountDetails";
+import AccountLinks from "@/components/AccountLinks";
 import AccountPortal from "@/components/AccountPortal";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
 import SubHeader from "@/layouts/SubHeader.astro";
@@ -9,6 +10,7 @@ import SubHeader from "@/layouts/SubHeader.astro";
   <div class="flex flex-col w-full max-w-2xl min-h-screen gap-6 py-4 mx-auto">
     <SubHeader title="Account" />
     <AccountDetails client:load />
+    <AccountLinks client:load />
     <AccountPortal client:load />
   </div>
 </DashboardLayout>

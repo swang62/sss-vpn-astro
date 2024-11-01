@@ -156,12 +156,12 @@ function PricingPlans(_props: Props) {
             You have a choice between buying a single month or a regular subscription
           </p>
           <div className="flex items-center justify-center gap-4 text-xl">
-            <span className={cn(monthly && "text-muted-foreground/60")}>Single month</span>
+            <span className={cn(monthly && "text-muted-foreground")}>Single month</span>
             <Switch
               checked={monthly}
               onCheckedChange={() => setMonthly(!monthly)}
             />
-            <span className={cn(!monthly && "text-muted-foreground/60")}>Subscription</span>
+            <span className={cn(!monthly && "text-muted-foreground")}>Subscription</span>
           </div>
         </div>
       )}
