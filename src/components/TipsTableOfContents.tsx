@@ -13,7 +13,7 @@ function TipsTableOfContents() {
         <TableOfContentsTitle>Table of Contents</TableOfContentsTitle>
         <TableOfContentsItem>
           <TableOfContentsLink href="#configuration">
-            Configuration
+            Overview
           </TableOfContentsLink>
         </TableOfContentsItem>
         <TableOfContentsItem indent>
@@ -23,18 +23,18 @@ function TipsTableOfContents() {
         </TableOfContentsItem>
         <TableOfContentsItem indent>
           <TableOfContentsLink href="#options">
-            Options
+            Config options
           </TableOfContentsLink>
         </TableOfContentsItem>
         <TableOfContentsItem indent>
           <TableOfContentsLink href="#updates">
-            Updates
+            App updates
           </TableOfContentsLink>
         </TableOfContentsItem>
 
         <TableOfContentsItem>
           <TableOfContentsLink href="#mobile">
-            Mobile / 5G Tips
+            Mobile-only tips
           </TableOfContentsLink>
         </TableOfContentsItem>
       </TableOfContentsList>

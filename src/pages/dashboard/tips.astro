@@ -19,12 +19,18 @@ const imageWidth = 300;
       <hr class="lg:hidden" />
 
       <section id="configuration" class={sectionStyle}>
-        <h1 class={headingStyle}>Configuration</h1>
+        <h1 class={headingStyle}>Overview</h1>
         <p class={paragraphStyle}>
-          There are a couple of submenus on the left side panel when the Hiddify app is opened. I'll be covering the
-          most important ones here.
+          There are a couple of options menus in Hiddify, I'll be covering the most important ones here.
         </p>
-        <img src="/tips/config.png" alt="Configuration" width={imageWidth / 2} class="self-center" loading="lazy" />
+        <img src="/tips/config.png" alt="Configuration" width={imageWidth / 1.5} class="self-center" loading="lazy" />
+        <img
+          src="/tips/proxy-config.png"
+          alt="proxy"
+          width={imageWidth / 1.5}
+          class="self-center pt-4"
+          loading="lazy"
+        />
       </section>
 
       <hr />
@@ -46,23 +52,18 @@ const imageWidth = 300;
       <hr />
 
       <section id="options" class={sectionStyle}>
-        <h1 class={headingStyle}>Options</h1>
+        <h1 class={headingStyle}>Config options</h1>
         <p class={paragraphStyle}>
-          Under Config Options > DNS Options > Remote DNS, there's a couple of IP addresses you can choose from. Most of
-          the time, udp://1.1.1.1 will work fine. But if the internet suddenly stops working, you can try changing this
-          to tcp://1.1.1.1 or 8.8.8.8.
-          <br />
-          <br />
-          This is especially true on 4G/5G networks. Sometimes you need to play around and find one that works. Direct DNS
-          doesn't have much of any effect on phones, only desktop computers.
+          For Remote DNS, the default udp://1.1.1.1 will work fine most of the time. However, if the internet stops
+          working suddenly, try changing this to tcp://1.1.1.1 or 8.8.8.8. This is especially true while on 4G/5G
+          networks.
         </p>
-        <img src="/tips/options.png" alt="proxy" width={imageWidth} class="self-center" loading="lazy" />
       </section>
 
       <hr />
 
       <section id="updates" class={sectionStyle}>
-        <h1 class={headingStyle}>Updates</h1>
+        <h1 class={headingStyle}>App updates</h1>
         <p class={paragraphStyle}>
           As a last resort, under the About section, you can update the app itself. It is extremely rare that the app
           will require an update, 99% of the time it is the server, or during Chinese holidays.
@@ -73,13 +74,13 @@ const imageWidth = 300;
           You can also try updating your profile by pressing the refresh button on the main page. Occasionally, I will
           push out updates in case things stop working.
         </p>
-        <img src="/tips/refresh.png" alt="update" width={imageWidth / 2} class="self-center" loading="lazy" />
+        <img src="/tips/refresh.png" alt="update" width={imageWidth / 1.5} class="self-center" loading="lazy" />
       </section>
 
       <hr />
 
       <section id="mobile" class={sectionStyle}>
-        <h1 class={headingStyle}>Mobile Tips</h1>
+        <h1 class={headingStyle}>Mobile-only tips</h1>
         <p class={paragraphStyle}>
           This feature is only available on mobile. Under Settings > Advanced > Per-App Proxy. If you have mainly
           Chinese apps, select 'Proxy only selected apps" and pick which apps to use the VPN like Google/Youtube.

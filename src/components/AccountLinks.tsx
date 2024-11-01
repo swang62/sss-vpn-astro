@@ -38,11 +38,11 @@ function AccountLinks(_props: Props) {
       </CardHeader>
       <CardContent className="flex flex-col">
         <p>
-          This is your unique profile link used to add your profile to the VPN Hiddify app. Assuming you've
+          This is your unique profile link used to setup new profiles. Assuming you've
           {" "}
           <a href="/dashboard/install">installed</a>
           {" "}
-          it once already, you can use this for future setups.
+          it once already, it's here for your convenience.
         </p>
         <div className="flex items-center gap-2 my-6">
           <Input defaultValue={url} readOnly className="bg-muted/40 text-muted-foreground" />

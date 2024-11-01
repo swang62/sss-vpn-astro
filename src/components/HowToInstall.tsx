@@ -57,7 +57,6 @@ function getSteps(
             <p>
               Note: for iOS/iPhone, the process is a bit trickier. There are 3 possible options from easiest to hardest:
             </p>
-
             <p>
               1) Install iTunes on your Mac/PC, then connect your phone, and drag the
               .ipa file to your phone's Apps folder when it pops up.
@@ -87,7 +86,7 @@ function getSteps(
         )}
         {isWindows && (
           <div className="text-muted-foreground">
-            Note: for windows, you might get a warning during install, just click on More Info and Run Anyways. Always use the desktop shortcut to launch Hiddify.
+            Note: for windows, you might get a warning during install, just click on More Info &gt; Run Anyways.
           </div>
         )}
       </>,
@@ -138,16 +137,25 @@ function getSteps(
     },
     {
       content:
+       <>
+         <div>
+           On the left panel, under Config Options &gt; Direct DNS, change the setting to 'local'. Change the IPv6 Route to 'enable'.
+         </div>
+         <img src="/setup/dns-config.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />
+         {isWindows && (
+           <div className="text-muted-foreground">
+             On windows, you may need to switch Direct DNS to udp://1.1.1.1 or tcp://1.1.1.1 or 8.8.8.8. It all depends on your specific computer setup, just try each one in turn.
+           </div>
+         )}
+       </>,
+      title: "Final steps",
+    },
+    {
+      content:
       <>
         <div>
-          Tap the giant button in the middle and you should be connected!
+          Go back to the home screen and tap the giant button in the middle and you should be connected!
         </div>
-        {isWindows && (
-          <div className="text-muted-foreground">
-            Note: if your internet is disconnected in windows, go to Config Options in the left side panel.
-            Scroll down and find Direct DNS and make sure it's set to udp://1.1.1.1 or 8.8.8.8
-          </div>
-        )}
         <br />
         <img src="/setup/connected.png" width={imageWidth} alt="connected" className="self-center" loading="lazy" />
         <br />
