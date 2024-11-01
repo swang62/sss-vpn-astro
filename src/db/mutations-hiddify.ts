@@ -17,11 +17,15 @@ export async function createHiddifyUser(email: string) {
   return data.uuid;
 }
 
-export async function updateHiddifyUser(id: string, startAt: Date, plan: SubscriptionType, isAutoRenew: boolean) {
+export async function updateHiddifyUser(id: string, startAt: Date, plan: SubscriptionType, oldPlan: SubscriptionType, isAutoRenew: boolean) {
   const mode = isAutoRenew ? "monthly" : "no_reset";
   const package_days = isAutoRenew ? 3650 : 30;
 
+  const isDowngrade = (oldPlan === "premium" && ["basic", "pro"].includes(plan))
+    || (oldPlan === "pro" && plan === "basic");
+
   const body = {
+    current_usage_GB: isDowngrade ? 0 : null,
     enable: true,
     mode,
     package_days,

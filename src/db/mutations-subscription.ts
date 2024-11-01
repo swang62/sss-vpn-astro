@@ -42,7 +42,7 @@ export async function updateSubscription(subscription: Stripe.Subscription) {
     const profile = await getProfileByStripeId(stripeCustomerId);
     if (!profile || !profile.hiddifyId) throw new Error(`Subscription update failed for ${stripeCustomerId}`);
 
-    await updateHiddifyUser(profile.hiddifyId, subscriptionStartAt, subscriptionType, isAutoRenew);
+    await updateHiddifyUser(profile.hiddifyId, subscriptionStartAt, subscriptionType, profile.subscriptionType, isAutoRenew);
     await db.update(profileTable).set({
       subscriptionEndAt: isAutoRenew ? null : subscriptionEndAt,
       subscriptionId,
