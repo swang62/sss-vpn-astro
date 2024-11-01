@@ -38,7 +38,7 @@ function AccountPortal(_props: Props) {
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
         <p>
-          Use the link below to manage your plan manually, update your payment details, or view past invoices.
+          Manage your plan, update your payment details, or view past invoices.
         </p>
       </CardContent>
       <CardFooter className="justify-between gap-4 py-4 border-t bg-muted">

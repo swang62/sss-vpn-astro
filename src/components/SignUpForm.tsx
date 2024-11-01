@@ -130,8 +130,8 @@ function SignUpForm(_props: Props) {
                 provider
               </span>
             </PopoverTrigger>
-            <PopoverContent>
-              <h1 className="font-heading">Recommended Providers</h1>
+            <PopoverContent className="w-fit">
+              <h1 className="font-2xl">Recommended Emails</h1>
               <hr className="my-3" />
               <ul>
                 <li>microsoft.com</li>
@@ -221,23 +221,7 @@ function SignUpForm(_props: Props) {
         <div className="flex justify-center w-full pt-6 border-t">
           <p className="text-xs text-center text-muted-foreground">
             Terms and conditions
-            <Popover>
-              <PopoverTrigger>
-                <span className="ml-1 font-medium text-foreground">here</span>
-              </PopoverTrigger>
-              <PopoverContent>
-                <h1 className="font-heading">Terms and Conditions</h1>
-                <hr className="my-3" />
-                <p>
-                  Nothing fancy here... I won't sell or distribute any of your
-                  data. I don't store logs. All financial stuff is handled
-                  off-site with Stripe. Please
-                  <span className="text-destructive"> don't torrent </span>
-                  any movies or TV shows. Otherwise, I'll have to shut
-                  everything down and then everyone will be sad. Thanks.
-                </p>
-              </PopoverContent>
-            </Popover>
+            <a className="px-1 text-foreground" href="/privacy" target="_blank" rel="noreferrer">here</a>
           </p>
         </div>
       </CardFooter>

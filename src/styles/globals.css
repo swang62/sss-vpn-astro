@@ -67,13 +67,14 @@
     font-style: normal;
     font-display: swap;
   }
-  
+
   * {
     @apply border-border;
   }
 
   body {
     @apply bg-background font-sans text-foreground;
+    
     font-feature-settings:
       "rlig" 1,
       "calt" 1;

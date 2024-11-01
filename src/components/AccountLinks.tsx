@@ -34,7 +34,7 @@ function AccountLinks(_props: Props) {
       <CardHeader>
         <CardTitle>Useful links</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col gap-6">
+      <CardContent className="flex flex-col">
         <p>
           This is your unique profile link used to add your profile to the VPN Hiddify app. Assuming you've
           {" "}
@@ -42,7 +42,7 @@ function AccountLinks(_props: Props) {
           {" "}
           it once already, you can use this for future setups.
         </p>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 my-6">
           <Input defaultValue={url} readOnly className="bg-muted/40 text-muted-foreground" />
           <Button onClick={() => copyToClipboard(url)}>
             <Copy className="w-4 h-4" />
@@ -52,8 +52,8 @@ function AccountLinks(_props: Props) {
 
         <img src={qrcode} width={200} height={200} alt="QR Code" className="self-center" />
 
-        <p>
-          If you have a computer available, you can also scan the QR code on your phone.
+        <p className="mt-1 text-center text-muted-foreground">
+          For mobile-only
         </p>
       </CardContent>
     </Card>

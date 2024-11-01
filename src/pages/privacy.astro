@@ -1,0 +1,25 @@
+---
+import MainLayout from "@/layouts/MainLayout.astro";
+import SubHeader from "@/layouts/SubHeader.astro";
+
+export const prerender = true;
+---
+
+<MainLayout title="Privacy Policy">
+  <div class="container flex flex-col max-w-2xl gap-4 py-4">
+    <SubHeader title="Privacy Policy" />
+    <hr />
+    <p class="pb-12">
+      Nothing fancy here... I won't sell or distribute any of your data. I don't store logs or payment details. All
+      financial data is handled off-site with Stripe.
+    </p>
+
+    <SubHeader title="Terms and Conditions" />
+    <hr />
+    <p class="pb-12">
+      The only thing I ask is please
+      <span class="text-destructive"> don't torrent </span>
+      any movies or TV shows. Otherwise, I'll have to shut everything down and then everyone will be sad. Thanks.
+    </p>
+  </div>
+</MainLayout>
