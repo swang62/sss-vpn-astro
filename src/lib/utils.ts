@@ -66,9 +66,12 @@ export function getDaysLeft(packageStart?: string, mode = "no_reset", packageDay
 }
 
 export function getHiddifyLink(email = "", id?: string) {
-  if (!id) return "";
+  if (!id) return { base64: "", regular: "" };
 
-  return `${HIDDIFY_SETUP_LINK}/${id}/#${email}`;
+  const regular = `${HIDDIFY_SETUP_LINK}/${id}/#${email}`;
+  const base64 = `${HIDDIFY_SETUP_LINK}/${id}/sub64/?asn=unknown#${email}`;
+
+  return { base64, regular };
 }
 
 export async function getHiddifyQR(email: string, id?: string) {
@@ -76,7 +79,7 @@ export async function getHiddifyQR(email: string, id?: string) {
 
   try {
     const link = getHiddifyLink(email, id);
-    return await QRCode.toDataURL(link);
+    return await QRCode.toDataURL(link.regular);
   } catch (error) {
     console.error(error);
     return "";

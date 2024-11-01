@@ -19,7 +19,7 @@ function getSteps(
   platform: "mobile" | "desktop",
   downloadFile: string,
   downloadIcon: string,
-  url: string,
+  url: { regular: string; base64: string },
 ): StepProps[] {
   const isMobile = platform === "mobile";
   const isMacOS = downloadFile.includes(".dmg");
@@ -53,13 +53,25 @@ function getSteps(
           {isMobile && " You may have to allow install from unknown sources and accept all permissions."}
         </div>
         {isIOS && (
-          <div className="text-muted-foreground">
-            Note: for iOS/iPhone, the process is a little bit trickier. There are 2 options: 1)
-            You will need to install iTunes on your Mac/PC, then connect your phone, and drag the
-            .ipa file to your phone's Apps folder when it pops up. 2) Install another app like eSign,
-            bullfrog assistant, flekstore, and install the file through that. You will need to look up
-            guides for whichever one you choose. Unfortunately, Apple is extremely protective of their App store
-            and will not allow software like this VPN.
+          <div className="flex flex-col gap-4 text-muted-foreground">
+            <p>
+              Note: for iOS/iPhone, the process is a bit trickier. There are 3 possible options from easiest to hardest:
+            </p>
+
+            <p>
+              1) Install iTunes on your Mac/PC, then connect your phone, and drag the
+              .ipa file to your phone's Apps folder when it pops up.
+            </p>
+            <p>
+              2) Install an app like eSign or Bullfrog assistant directly on your iPhone first. Then find the sign/install app option, browse to the .ipa file in your local files, and install it from there. You may need to look up guides online.
+            </p>
+            <p>
+              3) Last resort, I do not recommend this unless the previous methods all failed. Search for V2Box on the iOS App store and install it. Under the middle config menu, click +, and select Add subscription. To get the subscription link, hold your finger on this
+              {" "}
+              <a href={url.base64} className="text-primary-link">link</a>
+              {" "}
+              and select Copy Link. At this point, you should be able to go back to the main menu and tap to connect.
+            </p>
           </div>
         )}
         {isMacOS && (
@@ -99,8 +111,8 @@ function getSteps(
       <>
         <div>First, copy your unique profile link:</div>
         <div className="flex items-center gap-2">
-          <Input defaultValue={url} readOnly className="bg-muted text-muted-foreground" />
-          <Button size="sm" onClick={() => copyToClipboard(url)}>
+          <Input defaultValue={url.regular} readOnly className="bg-muted text-muted-foreground" />
+          <Button size="sm" onClick={() => copyToClipboard(url.regular)}>
             <Copy className="w-4 h-4" />
           </Button>
         </div>
@@ -172,7 +184,7 @@ function getSteps(
 interface Props {
   device: UAParser.IDevice["type"];
   os?: string;
-  url: string;
+  url: { regular: string; base64: string };
 }
 
 function HowToInstall({ device, os, url }: Props) {

@@ -25,7 +25,9 @@ function AccountLinks(_props: Props) {
   useEffect(() => {
     if (!user || !profile) return;
 
-    setUrl(getHiddifyLink(user.email, profile.hiddifyId));
+    const url = getHiddifyLink(user.email, profile.hiddifyId);
+
+    setUrl(url.regular);
     getHiddifyQR(user.email, profile.hiddifyId).then(qrcode => setQrcode(qrcode));
   }, [profile?.hiddifyId]);
 
