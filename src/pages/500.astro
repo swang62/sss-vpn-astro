@@ -1,5 +1,6 @@
 ---
 import Base from "@/layouts/Base.astro";
+import "@/styles/500.css";
 import Toaster from "/toaster.svg?raw";
 
 export const prerender = true;
@@ -7,7 +8,7 @@ export const prerender = true;
 
 <Base title="Oh No!">
   <main class="container max-w-screen-md">
-    <a href="/" class="m-auto flex h-[100vh] w-full flex-col items-center justify-center px-0 md:px-12">
+    <a href="/" class="m-auto flex h-screen w-full flex-col items-center justify-center px-0 md:px-12">
       <Fragment set:html={Toaster} />
       <h1 class="mt-4 text-2xl text-center md:text-4xl">
         <span class="font-serif text-5xl text-orange-200">Woops!</span>

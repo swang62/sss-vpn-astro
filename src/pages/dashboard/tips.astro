@@ -11,7 +11,7 @@ const imageWidth = 300;
 
 <DashboardLayout title="Tips & Tricks">
   <div class="flex flex-row gap-4 pb-16">
-    <div class="container flex flex-col w-full max-w-2xl min-h-screen gap-6 py-4 mx-auto">
+    <div class="container flex flex-col w-full max-w-2xl gap-6 py-4 mx-auto">
       <SubHeader title="Tips & Tricks" />
 
       <hr />
@@ -21,7 +21,8 @@ const imageWidth = 300;
       <section id="configuration" class={sectionStyle}>
         <h1 class={headingStyle}>Configuration</h1>
         <p class={paragraphStyle}>
-          There are a couple of submenus on the left side panel when opened. I'll be covering the most important ones.
+          There are a couple of submenus on the left side panel when the Hiddify app is opened. I'll be covering the
+          most important ones here.
         </p>
         <img src="/tips/config.png" alt="Configuration" width={imageWidth / 2} class="self-center" loading="lazy" />
       </section>
@@ -32,11 +33,12 @@ const imageWidth = 300;
         <h1 class={headingStyle}>Proxies</h1>
         <p class={paragraphStyle}>
           By default, the app will automatically choose the proxy with the lowest ping. However, if
-          streaming/downloading feels slow, I recommend manually selecting 'WS CDN Vless' and 'WS CDN Vmess'.
+          streaming/downloading feels slow, I recommend manually selecting proxies with 'WS CDN Vless' or 'WS CDN
+          Vmess'.
           <br />
           <br />
-          Both of these, in my experience, have pretty fast download speeds (despite having higher ping). There isn't much
-          difference between tls and tls_h2.
+          Both of these, in my experience, have pretty fast download speeds. There isn't much difference between tls and
+          tls_h2.
         </p>
         <img src="/tips/proxy.png" alt="proxy" width={imageWidth} class="self-center" loading="lazy" />
       </section>
@@ -63,7 +65,7 @@ const imageWidth = 300;
         <h1 class={headingStyle}>Updates</h1>
         <p class={paragraphStyle}>
           As a last resort, under the About section, you can update the app itself. It is extremely rare that the app
-          will require an update, 99% of the time it is the VPN server, or during holidays.
+          will require an update, 99% of the time it is the server, or during Chinese holidays.
         </p>
         <img src="/tips/update.png" alt="update" width={imageWidth} class="self-center" loading="lazy" />
 
@@ -83,8 +85,8 @@ const imageWidth = 300;
           Chinese apps, select 'Proxy only selected apps" and pick which apps to use the VPN like Google/Youtube.
           <br />
           <br />
-          However, if you only have a few Chinese apps, choose "Do not proxy selected apps" and pick those rare Chinese apps
-          like Alipay/WeChat. This way you can avoid constantly turning the VPN on/off.
+          However, if you mainly have US/international apps, choose "Do not proxy selected apps" and pick those apps like
+          Alipay/WeChat. This way you can avoid constantly turning the VPN on/off.
         </p>
         <img src="/tips/per-app.png" alt="pre-app" width={imageWidth} class="self-center" loading="lazy" />
       </section>

@@ -94,7 +94,7 @@ function DashboardOverview(_props: Props) {
           ))}
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex justify-end">
         <a href="/dashboard/account">
           <Button variant="outline">
             <Edit />

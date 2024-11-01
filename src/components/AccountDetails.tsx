@@ -20,7 +20,8 @@ interface Props {}
 function AccountDetails(_props: Props) {
   const [loading, setLoading] = useState(false);
   const { data, mutate } = useSWR("fetchUser", fetchUser);
-  const profile = data?.user?.profile;
+  const user = data?.user;
+  const profile = user?.profile;
 
   // Handlers
   const renewPlan = async (renew: boolean) => {
@@ -68,7 +69,7 @@ function AccountDetails(_props: Props) {
       value: capitalize(subscriptionType) + description,
     },
     {
-      title: "Subscription",
+      title: "Subscription cycle",
       value: endDate
         ? `Will end on ${endDate}`
         : billingCycle && subscriptionType !== "none"

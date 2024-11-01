@@ -98,9 +98,9 @@ export default {
       },
     },
     fontFamily: {
-      heading: ["CalSans Semibold", ...fontFamily.sans],
+      heading: ["calsans", ...fontFamily.sans],
       mono: ["Menlo", "Monaco", "Consolas", ...fontFamily.mono],
-      sans: ["Inter", ...fontFamily.sans],
+      sans: ["inter", ...fontFamily.sans],
       serif: [...fontFamily.serif],
     },
   },

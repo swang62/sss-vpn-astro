@@ -1,6 +1,6 @@
 import { testClient } from "hono/testing";
 
-import { SITE_ADMIN } from "@/config/constants";
+import { TEST_EMAIL } from "@/config/constants";
 import { TEST_USER } from "@/db/seed";
 import { parseApi } from "@/lib/api-clients";
 import createApp from "@/server/app";
@@ -22,7 +22,7 @@ describe("route /user", () => {
     const { data } = await parseApi(client.api.$get());
 
     expect(data?.user.id).toBe(TEST_USER.id);
-    expect(data?.user.email).toBe(SITE_ADMIN);
+    expect(data?.user.email).toBe(TEST_EMAIL);
     expect(data?.session?.userId).toBe(TEST_USER.id);
   });
 });

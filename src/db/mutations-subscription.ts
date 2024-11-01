@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 
 import type { SubscriptionType } from "@/config/types";
 
-import { SITE_ADMIN, SITE_EMAIL } from "@/config/constants";
+import { SITE_EMAIL, SITE_EMAIL_ADMIN } from "@/config/constants";
 import db, { profile as profileTable } from "@/db";
 import { postmarkClient, stripe } from "@/lib/server-clients";
 
@@ -42,7 +42,7 @@ export async function updateSubscription(subscription: Stripe.Subscription) {
     const profile = await getProfileByStripeId(stripeCustomerId);
     if (!profile || !profile.hiddifyId) throw new Error(`Subscription update failed for ${stripeCustomerId}`);
 
-    await updateHiddifyUser(profile.hiddifyId, subscriptionStartAt, subscriptionType, isAutoRenew);
+    await updateHiddifyUser(profile.hiddifyId, subscriptionStartAt, subscriptionType, profile.subscriptionType, isAutoRenew);
     await db.update(profileTable).set({
       subscriptionEndAt: isAutoRenew ? null : subscriptionEndAt,
       subscriptionId,
@@ -96,7 +96,7 @@ export async function handleRouterPurchase(stripeCustomerId: string, session: St
 
     if (postmarkClient) {
       postmarkClient.sendEmailWithTemplate({
-        Bcc: SITE_ADMIN,
+        Bcc: SITE_EMAIL_ADMIN,
         From: SITE_EMAIL,
         TemplateAlias: "router",
         TemplateModel: {},

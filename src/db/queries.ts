@@ -1,9 +1,7 @@
 import { eq } from "drizzle-orm";
-import QRCode from "qrcode";
 
 import type { HiddifyUser, SubscriptionType } from "@/config/types";
 
-import { HIDDIFY_SETUP_LINK } from "@/config/server";
 import db, {
   product as productTable,
   profile as profileTable,
@@ -96,22 +94,4 @@ export async function getHiddifyUser(id?: string) {
   const { data } = await axiosHiddify.get<HiddifyUser>(`/admin/user/${id}`);
   if (!data.uuid) return null;
   return data;
-}
-
-export async function getHiddifyQR(email: string, id?: string) {
-  if (!id) return "";
-
-  try {
-    const link = getHiddifyLink(email, id);
-    return await QRCode.toDataURL(link);
-  } catch (error) {
-    console.error(error);
-    return "";
-  }
-}
-
-export function getHiddifyLink(email: string, id?: string) {
-  if (!id) return "";
-
-  return `${HIDDIFY_SETUP_LINK}/${id}/#${email}`;
 }

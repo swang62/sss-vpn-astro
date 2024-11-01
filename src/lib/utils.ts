@@ -1,6 +1,9 @@
 import { type ClassValue, clsx } from "clsx";
+import QRCode from "qrcode";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
+
+import { HIDDIFY_SETUP_LINK } from "@/config/constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -55,11 +58,32 @@ export function getDaysLeft(packageStart?: string, mode = "no_reset", packageDay
   }
 
   const DAY_LENGTH = 24 * 60 * 60 * 1000;
-  const days = Math.round((end.valueOf() - now.valueOf()) / DAY_LENGTH);
+  const days = Math.ceil((end.valueOf() - now.valueOf()) / DAY_LENGTH);
   const daysLeft = days > 0 ? days : 0;
   const endDate = end.toLocaleDateString("us", { dateStyle: "medium" });
 
   return { daysLeft, endDate }; ;
+}
+
+export function getHiddifyLink(email = "", id?: string) {
+  if (!id) return { base64: "", regular: "" };
+
+  const regular = `${HIDDIFY_SETUP_LINK}/${id}/#${email}`;
+  const base64 = `${HIDDIFY_SETUP_LINK}/${id}/sub64/?asn=unknown#${email}`;
+
+  return { base64, regular };
+}
+
+export async function getHiddifyQR(email: string, id?: string) {
+  if (!id) return "";
+
+  try {
+    const link = getHiddifyLink(email, id);
+    return await QRCode.toDataURL(link.regular);
+  } catch (error) {
+    console.error(error);
+    return "";
+  }
 }
 
 export async function copyToClipboard(text: string) {
