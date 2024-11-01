@@ -2,23 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  @font-face {
-    font-display: swap;
-    font-family: "inter";
-    font-style: normal;
-    font-weight: normal;
-    src: url("/fonts/inter.woff2") format("woff2");
-  }
-
-  @font-face {
-    font-family: "calsans";
-    src: url("/fonts/calsans.woff2") format("woff2");
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
-  
+@layer base { 
   :root {
     --background: 0 0% 98.46%;
     --foreground: 252 0% 10%;
@@ -68,6 +52,22 @@
     --ring: 27.06 100% 80%;
   }
 
+  @font-face {
+    font-display: swap;
+    font-family: "inter";
+    font-style: normal;
+    font-weight: normal;
+    src: url("/fonts/inter.woff2") format("woff2");
+  }
+
+  @font-face {
+    font-family: "calsans";
+    src: url("/fonts/calsans.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
   * {
     @apply border-border;
   }
