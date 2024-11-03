@@ -139,7 +139,7 @@ function getSteps(
       content:
        <>
          <div>
-           On the left panel/settings, under Config Options &gt; IPv6 Route, set it to 'Enabled. Right below it under Direct DNS, change that to 'local'. See the image below for reference:
+           On the left panel/settings, under Config Options &gt; IPv6 Route, set it to 'Enabled. Right below it, under Direct DNS, change that to 'local'. See the image below:
          </div>
          <img src="/setup/dns-config.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />
 
@@ -157,7 +157,7 @@ function getSteps(
         <br />
         {isWindows && (
           <div className="text-muted-foreground">
-            Note: on Windows, if there's no internet, you may need to switch the Direct DNS to udp://1.1.1.1 or tcp://1.1.1.1 or 8.8.8.8. It all depends on your specific computer setup, just try each one at a time.
+            Note: on Windows, if there's no internet, try changing Direct DNS to udp://1.1.1.1 or tcp://1.1.1.1 or 8.8.8.8. It all depends on your specific computer setup, just try each one at a time.
           </div>
         )}
         {isMobile && (
