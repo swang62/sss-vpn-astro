@@ -86,7 +86,7 @@ function getSteps(
         )}
         {isWindows && (
           <div className="text-muted-foreground">
-            Note: for windows, you might get a warning during install, just click on More Info &gt; Run Anyways.
+            Note: for windows, you might get a warning during install, just click on More Info &gt; Run Anyways. The warning message at the end is normal.
           </div>
         )}
       </>,
@@ -139,14 +139,10 @@ function getSteps(
       content:
        <>
          <div>
-           On the left panel, under Config Options &gt; Direct DNS, change the setting to 'local'. Change the IPv6 Route to 'enable'.
+           On the left panel/settings, under Config Options &gt; IPv6 Route, set it to 'Enabled. Right below it under Direct DNS, change that to 'local'. See the image below for reference:
          </div>
          <img src="/setup/dns-config.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />
-         {isWindows && (
-           <div className="text-muted-foreground">
-             On windows, you may need to switch Direct DNS to udp://1.1.1.1 or tcp://1.1.1.1 or 8.8.8.8. It all depends on your specific computer setup, just try each one in turn.
-           </div>
-         )}
+
        </>,
       title: "Final steps",
     },
@@ -159,6 +155,11 @@ function getSteps(
         <br />
         <img src="/setup/connected.png" width={imageWidth} alt="connected" className="self-center" loading="lazy" />
         <br />
+        {isWindows && (
+          <div className="text-muted-foreground">
+            Note: on Windows, if there's no internet, you may need to switch the Direct DNS to udp://1.1.1.1 or tcp://1.1.1.1 or 8.8.8.8. It all depends on your specific computer setup, just try each one at a time.
+          </div>
+        )}
         {isMobile && (
           <div>
             You should see a key icon in the top right corner.
