@@ -9,7 +9,11 @@ interface Props {}
 
 function RedirectCheck(_props: Props) {
   // Hooks
-  const { data, error, isLoading } = useSWR("fetchSession", fetchSession);
+  const { data, error, isLoading } = useSWR("fetchSession", fetchSession, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
   if (error || isLoading) return null;
 
   if (data?.session) {

@@ -58,18 +58,18 @@ function getSteps(
               Note: for iOS/iPhone, the process is a bit trickier. There are 3 possible options from easiest to hardest:
             </p>
             <p>
-              1) Install iTunes on your Mac/PC, then connect your phone, and drag the
+              1) Download the app
+              {" "}
+              <a href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532" target="_blank" rel="noreferrer" className="text-primary-link">here</a>
+              {" "}
+              directly from the iOS App Store. Unfortunately, most VPN software is blocked from within China so this may not work.
+            </p>
+            <p>
+              2) Install iTunes on your Mac/PC, connect your phone, and drag the
               .ipa file to your phone's Apps folder when it pops up.
             </p>
             <p>
-              2) Install an app like eSign or Bullfrog assistant directly on your iPhone first. Then find the sign/install app option, browse to the .ipa file in your local files, and install it from there. You may need to look up guides online.
-            </p>
-            <p>
-              3) Last resort, I do not recommend this unless the previous methods all failed. Search for V2Box on the iOS App store and install it. Under the middle config menu, click +, and select Add subscription. To get the subscription link, hold your finger on this
-              {" "}
-              <a href={url.base64} className="text-primary-link">link</a>
-              {" "}
-              and select Copy Link. At this point, you should be able to go back to the main menu and tap to connect.
+              3) Install an app like eSign or Bullfrog Assistant. Find the sign/install app locally option, browse to the .ipa file and install it from there. You may need to look up guides online.
             </p>
           </div>
         )}
