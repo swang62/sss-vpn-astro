@@ -61,6 +61,7 @@ const route = createBaseRouter()
       customer: profile.stripeCustomerId || "",
       line_items,
       mode: "subscription",
+      return_url: `${SITE_URL}/dashboard`,
       success_url: `${SITE_URL}/dashboard`,
     });
 
@@ -80,6 +81,7 @@ const route = createBaseRouter()
       },
       line_items: [{ price: product.priceId, quantity: 1 }],
       mode: "payment",
+      return_url: `${SITE_URL}/dashboard`,
       success_url: `${SITE_URL}/dashboard`,
     });
 
@@ -112,6 +114,7 @@ const route = createBaseRouter()
             },
             type: "subscription_update_confirm",
           },
+          return_url: `${SITE_URL}/dashboard`,
         }
       : {
           customer: stripeCustomerId,

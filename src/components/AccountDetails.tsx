@@ -58,7 +58,7 @@ function AccountDetails(_props: Props) {
           <a href="/dashboard/pricing">
             <Button
               variant="outline"
-              className="flex flex-nowrap"
+              className="flex flex-nowrap px-3"
             >
               <Rocket />
               <span>Upgrade</span>

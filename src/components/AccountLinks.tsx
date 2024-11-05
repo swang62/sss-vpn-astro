@@ -38,11 +38,11 @@ function AccountLinks(_props: Props) {
       </CardHeader>
       <CardContent className="flex flex-col">
         <p>
-          This is your unique profile link used to setup new profiles. Assuming you've
+          This is your unique profile link used to
           {" "}
-          <a href="/dashboard/install">installed</a>
+          <a href="/dashboard/install" className="text-primary-link">setup</a>
           {" "}
-          it once already, it's here for your convenience.
+          new devices.
         </p>
         <div className="flex items-center gap-2 my-6">
           <Input defaultValue={url} readOnly className="bg-muted/40 text-muted-foreground" />
