@@ -89,12 +89,9 @@ export function pinoLogger(): MiddlewareHandler {
     http: {
       onReqBindings: (c) => {
         // const headers = c.req.header();
-        // const cookies = headers.cookie;
-        // delete headers.cookie;
         return {
           request: {
-            // cookies: LOG_LEVEL === "debug" ? cookies : undefined,
-            // headers,
+            // headers: LOG_LEVEL === "debug" ? headers : undefined,
             method: c.req.method,
             url: c.req.path,
           },
@@ -105,8 +102,7 @@ export function pinoLogger(): MiddlewareHandler {
       }),
       reqId: false,
     },
-    // pino: pino({ level: LOG_LEVEL }, IS_PRODUCTION ? undefined : pretty()),
-    pino: pino({ level: LOG_LEVEL }, pretty()),
+    pino: pino({ level: LOG_LEVEL }, IS_PRODUCTION ? undefined : pretty()),
   });
 }
 
