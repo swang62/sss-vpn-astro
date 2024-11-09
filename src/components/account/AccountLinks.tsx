@@ -25,10 +25,10 @@ function AccountLinks(_props: Props) {
   useEffect(() => {
     if (!user || !profile) return;
 
-    const url = getHiddifyLinks(user.email, profile.hiddifyId, profile.hiddifyServerId);
+    const links = getHiddifyLinks(user.email, profile.hiddifyId, profile.hiddifyServerId);
 
-    setUrl(url);
-    getHiddifyQR(url).then(qrcode => setQrcode(qrcode));
+    setUrl(links.url);
+    getHiddifyQR(links.url).then(qrcode => setQrcode(qrcode));
   }, [profile?.hiddifyId]);
 
   return (
@@ -44,7 +44,7 @@ function AccountLinks(_props: Props) {
           {" "}
           new devices.
         </p>
-        <div className="flex items-center gap-2 my-6">
+        <div className="flex items-center gap-2 py-4">
           <Input defaultValue={url} readOnly className="bg-muted/40 text-muted-foreground" />
           <Button onClick={() => copyToClipboard(url)}>
             <Copy className="w-4 h-4" />
