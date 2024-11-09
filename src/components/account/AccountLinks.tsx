@@ -34,11 +34,11 @@ function AccountLinks(_props: Props) {
   return (
     <Card x-chunk="Plan links">
       <CardHeader>
-        <CardTitle>Useful links</CardTitle>
+        <CardTitle>Useful Links</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col">
         <p>
-          This is your unique profile link used to
+          This is your unique link used to
           {" "}
           <a href="/dashboard/install" className="text-primary-link">setup</a>
           {" "}

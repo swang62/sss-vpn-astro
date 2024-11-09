@@ -63,9 +63,9 @@ function DashboardOverview(_props: Props) {
 
   return (
     <Card x-chunk="Dashboard usage">
-      <CardHeader className="flex flex-row items-center content-center gap-2 pt-4 align-middle">
+      <CardHeader className="flex flex-row items-center content-center gap-2 pt-4 align-middle justify-between">
         <CardTitle>Data usage</CardTitle>
-        <Button variant="link" onClick={onClickRefresh}>
+        <Button variant="link" onClick={onClickRefresh} className="px-0">
           <RefreshCcw />
           <span>Refresh</span>
         </Button>

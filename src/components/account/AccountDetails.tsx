@@ -13,7 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { PRICING_PLANS } from "@/config/links";
 import { FREE_PLANS } from "@/config/types";
 import { apiClient, fetchUser, parseApi } from "@/lib/api-clients";
-import { capitalize, dateToString, sleep } from "@/lib/utils";
+import { capitalize, dateToString } from "@/lib/utils";
 
 interface Props {}
 
@@ -30,17 +30,14 @@ function AccountDetails(_props: Props) {
     const { error } = await parseApi(
       apiClient.stripe["renew-plan"].$post({ json: { renew } }),
     );
-    if (!error) {
-      await sleep(2000);
-      await mutate();
-    } else {
+    if (error) {
       toast.error("Failed to update subscription, please try again later.");
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const endDate = profile?.subscriptionEndAt
-    ? new Date(profile?.subscriptionEndAt).toLocaleDateString("us", { dateStyle: "long" })
+    ? new Date(profile?.subscriptionEndAt).toLocaleDateString("us", { dateStyle: "medium" })
     : "";
   const billingCycle = profile?.subscriptionStartAt
     ? dateToString(new Date(profile?.subscriptionStartAt).getDate())
@@ -92,6 +89,22 @@ function AccountDetails(_props: Props) {
 
     return () => clearInterval(intervalId);
   }, [profile?.hiddifyId]);
+
+  useEffect(() => {
+    if (loading) {
+      setIntervalId(setInterval(async () => {
+        const data = await mutate();
+        if (data?.user?.profile?.updatedAt !== profile?.updatedAt) {
+          setLoading(false);
+          clearInterval(intervalId);
+        }
+      }, 1000));
+    } else {
+      clearInterval(intervalId);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [loading]);
 
   return (
     <Card x-chunk="Plan details">
