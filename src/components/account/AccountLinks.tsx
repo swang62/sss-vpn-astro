@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { fetchUser } from "@/lib/api-clients";
-import { copyToClipboard, getHiddifyLink, getHiddifyQR } from "@/lib/utils";
+import { copyToClipboard, getHiddifyLinks, getHiddifyQR } from "@/lib/utils";
 
 interface Props {}
 
@@ -25,7 +25,7 @@ function AccountLinks(_props: Props) {
   useEffect(() => {
     if (!user || !profile) return;
 
-    const url = getHiddifyLink(user.email, profile.hiddifyId, profile.hiddifyServerId);
+    const url = getHiddifyLinks(user.email, profile.hiddifyId, profile.hiddifyServerId);
 
     setUrl(url);
     getHiddifyQR(url).then(qrcode => setQrcode(qrcode));

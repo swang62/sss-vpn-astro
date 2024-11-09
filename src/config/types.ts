@@ -34,6 +34,7 @@ export type HiddifyServerId = (typeof HIDDIFY_SERVER_IDS)[number];
 export type HiddifyServer = {
   baseUrl: string;
   setupLink: string;
+  ip: string;
 };
 export type HiddifyUser = {
   current_usage_GB: number;

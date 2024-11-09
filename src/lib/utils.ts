@@ -67,19 +67,18 @@ export function getDaysLeft(packageStart?: string, mode = "no_reset", packageDay
   return { daysLeft, endDate }; ;
 }
 
-export function getHiddifyLink(email: string, id: string, serverId: HiddifyServerId) {
+export function getHiddifyLinks(email: string, id: string, serverId: HiddifyServerId) {
+  const ip = HIDDIFY_SERVERS[serverId].ip;
   const setupLink = HIDDIFY_SERVERS[serverId].setupLink;
-  const link = `${setupLink}/${id}/#${email}`;
 
-  // const base64 = `${setupLink}/${id}/sub64/?asn=unknown#${email}`;
-  // return { base64, regular };
+  const url = `${setupLink}/${id}/#${email}`;
 
-  return link;
+  return { ip, url };
 }
 
-export async function getHiddifyQR(link: string) {
+export async function getHiddifyQR(url: string) {
   try {
-    return await QRCode.toDataURL(link);
+    return await QRCode.toDataURL(url);
   } catch (error) {
     console.error(error);
     return "";
