@@ -151,7 +151,7 @@ function PricingPlans(_props: Props) {
   return (
     <div className="flex flex-col items-center py-4 mb-8">
       {data?.user && !isActive && (
-        <div className="flex flex-col items-center gap-6 text-center">
+        <div className="flex flex-col items-center gap-6 mb-4 text-center">
           <p className="max-w-md leading-normal text-muted-foreground sm:text-lg sm:leading-7">
             You have a choice between buying a single month or a regular subscription
           </p>
@@ -165,12 +165,12 @@ function PricingPlans(_props: Props) {
           </div>
         </div>
       )}
-      <div className="flex flex-col justify-center gap-8 mt-8 sm:flex-row sm:flex-wrap">
+      <div className="flex flex-col justify-center gap-8 mt-4 sm:flex-row sm:flex-wrap">
         {PRICING_PLANS.map((plan) => {
           return <PricingCard key={plan.plan} {...plan} user={data?.user} monthly={monthly} isActive={isActive} />;
         })}
       </div>
-      <div className="flex flex-col justify-center gap-8 sm:mt-4 sm:flex-row sm:flex-wrap">
+      <div className="flex flex-col justify-center gap-8 sm:flex-row sm:flex-wrap">
         {data?.user && !purchasedRouter && isActive && (
           <div className="px-8 mt-8 text-center text-muted-foreground">
             Still want to purchase the router package? Buy it separately

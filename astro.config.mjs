@@ -58,7 +58,7 @@ export default defineConfig({
       policy: [
         {
           allow: "/",
-          disallow: ["/api/*", "/dashboard", "/dashboard/*"],
+          disallow: ["/api/*", "/dashboard", "/dashboard/*", "/debug"],
           userAgent: "*",
         },
       ],

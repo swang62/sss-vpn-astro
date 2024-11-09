@@ -5,7 +5,7 @@ import {
   TableOfContentsTitle,
 } from "@/components/ui/toc";
 
-function TipsTableOfContents() {
+function TableOfContents() {
   return (
     <div className="mx-auto lg:mx-0 lg:fixed lg:top-24 lg:left-12 xl:left-32 2xl:left-64">
 
@@ -42,4 +42,4 @@ function TipsTableOfContents() {
   );
 }
 
-export default TipsTableOfContents;
+export default TableOfContents;
