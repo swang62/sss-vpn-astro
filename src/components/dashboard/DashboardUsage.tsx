@@ -17,7 +17,7 @@ import { getDaysLeft } from "@/lib/utils";
 interface Props {}
 
 function DashboardOverview(_props: Props) {
-  const { data, mutate } = useSWR("fetchUsage", fetchUsage, { errorRetryCount: 10, errorRetryInterval: 1000 });
+  const { data, mutate } = useSWR("fetchUsage", fetchUsage, { errorRetryCount: 20, errorRetryInterval: 1000 });
 
   const user = data?.user;
   const usage = data?.usage;
