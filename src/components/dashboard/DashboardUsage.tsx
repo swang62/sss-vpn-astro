@@ -17,21 +17,21 @@ import { getDaysLeft } from "@/lib/utils";
 interface Props {}
 
 function DashboardOverview(_props: Props) {
-  const { data, mutate } = useSWR("fetchUsage", fetchUsage);
+  const { data, mutate } = useSWR("fetchUsage", fetchUsage, { errorRetryCount: 20, errorRetryInterval: 1000 });
 
   const user = data?.user;
-  const hiddify = data?.hiddify;
+  const usage = data?.usage;
   const currentPlan = user?.profile?.subscriptionType;
-  const currentUsed = hiddify?.current_usage_GB ?? 0;
-  const totalAllowed = hiddify?.usage_limit_GB ?? 0;
-  const usage = currentUsed / totalAllowed * 100;
-  const date = hiddify?.last_online && new Date(hiddify.last_online).toLocaleDateString("us", { dateStyle: "medium" });
-  const time = hiddify?.last_online && new Date(hiddify.last_online).toLocaleTimeString();
-  const lastConnected = hiddify?.last_online && !hiddify.last_online.startsWith("000") ? `${date} - ${time}` : "-";
-  const { daysLeft, endDate: _endDate } = getDaysLeft(hiddify?.start_date, hiddify?.mode, hiddify?.package_days);
+  const currentUsed = usage?.current_usage_GB ?? 0;
+  const totalAllowed = usage?.usage_limit_GB ?? 0;
+  const percentUsed = currentUsed / totalAllowed * 100;
+  const date = usage?.last_online && new Date(usage.last_online).toLocaleDateString("us", { dateStyle: "medium" });
+  const time = usage?.last_online && new Date(usage.last_online).toLocaleTimeString();
+  const lastConnected = usage?.last_online && !usage.last_online.startsWith("000") ? `${date} - ${time}` : "-";
+  const { daysLeft, endDate: _endDate } = getDaysLeft(usage?.start_date, usage?.mode, usage?.package_days);
 
-  const resetMode = hiddify?.mode !== "no_reset" ? "data resets" : currentPlan === "trial" ? "trial ends" : "plan ends";
-  const serviceStatus = hiddify?.enable && daysLeft > 0
+  const resetMode = usage?.mode !== "no_reset" ? "data resets" : currentPlan === "trial" ? "trial ends" : "plan ends";
+  const serviceStatus = usage?.enable && daysLeft > 0
     ? <span className="text-green-500">Active</span>
     : <span className="text-red-500">Inactive</span>;
 
@@ -49,7 +49,7 @@ function DashboardOverview(_props: Props) {
     },
     {
       title: "Current cycle",
-      value: `${daysLeft} days left till ${resetMode}`,
+      value: `${daysLeft} days left until ${resetMode}`,
     },
     {
       title: "Last connected to VPN",
@@ -63,15 +63,15 @@ function DashboardOverview(_props: Props) {
 
   return (
     <Card x-chunk="Dashboard usage">
-      <CardHeader className="flex flex-row items-center content-center gap-2 pt-4 align-middle">
+      <CardHeader className="flex flex-row items-center content-center gap-2 pt-4 align-middle justify-between">
         <CardTitle>Data usage</CardTitle>
-        <Button variant="link" onClick={onClickRefresh}>
+        <Button variant="link" onClick={onClickRefresh} className="px-0">
           <RefreshCcw />
           <span>Refresh</span>
         </Button>
       </CardHeader>
       <CardContent>
-        <Progress value={usage} className="bg-transparent border border-border" />
+        <Progress value={percentUsed} className="bg-transparent border border-border" />
         <div className="flex flex-row items-center content-center justify-between py-1 pb-2 align-middle">
           <span className="text-sm text-muted-foreground">
             0

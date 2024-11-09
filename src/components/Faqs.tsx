@@ -9,7 +9,7 @@ import { TRIAL_TIME } from "@/config/constants";
 const data = [
   {
     answer:
-      `Once you create an account, you'll get instant access to the VPN and instructions on how to install it. The trial period will last for ${TRIAL_TIME} days. I want to make sure everyone tries out the VPN first.`,
+      `Once you create an account, you'll get instant access to the VPN and instructions on how to install it. The trial period will last for ${TRIAL_TIME} days. I want to make sure everyone tries out the VPN first, before giving me any money.`,
     id: "1",
     question: "How does the trial period work?",
   },
@@ -21,13 +21,13 @@ const data = [
   },
   {
     answer:
-      "This is a common issue with chinese apps like Taobao/Alipay that are geo-restricted to only work within China. The mobile app can selectively allow certain apps to bypass the VPN.",
+      "This is a common issue with chinese apps like Taobao/Alipay that are geo-restricted to only work within China. To solve this, the mobile version can selectively allow certain apps to bypass the VPN.",
     id: "3",
-    question: "Why doesn't this app work when the VPN is turned on?",
+    question: "Why don't my other apps work when the VPN is turned on?",
   },
   {
     answer:
-      "Once logged in, click on your avatar, go to manage account and cancel subscription.",
+      "No deceptive business practices here, just click on your avatar, go to Manage Account and click Cancel Subscription.",
     id: "4",
     question: "How do I unsubscribe?",
   },

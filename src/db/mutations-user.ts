@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 
-import type { SubscriptionType } from "@/config/types";
+import type { HiddifyServerId, SubscriptionType } from "@/config/types";
 
 import { MAX_NAME_LENGTH, TRIAL_TIME } from "@/config/constants";
 import db, { type ProfileInsert, profile as profileTable, user as userTable } from "@/db";
@@ -30,6 +30,7 @@ async function updateProfile(
   user: UserDB,
   stripeCustomerId: string,
   hiddifyId: string,
+  hiddifyServerId: HiddifyServerId,
 ) {
   const userId = user.id;
 
@@ -45,6 +46,7 @@ async function updateProfile(
   const data: ProfileInsert = subscription
     ? {
         hiddifyId,
+        hiddifyServerId,
         stripeCustomerId,
         subscriptionEndAt: isAutoRenew ? null : new Date(subscription.current_period_end * 1000),
         subscriptionId: subscription.id,
@@ -54,6 +56,7 @@ async function updateProfile(
       }
     : {
         hiddifyId,
+        hiddifyServerId,
         stripeCustomerId,
         subscriptionType: "none" as SubscriptionType,
       };
@@ -66,7 +69,7 @@ async function updateProfile(
   console.debug(`Successfully updated profile for ${userId}`);
 }
 
-async function startFreeTrial(user: UserDB, email: string, hiddifyId: string) {
+async function startFreeTrial(user: UserDB, email: string, hiddifyId: string, hiddifyServerId: HiddifyServerId) {
   const userId = user.id;
 
   const customer = await stripe.customers.create({ email, name: user.name });
@@ -80,6 +83,7 @@ async function startFreeTrial(user: UserDB, email: string, hiddifyId: string) {
 
   const data: ProfileInsert = {
     hiddifyId,
+    hiddifyServerId,
     stripeCustomerId: customer.id,
     subscriptionEndAt: endDate,
     subscriptionId: null,
@@ -110,16 +114,19 @@ export async function setupNewUser(user: UserDB) {
 
   // Validate hiddify account
   let hiddifyId = user.profile?.hiddifyId;
-  if (!hiddifyId) {
-    hiddifyId = await searchHiddifyUser(email);
-    if (!hiddifyId) {
-      hiddifyId = await createHiddifyUser(email);
-    }
+  let hiddifyServerId = user.profile?.hiddifyServerId;
+
+  if (!hiddifyId || !hiddifyServerId) {
+    let data = await searchHiddifyUser(email);
+    if (!data) data = await createHiddifyUser(email);
+
+    hiddifyId = data.hiddifyId;
+    hiddifyServerId = data.hiddifyServerId;
   }
 
   if (stripeCustomerId) {
-    await updateProfile(user, stripeCustomerId, hiddifyId);
+    await updateProfile(user, stripeCustomerId, hiddifyId, hiddifyServerId);
   } else {
-    await startFreeTrial(user, email, hiddifyId);
+    await startFreeTrial(user, email, hiddifyId, hiddifyServerId);
   }
 }

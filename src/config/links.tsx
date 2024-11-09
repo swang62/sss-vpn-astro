@@ -71,7 +71,7 @@ export const PRICING_PLANS: PricingCardProps[] = [
     features: [
       `${PREMIUM_DATA}GB data`,
       "Fully pre-configured WiFi6 router",
-      "China shipping only*",
+      "China shipping only",
     ],
     plan: "premium",
     price: 15,

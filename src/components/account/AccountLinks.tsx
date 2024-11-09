@@ -11,12 +11,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { fetchUser } from "@/lib/api-clients";
-import { copyToClipboard, getHiddifyLink, getHiddifyQR } from "@/lib/utils";
+import { copyToClipboard, getHiddifyLinks, getHiddifyQR } from "@/lib/utils";
 
 interface Props {}
 
 function AccountLinks(_props: Props) {
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState("Loading...");
   const [qrcode, setQrcode] = useState("");
   const { data } = useSWR("fetchUser", fetchUser);
   const user = data?.user;
@@ -25,26 +25,26 @@ function AccountLinks(_props: Props) {
   useEffect(() => {
     if (!user || !profile) return;
 
-    const url = getHiddifyLink(user.email, profile.hiddifyId);
+    const links = getHiddifyLinks(user.email, profile.hiddifyId, profile.hiddifyServerId);
 
-    setUrl(url.regular);
-    getHiddifyQR(user.email, profile.hiddifyId).then(qrcode => setQrcode(qrcode));
+    setUrl(links.url);
+    getHiddifyQR(links.url).then(qrcode => setQrcode(qrcode));
   }, [profile?.hiddifyId]);
 
   return (
     <Card x-chunk="Plan links">
       <CardHeader>
-        <CardTitle>Useful links</CardTitle>
+        <CardTitle>Useful Links</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col">
         <p>
-          This is your unique profile link used to
+          This is your unique link used to
           {" "}
           <a href="/dashboard/install" className="text-primary-link">setup</a>
           {" "}
           new devices.
         </p>
-        <div className="flex items-center gap-2 my-6">
+        <div className="flex items-center gap-2 py-4">
           <Input defaultValue={url} readOnly className="bg-muted/40 text-muted-foreground" />
           <Button onClick={() => copyToClipboard(url)}>
             <Copy className="w-4 h-4" />

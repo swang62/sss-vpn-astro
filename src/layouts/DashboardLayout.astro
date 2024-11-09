@@ -1,9 +1,9 @@
 ---
-import AvatarMenu from "@/components/AvatarMenu";
-import DashboardDesktopMenu from "@/components/DashboardDesktopMenu";
-import DashboardMobileMenu from "@/components/DashboardMobileMenu";
-import DashboardVerify from "@/components/DashboardVerify";
-import ThemeToggle from "@/components/ThemeToggle";
+import DashboardVerify from "@/components/dashboard/DashboardVerify";
+import AvatarMenu from "@/components/header/AvatarMenu";
+import DashboardDesktopMenu from "@/components/header/DashboardDesktopMenu";
+import DashboardMobileMenu from "@/components/header/DashboardMobileMenu";
+import ThemeToggle from "@/components/header/ThemeToggle";
 import { SITE_NAME } from "@/config/constants";
 import { setupNewUser } from "@/db/mutations-user";
 import Base from "@/layouts/Base.astro";
@@ -25,7 +25,7 @@ if (!session || !user) {
 // For verified first time users, setup their profile
 const isVerified = user.emailVerified;
 if (isVerified && !user.profile?.stripeCustomerId) {
-  await setupNewUser(user);
+  setupNewUser(user);
 }
 ---
 

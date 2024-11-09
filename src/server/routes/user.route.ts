@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { MAX_NAME_LENGTH } from "@/config/constants";
 import { updateStripeName, updateUser } from "@/db/mutations-user";
-import { getHiddifyUser } from "@/db/queries";
+import { getHiddifyUsage } from "@/db/queries";
 import { authUser, createBaseRouter } from "@/server/app";
 
 // All user routes must be authenticated
@@ -32,11 +32,13 @@ const route = createBaseRouter()
   })
   .get("/usage", async (c) => {
     const user = await authUser(c);
-    if (!user.profile) throw new Error("Profile missing");
+    if (!user.profile) {
+      return c.json({ usage: null, user: null }, 404);
+    };
 
-    const hiddify = await getHiddifyUser(user.profile.hiddifyId);
+    const usage = await getHiddifyUsage(user.profile.hiddifyId, user.profile.hiddifyServerId);
 
-    return c.json({ hiddify, user });
+    return c.json({ usage, user });
   })
   .get("/session", async (c) => {
     const session = c.get("session");

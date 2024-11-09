@@ -1,4 +1,4 @@
-import type { SubscriptionType } from "./types";
+import type { HiddifyServer, HiddifyServerId, SubscriptionType } from "./types";
 
 export const SITE_NAME = "SSSVPN";
 
@@ -28,5 +28,10 @@ export const PLAN_LIMITS: Record<SubscriptionType, number> = {
 export const MAX_NAME_LENGTH = 20;
 
 export const HIDDIFY_DOWNLOAD_URL = "https://nextcloud.mildlybrewed.com/s/9kMknzTdRk4GjiB/download?files=";
-export const HIDDIFY_API_URL = "https://link.sss-vpn.com/QwId8HABKn9c6GYrnRNcxMj/api/v2";
-export const HIDDIFY_SETUP_LINK = "https://link.sss-vpn.com/rjsn7TPtBHgNGA1KBI3mfP2aNaLG";
+export const HIDDIFY_SERVERS: Record<HiddifyServerId, HiddifyServer> = {
+  1: {
+    baseUrl: "https://link.sss-vpn.com/QwId8HABKn9c6GYrnRNcxMj/api/v2",
+    ip: "5.78.110.46",
+    setupLink: "https://link.sss-vpn.com/rjsn7TPtBHgNGA1KBI3mfP2aNaLG",
+  },
+};

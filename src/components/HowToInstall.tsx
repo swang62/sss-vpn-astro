@@ -1,30 +1,32 @@
 import type UAParser from "ua-parser-js";
 
 import { Copy, Download, PartyPopper } from "lucide-react";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { HIDDIFY_DOWNLOAD_URL } from "@/config/constants";
-import { copyToClipboard } from "@/lib/utils";
+import { fetchUser } from "@/lib/api-clients";
+import { copyToClipboard, getHiddifyLinks } from "@/lib/utils";
 
 import type { StepProps } from "./Step";
 
 import Step from "./Step";
 
-const imageWidth = 400;
-
 function getSteps(
   platform: "mobile" | "desktop",
   downloadFile: string,
   downloadIcon: string,
-  url: { regular: string; base64: string },
+  links?: ReturnType<typeof getHiddifyLinks>,
 ): StepProps[] {
   const isMobile = platform === "mobile";
   const isMacOS = downloadFile.includes(".dmg");
   const isWindows = downloadFile.includes(".exe");
   const isIOS = downloadFile.includes(".ipa");
+  const imageWidth = 400;
 
   return [
     {
@@ -110,14 +112,14 @@ function getSteps(
       <>
         <div>First, copy your unique profile link:</div>
         <div className="flex items-center gap-2">
-          <Input defaultValue={url.regular} readOnly className="bg-muted text-muted-foreground" />
-          <Button size="sm" onClick={() => copyToClipboard(url.regular)}>
+          <Input defaultValue={links?.url || "Loading..."} readOnly className="bg-muted text-muted-foreground" />
+          <Button size="sm" onClick={() => copyToClipboard(links?.url || "")}>
             <Copy className="w-4 h-4" />
           </Button>
         </div>
         <div>
           Go back to the app and click on the
-          <Badge variant="outline" className="mx-2 text-muted-foreground bg-muted">+ New Profile</Badge>
+          <Badge variant="outline" className="mx-1 text-muted-foreground bg-muted">+ New Profile</Badge>
           button in the center of the screen. A popup should appear:
         </div>
         <br />
@@ -125,7 +127,7 @@ function getSteps(
         <br />
         <div>
           Click
-          <Badge variant="outline" className="mx-2 text-muted-foreground bg-muted">Add from clipboard</Badge>
+          <Badge variant="outline" className="mx-1 text-muted-foreground bg-muted">Add from clipboard</Badge>
           and you should see your profile added to the top.
         </div>
         <br />
@@ -150,14 +152,18 @@ function getSteps(
       content:
       <>
         <div>
-          Go back to the home screen and tap the giant button in the middle and you should be connected!
+          Go back to the home screen and tap the giant button in the middle and you should be connected! Press
+          <Badge variant="outline" className="mx-1 text-muted-foreground bg-muted">Check IP</Badge>
+          to confirm your new IP at
+          {" "}
+          {links?.ip}
         </div>
         <br />
         <img src="/setup/connected.png" width={imageWidth} alt="connected" className="self-center" loading="lazy" />
         <br />
         {isWindows && (
           <div className="text-muted-foreground">
-            Note: on Windows, if there's no internet, try changing Direct DNS to udp://1.1.1.1 or tcp://1.1.1.1 or 8.8.8.8. It all depends on your specific computer setup, just try each one at a time.
+            Note: on Windows, if there's no internet, try changing Direct DNS to udp://1.1.1.1 or tcp://1.1.1.1 or 8.8.8.8. It all depends on your specific computer setup, just try each one in turn.
           </div>
         )}
         {isMobile && (
@@ -193,10 +199,15 @@ function getSteps(
 interface Props {
   device: UAParser.IDevice["type"];
   os?: string;
-  url: { regular: string; base64: string };
 }
 
-function HowToInstall({ device, os, url }: Props) {
+function HowToInstall({ device, os }: Props) {
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout>();
+  const { data, mutate } = useSWR("fetchUser", fetchUser);
+  const user = data?.user;
+  const profile = user?.profile;
+  const links = profile ? getHiddifyLinks(user.email, profile.hiddifyId, profile.hiddifyServerId) : undefined;
+
   const defaultTab = !device ? "desktop" : "mobile";
 
   const isApple = os === "macOS" || os === "iOS";
@@ -206,6 +217,16 @@ function HowToInstall({ device, os, url }: Props) {
   const mobileIcon = isApple ? "/setup/ios.png" : "/setup/google-play.png";
   const desktopIcon = isApple ? "/setup/mac.png" : "/setup/microsoft.png";
 
+  useEffect(() => {
+    if (!profile?.hiddifyId) {
+      setIntervalId(setInterval(mutate, 1000));
+    } else {
+      clearInterval(intervalId);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [profile?.hiddifyId]);
+
   return (
     <Tabs defaultValue={defaultTab}>
       <TabsList className="grid w-full grid-cols-2 mb-8">
@@ -213,11 +234,11 @@ function HowToInstall({ device, os, url }: Props) {
         <TabsTrigger value="desktop">Desktop</TabsTrigger>
       </TabsList>
       <TabsContent value="mobile">
-        {getSteps("mobile", mobileFile, mobileIcon, url)
+        {getSteps("mobile", mobileFile, mobileIcon, links)
           .map((step, idx) => <Step key={idx} content={step.content} title={step.title} idx={idx} />)}
       </TabsContent>
       <TabsContent value="desktop">
-        {getSteps("desktop", desktopFile, desktopIcon, url)
+        {getSteps("desktop", desktopFile, desktopIcon, links)
           .map((step, idx) => <Step key={idx} content={step.content} title={step.title} idx={idx} />)}
       </TabsContent>
     </Tabs>

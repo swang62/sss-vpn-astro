@@ -80,7 +80,7 @@ function PricingCard({
               <div
                 className={cn(
                   "h-fit rounded-xl px-2.5 py-1 text-sm",
-                  "bg-gradient-to-r from-orange-300 to-rose-400 dark:text-black",
+                  "bg-gradient-to-r from-orange-300 to-rose-300 dark:text-black",
                 )}
               >
                 Current plan
@@ -98,7 +98,7 @@ function PricingCard({
             )}
           </div>
           <CardDescription className="h-10 pt-1.5">
-            {description}
+            {plan.includes("premium") && (hasPurchasedRouter || isActive) ? "Give me more data! Router not included*" : description }
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-2">
@@ -151,7 +151,7 @@ function PricingPlans(_props: Props) {
   return (
     <div className="flex flex-col items-center py-4 mb-8">
       {data?.user && !isActive && (
-        <div className="flex flex-col items-center gap-6 text-center">
+        <div className="flex flex-col items-center gap-6 mb-4 text-center">
           <p className="max-w-md leading-normal text-muted-foreground sm:text-lg sm:leading-7">
             You have a choice between buying a single month or a regular subscription
           </p>
@@ -165,15 +165,15 @@ function PricingPlans(_props: Props) {
           </div>
         </div>
       )}
-      <div className="flex flex-col justify-center gap-8 mt-8 sm:flex-row sm:flex-wrap">
+      <div className="flex flex-col justify-center gap-8 mt-4 sm:flex-row sm:flex-wrap">
         {PRICING_PLANS.map((plan) => {
           return <PricingCard key={plan.plan} {...plan} user={data?.user} monthly={monthly} isActive={isActive} />;
         })}
       </div>
-      <div className="flex flex-col justify-center gap-8 sm:mt-4 sm:flex-row sm:flex-wrap">
+      <div className="flex flex-col justify-center gap-8 sm:flex-row sm:flex-wrap">
         {data?.user && !purchasedRouter && isActive && (
           <div className="px-8 mt-8 text-center text-muted-foreground">
-            Still want to purchase the router package? Buy it separately
+            * Still want to purchase the router package? Buy it separately
             <Button loading={loading} disabled={loading} variant="link" className="p-0 m-0 ml-1 text-base underline" onClick={onClickRouter}>here</Button>
           </div>
         )}

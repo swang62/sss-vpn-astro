@@ -1,5 +1,5 @@
 import { Rocket } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
@@ -13,12 +13,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { PRICING_PLANS } from "@/config/links";
 import { FREE_PLANS } from "@/config/types";
 import { apiClient, fetchUser, parseApi } from "@/lib/api-clients";
-import { capitalize, dateToString, sleep } from "@/lib/utils";
+import { capitalize, dateToString } from "@/lib/utils";
 
 interface Props {}
 
 function AccountDetails(_props: Props) {
   const [loading, setLoading] = useState(false);
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout>();
   const { data, mutate } = useSWR("fetchUser", fetchUser);
   const user = data?.user;
   const profile = user?.profile;
@@ -29,17 +30,14 @@ function AccountDetails(_props: Props) {
     const { error } = await parseApi(
       apiClient.stripe["renew-plan"].$post({ json: { renew } }),
     );
-    if (!error) {
-      await sleep(2000);
-      await mutate();
-    } else {
+    if (error) {
       toast.error("Failed to update subscription, please try again later.");
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const endDate = profile?.subscriptionEndAt
-    ? new Date(profile?.subscriptionEndAt).toLocaleDateString("us", { dateStyle: "long" })
+    ? new Date(profile?.subscriptionEndAt).toLocaleDateString("us", { dateStyle: "medium" })
     : "";
   const billingCycle = profile?.subscriptionStartAt
     ? dateToString(new Date(profile?.subscriptionStartAt).getDate())
@@ -58,7 +56,7 @@ function AccountDetails(_props: Props) {
           <a href="/dashboard/pricing">
             <Button
               variant="outline"
-              className="flex flex-nowrap px-3"
+              className="flex px-3 flex-nowrap"
             >
               <Rocket />
               <span>Upgrade</span>
@@ -81,6 +79,32 @@ function AccountDetails(_props: Props) {
       value: autoRenew,
     },
   ];
+
+  useEffect(() => {
+    if (!profile?.hiddifyId) {
+      setIntervalId(setInterval(mutate, 1000));
+    } else {
+      clearInterval(intervalId);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [profile?.hiddifyId]);
+
+  useEffect(() => {
+    if (loading) {
+      setIntervalId(setInterval(async () => {
+        const data = await mutate();
+        if (data?.user?.profile?.updatedAt !== profile?.updatedAt) {
+          setLoading(false);
+          clearInterval(intervalId);
+        }
+      }, 1000));
+    } else {
+      clearInterval(intervalId);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [loading]);
 
   return (
     <Card x-chunk="Plan details">

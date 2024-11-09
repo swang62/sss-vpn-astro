@@ -1,5 +1,5 @@
 ---
-import TipsTableOfContents from "@/components/TipsTableOfContents";
+import TableOfContents from "@/components/TableOfContents";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
 import SubHeader from "@/layouts/SubHeader.astro";
 
@@ -14,16 +14,16 @@ const imageWidth = 300;
     <SubHeader title="Tips & Tricks" />
 
     <hr />
-    <TipsTableOfContents />
+    <TableOfContents />
     <hr class="lg:hidden" />
 
     <section id="configuration" class={sectionStyle}>
       <h1 class={headingStyle}>Overview</h1>
       <p class={paragraphStyle}>
-        There are a couple of options menus in Hiddify, I'll be covering the most important ones here.
+        There are a couple of configuration menus in Hiddify, I'll be covering the most important ones here.
       </p>
       <img src="/tips/config.png" alt="Configuration" width={imageWidth / 1.5} class="self-center" loading="lazy" />
-      <img src="/tips/proxy-config.png" alt="proxy" width={imageWidth / 1.5} class="self-center pt-4" loading="lazy" />
+      <img src="/tips/proxy-config.png" alt="proxy" width={imageWidth / 1.5} class="self-center" loading="lazy" />
     </section>
 
     <hr />
@@ -46,7 +46,7 @@ const imageWidth = 300;
       <h1 class={headingStyle}>Config options</h1>
       <p class={paragraphStyle}>
         For Remote DNS, the default udp://1.1.1.1 will work fine most of the time. However, if the internet stops
-        working suddenly, try changing this to tcp://1.1.1.1 or 8.8.8.8. This is especially true while on 4G/5G
+        working suddenly, try changing this to tcp://1.1.1.1 or 8.8.8.8. This is especially true while on mobile 4G/5G
         networks.
       </p>
     </section>
@@ -56,10 +56,11 @@ const imageWidth = 300;
     <section id="updates" class={sectionStyle}>
       <h1 class={headingStyle}>App updates</h1>
       <p class={paragraphStyle}>
-        As a last resort, under the About section, you can update the app itself. It is extremely rare that the app will
-        require an update, 99% of the time it is the server, or during Chinese holidays.
+        As a last resort, under the About section, you can update the app itself. If you want to turn on auto-updates,
+        you'll need to enable the beta updates. It is extremely rare that the app will require an update, 99% of the
+        time it's the server, or during a Chinese holiday/political event.
       </p>
-      <img src="/tips/update.png" alt="update" width={imageWidth} class="self-center" loading="lazy" />
+      <img src="/tips/update.png" alt="update" width={imageWidth} class="self-center mb-4" loading="lazy" />
 
       <p class={paragraphStyle}>
         You can also try updating your profile by pressing the refresh button on the main page. Occasionally, I will
