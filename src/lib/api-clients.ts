@@ -30,7 +30,12 @@ export async function fetchSession() {
 }
 
 export async function fetchUsage() {
-  return apiClient.user.usage.$get().then(res => res.json());
+  return apiClient.user.usage.$get().then((res) => {
+    if (!res.ok) {
+      throw new Error("Failed to get usage data");
+    }
+    return res.json();
+  });
 }
 
 export async function fetchStatus() {

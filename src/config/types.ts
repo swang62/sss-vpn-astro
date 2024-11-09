@@ -26,6 +26,15 @@ export const PAID_PLANS = [
 ] as const;
 export type PaidPlan = (typeof PAID_PLANS)[number];
 
+export const HIDDIFY_SERVER_IDS = [
+  "1",
+] as const;
+export type HiddifyServerId = (typeof HIDDIFY_SERVER_IDS)[number];
+
+export type HiddifyServer = {
+  baseUrl: string;
+  setupLink: string;
+};
 export type HiddifyUser = {
   current_usage_GB: number;
   enable: boolean;

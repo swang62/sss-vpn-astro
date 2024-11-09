@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 
-import type { HiddifyUser, SubscriptionType } from "@/config/types";
-
+import { HIDDIFY_SERVERS } from "@/config/constants";
+import { HIDDIFY_SERVER_IDS, type HiddifyServerId, type HiddifyUser, type SubscriptionType } from "@/config/types";
 import db, {
   product as productTable,
   profile as profileTable,
@@ -80,18 +80,41 @@ export async function getProductByPriceId(priceId?: string) {
 
 /// //////////////////// HIDDIFY ///////////////////////
 
-export async function searchHiddifyUser(email?: string) {
-  if (!email) return "";
+export async function findAvailableServer() {
+  let id = "1" as HiddifyServerId;
+  let minUsers = 10000;
+  for (const serverId of HIDDIFY_SERVER_IDS) {
+    const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
+    const { data } = await axiosHiddify.get<HiddifyUser[]>(`${baseUrl}/admin/user`);
+    const activeUsers = data.filter(users => users.enable).length;
 
-  const { data } = await axiosHiddify.get<HiddifyUser[]>(`/admin/user`);
-  const user = data.find(user => user.name === email);
-  return user?.uuid || "";
+    if (activeUsers < minUsers) {
+      id = serverId;
+      minUsers = activeUsers;
+    }
+  }
+
+  return id;
 }
 
-export async function getHiddifyUser(id?: string) {
-  if (!id) return null;
+export async function searchHiddifyUser(email?: string) {
+  if (!email) return null;
 
-  const { data } = await axiosHiddify.get<HiddifyUser>(`/admin/user/${id}`);
-  if (!data.uuid) return null;
-  return data;
+  for (const serverId of HIDDIFY_SERVER_IDS) {
+    const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
+    const { data } = await axiosHiddify.get<HiddifyUser[]>(`${baseUrl}/admin/user`);
+    const user = data.find(user => user.name === email);
+    if (user) {
+      return { hiddifyId: user.uuid, hiddifyServerId: serverId };
+    }
+  }
+
+  return null;
+}
+
+export async function getHiddifyUsage(id: string, serverId: HiddifyServerId) {
+  const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
+  const { data } = await axiosHiddify.get<HiddifyUser>(`${baseUrl}/admin/user/${id}`);
+
+  return data?.uuid ? data : null;
 }

@@ -16,7 +16,7 @@ import { copyToClipboard, getHiddifyLink, getHiddifyQR } from "@/lib/utils";
 interface Props {}
 
 function AccountLinks(_props: Props) {
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState("Loading...");
   const [qrcode, setQrcode] = useState("");
   const { data } = useSWR("fetchUser", fetchUser);
   const user = data?.user;
@@ -25,10 +25,10 @@ function AccountLinks(_props: Props) {
   useEffect(() => {
     if (!user || !profile) return;
 
-    const url = getHiddifyLink(user.email, profile.hiddifyId);
+    const url = getHiddifyLink(user.email, profile.hiddifyId, profile.hiddifyServerId);
 
-    setUrl(url.regular);
-    getHiddifyQR(user.email, profile.hiddifyId).then(qrcode => setQrcode(qrcode));
+    setUrl(url);
+    getHiddifyQR(url).then(qrcode => setQrcode(qrcode));
   }, [profile?.hiddifyId]);
 
   return (

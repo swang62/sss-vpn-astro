@@ -42,7 +42,14 @@ export async function updateSubscription(subscription: Stripe.Subscription) {
     const profile = await getProfileByStripeId(stripeCustomerId);
     if (!profile || !profile.hiddifyId) throw new Error(`Subscription update failed for ${stripeCustomerId}`);
 
-    await updateHiddifyUser(profile.hiddifyId, subscriptionStartAt, subscriptionType, profile.subscriptionType, isAutoRenew);
+    await updateHiddifyUser(
+      profile.hiddifyId,
+      profile.hiddifyServerId,
+      subscriptionStartAt,
+      subscriptionType,
+      profile.subscriptionType,
+      isAutoRenew,
+    );
     await db.update(profileTable).set({
       subscriptionEndAt: isAutoRenew ? null : subscriptionEndAt,
       subscriptionId,
@@ -61,7 +68,7 @@ export async function cancelSubscription(subscription: Stripe.Subscription) {
   if (!profile || !profile.hiddifyId) throw new Error(`Subscription cancellation failed for ${stripeCustomerId}`);
 
   if (status === "canceled" && profile.subscriptionId === subscriptionId) {
-    await cancelHiddifyUser(profile.hiddifyId);
+    await cancelHiddifyUser(profile.hiddifyId, profile.hiddifyServerId);
     await db.update(profileTable).set({
       subscriptionEndAt: null,
       subscriptionId: null,

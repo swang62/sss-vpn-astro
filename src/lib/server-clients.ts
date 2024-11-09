@@ -2,7 +2,6 @@ import axios from "axios";
 import postmark from "postmark";
 import { Stripe } from "stripe";
 
-import { HIDDIFY_API_URL } from "@/config/constants";
 import {
   HIDDIFY_API_KEY,
   POSTMARK_TOKEN,
@@ -23,7 +22,7 @@ export const postmarkClient = POSTMARK_TOKEN
   : null;
 
 // Hiddify
-export const axiosHiddify = axios.create({ baseURL: HIDDIFY_API_URL, headers: {
+export const axiosHiddify = axios.create({ headers: {
   "accept": "application/json",
   "content-type": "application/json",
   "Hiddify-API-Key": HIDDIFY_API_KEY,

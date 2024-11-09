@@ -18,8 +18,8 @@ function WelcomeMsg({ name, showedWelcome }: Props) {
     <p className="w-full px-4 py-3 rounded-lg bg-muted">
       Welcome
       {name ? ` ${name}` : ""}
-      ! Looks like it's your first time here. This is your homepage which
-      contains important information about your current plan usage. Visit this
+      ! Looks like it's your first time here. This page
+      contains important information about your current plan usage. Your profile is being set up as we speak, in the meantime, visit this
       {" "}
       <a href="/dashboard/install" className="underline text-secondary-link">link</a>
       {" "}

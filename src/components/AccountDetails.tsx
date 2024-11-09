@@ -1,5 +1,5 @@
 import { Rocket } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
@@ -19,6 +19,7 @@ interface Props {}
 
 function AccountDetails(_props: Props) {
   const [loading, setLoading] = useState(false);
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout>();
   const { data, mutate } = useSWR("fetchUser", fetchUser);
   const user = data?.user;
   const profile = user?.profile;
@@ -58,7 +59,7 @@ function AccountDetails(_props: Props) {
           <a href="/dashboard/pricing">
             <Button
               variant="outline"
-              className="flex flex-nowrap px-3"
+              className="flex px-3 flex-nowrap"
             >
               <Rocket />
               <span>Upgrade</span>
@@ -81,6 +82,16 @@ function AccountDetails(_props: Props) {
       value: autoRenew,
     },
   ];
+
+  useEffect(() => {
+    if (!profile?.hiddifyId) {
+      setIntervalId(setInterval(mutate, 1000));
+    } else {
+      clearInterval(intervalId);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [profile?.hiddifyId]);
 
   return (
     <Card x-chunk="Plan details">

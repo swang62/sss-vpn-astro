@@ -1,7 +1,7 @@
 import { relations } from "drizzle-orm";
 import * as t from "drizzle-orm/sqlite-core";
 
-import type { SubscriptionType } from "@/config/types";
+import type { HiddifyServerId, SubscriptionType } from "@/config/types";
 
 import { user } from "./user";
 
@@ -13,8 +13,14 @@ export const profile = t.sqliteTable("profile", {
   hiddifyId: t
     .text()
     .notNull(),
+  hiddifyServerId: t
+    .text()
+    .notNull()
+    .$type<HiddifyServerId>()
+    .default("1"),
   purchasedRouter: t
     .integer({ mode: "boolean" })
+    .notNull()
     .default(false),
   stripeCustomerId: t
     .text()

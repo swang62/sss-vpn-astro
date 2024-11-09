@@ -1,13 +1,16 @@
 import type UAParser from "ua-parser-js";
 
 import { Copy, Download, PartyPopper } from "lucide-react";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { HIDDIFY_DOWNLOAD_URL } from "@/config/constants";
-import { copyToClipboard } from "@/lib/utils";
+import { fetchUser } from "@/lib/api-clients";
+import { copyToClipboard, getHiddifyLink } from "@/lib/utils";
 
 import type { StepProps } from "./Step";
 
@@ -19,7 +22,7 @@ function getSteps(
   platform: "mobile" | "desktop",
   downloadFile: string,
   downloadIcon: string,
-  url: { regular: string; base64: string },
+  url = "Loading...",
 ): StepProps[] {
   const isMobile = platform === "mobile";
   const isMacOS = downloadFile.includes(".dmg");
@@ -110,8 +113,8 @@ function getSteps(
       <>
         <div>First, copy your unique profile link:</div>
         <div className="flex items-center gap-2">
-          <Input defaultValue={url.regular} readOnly className="bg-muted text-muted-foreground" />
-          <Button size="sm" onClick={() => copyToClipboard(url.regular)}>
+          <Input defaultValue={url} readOnly className="bg-muted text-muted-foreground" />
+          <Button size="sm" onClick={() => copyToClipboard(url)}>
             <Copy className="w-4 h-4" />
           </Button>
         </div>
@@ -193,10 +196,15 @@ function getSteps(
 interface Props {
   device: UAParser.IDevice["type"];
   os?: string;
-  url: { regular: string; base64: string };
 }
 
-function HowToInstall({ device, os, url }: Props) {
+function HowToInstall({ device, os }: Props) {
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout>();
+  const { data, mutate } = useSWR("fetchUser", fetchUser);
+  const user = data?.user;
+  const profile = user?.profile;
+  const url = profile ? getHiddifyLink(user.email, profile.hiddifyId, profile.hiddifyServerId) : undefined;
+
   const defaultTab = !device ? "desktop" : "mobile";
 
   const isApple = os === "macOS" || os === "iOS";
@@ -205,6 +213,16 @@ function HowToInstall({ device, os, url }: Props) {
 
   const mobileIcon = isApple ? "/setup/ios.png" : "/setup/google-play.png";
   const desktopIcon = isApple ? "/setup/mac.png" : "/setup/microsoft.png";
+
+  useEffect(() => {
+    if (!profile?.hiddifyId) {
+      setIntervalId(setInterval(mutate, 1000));
+    } else {
+      clearInterval(intervalId);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [profile?.hiddifyId]);
 
   return (
     <Tabs defaultValue={defaultTab}>

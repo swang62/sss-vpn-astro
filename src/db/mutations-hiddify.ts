@@ -1,9 +1,14 @@
-import type { HiddifyUser, SubscriptionType } from "@/config/types";
+import type { HiddifyServerId, HiddifyUser, SubscriptionType } from "@/config/types";
 
-import { PLAN_LIMITS, TRIAL_TIME } from "@/config/constants";
+import { HIDDIFY_SERVERS, PLAN_LIMITS, TRIAL_TIME } from "@/config/constants";
 import { axiosHiddify } from "@/lib/server-clients";
 
+import { findAvailableServer } from "./queries";
+
 export async function createHiddifyUser(email: string) {
+  const serverId = await findAvailableServer();
+  const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
+
   const body = {
     enable: true,
     mode: "no_reset",
@@ -12,15 +17,22 @@ export async function createHiddifyUser(email: string) {
     start_date: new Date().toISOString().substring(0, 10),
     usage_limit_GB: PLAN_LIMITS.trial,
   };
-  const { data } = await axiosHiddify.post<HiddifyUser>("/admin/user", body);
+  const { data } = await axiosHiddify.post<HiddifyUser>(`${baseUrl}/admin/user`, body);
 
-  return data.uuid;
+  return { hiddifyId: data.uuid, hiddifyServerId: serverId };
 }
 
-export async function updateHiddifyUser(id: string, startAt: Date, plan: SubscriptionType, oldPlan: SubscriptionType, isAutoRenew: boolean) {
+export async function updateHiddifyUser(
+  id: string,
+  serverId: HiddifyServerId,
+  startAt: Date,
+  plan: SubscriptionType,
+  oldPlan: SubscriptionType,
+  isAutoRenew: boolean,
+) {
+  const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
   const mode = isAutoRenew ? "monthly" : "no_reset";
   const package_days = isAutoRenew ? 3650 : 30;
-
   const isDowngrade = (oldPlan === "premium" && ["basic", "pro"].includes(plan))
     || (oldPlan === "pro" && plan === "basic");
 
@@ -32,12 +44,12 @@ export async function updateHiddifyUser(id: string, startAt: Date, plan: Subscri
     start_date: new Date(startAt).toISOString().substring(0, 10),
     usage_limit_GB: PLAN_LIMITS[plan],
   };
-  const { data } = await axiosHiddify.patch<HiddifyUser>(`/admin/user/${id}`, body);
 
-  return data.uuid;
+  await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body);
 }
 
-export async function cancelHiddifyUser(id: string) {
+export async function cancelHiddifyUser(id: string, serverId: HiddifyServerId) {
+  const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
   const body = {
     current_usage_GB: 0,
     enable: false,
@@ -45,7 +57,6 @@ export async function cancelHiddifyUser(id: string) {
     package_days: 0,
     usage_limit_GB: 0,
   };
-  const { data } = await axiosHiddify.patch<HiddifyUser>(`/admin/user/${id}`, body);
 
-  return data.uuid;
+  await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body);
 }

@@ -3,7 +3,9 @@ import QRCode from "qrcode";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
-import { HIDDIFY_SETUP_LINK } from "@/config/constants";
+import type { HiddifyServerId } from "@/config/types";
+
+import { HIDDIFY_SERVERS } from "@/config/constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -65,21 +67,19 @@ export function getDaysLeft(packageStart?: string, mode = "no_reset", packageDay
   return { daysLeft, endDate }; ;
 }
 
-export function getHiddifyLink(email = "", id?: string) {
-  if (!id) return { base64: "", regular: "" };
+export function getHiddifyLink(email: string, id: string, serverId: HiddifyServerId) {
+  const setupLink = HIDDIFY_SERVERS[serverId].setupLink;
+  const link = `${setupLink}/${id}/#${email}`;
 
-  const regular = `${HIDDIFY_SETUP_LINK}/${id}/#${email}`;
-  const base64 = `${HIDDIFY_SETUP_LINK}/${id}/sub64/?asn=unknown#${email}`;
+  // const base64 = `${setupLink}/${id}/sub64/?asn=unknown#${email}`;
+  // return { base64, regular };
 
-  return { base64, regular };
+  return link;
 }
 
-export async function getHiddifyQR(email: string, id?: string) {
-  if (!id) return "";
-
+export async function getHiddifyQR(link: string) {
   try {
-    const link = getHiddifyLink(email, id);
-    return await QRCode.toDataURL(link.regular);
+    return await QRCode.toDataURL(link);
   } catch (error) {
     console.error(error);
     return "";
