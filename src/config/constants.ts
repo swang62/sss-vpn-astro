@@ -31,7 +31,7 @@ export const HIDDIFY_DOWNLOAD_URL = "https://nextcloud.mildlybrewed.com/s/9kMknz
 export const HIDDIFY_SERVERS: Record<HiddifyServerId, HiddifyServer> = {
   1: {
     baseUrl: "https://link.sss-vpn.com/QwId8HABKn9c6GYrnRNcxMj/api/v2",
-    ip: "5.78.110.46",
+    ip: "74.48.133.118",
     setupLink: "https://link.sss-vpn.com/rjsn7TPtBHgNGA1KBI3mfP2aNaLG",
   },
 };
