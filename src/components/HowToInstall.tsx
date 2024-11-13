@@ -143,10 +143,10 @@ function getSteps(
          <div>
            In the left options panel
            <Menu className="mx-1 inline-block" />
-           , under Config Options &gt; IPv6 Route, set it to 'Enable'.
+           under Config Options &gt; IPv6 Route, set it to 'Enable'.
            <br />
            <br />
-           Right below it, under Direct DNS, change it to 'local'.
+           Right below it under Direct DNS, change it to 'local'.
          </div>
          <img src="/setup/dns-config.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />
 
