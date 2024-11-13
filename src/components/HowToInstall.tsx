@@ -1,6 +1,6 @@
 import type UAParser from "ua-parser-js";
 
-import { Copy, Download, PartyPopper } from "lucide-react";
+import { Copy, Download, Menu, PartyPopper } from "lucide-react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
@@ -133,7 +133,7 @@ function getSteps(
         <br />
         <img src="/setup/start-screen.png" width={imageWidth} alt="start screen" className="self-center" loading="lazy" />
         <br />
-        <div className="text-muted-foreground">Note: for monthly subscriptions, the billing cycle will show infinity but will still reset each month.</div>
+        <div className="text-muted-foreground">Note: for monthly subscriptions, the billing cycle will show infinity, but will still reset each month.</div>
       </>,
       title: "Add your profile",
     },
@@ -141,7 +141,12 @@ function getSteps(
       content:
        <>
          <div>
-           On the left panel/settings, under Config Options &gt; IPv6 Route, set it to 'Enabled. Right below it, under Direct DNS, change that to 'local'. See the image below:
+           In the left options panel
+           <Menu className="mx-1 inline-block" />
+           , under Config Options &gt; IPv6 Route, set it to 'Enable'.
+           <br />
+           <br />
+           Right below it, under Direct DNS, change it to 'local'.
          </div>
          <img src="/setup/dns-config.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />
 
@@ -191,7 +196,7 @@ function getSteps(
           page to learn more about optimizing your speeds and general troubleshooting.
         </div>
       </>,
-      title: "Optional final steps",
+      title: "Optional next steps",
     },
   ];
 };
