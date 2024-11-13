@@ -87,17 +87,21 @@ function PricingCard({
               </div>
             )}
           </div>
-          <div className="flex gap-0.5">
-            <h3 className="text-3xl font-semibold">{`$${price}`}</h3>
-            {!monthly && !isActive ? <span className="flex items-end mb-1 text-sm"></span> : <span className="flex items-end mb-1 text-sm">/month</span>}
+          <div className="flex flex-wrap gap-0.5">
+            <span className="inline-flex">
+              <h3 className="text-3xl font-semibold">{`$${price}`}</h3>
+              {!monthly && !isActive
+                ? <span className="flex items-end mb-1 text-sm"></span>
+                : <span className="flex items-end mb-1 text-sm">/month</span>}
+            </span>
             {plan.includes("premium") && !hasPurchasedRouter && !isActive && (
-              <>
+              <span className="inline-flex">
                 <h3 className="text-3xl font-semibold">+$60</h3>
                 <span className="flex items-end mb-1 text-sm">router</span>
-              </>
+              </span>
             )}
           </div>
-          <CardDescription className="h-10 pt-1.5">
+          <CardDescription className="pt-1.5">
             {plan.includes("premium") && (hasPurchasedRouter || isActive) ? "Give me more data! Router not included*" : description }
           </CardDescription>
         </CardHeader>
