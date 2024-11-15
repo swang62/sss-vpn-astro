@@ -97,9 +97,23 @@ function getSteps(
     {
       content:
       <>
-        <div>
-          Open up the app, and you should see the following screen:
-        </div>
+        {isWindows
+          ? (
+              <div>
+                Open up the app using the desktop shortcut (or launch as administrator), and you should see the following screen:
+              </div>
+            )
+          : isMacOS
+            ? (
+                <div>
+                  Open up the app by clicking the .command file from the previous step, and you should see the following screen:
+                </div>
+              )
+            : (
+                <div>
+                  Open up the app, and you should see the following screen:
+                </div>
+              )}
         <br />
         <img src="/setup/welcome-screen.png" width={imageWidth} alt="welcome screen" className="self-center" loading="lazy" />
         <br />
@@ -146,10 +160,16 @@ function getSteps(
            under Config Options &gt; IPv6 Route, set it to 'Enable'.
            <br />
            <br />
-           Right below it under Direct DNS, change it to 'local'.
+           For Direct DNS, change it to
+           {" "}
+           {isWindows ? "'udp://1.1.1.1'" : "'local'"}
+           .
+           <br />
+           <br />
+           Confirm the service mode is set to 'VPN'.
          </div>
          <img src="/setup/dns-config.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />
-
+         <img src="/setup/service-mode.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />
        </>,
       title: "Final steps",
     },
@@ -168,7 +188,7 @@ function getSteps(
         <br />
         {isWindows && (
           <div className="text-muted-foreground">
-            Note: on Windows, if there's no internet, try changing Direct DNS to udp://1.1.1.1 or tcp://1.1.1.1 or 8.8.8.8. It all depends on your specific computer setup, just try each one in turn.
+            Note: on Windows, if there's no internet, try changing Direct DNS to 8.8.8.8, tcp://1.1.1.1, or local. It all depends on your specific computer setup, just try each one in turn.
           </div>
         )}
         {isMobile && (
