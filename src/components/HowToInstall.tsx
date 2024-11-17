@@ -22,10 +22,11 @@ function getSteps(
   downloadIcon: string,
   links?: ReturnType<typeof getHiddifyLinks>,
 ): StepProps[] {
-  const isMobile = platform === "mobile";
   const isMacOS = downloadFile.includes(".dmg");
   const isWindows = downloadFile.includes(".exe");
   const isIOS = downloadFile.includes(".ipa");
+
+  const isMobile = platform === "mobile";
   const imageWidth = 400;
 
   return [
@@ -52,7 +53,7 @@ function getSteps(
           <u>{downloadFile}</u>
           {" "}
           file and double-click to install.
-          {isMobile && " You may have to allow install from unknown sources and accept all permissions."}
+          {isMobile && " You may need to allow install from unknown sources and accept all permissions."}
         </div>
         {isIOS && (
           <div className="flex flex-col gap-4 text-muted-foreground">
@@ -157,19 +158,20 @@ function getSteps(
          <div>
            In the left options panel
            <Menu className="mx-1 inline-block" />
-           under Config Options &gt; IPv6 Route, set it to 'Enable'.
-           <br />
-           <br />
-           For Direct DNS, change it to
+           under Config Options &gt; IPv6 Route, set it to 'Enable'. For Direct DNS, change it to
            {" "}
-           {isWindows ? "'udp://1.1.1.1'" : "'local'"}
-           .
-           <br />
-           <br />
-           Confirm the service mode is set to 'VPN'.
+           {isWindows ? "'udp://1.1.1.1'." : "'local'."}
+           {" "}
+           You can just type it in if you can't find the option.
          </div>
          <img src="/setup/dns-config.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />
-         <img src="/setup/service-mode.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />
+         {!isMobile && (
+           <>
+             <p>Confirm the service mode is set to 'VPN'.</p>
+             <img src="/setup/service-mode.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />
+           </>
+         )}
+
        </>,
       title: "Final steps",
     },

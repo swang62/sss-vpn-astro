@@ -102,7 +102,7 @@ function PricingCard({
             )}
           </div>
           <CardDescription className="pt-1.5">
-            {plan.includes("premium") && (hasPurchasedRouter || isActive) ? "Give me more data! Router not included*" : description }
+            {plan.includes("premium") && (hasPurchasedRouter || isActive) ? "Give me even more data! Router not included*" : description }
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-2">
