@@ -11,6 +11,7 @@ export const DB_LOCAL = "file:local.db";
 export const DB_TEST = "file:test.db";
 export const DB_SYNC_INTERVAL = 30;
 
+export const DATA_PACKAGE_PRICE = 2; // dollars
 export const TRIAL_TIME = 3;
 
 // When changing these, make sure to update stripe products, tags, and customer portal
@@ -37,8 +38,6 @@ export const PLAN_LIMITS: Record<SubscriptionType, { data: number; price: number
     price: 15,
   },
 };
-
-export const DATA_PACKAGE = 2.5; // dollars
 
 export const MAX_NAME_LENGTH = 20;
 

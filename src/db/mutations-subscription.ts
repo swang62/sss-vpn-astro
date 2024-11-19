@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 
 import type { SubscriptionType } from "@/config/types";
 
-import { DATA_PACKAGE, PLAN_LIMITS, SITE_EMAIL, SITE_EMAIL_ADMIN } from "@/config/constants";
+import { DATA_PACKAGE_PRICE, PLAN_LIMITS, SITE_EMAIL, SITE_EMAIL_ADMIN } from "@/config/constants";
 import db, { profile as profileTable } from "@/db";
 import { postmarkClient, stripe } from "@/lib/server-clients";
 
@@ -78,14 +78,12 @@ export async function cancelSubscription(subscription: Stripe.Subscription) {
   }
 }
 
-export async function handleItemPurchases(stripeCustomerId: string, session: Stripe.Checkout.Session, logger: PinoLogger) {
-  const invoiceId = session.invoice as string;
-  const invoice = await stripe.invoices.retrieve(invoiceId);
+export async function handleItemPurchases(stripeCustomerId: string, invoice: Stripe.Invoice, logger: PinoLogger) {
   const lineItems = invoice.lines.data;
 
+  let purchasedRouter = false;
   let purchasedDataPlan = false;
   let totalSpent = 0;
-  let purchasedRouter = false;
   for (const item of lineItems) {
     const priceId = item.price?.id;
     const product = await getProductByPriceId(priceId);
@@ -93,7 +91,8 @@ export async function handleItemPurchases(stripeCustomerId: string, session: Str
       purchasedRouter = true;
     }
 
-    if (Number(item.unit_amount_excluding_tax) === DATA_PACKAGE * 100) {
+    const unitPrice = Number(item.unit_amount_excluding_tax);
+    if (unitPrice === DATA_PACKAGE_PRICE * 100) {
       purchasedDataPlan = true;
       totalSpent += Number(item.amount_excluding_tax || 0) / 100;
     }
@@ -117,7 +116,7 @@ export async function handleItemPurchases(stripeCustomerId: string, session: Str
       });
     }
 
-    logger.debug(`Sent router email to ${profile.user.email}`);
+    logger.debug(`Sent router purchased email to ${profile.user.email}`);
   }
 
   if (purchasedDataPlan) {
@@ -133,6 +132,6 @@ export async function handleItemPurchases(stripeCustomerId: string, session: Str
     const newLimit = currentLimit + dataPurchased;
 
     await increaseUsageLimit(profile.hiddifyId, profile.hiddifyServerId, newLimit);
-    logger.debug({ ...session, invoiceLineItems: lineItems });
+    logger.debug(`Increased usage limit from ${currentLimit} to ${newLimit} for ${profile.user.email}`);
   }
 }

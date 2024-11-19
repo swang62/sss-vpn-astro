@@ -4,9 +4,10 @@ import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 
 import { SITE_URL } from "@/config/client";
-import { DATA_PACKAGE, PLAN_LIMITS } from "@/config/constants";
+import { DATA_PACKAGE_PRICE, PLAN_LIMITS } from "@/config/constants";
 import { STRIPE_WEBHOOK_SECRET } from "@/config/server";
 import { FREE_PLANS, PAID_PLANS } from "@/config/types";
+import { resetUsageLimit } from "@/db/mutations-hiddify";
 import { updateProduct } from "@/db/mutations-product";
 import { cancelSubscription, handleItemPurchases, setSubscriptionRenew, updateSubscription } from "@/db/mutations-subscription";
 import { updateUser } from "@/db/mutations-user";
@@ -74,7 +75,7 @@ const route = createBaseRouter()
 
     const currentPlan = profile.subscriptionType;
     const GBPerDollar = PLAN_LIMITS[currentPlan].data / PLAN_LIMITS[currentPlan].price;
-    const packageData = DATA_PACKAGE * GBPerDollar;
+    const packageData = DATA_PACKAGE_PRICE * GBPerDollar;
 
     const session = await stripe.checkout.sessions.create({
       customer: profile.stripeCustomerId || "",
@@ -91,9 +92,9 @@ const route = createBaseRouter()
           product_data: {
             description: `
             This data will ONLY be added to your current monthly cycle, so only buy as much as you need.`,
-            name: `Data package (+${packageData}GB)`,
+            name: `Extra data package (${packageData}GB)`,
           },
-          unit_amount: DATA_PACKAGE * 100,
+          unit_amount: DATA_PACKAGE_PRICE * 100,
         },
         quantity: 1,
       }],
@@ -194,6 +195,23 @@ const route = createBaseRouter()
 
     let processed = true;
     switch (event.type) {
+      case "invoice.paid":{
+        const invoice = event.data.object;
+
+        const reason = invoice.billing_reason;
+        const stripeCustomerId = invoice.customer as string;
+        const subscriptionId = invoice.subscription as string;
+        const profile = await getProfileByStripeId(stripeCustomerId);
+        if (!profile) throw new Error(`Customer missing for ${stripeCustomerId}`);
+
+        if (reason === "manual" || reason === "subscription_create") {
+          await handleItemPurchases(stripeCustomerId, invoice, c.var.logger);
+        } else if (subscriptionId && reason === "subscription_cycle") {
+          await resetUsageLimit(profile.hiddifyId, profile.hiddifyServerId, profile.subscriptionType);
+        }
+        break;
+      }
+
       case "checkout.session.completed":{
         const session = event.data.object;
 
@@ -205,10 +223,8 @@ const route = createBaseRouter()
         if (session.status === "complete") {
           if (subscriptionId && isNewSubscription) {
             await setSubscriptionRenew(subscriptionId, isAutoRenew);
+            c.var.logger.debug(`Set subscription auto-renew:${isAutoRenew} for ${stripeCustomerId}`);
           }
-
-          // Check for individual purchases
-          await handleItemPurchases(stripeCustomerId, session, c.var.logger);
         }
         break;
       }

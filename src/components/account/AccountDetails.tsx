@@ -67,7 +67,7 @@ function AccountDetails(_props: Props) {
       value: capitalize(subscriptionType) + description,
     },
     {
-      title: "Subscription cycle",
+      title: "Billing cycle",
       value: endDate
         ? `Will end on ${endDate}`
         : billingCycle && subscriptionType !== "none"
