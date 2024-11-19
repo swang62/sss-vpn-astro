@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 
-import { HIDDIFY_SERVERS } from "@/config/constants";
+import { HIDDIFY_SERVERS, MAX_BANDWIDTH_GB } from "@/config/constants";
 import { HIDDIFY_SERVER_IDS, type HiddifyServerId, type HiddifyUser, type SubscriptionType } from "@/config/types";
 import db, {
   product as productTable,
@@ -82,15 +82,16 @@ export async function getProductByPriceId(priceId?: string) {
 
 export async function findAvailableServer() {
   let id = "1" as HiddifyServerId;
-  let minUsers = 10000;
   for (const serverId of HIDDIFY_SERVER_IDS) {
     const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
     const { data } = await axiosHiddify.get<HiddifyUser[]>(`${baseUrl}/admin/user`);
-    const activeUsers = data.filter(users => users.enable).length;
+    const totalBandwidth = data.filter(users => users.enable).reduce((prev, curr) => prev + curr.usage_limit_GB, 0);
 
-    if (activeUsers < minUsers) {
+    console.debug(`Total bandwidth for hiddify-${serverId}: ${totalBandwidth}GB`);
+
+    if (totalBandwidth < MAX_BANDWIDTH_GB) {
       id = serverId;
-      minUsers = activeUsers;
+      break;
     }
   }
 

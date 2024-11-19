@@ -40,6 +40,7 @@ export const PLAN_LIMITS: Record<SubscriptionType, { data: number; price: number
 };
 
 export const MAX_NAME_LENGTH = 20;
+export const MAX_BANDWIDTH_GB = 6000;
 
 export const HIDDIFY_DOWNLOAD_URL = "https://nextcloud.mildlybrewed.com/s/9kMknzTdRk4GjiB/download?files=";
 export const HIDDIFY_SERVERS: Record<HiddifyServerId, HiddifyServer> = {
@@ -47,5 +48,10 @@ export const HIDDIFY_SERVERS: Record<HiddifyServerId, HiddifyServer> = {
     baseUrl: "https://link.sss-vpn.com/QwId8HABKn9c6GYrnRNcxMj/api/v2",
     ip: "74.48.133.118",
     setupLink: "https://link.sss-vpn.com/rjsn7TPtBHgNGA1KBI3mfP2aNaLG",
+  },
+  2: {
+    baseUrl: "https://link2.sss-vpn.com/Y6bLeWbTns/api/v2",
+    ip: "148.135.10.52",
+    setupLink: "https://link2.sss-vpn.com/iJ6hLqtNNtOmt6ciLm2Ry",
   },
 };

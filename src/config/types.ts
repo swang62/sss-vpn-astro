@@ -28,6 +28,7 @@ export type PaidPlan = (typeof PAID_PLANS)[number];
 
 export const HIDDIFY_SERVER_IDS = [
   "1",
+  "2",
 ] as const;
 export type HiddifyServerId = (typeof HIDDIFY_SERVER_IDS)[number];
 
