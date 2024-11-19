@@ -27,22 +27,32 @@ export async function updateHiddifyUser(
   serverId: HiddifyServerId,
   startAt: Date,
   plan: SubscriptionType,
-  oldPlan: SubscriptionType,
   isAutoRenew: boolean,
 ) {
   const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
   const mode = isAutoRenew ? "monthly" : "no_reset";
   const package_days = isAutoRenew ? 3650 : 30;
-  const isDowngrade = (oldPlan === "premium" && ["basic", "pro"].includes(plan))
-    || (oldPlan === "pro" && plan === "basic");
 
   const body = {
-    current_usage_GB: isDowngrade ? 0 : null,
     enable: true,
     mode,
     package_days,
     start_date: new Date(startAt).toISOString().substring(0, 10),
     usage_limit_GB: PLAN_LIMITS[plan],
+  };
+
+  await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body);
+}
+
+export async function increaseUsageLimit(
+  id: string,
+  serverId: HiddifyServerId,
+  newLimit: number,
+) {
+  const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
+
+  const body = {
+    usage_limit_GB: newLimit,
   };
 
   await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body);

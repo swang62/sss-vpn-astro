@@ -1,3 +1,4 @@
+/* eslint-disable perfectionist/sort-objects */
 import type { HiddifyServer, HiddifyServerId, SubscriptionType } from "./types";
 
 export const SITE_NAME = "SSSVPN";
@@ -12,18 +13,32 @@ export const DB_SYNC_INTERVAL = 30;
 
 export const TRIAL_TIME = 3;
 
-export const TRIAL_DATA = 3;
-export const BASIC_DATA = 50;
-export const PRO_DATA = 150;
-export const PREMIUM_DATA = 300;
-
-export const PLAN_LIMITS: Record<SubscriptionType, number> = {
-  basic: BASIC_DATA,
-  none: 0,
-  premium: PREMIUM_DATA,
-  pro: PRO_DATA,
-  trial: TRIAL_DATA,
+// When changing these, make sure to update stripe products, tags, and customer portal
+export const PLAN_LIMITS: Record<SubscriptionType, { data: number; price: number }> = {
+  none: {
+    data: 0,
+    price: 0,
+  },
+  trial: {
+    data: 3,
+    price: 0,
+  },
+  // Paid tiers
+  basic: {
+    data: 50,
+    price: 5,
+  },
+  pro: {
+    data: 150,
+    price: 10,
+  },
+  premium: {
+    data: 300,
+    price: 15,
+  },
 };
+
+export const DATA_PACKAGE = 2.5; // dollars
 
 export const MAX_NAME_LENGTH = 20;
 

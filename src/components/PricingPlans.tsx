@@ -38,7 +38,7 @@ function PricingCard({
 }: PricingCardProps & { monthly: boolean; isActive: boolean; user?: User }) {
   const [loading, setLoading] = useState(false);
   const title = capitalize(plan);
-  const isCurrentPlan = user?.profile?.subscriptionType === plan;
+  const isCurrentPlan = isActive && user?.profile?.subscriptionType === plan;
   const hasPurchasedRouter = user?.profile?.purchasedRouter;
 
   const onClickCheckout = async () => {
@@ -50,6 +50,19 @@ function PricingCard({
       : await parseApi(
         apiClient.stripe.checkout.$post({ json: { monthly, plan } }),
       );
+    if (data?.url) {
+      navigate(data.url);
+    } else {
+      toast.error("Unknown error, please try again later.");
+      setLoading(false);
+    }
+  };
+
+  const onClickAddData = async () => {
+    setLoading(true);
+    const { data } = await parseApi(
+      apiClient.stripe["add-data"].$post(),
+    );
     if (data?.url) {
       navigate(data.url);
     } else {
@@ -102,7 +115,7 @@ function PricingCard({
             )}
           </div>
           <CardDescription className="pt-1.5">
-            {plan.includes("premium") && (hasPurchasedRouter || isActive) ? "Give me even more data! Router not included*" : description }
+            {plan.includes("premium") && (hasPurchasedRouter || isActive) ? "Even more data! Router not included (see below)" : description }
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-2">
@@ -117,7 +130,12 @@ function PricingCard({
       {user && (
         <CardFooter className="flex justify-center mt-2">
           {isCurrentPlan
-            ? <a href="/dashboard/account"><Button variant="outline">Manage</Button></a>
+            ? (
+                <div className="flex gap-2">
+                  <Button loading={loading} disabled={loading} onClick={onClickAddData}>Add more data</Button>
+                  <a href="/dashboard/account"><Button variant="outline">Manage</Button></a>
+                </div>
+              )
             : (
                 <Button loading={loading} disabled={loading} onClick={onClickCheckout}>
                   {isActive ? `Switch to ` : `Get `}
@@ -177,7 +195,7 @@ function PricingPlans(_props: Props) {
       <div className="flex flex-col justify-center gap-8 sm:flex-row sm:flex-wrap">
         {data?.user && !purchasedRouter && isActive && (
           <div className="px-8 mt-8 text-center text-muted-foreground">
-            * Still want to purchase the router package? Buy it separately
+            Still want to purchase the router package? Buy it separately
             <Button loading={loading} disabled={loading} variant="link" className="p-0 m-0 ml-1 text-base underline" onClick={onClickRouter}>here</Button>
           </div>
         )}

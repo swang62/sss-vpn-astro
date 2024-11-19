@@ -77,7 +77,7 @@ function DashboardOverview(_props: Props) {
             0
           </span>
           <span className="text-sm text-muted-foreground">
-            {totalAllowed.toFixed(0)}
+            {totalAllowed}
             {" "}
             GB
           </span>
