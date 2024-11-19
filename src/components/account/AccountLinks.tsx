@@ -40,7 +40,7 @@ function AccountLinks(_props: Props) {
         <p>
           This is your unique link used to
           {" "}
-          <a href="/dashboard/install" className="text-primary-link">setup</a>
+          <a href="/dashboard/install" className="text-primary-link underline">setup</a>
           {" "}
           new devices.
         </p>

@@ -63,7 +63,7 @@ function getSteps(
             <p>
               1) Download the app
               {" "}
-              <a href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532" target="_blank" rel="noreferrer" className="text-primary-link">here</a>
+              <a href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532" target="_blank" rel="noreferrer" className="text-primary-link underline">here</a>
               {" "}
               directly from the iOS App Store. Unfortunately, most VPN software is blocked from within China so this may not work.
             </p>
@@ -80,7 +80,7 @@ function getSteps(
           <div className="text-muted-foreground">
             Note: for macOS, you will need download an extra file
             {" "}
-            <a href={`${HIDDIFY_DOWNLOAD_URL}start_hiddify_vpn.command`} className="text-primary-link">here</a>
+            <a href={`${HIDDIFY_DOWNLOAD_URL}start_hiddify_vpn.command`} className="text-primary-link underline">here</a>
             {" "}
             after installing the app.
             {" "}
@@ -213,7 +213,7 @@ function getSteps(
         <div>
           Although not strictly necessary, I recommend visiting the
           {" "}
-          <a href="/dashboard/tips" className="text-primary-link">Tips & Tricks</a>
+          <a href="/dashboard/tips" className="text-primary-link underline">Tips & Tricks</a>
           {" "}
           page to learn more about optimizing your speeds and general troubleshooting.
         </div>

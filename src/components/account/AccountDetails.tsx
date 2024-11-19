@@ -44,7 +44,7 @@ function AccountDetails(_props: Props) {
     : "";
   const subscriptionType = profile?.subscriptionType;
   const plan = PRICING_PLANS.find(plan => plan.plan === subscriptionType);
-  const description = plan ? ` tier • ${plan.features[0]}` : "";
+  const description = plan ? ` • ${plan.features[0]}` : "";
 
   const isDisqualified = !!subscriptionType && FREE_PLANS.includes(subscriptionType as any);
   const autoRenew = isDisqualified || endDate ? <span className="text-red-500">Off</span> : <span className="text-green-500">On</span>;
@@ -67,7 +67,7 @@ function AccountDetails(_props: Props) {
       value: capitalize(subscriptionType) + description,
     },
     {
-      title: "Subscription cycle",
+      title: "Billing cycle",
       value: endDate
         ? `Will end on ${endDate}`
         : billingCycle && subscriptionType !== "none"

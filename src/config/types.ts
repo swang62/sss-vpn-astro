@@ -28,6 +28,7 @@ export type PaidPlan = (typeof PAID_PLANS)[number];
 
 export const HIDDIFY_SERVER_IDS = [
   "1",
+  "2",
 ] as const;
 export type HiddifyServerId = (typeof HIDDIFY_SERVER_IDS)[number];
 
@@ -37,14 +38,14 @@ export type HiddifyServer = {
   ip: string;
 };
 export type HiddifyUser = {
-  current_usage_GB: number;
+  current_usage_GB: number; // Can't be set
   enable: boolean;
-  is_active: boolean;
+  is_active: boolean; // Is user actively using VPN
   last_online: Date | null;
   mode: string;
   name: string;
   package_days: number;
-  start_date: Date;
+  start_date: string; // Format: YYYY-MM-DD
   usage_limit_GB: number;
   uuid: string;
 };

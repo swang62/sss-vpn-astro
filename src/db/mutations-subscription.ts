@@ -5,12 +5,12 @@ import { eq } from "drizzle-orm";
 
 import type { SubscriptionType } from "@/config/types";
 
-import { SITE_EMAIL, SITE_EMAIL_ADMIN } from "@/config/constants";
+import { DATA_PACKAGE_PRICE, PLAN_LIMITS, SITE_EMAIL, SITE_EMAIL_ADMIN } from "@/config/constants";
 import db, { profile as profileTable } from "@/db";
 import { postmarkClient, stripe } from "@/lib/server-clients";
 
-import { cancelHiddifyUser, updateHiddifyUser } from "./mutations-hiddify";
-import { getProductByPriceId, getProfileByStripeId } from "./queries";
+import { cancelHiddifyUser, increaseUsageLimit, updateHiddifyUser } from "./mutations-hiddify";
+import { getHiddifyUsage, getProductByPriceId, getProfileByStripeId } from "./queries";
 
 export async function setSubscriptionRenew(subscriptionId: string, isAutoRenew: boolean) {
   await stripe.subscriptions.update(
@@ -47,7 +47,6 @@ export async function updateSubscription(subscription: Stripe.Subscription) {
       profile.hiddifyServerId,
       subscriptionStartAt,
       subscriptionType,
-      profile.subscriptionType,
       isAutoRenew,
     );
     await db.update(profileTable).set({
@@ -79,17 +78,23 @@ export async function cancelSubscription(subscription: Stripe.Subscription) {
   }
 }
 
-export async function handleRouterPurchase(stripeCustomerId: string, session: Stripe.Checkout.Session, logger: PinoLogger) {
-  const invoiceId = session.invoice as string;
-  const invoice = await stripe.invoices.retrieve(invoiceId);
+export async function handleItemPurchases(stripeCustomerId: string, invoice: Stripe.Invoice, logger: PinoLogger) {
   const lineItems = invoice.lines.data;
 
   let purchasedRouter = false;
+  let purchasedDataPlan = false;
+  let totalSpent = 0;
   for (const item of lineItems) {
     const priceId = item.price?.id;
     const product = await getProductByPriceId(priceId);
     if (product && product.id === "router") {
       purchasedRouter = true;
+    }
+
+    const unitPrice = Number(item.unit_amount_excluding_tax);
+    if (unitPrice === DATA_PACKAGE_PRICE * 100) {
+      purchasedDataPlan = true;
+      totalSpent += Number(item.amount_excluding_tax || 0) / 100;
     }
   }
 
@@ -111,6 +116,22 @@ export async function handleRouterPurchase(stripeCustomerId: string, session: St
       });
     }
 
-    logger.debug(`Sent router email to ${profile.user.email}`);
+    logger.debug(`Sent router purchased email to ${profile.user.email}`);
+  }
+
+  if (purchasedDataPlan) {
+    const profile = await getProfileByStripeId(stripeCustomerId);
+    if (!profile?.subscriptionId) throw new Error(`No active subscription for ${stripeCustomerId}`);
+
+    const currentPlan = profile.subscriptionType;
+    const GBPerDollar = PLAN_LIMITS[currentPlan].data / PLAN_LIMITS[currentPlan].price;
+    const dataPurchased = totalSpent * GBPerDollar;
+
+    const usage = await getHiddifyUsage(profile.hiddifyId, profile.hiddifyServerId);
+    const currentLimit = usage?.usage_limit_GB ?? PLAN_LIMITS[currentPlan].data;
+    const newLimit = currentLimit + dataPurchased;
+
+    await increaseUsageLimit(profile.hiddifyId, profile.hiddifyServerId, newLimit);
+    logger.debug(`Increased usage limit from ${currentLimit} to ${newLimit} for ${profile.user.email}`);
   }
 }
