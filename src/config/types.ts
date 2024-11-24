@@ -1,9 +1,3 @@
-export type MenuLink = {
-  href: string;
-  label: string;
-  icon?: JSX.Element;
-};
-
 export const SUBSCRIPTION_PLANS = [
   "none",
   "trial",
@@ -37,6 +31,7 @@ export type HiddifyServer = {
   setupLink: string;
   ip: string;
 };
+
 export type HiddifyUser = {
   current_usage_GB: number; // Can't be set
   enable: boolean;

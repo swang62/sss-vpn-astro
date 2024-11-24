@@ -10,7 +10,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { PRICING_PLANS } from "@/config/links";
+import { PRICING_PLANS } from "@/config/constants";
 import { FREE_PLANS } from "@/config/types";
 import { apiClient, fetchUser, parseApi } from "@/lib/api-clients";
 import { capitalize, dateToString } from "@/lib/utils";

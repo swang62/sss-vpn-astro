@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
-import type { PaidPlan } from "@/config/types";
+import type { PricingPlan } from "@/config/constants";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,16 +16,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { PRICING_PLANS } from "@/config/links";
+import { PRICING_PLANS } from "@/config/constants";
 import { apiClient, fetchUser, parseApi, type User } from "@/lib/api-clients";
 import { capitalize, cn } from "@/lib/utils";
-
-export type PricingCardProps = {
-  plan: PaidPlan;
-  price: number;
-  description: string;
-  features: string[];
-};
 
 function PricingCard({
   description,
@@ -35,7 +28,7 @@ function PricingCard({
   plan,
   price,
   user,
-}: PricingCardProps & { monthly: boolean; isActive: boolean; user?: User }) {
+}: PricingPlan & { monthly: boolean; isActive: boolean; user?: User }) {
   const [loading, setLoading] = useState(false);
   const title = capitalize(plan);
   const isCurrentPlan = isActive && user?.profile?.subscriptionType === plan;

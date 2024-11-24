@@ -1,5 +1,5 @@
 /* eslint-disable perfectionist/sort-objects */
-import type { HiddifyServer, HiddifyServerId, SubscriptionType } from "./types";
+import type { HiddifyServer, HiddifyServerId, PaidPlan, SubscriptionType } from "./types";
 
 export const SITE_NAME = "SSSVPN";
 
@@ -12,6 +12,7 @@ export const DB_TEST = "file:test.db";
 export const DB_SYNC_INTERVAL = 30;
 
 export const DATA_PACKAGE_PRICE = 2; // dollars
+
 export const TRIAL_TIME = 3;
 
 // When changing these, make sure to update stripe products, tags, and customer portal
@@ -38,6 +39,39 @@ export const PLAN_LIMITS: Record<SubscriptionType, { data: number; price: number
     price: 15,
   },
 };
+
+export type PricingPlan = {
+  plan: PaidPlan;
+  price: number;
+  description: string;
+  features: string[];
+};
+
+export const PRICING_PLANS: PricingPlan[] = [
+  {
+    description: "Should be enough data for most people",
+    features: [`${PLAN_LIMITS.basic.data}GB of data/month`, "Email, social media, light browsing", "Unlimited devices, mobile & desktop"],
+    plan: "basic",
+    price: PLAN_LIMITS.basic.price,
+
+  },
+  {
+    description: "Good for heavy streaming & media usage",
+    features: [`${PLAN_LIMITS.pro.data}GB of data/month`, "Streaming, gaming, video calls, etc.", "Same as basic but with more data"],
+    plan: "pro",
+    price: PLAN_LIMITS.pro.price,
+  },
+  {
+    description: "One device to connect multiple people or all your gadgets at once",
+    features: [
+      `${PLAN_LIMITS.premium.data}GB of data/month`,
+      "Fully pre-configured WiFi6 router",
+      "Shipping only within China",
+    ],
+    plan: "premium",
+    price: PLAN_LIMITS.premium.price,
+  },
+];
 
 export const MAX_NAME_LENGTH = 20;
 export const MAX_BANDWIDTH_GB = 6000;

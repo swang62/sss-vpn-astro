@@ -1,9 +1,5 @@
 import { CircleDollarSign, Download, Home, Lightbulb } from "lucide-react";
 
-import type { PricingCardProps } from "@/components/PricingPlans";
-
-import { PLAN_LIMITS } from "./constants";
-
 export type MenuLink = {
   href: string;
   label: string;
@@ -49,31 +45,5 @@ export const DASHBOARD_LINKS: MenuLink[] = [
     href: "/dashboard/pricing",
     icon: <CircleDollarSign />,
     label: "Upgrade",
-  },
-];
-
-export const PRICING_PLANS: PricingCardProps[] = [
-  {
-    description: "Should be enough data for most people",
-    features: [`${PLAN_LIMITS.basic.data}GB of data/month`, "Email, social media, light browsing", "Unlimited devices, mobile & desktop"],
-    plan: "basic",
-    price: PLAN_LIMITS.basic.price,
-
-  },
-  {
-    description: "Good for heavy streaming & media usage",
-    features: [`${PLAN_LIMITS.pro.data}GB of data/month`, "Streaming, gaming, video calls, etc.", "Same as basic but with more data"],
-    plan: "pro",
-    price: PLAN_LIMITS.pro.price,
-  },
-  {
-    description: "One device to connect multiple people or all your gadgets at once",
-    features: [
-      `${PLAN_LIMITS.premium.data}GB of data/month`,
-      "Fully pre-configured WiFi6 router",
-      "Shipping only within China",
-    ],
-    plan: "premium",
-    price: PLAN_LIMITS.premium.price,
   },
 ];
