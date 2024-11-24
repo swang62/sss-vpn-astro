@@ -26,15 +26,15 @@ export const PLAN_LIMITS: Record<SubscriptionType, { data: number; price: number
   },
   // Paid tiers
   basic: {
-    data: 50,
+    data: 100,
     price: 5,
   },
   pro: {
-    data: 150,
+    data: 300,
     price: 10,
   },
   premium: {
-    data: 300,
+    data: 600,
     price: 15,
   },
 };
