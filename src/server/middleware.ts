@@ -2,7 +2,7 @@ import type { ErrorHandler, MiddlewareHandler, NotFoundHandler } from "hono";
 import type { StatusCode } from "hono/utils/http-status";
 
 import { captureException } from "@sentry/astro";
-import { logger } from "hono-pino";
+import { pinoLogger as logger } from "hono-pino";
 import { rateLimiter } from "hono-rate-limiter";
 import { cors } from "hono/cors";
 import { createMiddleware } from "hono/factory";

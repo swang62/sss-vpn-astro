@@ -82,7 +82,7 @@ function AccountDetails(_props: Props) {
 
   useEffect(() => {
     if (!profile?.hiddifyId) {
-      setIntervalId(setInterval(mutate, 1000));
+      setIntervalId(setInterval(mutate, 2000));
     } else {
       clearInterval(intervalId);
     }
@@ -98,7 +98,7 @@ function AccountDetails(_props: Props) {
           setLoading(false);
           clearInterval(intervalId);
         }
-      }, 1000));
+      }, 2000));
     } else {
       clearInterval(intervalId);
     }

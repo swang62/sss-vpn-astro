@@ -17,11 +17,12 @@ export const authenticate: MiddlewareHandler = async (ctx, next) => {
     headers: ctx.request.headers,
   });
 
-  // Redirect for invalid sessions
   if (needsAuth) {
     if (!session) {
+      // Redirect for invalid sessions
       return ctx.redirect("/login");
     } else {
+      // Store in Astro.locals
       const user = await getUserById(session.user.id);
       if (user) {
         ctx.locals.session = session.session;
@@ -37,6 +38,7 @@ export const authenticate: MiddlewareHandler = async (ctx, next) => {
 };
 
 type ValidContext = When.DevServer | When.Server;
+
 const middlewares: Record<ValidContext, MiddlewareHandler> = {
   [When.DevServer]: (ctx, next) => {
     return authenticate(ctx, next);
