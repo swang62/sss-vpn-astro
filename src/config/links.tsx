@@ -1,4 +1,4 @@
-import { CircleDollarSign, Download, Home, Lightbulb } from "lucide-react";
+import { Download, Home, Lightbulb, Rocket } from "lucide-react";
 
 export type MenuLink = {
   href: string;
@@ -43,7 +43,7 @@ export const DASHBOARD_LINKS: MenuLink[] = [
   },
   {
     href: "/dashboard/pricing",
-    icon: <CircleDollarSign />,
+    icon: <Rocket />,
     label: "Upgrade",
   },
 ];

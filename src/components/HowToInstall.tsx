@@ -1,6 +1,6 @@
 import type UAParser from "ua-parser-js";
 
-import { Copy, Download, Menu, PartyPopper } from "lucide-react";
+import { CogIcon, Copy, Download, Menu, PartyPopper } from "lucide-react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
@@ -33,7 +33,17 @@ function getSteps(
     {
       content:
     <>
-      <p>Click the button below to download the app.</p>
+      <p>
+        Click the button below to download the app.
+        {" "}
+        {isIOS && (
+          <>
+            Or better, click this
+            <a href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532" target="_blank" rel="noreferrer" className="px-1 text-primary-link underline">link</a>
+            to directly install from the App store. The app store may or may not work in China.
+          </>
+        )}
+      </p>
       <a href={`${HIDDIFY_DOWNLOAD_URL}${downloadFile}`} className="self-center pr-8">
         <Button>
           <Download />
@@ -52,39 +62,41 @@ function getSteps(
           {" "}
           <u>{downloadFile}</u>
           {" "}
-          file and double-click to install.
-          {isMobile && " You may need to allow install from unknown sources and accept all permissions."}
+          file and double-click to install
+          {isIOS && " (skip to Step 3 if you installed through the App store)"}
+          .
+          {isMobile && " You may need to allow all permissions."}
         </div>
         {isIOS && (
-          <div className="flex flex-col gap-4 text-muted-foreground">
+          <div className="flex flex-col gap-4">
             <p>
-              Note: for iOS/iPhone, the process is a bit trickier. There are 3 possible options from easiest to hardest:
+              There are 2 options to install from easiest to hardest:
             </p>
             <p>
-              1) Download the app
+              1) Install iTunes on your computer, connect your phone, and drag the
               {" "}
-              <a href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532" target="_blank" rel="noreferrer" className="text-primary-link underline">here</a>
+              {downloadFile}
               {" "}
-              directly from the iOS App Store. Unfortunately, most VPN software is blocked from within China so this may not work.
+              file to your phone's Apps folder to install.
             </p>
             <p>
-              2) Install iTunes on your Mac/PC, connect your phone, and drag the
-              .ipa file to your phone's Apps folder when it pops up.
-            </p>
-            <p>
-              3) Install an app like eSign or Bullfrog Assistant. Find the sign/install app locally option, browse to the .ipa file and install it from there. You may need to look up guides online.
+              2) Install an app like eSign or Bullfrog Assistant. Find the sign/install app locally option, browse to the
+              {" "}
+              {downloadFile}
+              {" "}
+              file and install. You may need to look up guides online.
             </p>
           </div>
         )}
         {isMacOS && (
-          <div className="text-muted-foreground">
-            Note: for macOS, you will need download an extra file
+          <div className="text-foreground">
+            For macOS, you will need download an extra file
             {" "}
-            <a href={`${HIDDIFY_DOWNLOAD_URL}start_hiddify_vpn.command`} className="text-primary-link underline">here</a>
-            {" "}
-            after installing the app.
-            {" "}
-            Save this file to your desktop and double-click it to launch Hiddify instead of the usual way.
+            <a href={`${HIDDIFY_DOWNLOAD_URL}start_vpn.command`} className="text-primary-link underline">here</a>
+            . Save this file to your desktop and open up your Terminal app using spotlight.
+            Copy "sudo chmod +x ~/Desktop/start_vpn.command" into the terminal
+            and hit enter. Enter your password (it will be invisible) and hit enter again.
+            Then close the terminal and double-click the file to launch the Hiddify VPN app.
           </div>
         )}
         {isWindows && (
@@ -156,9 +168,11 @@ function getSteps(
       content:
        <>
          <div>
-           In the left options panel
-           <Menu className="mx-1 inline-block" />
-           under Config Options &gt; IPv6 Route, set it to 'Enable'. For Direct DNS, change it to
+           In the options panel
+           <Menu className="ml-1 inline-block" />
+           , under Config Options (or search for a
+           <CogIcon className="mx-1 inline-block" />
+           icon), set IPv6 Route to 'Enable' and Direct DNS to
            {" "}
            {isWindows ? "'udp://1.1.1.1'." : "'local'."}
            {" "}
@@ -181,7 +195,7 @@ function getSteps(
         <div>
           Go back to the home screen and tap the giant button in the middle and you should be connected! Press
           <Badge variant="outline" className="mx-1 text-muted-foreground bg-muted">Check IP</Badge>
-          to confirm your new IP at
+          to confirm your new IP address is
           {" "}
           {links?.ip}
         </div>
@@ -246,7 +260,7 @@ function HowToInstall({ device, os }: Props) {
 
   useEffect(() => {
     if (!profile?.hiddifyId) {
-      setIntervalId(setInterval(mutate, 1000));
+      setIntervalId(setInterval(mutate, 2000));
     } else {
       clearInterval(intervalId);
     }
