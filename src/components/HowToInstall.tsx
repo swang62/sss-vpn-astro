@@ -25,6 +25,7 @@ function getSteps(
   const isMacOS = downloadFile.includes(".dmg");
   const isWindows = downloadFile.includes(".exe");
   const isIOS = downloadFile.includes(".ipa");
+  const isAndriod = downloadFile.includes(".apk");
 
   const isMobile = platform === "mobile";
   const imageWidth = 400;
@@ -34,13 +35,20 @@ function getSteps(
       content:
     <>
       <p>
-        Click the button below to download the app.
+        Click the button below to download the app manually,
         {" "}
         {isIOS && (
           <>
-            Or better, click this
-            <a href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532" target="_blank" rel="noreferrer" className="px-1 text-primary-link underline">link</a>
-            to directly install from the App store. The app store may or may not work in China.
+            or click
+            <a href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532" target="_blank" rel="noreferrer" className="px-1 text-primary-link underline">here</a>
+            to directly install from the App store. The app store may or may not work in China, but if successful, skip directly to Step 3.
+          </>
+        )}
+        {isAndriod && (
+          <>
+            or click
+            <a href="https://play.google.com/store/apps/details?id=app.hiddify.com&hl=en-us" target="_blank" rel="noreferrer" className="px-1 text-primary-link underline">here</a>
+            to directly install from the Play store. The store will not work in China, but if successful, skip directly to Step 3.
           </>
         )}
       </p>
@@ -58,50 +66,51 @@ function getSteps(
       content:
       <>
         <div>
-          Navigate to where you downloaded the
-          {" "}
-          <u>{downloadFile}</u>
-          {" "}
-          file and double-click to install
-          {isIOS && " (skip to Step 3 if you installed through the App store)"}
+          Navigate to where you downloaded the file and install
+          {isMobile && " (skip this if you installed through the App store)"}
           .
-          {isMobile && " You may need to allow all permissions."}
+          {isMobile && " Allow all permissions during installation."}
         </div>
         {isIOS && (
           <div className="flex flex-col gap-4">
             <p>
-              There are 2 options to install from easiest to hardest:
+              There are 3 options to install from easiest to hardest:
             </p>
             <p>
-              1) Install iTunes on your computer, connect your phone, and drag the
+              1) Visit this
+              <a href="https://www.installonair.com" target="_blank" rel="noreferrer" className="px-1 text-primary-link underline">link</a>
+              and upload the
+              {" "}
+              {downloadFile}
+              {" "}
+              file. You can now visit the generated link on your iPhone to install it through Safari.
+            </p>
+            <p>
+              2) Install iTunes on your computer, connect your phone, and drag the
               {" "}
               {downloadFile}
               {" "}
               file to your phone's Apps folder to install.
             </p>
             <p>
-              2) Install an app like eSign or Bullfrog Assistant. Find the sign/install app locally option, browse to the
-              {" "}
-              {downloadFile}
-              {" "}
-              file and install. You may need to look up guides online.
+              3) Install with a third-party app like FlexStore, AltStore, eSign or Bullfrog Assistant. You may need to look up guides online.
             </p>
           </div>
         )}
         {isMacOS && (
           <div className="text-foreground">
-            For macOS, you will need download an extra file
+            For macOS, you will need download an extra shortcut file
             {" "}
             <a href={`${HIDDIFY_DOWNLOAD_URL}start_vpn.command`} className="text-primary-link underline">here</a>
-            . Save this file to your desktop and open up your Terminal app using spotlight.
-            Copy "sudo chmod +x ~/Desktop/start_vpn.command" into the terminal
+            . Save this file to your desktop and open up the Terminal app.
+            Type "sudo chmod +x ~/Desktop/start_vpn.command" into the terminal
             and hit enter. Enter your password (it will be invisible) and hit enter again.
-            Then close the terminal and double-click the file to launch the Hiddify VPN app.
+            Then, close the terminal and use the desktop shortcut to launch the app from now on.
           </div>
         )}
         {isWindows && (
           <div className="text-muted-foreground">
-            Note: for windows, you might get a warning during install, just click on More Info &gt; Run Anyways. The warning message at the end is normal.
+            Note: for windows, you might get a warning during install, click on More Info &gt; Run Anyways. The warning message at the end is normal as you should use the desktop shortcut from now on.
           </div>
         )}
       </>,
@@ -112,25 +121,27 @@ function getSteps(
       <>
         {isWindows
           ? (
-              <div>
-                Open up the app using the desktop shortcut (or launch as administrator), and you should see the following screen:
-              </div>
+              <>
+                Open up the app using the desktop shortcut (or launching as administrator),
+              </>
             )
           : isMacOS
             ? (
-                <div>
-                  Open up the app by clicking the .command file from the previous step, and you should see the following screen:
-                </div>
+                <>
+                  Open up the app by clicking the .command file,
+                </>
               )
             : (
-                <div>
-                  Open up the app, and you should see the following screen:
-                </div>
+                <>
+                  Open up the app,
+                </>
               )}
+        {" "}
+        change the language to English and set the region to China, then click start.
+        <br />
         <br />
         <img src="/setup/welcome-screen.png" width={imageWidth} alt="welcome screen" className="self-center" loading="lazy" />
         <br />
-        <div>Change the language to English for now and set the region to China, then click Start.</div>
       </>,
       title: "Initial setup",
     },
@@ -160,7 +171,7 @@ function getSteps(
         <br />
         <img src="/setup/start-screen.png" width={imageWidth} alt="start screen" className="self-center" loading="lazy" />
         <br />
-        <div className="text-muted-foreground">Note: for monthly subscriptions, the billing cycle will show infinity, but will still reset each month.</div>
+        <div className="text-muted-foreground">Note: for monthly subscriptions, the days remaining will show infinity, but will reset correctly each month.</div>
       </>,
       title: "Add your profile",
     },
@@ -170,13 +181,13 @@ function getSteps(
          <div>
            In the options panel
            <Menu className="ml-1 inline-block" />
-           , under Config Options (or search for a
+           , under Config Options (or look for a
            <CogIcon className="mx-1 inline-block" />
            icon), set IPv6 Route to 'Enable' and Direct DNS to
            {" "}
            {isWindows ? "'udp://1.1.1.1'." : "'local'."}
            {" "}
-           You can just type it in if you can't find the option.
+           You can also type it in if you can't find the option.
          </div>
          <img src="/setup/dns-config.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />
          {!isMobile && (
@@ -187,30 +198,26 @@ function getSteps(
          )}
 
        </>,
-      title: "Final steps",
+      title: "Configuration",
     },
     {
       content:
       <>
-        <div>
-          Go back to the home screen and tap the giant button in the middle and you should be connected! Press
-          <Badge variant="outline" className="mx-1 text-muted-foreground bg-muted">Check IP</Badge>
-          to confirm your new IP address is
+        <p>
+          Go back to the home screen and tap the giant button in the middle and you should be connected!
           {" "}
-          {links?.ip}
-        </div>
+          {isMobile && (
+            <>
+              You should see a key or VPN icon in the top notification bar.
+            </>
+          )}
+        </p>
         <br />
         <img src="/setup/connected.png" width={imageWidth} alt="connected" className="self-center" loading="lazy" />
         <br />
         {isWindows && (
           <div className="text-muted-foreground">
-            Note: on Windows, if there's no internet, try changing Direct DNS to 8.8.8.8, tcp://1.1.1.1, or local. It all depends on your specific computer setup, just try each one in turn.
-          </div>
-        )}
-        {isMobile && (
-          <div>
-            You should see a key icon in the top right corner.
-            A new notification will also appear showing your connection speed.
+            Note: on Windows, if there's no internet, try changing Direct DNS to 8.8.8.8, tcp://1.1.1.1, or local. It all depends on your specific computer setup, so just try each one in turn.
           </div>
         )}
       </>,
@@ -225,14 +232,19 @@ function getSteps(
       content:
       <>
         <div>
-          Although not strictly necessary, I recommend visiting the
+          If all is working, feel free to upgrade your plan to a single month, or a monthly subscription
+          {" "}
+          <a href="/dashboard/pricing" className="text-primary-link underline">here</a>
+          .
+          {" "}
+          I also recommend visiting
           {" "}
           <a href="/dashboard/tips" className="text-primary-link underline">Tips & Tricks</a>
           {" "}
-          page to learn more about optimizing your speeds and general troubleshooting.
+          to learn more about optimizing your speeds and general troubleshooting.
         </div>
       </>,
-      title: "Optional next steps",
+      title: "Next steps",
     },
   ];
 };
