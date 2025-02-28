@@ -76,7 +76,7 @@ export const PRICING_PLANS: PricingPlan[] = [
 export const MAX_NAME_LENGTH = 20;
 export const MAX_BANDWIDTH_GB = 6000;
 
-export const HIDDIFY_DOWNLOAD_URL = "https://nextcloud.mildlybrewed.com/s/9kMknzTdRk4GjiB/download?files=";
+export const HIDDIFY_DOWNLOAD_URL = "https://seafile.mildlybrewed.com/d/f7cef31aca9f488c9ff8/files/?dl=1&p=%2F";
 export const HIDDIFY_SERVERS: Record<HiddifyServerId, HiddifyServer> = {
   1: {
     baseUrl: "https://link.sss-vpn.com/QwId8HABKn9c6GYrnRNcxMj/api/v2",
