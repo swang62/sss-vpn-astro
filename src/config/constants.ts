@@ -12,7 +12,6 @@ export const DB_TEST = "file:test.db";
 export const DB_SYNC_INTERVAL = 30;
 
 export const DATA_PACKAGE_PRICE = 2; // dollars
-
 export const TRIAL_TIME = 3;
 
 // When changing these, make sure to update stripe products, tags, and customer portal
@@ -37,6 +36,26 @@ export const PLAN_LIMITS: Record<SubscriptionType, { data: number; price: number
   premium: {
     data: 600,
     price: 15,
+  },
+};
+
+export type Platform = "ios" | "android" | "mac" | "pc";
+export const FILE_TYPES: Record<Platform, { fileType: string; icon: string }> = {
+  android: {
+    fileType: "Hiddify.apk",
+    icon: "/setup/google-play.png",
+  },
+  ios: {
+    fileType: "Hiddify.ipa",
+    icon: "/setup/ios.png",
+  },
+  pc: {
+    fileType: "Hiddify.exe",
+    icon: "/setup/microsoft.png",
+  },
+  mac: {
+    fileType: "Hiddify.dmg",
+    icon: "/setup/mac.png",
   },
 };
 

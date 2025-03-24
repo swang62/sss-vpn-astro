@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { HIDDIFY_DOWNLOAD_URL } from "@/config/constants";
+import { FILE_TYPES, HIDDIFY_DOWNLOAD_URL, type Platform } from "@/config/constants";
 import { fetchUser } from "@/lib/api-clients";
 import { copyToClipboard, getHiddifyLinks } from "@/lib/utils";
 
@@ -17,7 +17,6 @@ import type { StepProps } from "./Step";
 import Step from "./Step";
 
 function getSteps(
-  platform: "mobile" | "desktop",
   downloadFile: string,
   downloadIcon: string,
   links?: ReturnType<typeof getHiddifyLinks>,
@@ -25,9 +24,9 @@ function getSteps(
   const isMacOS = downloadFile.includes(".dmg");
   const isWindows = downloadFile.includes(".exe");
   const isIOS = downloadFile.includes(".ipa");
-  const isAndriod = downloadFile.includes(".apk");
+  const isAndroid = downloadFile.includes(".apk");
 
-  const isMobile = platform === "mobile";
+  const isMobile = isIOS || isAndroid;
   const imageWidth = 400;
 
   return [
@@ -41,14 +40,14 @@ function getSteps(
           <>
             or click
             <a href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532" target="_blank" rel="noreferrer" className="px-1 text-primary-link underline">here</a>
-            to directly install from the App store. The app store may or may not work in China, but if successful, skip directly to Step 3.
+            to directly install from the App store. If successfully installed through the App store, skip directly to Step 3.
           </>
         )}
-        {isAndriod && (
+        {isAndroid && (
           <>
             or click
             <a href="https://play.google.com/store/apps/details?id=app.hiddify.com&hl=en-us" target="_blank" rel="noreferrer" className="px-1 text-primary-link underline">here</a>
-            to directly install from the Play store. The store will not work in China, but if successful, skip directly to Step 3.
+            to directly install from the Play store. If successfully installed through the Play store, skip directly to Step 3.
           </>
         )}
       </p>
@@ -66,10 +65,8 @@ function getSteps(
       content:
       <>
         <div>
-          Navigate to where you downloaded the file and install
-          {isMobile && " (skip this if you installed through the App store)"}
-          .
-          {isMobile && " Allow all permissions during installation."}
+          Navigate to where you downloaded the file and install it normally (usually by double-clicking).
+          {isMobile && " Allow unknown sources and accept all permissions during installation."}
         </div>
         {isIOS && (
           <div className="flex flex-col gap-4">
@@ -109,8 +106,8 @@ function getSteps(
           </div>
         )}
         {isWindows && (
-          <div className="text-muted-foreground">
-            Note: for windows, you might get a warning during install, click on More Info &gt; Run Anyways. The warning message at the end is normal as you should use the desktop shortcut from now on.
+          <div className="text-foreground">
+            If you get a warning during install, click on More Info &gt; Run Anyways.
           </div>
         )}
       </>,
@@ -180,16 +177,16 @@ function getSteps(
        <>
          <div>
            In the options panel
-           <Menu className="ml-1 inline-block" />
-           , under Config Options (or look for a
+           <Menu className="mx-1 inline-block" />
+           under Config Options (look for a
            <CogIcon className="mx-1 inline-block" />
            icon), set IPv6 Route to 'Enable' and Direct DNS to
            {" "}
-           {isWindows ? "'udp://1.1.1.1'." : "'local'."}
-           {" "}
-           You can also type it in if you can't find the option.
+           {isMobile ? "'local'. If using WiFi, you may need to change the Direct DNS to 'udp://1.1.1.1'." : "'udp://1.1.1.1'."}
          </div>
-         <img src="/setup/dns-config.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />
+         {isMobile
+           ? <img src="/setup/dns-config.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />
+           : <img src="/setup/dns-config-desktop.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />}
          {!isMobile && (
            <>
              <p>Confirm the service mode is set to 'VPN'.</p>
@@ -208,18 +205,12 @@ function getSteps(
           {" "}
           {isMobile && (
             <>
-              You should see a key or VPN icon in the top notification bar.
+              You should see a key or VPN icon in the top status bar.
             </>
           )}
         </p>
         <br />
         <img src="/setup/connected.png" width={imageWidth} alt="connected" className="self-center" loading="lazy" />
-        <br />
-        {isWindows && (
-          <div className="text-muted-foreground">
-            Note: on Windows, if there's no internet, try changing Direct DNS to 8.8.8.8, tcp://1.1.1.1, or local. It all depends on your specific computer setup, so just try each one in turn.
-          </div>
-        )}
       </>,
       title: (
         <div className="flex flex-nowrap">
@@ -254,21 +245,31 @@ interface Props {
   os?: string;
 }
 
-function HowToInstall({ device, os }: Props) {
+function getPlatform(props: Props): Platform {
+  if (!props.device) {
+    // Is desktop
+    if (props.os === "macOS") {
+      return "mac";
+    } else {
+      return "pc";
+    }
+  } else {
+    // Is mobile
+    if (props.os === "iOS") {
+      return "ios";
+    } else {
+      return "android";
+    }
+  }
+}
+
+function HowToInstall(props: Props) {
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout>();
   const { data, mutate } = useSWR("fetchUser", fetchUser);
   const user = data?.user;
   const profile = user?.profile;
   const links = profile ? getHiddifyLinks(user.email, profile.hiddifyId, profile.hiddifyServerId) : undefined;
-
-  const defaultTab = !device ? "desktop" : "mobile";
-
-  const isApple = os === "macOS" || os === "iOS";
-  const mobileFile = isApple ? "Hiddify.ipa" : "Hiddify.apk";
-  const desktopFile = isApple ? "Hiddify.dmg" : "Hiddify.exe";
-
-  const mobileIcon = isApple ? "/setup/ios.png" : "/setup/google-play.png";
-  const desktopIcon = isApple ? "/setup/mac.png" : "/setup/microsoft.png";
+  const platform = getPlatform(props);
 
   useEffect(() => {
     if (!profile?.hiddifyId) {
@@ -281,17 +282,39 @@ function HowToInstall({ device, os }: Props) {
   }, [profile?.hiddifyId]);
 
   return (
-    <Tabs defaultValue={defaultTab}>
-      <TabsList className="grid w-full grid-cols-2 mb-8">
-        <TabsTrigger value="mobile">Mobile</TabsTrigger>
-        <TabsTrigger value="desktop">Desktop</TabsTrigger>
+    <Tabs defaultValue={platform}>
+      <TabsList className="grid w-full grid-cols-4 mb-8">
+        <TabsTrigger value="android">
+          <img width="20" height="20" src={FILE_TYPES.android.icon} alt="android" loading="eager" />
+          <span className="ml-1">Android</span>
+        </TabsTrigger>
+        <TabsTrigger value="ios">
+          <img width="20" height="20" src={FILE_TYPES.ios.icon} alt="ios" loading="eager" />
+          <span className="ml-1">iOS</span>
+        </TabsTrigger>
+        <TabsTrigger value="pc">
+          <img width="20" height="20" src={FILE_TYPES.pc.icon} alt="pc" loading="eager" />
+          <span className="ml-1">PC</span>
+        </TabsTrigger>
+        <TabsTrigger value="mac">
+          <img width="20" height="20" src={FILE_TYPES.mac.icon} alt="mac" loading="eager" />
+          <span className="ml-1">Mac</span>
+        </TabsTrigger>
       </TabsList>
-      <TabsContent value="mobile">
-        {getSteps("mobile", mobileFile, mobileIcon, links)
+      <TabsContent value="android">
+        {getSteps(FILE_TYPES.android.fileType, FILE_TYPES.android.icon, links)
           .map((step, idx) => <Step key={idx} content={step.content} title={step.title} idx={idx} />)}
       </TabsContent>
-      <TabsContent value="desktop">
-        {getSteps("desktop", desktopFile, desktopIcon, links)
+      <TabsContent value="pc">
+        {getSteps(FILE_TYPES.pc.fileType, FILE_TYPES.pc.icon, links)
+          .map((step, idx) => <Step key={idx} content={step.content} title={step.title} idx={idx} />)}
+      </TabsContent>
+      <TabsContent value="ios">
+        {getSteps(FILE_TYPES.ios.fileType, FILE_TYPES.ios.icon, links)
+          .map((step, idx) => <Step key={idx} content={step.content} title={step.title} idx={idx} />)}
+      </TabsContent>
+      <TabsContent value="mac">
+        {getSteps(FILE_TYPES.mac.fileType, FILE_TYPES.mac.icon, links)
           .map((step, idx) => <Step key={idx} content={step.content} title={step.title} idx={idx} />)}
       </TabsContent>
     </Tabs>
