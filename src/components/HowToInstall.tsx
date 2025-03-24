@@ -283,7 +283,7 @@ function HowToInstall(props: Props) {
 
   return (
     <Tabs defaultValue={platform}>
-      <TabsList className="grid w-full grid-cols-4 mb-8">
+      <TabsList className="grid w-full grid-cols-4 mb-8 bg-slate-700">
         <TabsTrigger value="android">
           <img width="20" height="20" src={FILE_TYPES.android.icon} alt="android" loading="eager" />
           <span className="ml-1">Android</span>
