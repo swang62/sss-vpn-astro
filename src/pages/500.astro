@@ -8,7 +8,7 @@ export const prerender = true;
 ---
 
 <Base title="Oh No!">
-  <main class="container max-w-screen-md">
+  <main class="container max-w-(--breakpoint-md)">
     <a href="/" class="m-auto flex h-screen w-full flex-col items-center justify-center px-0 md:px-12">
       <Fragment set:html={Toaster} />
       <h1 class="mt-4 text-2xl text-center md:text-4xl">

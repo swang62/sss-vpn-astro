@@ -77,7 +77,7 @@ function PricingCard({
               <div
                 className={cn(
                   "h-fit rounded-xl px-2.5 py-1 text-sm",
-                  "bg-gradient-to-r from-orange-300 to-rose-400 dark:text-black",
+                  "bg-linear-to-r from-orange-300 to-rose-400 dark:text-black",
                 )}
               >
                 Recommended
@@ -87,7 +87,7 @@ function PricingCard({
               <div
                 className={cn(
                   "h-fit rounded-xl px-2.5 py-1 text-sm",
-                  "bg-gradient-to-r from-orange-300 to-rose-300 dark:text-black",
+                  "bg-linear-to-r from-orange-300 to-rose-300 dark:text-black",
                 )}
               >
                 Current plan
