@@ -7,12 +7,13 @@
     "ui": "@/components/ui",
     "utils": "@/lib/utils"
   },
+  "iconLibrary": "lucide",
   "rsc": false,
   "style": "default",
   "tailwind": {
     "baseColor": "zinc",
     "config": "tailwind.config.mjs",
-    "css": "src/styles/global.css",
+    "css": "src/styles/globals.css",
     "cssVariables": true,
     "prefix": ""
   },

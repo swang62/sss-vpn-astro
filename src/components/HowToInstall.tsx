@@ -151,7 +151,7 @@ function getSteps(
         <div className="flex items-center gap-2">
           <Input defaultValue={links?.url || "Loading..."} readOnly className="bg-muted text-muted-foreground" />
           <Button size="sm" onClick={() => copyToClipboard(links?.url || "")}>
-            <Copy className="w-4 h-4" />
+            <Copy className="size-4" />
           </Button>
         </div>
         <div>

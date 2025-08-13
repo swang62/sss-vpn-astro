@@ -47,7 +47,7 @@ function AccountLinks(_props: Props) {
         <div className="flex items-center gap-2 py-4">
           <Input defaultValue={url} readOnly className="bg-muted/40 text-muted-foreground" />
           <Button onClick={() => copyToClipboard(url)}>
-            <Copy className="w-4 h-4" />
+            <Copy className="size-4" />
             Copy
           </Button>
         </div>
