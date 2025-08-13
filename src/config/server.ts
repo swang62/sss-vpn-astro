@@ -31,7 +31,7 @@ const { data, error } = EnvSchema.safeParse({
 
 if (error) {
   console.error("❌ Invalid env:");
-  console.error(JSON.stringify(error.flatten().fieldErrors, null, 2));
+  console.error(JSON.stringify(z.treeifyError(error), null, 2));
   process?.exit(1);
 }
 

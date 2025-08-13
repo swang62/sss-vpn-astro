@@ -8,7 +8,6 @@ export default {
   darkMode: ["class"],
   plugins: [
     require("@tailwindcss/forms"),
-    require("tailwindcss-animate"),
   ],
   theme: {
     container: {
@@ -25,6 +24,7 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xl: "calc(var(--radius) + 4px)",
       },
       colors: {
         "accent": {
@@ -36,13 +36,6 @@ export default {
         "card": {
           DEFAULT: "var(--card)",
           foreground: "var(--card-foreground)",
-        },
-        "chart": {
-          1: "var(--chart-1)",
-          2: "var(--chart-2)",
-          3: "var(--chart-3)",
-          4: "var(--chart-4)",
-          5: "var(--chart-5)",
         },
         "destructive": {
           DEFAULT: "var(--destructive)",

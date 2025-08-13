@@ -5,9 +5,9 @@ export default antfu(
     astro: true,
     formatters: true,
     ignores: [
-      "**/migrations/*",
+      "**/db/migrations/*",
       "**/node_modules/*",
-      "**/public*",
+      "**/public/*",
       "**/.github/*",
     ],
     settings: {

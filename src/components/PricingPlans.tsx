@@ -67,7 +67,7 @@ function PricingCard({
 
   return (
     <Card
-      className={cn(`mx-auto flex max-w-80 flex-col justify-between bg-background py-1 text-foreground sm:mx-0`, user && isCurrentPlan && "border-rose-400")}
+      className={cn(`mx-auto flex max-w-80 flex-col justify-between bg-background pt-2 pb-6 text-foreground sm:mx-0`, user && isCurrentPlan && "border-rose-400")}
     >
       <div>
         <CardHeader className="pt-4 pb-6">

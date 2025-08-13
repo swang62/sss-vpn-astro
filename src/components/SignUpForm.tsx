@@ -34,7 +34,7 @@ import { secondsPassed } from "@/lib/utils";
 
 const formSchema = z
   .object({
-    email: z.string().email().toLowerCase(),
+    email: z.email().toLowerCase(),
     name: z.string().max(MAX_NAME_LENGTH),
     password: z
       .string()

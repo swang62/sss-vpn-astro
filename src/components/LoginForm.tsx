@@ -19,7 +19,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { signIn } from "@/lib/auth-client";
 
 const formSchema = z.object({
-  email: z.string().email().toLowerCase(),
+  email: z.email().toLowerCase(),
   password: z.string(),
 });
 

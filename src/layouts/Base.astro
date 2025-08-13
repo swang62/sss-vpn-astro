@@ -13,13 +13,6 @@ const { title } = Astro.props;
 <!doctype html>
 <html lang="en" class="scroll-smooth">
   <head>
-    <!-- Prevent stylesheet flashing -->
-    <style is:inline>
-      html {
-        visibility: hidden;
-        opacity: 0;
-      }
-    </style>
     <BaseHead title={title} />
   </head>
   <body class="flex flex-col min-h-screen">

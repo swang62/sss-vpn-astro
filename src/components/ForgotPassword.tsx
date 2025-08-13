@@ -21,7 +21,7 @@ import { forgetPassword } from "@/lib/auth-client";
 import { secondsPassed } from "@/lib/utils";
 
 const formSchema = z.object({
-  email: z.string().email().toLowerCase(),
+  email: z.email().toLowerCase(),
 });
 
 interface Props {}

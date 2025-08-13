@@ -8,7 +8,7 @@ interface TableOfContentsListProps
 }
 
 const TableOfContentsList = React.forwardRef<
-  React.ElementRef<"ul">,
+  React.ComponentRef<"ul">,
   TableOfContentsListProps
 >(({ className, indent, ...props }, ref) => (
   <ul
@@ -23,7 +23,7 @@ interface TableOfContentsTitleProps
   extends React.ComponentPropsWithoutRef<"li"> {}
 
 const TableOfContentsTitle = React.forwardRef<
-  React.ElementRef<"li">,
+  React.ComponentRef<"li">,
   TableOfContentsTitleProps
 >(({ className, ...props }, ref) => (
   <li
@@ -40,7 +40,7 @@ interface TableOfContentsItemProps
 }
 
 const TableOfContentsItem = React.forwardRef<
-  React.ElementRef<"li">,
+  React.ComponentRef<"li">,
   TableOfContentsItemProps
 >(({ className, indent, ...props }, ref) => (
   <li
@@ -56,7 +56,7 @@ interface TableOfContentsLinkProps extends React.ComponentPropsWithoutRef<"a"> {
 }
 
 const TableOfContentsLink = React.forwardRef<
-  React.ElementRef<"a">,
+  React.ComponentRef<"a">,
   TableOfContentsLinkProps
 >(({ className, isActive, ...props }, ref) => (
   <a

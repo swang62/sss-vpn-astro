@@ -99,6 +99,7 @@ export async function copyToClipboard(text: string) {
     document.body.prepend(textarea);
     textarea.select();
     try {
+      // @ts-nocheck
       document.execCommand("copy");
       toast.success("Copied to clipboard!");
     } catch (err) {
