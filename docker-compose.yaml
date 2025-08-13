@@ -1,3 +1,7 @@
+secrets:
+  sentry_token:
+    environment: SENTRY_TOKEN
+
 services:
   db:
     container_name: db
@@ -51,11 +55,12 @@ services:
         - PUBLIC_GTM_ID
         - SENTRY_PROJECT
         - SENTRY_DSN
-        - SENTRY_TOKEN
         - SOURCE_COMMIT
         - SITE_URL
       context: .
       dockerfile: Dockerfile
+      secrets:
+        - sentry_token
     container_name: sssvpn
     depends_on:
       db:

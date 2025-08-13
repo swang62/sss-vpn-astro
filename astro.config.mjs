@@ -57,7 +57,7 @@ export default defineConfig({
       ],
     }),
     sitemap(),
-    compressor(),
+    compressor(), // Must be last
   ],
   output: "server",
   server: {

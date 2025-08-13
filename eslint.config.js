@@ -9,7 +9,6 @@ export default antfu(
       "**/node_modules/*",
       "**/public*",
       "**/.github/*",
-      "**/components/ui/*",
     ],
     settings: {
       "vitest-globals/env": true,

@@ -7,7 +7,7 @@ WORKDIR /app
 
 # Setup PNPM
 ENV PNPM_HOME="/pnpm"
-ENV PNPM_VERSION=9.12.1
+ENV PNPM_VERSION=10.14.0
 ENV PATH="$PNPM_HOME:$PATH"
 RUN npm -g install pnpm@${PNPM_VERSION}
 
@@ -30,30 +30,34 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
       pnpm install --frozen-lock
 COPY . .
 
-# (Optional) Analytics
+# Monitoring/analytics
 ARG PUBLIC_GTM_ID
 ARG SENTRY_PROJECT
 ARG SENTRY_DSN
-ARG SENTRY_TOKEN
-ARG SOURCE_COMMIT=$SOURCE_COMMIT
+ARG SOURCE_COMMIT
 ARG SITE_URL
 
-# Final build
+# Final production build to /dist
 ENV NODE_ENV=production
 RUN printenv
-RUN pnpm build
+RUN --mount=type=secret,id=sentry_token \
+    SENTRY_TOKEN=/run/secrets/sentry_token \
+    pnpm build
 
-#############################
 FROM base AS runtime
 
 ENV NODE_ENV=production
+EXPOSE ${PORT}
 
+# Astro production build
 COPY --from=dependencies /app/package.json ./package.json
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
+
+# Drizzle-kit migrations
 COPY --from=build /app/drizzle.config.ts ./drizzle.config.ts
 COPY --from=build /app/src/db ./src/db
 COPY --from=build /app/src/config ./src/config
 
-EXPOSE ${PORT}
+# Entrypoint
 CMD ["pnpm", "start"]
