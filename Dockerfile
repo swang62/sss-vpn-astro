@@ -1,11 +1,9 @@
-FROM node:22-bullseye-slim AS base
+FROM node:22-slim AS base
 
 ENV NODE_ENV=development
 ENV HOST=0.0.0.0
 ENV PORT=4321
 WORKDIR /app
-
-#############################
 
 # Setup PNPM
 ENV PNPM_HOME="/pnpm"
@@ -20,14 +18,12 @@ RUN --mount=type=cache,target=/var/lib/apt/lists \
       && apt-get update \
       && apt-get install -y wget curl ca-certificates
 
-#############################
 FROM base AS dependencies 
 
 COPY package.json pnpm-lock.yaml ./
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
       pnpm install --prod --frozen-lock
 
-#############################
 FROM dependencies AS build
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \

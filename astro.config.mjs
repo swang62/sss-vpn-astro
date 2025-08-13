@@ -1,9 +1,9 @@
 import node from "@astrojs/node";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
-import tailwind from "@astrojs/tailwind";
 import inoxToolswhen from "@inox-tools/astro-when";
 import sentry from "@sentry/astro";
+import tailwindcss from "@tailwindcss/vite";
 import compressor from "astro-compressor";
 import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
@@ -33,11 +33,6 @@ export default defineConfig({
       },
     }),
     react(),
-    tailwind({
-      applyBaseStyles: false,
-      configFile: "tailwind.config.mjs",
-      nesting: true,
-    }),
     sentry({
       bundleSizeOptimizations: {
         excludeReplayIframe: true,
@@ -64,10 +59,7 @@ export default defineConfig({
       ],
     }),
     sitemap(),
-    compressor({
-      brotli: true,
-      gzip: false,
-    }),
+    compressor(),
   ],
   output: "server",
   server: {
@@ -81,5 +73,7 @@ export default defineConfig({
         external: [/vitest.*/, /.*\.test\..*/],
       },
     },
+
+    plugins: [tailwindcss()],
   },
 });
