@@ -104,19 +104,11 @@
     "eslint-plugin-format": "^0.1.2",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
-    "prettier": "^3.3.3",
-    "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.6.8",
     "sharp": "^0.33.5",
     "tsx": "^4.19.2",
     "vite": "^5.4.10",
     "vitest": "^2.1.4"
-  },
-  "pnpm": {
-    "overrides": {
-      "prettier": "^3.3.3",
-      "prettier-plugin-astro": "^0.14.1"
-    }
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
