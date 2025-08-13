@@ -1,13 +1,16 @@
 import { eq } from "drizzle-orm";
 
 import type { HiddifyServerId, SubscriptionType } from "@/config/types";
+import type { ProfileInsert } from "@/db";
 
 import { MAX_NAME_LENGTH, TRIAL_TIME } from "@/config/constants";
-import db, { type ProfileInsert, profile as profileTable, user as userTable } from "@/db";
+import db, { profile as profileTable, user as userTable } from "@/db";
 import { stripe } from "@/lib/server-clients";
 
+import type { UserDB } from "./queries";
+
 import { createHiddifyUser } from "./mutations-hiddify";
-import { getProductByPriceId, searchHiddifyUser, type UserDB } from "./queries";
+import { getProductByPriceId, searchHiddifyUser } from "./queries";
 
 export async function updateStripeName(stripeCustomerId: string, name: string) {
   await stripe.customers.update(stripeCustomerId, { name });
@@ -48,10 +51,10 @@ async function updateProfile(
         hiddifyId,
         hiddifyServerId,
         stripeCustomerId,
-        subscriptionEndAt: isAutoRenew ? null : new Date(subscription.current_period_end * 1000),
+        subscriptionEndAt: isAutoRenew ? null : new Date(subscription.items.data[0].current_period_end * 1000),
         subscriptionId: subscription.id,
         subscriptionItemId: itemId,
-        subscriptionStartAt: new Date(subscription.current_period_start * 1000),
+        subscriptionStartAt: new Date(subscription.items.data[0].current_period_start * 1000),
         subscriptionType: product?.id as SubscriptionType,
       }
     : {

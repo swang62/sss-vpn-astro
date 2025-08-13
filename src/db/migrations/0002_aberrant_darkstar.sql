@@ -1,3 +1,8 @@
+ALTER TABLE `account` RENAME COLUMN "expiresAt" TO "accessTokenExpiresAt";--> statement-breakpoint
+ALTER TABLE `account` ADD `createdAt` integer;--> statement-breakpoint
+ALTER TABLE `account` ADD `refreshTokenExpiresAt` integer;--> statement-breakpoint
+ALTER TABLE `account` ADD `scope` text;--> statement-breakpoint
+ALTER TABLE `account` ADD `updatedAt` integer;--> statement-breakpoint
 PRAGMA foreign_keys=OFF;--> statement-breakpoint
 CREATE TABLE `__new_profile` (
 	`createdAt` integer NOT NULL,
@@ -19,4 +24,10 @@ INSERT INTO `__new_profile`("createdAt", "hiddifyId", "hiddifyServerId", "purcha
 DROP TABLE `profile`;--> statement-breakpoint
 ALTER TABLE `__new_profile` RENAME TO `profile`;--> statement-breakpoint
 PRAGMA foreign_keys=ON;--> statement-breakpoint
-CREATE UNIQUE INDEX `profile_userId_unique` ON `profile` (`userId`);
+CREATE UNIQUE INDEX `profile_userId_unique` ON `profile` (`userId`);--> statement-breakpoint
+ALTER TABLE `session` ADD `createdAt` integer NOT NULL;--> statement-breakpoint
+ALTER TABLE `session` ADD `token` text NOT NULL;--> statement-breakpoint
+ALTER TABLE `session` ADD `updatedAt` integer NOT NULL;--> statement-breakpoint
+CREATE UNIQUE INDEX `session_token_unique` ON `session` (`token`);--> statement-breakpoint
+ALTER TABLE `verification` ADD `createdAt` integer;--> statement-breakpoint
+ALTER TABLE `verification` ADD `updatedAt` integer;

@@ -200,14 +200,13 @@ const route = createBaseRouter()
 
         const reason = invoice.billing_reason;
         const stripeCustomerId = invoice.customer as string;
-        const subscriptionId = invoice.subscription as string;
         const profile = await getProfileByStripeId(stripeCustomerId);
         if (!profile) throw new Error(`Customer missing for ${stripeCustomerId}`);
 
         if (reason === "manual" || reason === "subscription_create") {
           await handleItemPurchases(stripeCustomerId, invoice, c.var.logger);
-        } else if (subscriptionId && reason === "subscription_cycle") {
-          await resetUsageLimit(profile.hiddifyId, profile.hiddifyServerId, profile.subscriptionType);
+        } else if (reason === "subscription_cycle") {
+          await resetUsageLimit(profile.hiddifyId, profile.hiddifyServerId, profile.subscriptionType, c.var.logger);
         }
         break;
       }
@@ -223,30 +222,33 @@ const route = createBaseRouter()
         if (session.status === "complete") {
           if (subscriptionId && isNewSubscription) {
             await setSubscriptionRenew(subscriptionId, isAutoRenew);
-            c.var.logger.debug(`Set subscription auto-renew:${isAutoRenew} for ${stripeCustomerId}`);
+            c.var.logger.debug(`Set subscription to auto-renew:${isAutoRenew} for ${stripeCustomerId}`);
           }
         }
         break;
       }
       case "customer.updated": {
         const customer = event.data.object;
+
         const stripeCustomerId = customer.id;
         const profile = await getProfileByStripeId(stripeCustomerId);
         if (!profile) throw new Error(`Customer update failed for ${stripeCustomerId}`);
-        await updateUser(profile.userId, customer.name || "");
 
+        await updateUser(profile.userId, customer.name || "");
         c.var.logger.debug(`Customer updated for ${stripeCustomerId}`);
         break;
       }
       case "customer.subscription.created":
       case "customer.subscription.updated": {
         const subscription = event.data.object;
+
         await updateSubscription(subscription);
         c.var.logger.debug(`Subscription updated for ${subscription.customer}`);
         break;
       }
       case "customer.subscription.deleted": {
         const subscription = event.data.object;
+
         await cancelSubscription(subscription);
         c.var.logger.debug(`Subscription cancelled for ${subscription.customer}`);
         break;
@@ -254,13 +256,14 @@ const route = createBaseRouter()
       case "product.created":
       case "product.updated": {
         const product = event.data.object;
+
         await updateProduct(product);
         c.var.logger.debug(`${product.name} synced to DB`);
         break;
       }
       default:
         processed = false;
-        c.var.logger.debug(`Receive webhook event:${event.type} but did not process.`);
+        c.var.logger.error(`Receive webhook event:${event.type} but failed to process!`);
         break;
     }
     return c.json({ message: processed ? "Successfully processed" : "Failed to process" }, 200);

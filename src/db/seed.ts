@@ -5,30 +5,31 @@ import fs from "node:fs";
 // !!! Must use relative imports and conditional imports !!!
 import { TEST_EMAIL } from "../config/constants";
 import { DB_LOCAL_URL } from "../config/server";
-import { account } from "./schema";
 
 export const TEST_USER = {
-  banned: undefined,
-  createdAt: new Date(),
+  banned: false,
+  createdAt: new Date("2050-01-01T00:00:00.000Z"),
   email: TEST_EMAIL,
   emailVerified: true,
   id: "admin-id",
   name: "steve",
   role: "admin",
-  updatedAt: new Date(),
+  updatedAt: new Date("2050-01-01T00:00:00.000Z"),
 };
 
 export async function push() {
   await remove();
 
   console.debug("Pushing migrations...");
-  execSync("pnpm drizzle-kit migrate");
+  const result = execSync("pnpm drizzle-kit migrate");
+
+  console.debug(result.toString());
 }
 
 export async function seed() {
   console.debug("Seeding database...");
 
-  const { default: db, user } = await import(".");
+  const { account, default: db, user } = await import("../db");
   const password = "password";
   const hash = await hashPassword(password);
 
@@ -36,10 +37,11 @@ export async function seed() {
   await db.insert(account).values([
     {
       accountId: TEST_USER.id,
-      expiresAt: new Date("2050-01-01T00:00:00.000Z"),
+      createdAt: TEST_USER.createdAt,
       id: "admin-account",
       password: hash,
       providerId: "credential",
+      updatedAt: TEST_USER.updatedAt,
       userId: TEST_USER.id,
     },
   ]);

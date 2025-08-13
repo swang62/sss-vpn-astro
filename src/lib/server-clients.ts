@@ -12,6 +12,7 @@ import {
 
 // Stripe
 export const stripe = new Stripe(STRIPE_SECRET_KEY || "test", {
+  apiVersion: "2025-07-30.basil",
   maxNetworkRetries: 3,
   timeout: 10 * 1000,
 });

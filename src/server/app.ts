@@ -1,6 +1,7 @@
+import type { Context } from "hono";
 import type { PinoLogger } from "hono-pino";
 
-import { type Context, Hono } from "hono";
+import { Hono } from "hono";
 
 import type { Session, UserSession } from "@/lib/auth-client";
 

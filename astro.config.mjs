@@ -39,10 +39,8 @@ export default defineConfig({
         excludeReplayShadowDom: true,
         excludeReplayWorker: true,
       },
-      dsn: process.env.SENTRY_DSN,
+      clientInitPath: "./sentry.client.config.js",
       enabled: !!process.env.SENTRY_TOKEN && !!process.env.SENTRY_DSN,
-      environment: process.env.NODE_ENV,
-      release: process.env.SOURCE_COMMIT || "default",
       serverInitPath: "./sentry.server.config.js",
       sourceMapsUploadOptions: {
         authToken: process.env.SENTRY_TOKEN,

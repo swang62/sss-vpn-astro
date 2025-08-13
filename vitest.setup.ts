@@ -1,20 +1,12 @@
-import type { GlobalSetupContext } from "vitest/node";
-
 import { push, remove, seed } from "@/db/seed";
+import { sleep } from "@/lib/utils";
 
-export async function setup({ provide: _provide }: GlobalSetupContext) {
+export async function setup() {
   await push();
+  await sleep(1000);
   await seed();
-
-  // _provide("randomGlobalVariable", "value");
 }
 
 export async function teardown() {
   await remove();
-}
-
-declare module "vitest" {
-  export interface ProvidedContext {
-    randomGlobalVariable: string;
-  }
 }

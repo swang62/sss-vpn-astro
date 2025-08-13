@@ -4,11 +4,13 @@ import { CogIcon, Copy, Download, Menu, PartyPopper } from "lucide-react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
+import type { Platform } from "@/config/constants";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FILE_TYPES, HIDDIFY_DOWNLOAD_URL, type Platform } from "@/config/constants";
+import { FILE_TYPES, HIDDIFY_DOWNLOAD_URL } from "@/config/constants";
 import { fetchUser } from "@/lib/api-clients";
 import { copyToClipboard, getHiddifyLinks } from "@/lib/utils";
 

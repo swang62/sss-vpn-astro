@@ -1,8 +1,10 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
     "jsx": "react-jsx",
     "jsxImportSource": "react",
+    "skipLibCheck": true,
     "paths": {
       "@/*": [
         "./src/*"

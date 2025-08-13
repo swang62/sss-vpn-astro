@@ -1,51 +1,39 @@
 import { relations } from "drizzle-orm";
-import * as t from "drizzle-orm/sqlite-core";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 import type { HiddifyServerId, SubscriptionType } from "@/config/types";
 
 import { user } from "./user";
 
-export const profile = t.sqliteTable("profile", {
-  createdAt: t
-    .integer({ mode: "timestamp_ms" })
+export const profile = sqliteTable("profile", {
+  createdAt: integer({ mode: "timestamp_ms" })
     .notNull()
     .$default(() => new Date()),
-  hiddifyId: t
-    .text()
+  hiddifyId: text()
     .primaryKey()
     .notNull(),
-  hiddifyServerId: t
-    .text()
+  hiddifyServerId: text()
     .notNull()
     .$type<HiddifyServerId>()
     .default("1"),
-  purchasedRouter: t
-    .integer({ mode: "boolean" })
+  purchasedRouter: integer({ mode: "boolean" })
     .notNull()
     .default(false),
-  stripeCustomerId: t
-    .text()
+  stripeCustomerId: text()
     .notNull(),
-  subscriptionEndAt: t
-    .integer({ mode: "timestamp_ms" }),
-  subscriptionId: t
-    .text(),
-  subscriptionItemId: t
-    .text(),
-  subscriptionStartAt: t
-    .integer({ mode: "timestamp_ms" }),
-  subscriptionType: t
-    .text()
+  subscriptionEndAt: integer({ mode: "timestamp_ms" }),
+  subscriptionId: text(),
+  subscriptionItemId: text(),
+  subscriptionStartAt: integer({ mode: "timestamp_ms" }),
+  subscriptionType: text()
     .notNull()
     .$type<SubscriptionType>()
     .default("none"),
-  updatedAt: t
-    .integer({ mode: "timestamp_ms" })
+  updatedAt: integer({ mode: "timestamp_ms" })
     .notNull()
     .$default(() => new Date())
     .$onUpdate(() => new Date()),
-  userId: t
-    .text("userId")
+  userId: text()
     .notNull()
     .unique()
     .references(() => user.id, { onDelete: "cascade", onUpdate: "cascade" }),
@@ -58,4 +46,4 @@ export const ProfileRelations = relations(profile, ({ one }) => ({
   }),
 }));
 
-export type ProfileInsert = Omit<typeof profile.$inferInsert, "userId" >;
+export type ProfileInsert = Omit<typeof profile.$inferInsert, "userId">;

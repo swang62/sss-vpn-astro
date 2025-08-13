@@ -1,4 +1,6 @@
-import { type ClientResponse, hc } from "hono/client";
+import type { ClientResponse } from "hono/client";
+
+import { hc } from "hono/client";
 
 import type { App } from "@/server";
 

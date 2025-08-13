@@ -1,5 +1,5 @@
 import type { ErrorHandler, MiddlewareHandler, NotFoundHandler } from "hono";
-import type { StatusCode } from "hono/utils/http-status";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
 
 import { captureException } from "@sentry/astro";
 import { pinoLogger as logger } from "hono-pino";
@@ -38,10 +38,15 @@ export const testMiddleware = createMiddleware<Bindings>(async (c, next) => {
     return next();
   }
 
+  const now = new Date();
+
   c.set("user", TEST_USER);
   c.set("session", {
-    expiresAt: new Date(),
+    createdAt: now,
+    expiresAt: now,
     id: TEST_USER.id,
+    token: "",
+    updatedAt: now,
     userId: TEST_USER.id,
   });
   return next();
@@ -59,7 +64,7 @@ export const onError: ErrorHandler = (error, c) => {
   const currentStatus
     = "status" in error ? error.status : c.newResponse(null).status;
   const statusCode
-    = currentStatus !== 200 ? (currentStatus as StatusCode) : 500;
+    = currentStatus !== 200 ? (currentStatus as ContentfulStatusCode) : 500;
   const errorMessage = {
     message: statusCode === 401 ? "Unauthorized" : error.message,
     stack: IS_PRODUCTION ? undefined : error.stack,
@@ -72,16 +77,16 @@ export function corsMiddleware(): MiddlewareHandler {
   return !IS_PRODUCTION
     ? createMiddleware((_c, next) => next())
     : cors({
-      allowHeaders: ["*"],
-      allowMethods: ["GET", "POST", "OPTIONS"],
-      credentials: true,
-      exposeHeaders: ["*"],
-      maxAge: 600,
-      origin: origin =>
-        origin.includes(".mildlybrewed.")
-          ? origin
-          : "localhost",
-    });
+        allowHeaders: ["*"],
+        allowMethods: ["GET", "POST", "OPTIONS"],
+        credentials: true,
+        exposeHeaders: ["*"],
+        maxAge: 600,
+        origin: origin =>
+          origin.includes(".mildlybrewed.")
+            ? origin
+            : "localhost",
+      });
 }
 
 export function pinoLogger(): MiddlewareHandler {

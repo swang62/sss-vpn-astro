@@ -1,7 +1,7 @@
 {
   "name": "sssvpn",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.5",
   "scripts": {
     "astro": "astro",
     "build": "NODE_ENV=production astro check --minimumSeverity warning && export $(cat .env.build) && astro build",
@@ -81,7 +81,7 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.11",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "5.9.2",
+    "typescript": "^5.9.2",
     "ua-parser-js": "^2.0.4",
     "zod": "^4.0.17"
   },

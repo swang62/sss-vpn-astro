@@ -3,27 +3,27 @@ import { Icon } from "astro-icon/components";
 
 const features = [
   {
-    title: "It actually works.",
     description:
       "Almost all commercial VPN services are banned/unreliable in China (despite their claims). The fact that this VPN actually works is the biggest selling point IMO",
     icon: "lucide:biceps-flexed",
+    title: "It actually works.",
   },
   {
-    title: "Unbeatable customer service.",
     description: "Personal customer support from someone you actually know and trust.",
     icon: "lucide:heart-handshake",
+    title: "Unbeatable customer service.",
   },
   {
-    title: "Faster than most chinese VPNs.",
     description:
       "Most VPNs in china are throttled due to their popularity (public ones are easily tracked). For this VPN, streaming at 720p+ HD quality is possible on most streaming sites.",
     icon: "lucide:zap",
+    title: "Faster than most chinese VPNs.",
   },
   {
-    title: "Resilient against bans.",
     description:
       "Everything is self-hosted on a SINGLE server. If the server gets banned, I can spin up another one in no time.",
     icon: "lucide:shield-check",
+    title: "Resilient against bans.",
   },
 ];
 ---
@@ -38,7 +38,7 @@ const features = [
 
       <div class="grid gap-4 mt-12 sm:grid-cols-2">
         {
-          features.map((feature) => (
+          features.map(feature => (
             <div class="relative p-5 overflow-hidden border group rounded-2xl bg-background md:p-8">
               <div
                 aria-hidden="true"

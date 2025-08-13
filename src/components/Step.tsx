@@ -3,8 +3,8 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 
 export interface StepProps {
   idx?: number;
-  title: JSX.Element | string;
-  content: JSX.Element | string;
+  title: React.JSX.Element | string;
+  content: React.JSX.Element | string;
 }
 
 function Step({ content, idx = 0, title }: StepProps) {

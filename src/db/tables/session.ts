@@ -1,23 +1,18 @@
 import { relations } from "drizzle-orm";
-import * as t from "drizzle-orm/sqlite-core";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 import { user } from "./user";
 
-export const session = t.sqliteTable("session", {
-  expiresAt: t
-    .integer({ mode: "timestamp" })
-    .notNull(),
-  id: t
-    .text()
-    .primaryKey(),
-  impersonatedBy: t
-    .text(),
-  ipAddress: t
-    .text(),
-  userAgent: t
-    .text(),
-  userId: t
-    .text()
+export const session = sqliteTable("session", {
+  createdAt: integer({ mode: "timestamp" }).notNull(),
+  expiresAt: integer({ mode: "timestamp" }).notNull(),
+  id: text().primaryKey(),
+  impersonatedBy: text(),
+  ipAddress: text(),
+  token: text().notNull().unique(),
+  updatedAt: integer({ mode: "timestamp" }).notNull(),
+  userAgent: text(),
+  userId: text()
     .notNull()
     .references(() => user.id, { onDelete: "cascade", onUpdate: "cascade" }),
 });

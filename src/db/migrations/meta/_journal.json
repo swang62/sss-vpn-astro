@@ -1,27 +1,27 @@
 {
-  "version": "7",
   "dialect": "sqlite",
   "entries": [
     {
+      "breakpoints": true,
       "idx": 0,
-      "version": "6",
-      "when": 1730369116063,
       "tag": "0000_stiff_felicia_hardy",
-      "breakpoints": true
+      "version": "6",
+      "when": 1730369116063
     },
     {
+      "breakpoints": true,
       "idx": 1,
-      "version": "6",
-      "when": 1731144741955,
       "tag": "0001_flawless_phalanx",
-      "breakpoints": true
+      "version": "6",
+      "when": 1731144741955
     },
     {
       "idx": 2,
       "version": "6",
-      "when": 1755057048186,
-      "tag": "0002_bored_epoch",
+      "when": 1755081900734,
+      "tag": "0002_aberrant_darkstar",
       "breakpoints": true
     }
-  ]
+  ],
+  "version": "7"
 }

@@ -1,7 +1,9 @@
 import { eq } from "drizzle-orm";
 
+import type { HiddifyServerId, HiddifyUser, SubscriptionType } from "@/config/types";
+
 import { HIDDIFY_SERVERS, MAX_BANDWIDTH_GB } from "@/config/constants";
-import { HIDDIFY_SERVER_IDS, type HiddifyServerId, type HiddifyUser, type SubscriptionType } from "@/config/types";
+import { HIDDIFY_SERVER_IDS } from "@/config/types";
 import db, {
   product as productTable,
   profile as profileTable,

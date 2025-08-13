@@ -1,3 +1,5 @@
+import type { PinoLogger } from "hono-pino";
+
 import type { HiddifyServerId, HiddifyUser, SubscriptionType } from "@/config/types";
 
 import { HIDDIFY_SERVERS, PLAN_LIMITS, TRIAL_TIME } from "@/config/constants";
@@ -47,6 +49,7 @@ export async function resetUsageLimit(
   id: string,
   serverId: HiddifyServerId,
   plan: SubscriptionType,
+  logger: PinoLogger,
 ) {
   const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
 
@@ -54,6 +57,8 @@ export async function resetUsageLimit(
     usage_limit_GB: PLAN_LIMITS[plan].data,
   };
   await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body);
+
+  logger.debug(`Reset subscription usage to ${body.usage_limit_GB} for hiddify user:${id}`);
 }
 
 export async function increaseUsageLimit(

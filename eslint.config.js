@@ -26,7 +26,7 @@ export default antfu(
       "jsonc/sort-keys": ["off"],
       "no-console": ["off"],
       "node/prefer-global/process": ["off"],
-      "perfectionist/sort-imports": ["warn", { internalPattern: ["@/**"] }],
+      "perfectionist/sort-imports": ["warn", { internalPattern: ["^@/.+"] }],
       "perfectionist/sort-objects": ["warn"],
       "style/brace-style": ["off"],
       "ts/ban-ts-comment": ["off"],

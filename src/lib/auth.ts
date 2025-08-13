@@ -18,7 +18,8 @@ export const auth = betterAuth({
   emailAndPassword: {
     autoSignIn: true,
     enabled: true,
-    async sendResetPassword(user, url) {
+    requireEmailVerification: true,
+    sendResetPassword: async ({ url, user }) => {
       if (!postmarkClient) {
         console.debug("Reset password link --", url);
         return;
@@ -36,7 +37,9 @@ export const auth = betterAuth({
     },
   },
   emailVerification: {
-    async sendVerificationEmail(user, url) {
+    autoSignInAfterVerification: true,
+    sendOnSignUp: true,
+    sendVerificationEmail: async ({ url, user }) => {
       if (!postmarkClient) {
         console.debug("Verification link --", url);
         return;
@@ -53,9 +56,7 @@ export const auth = betterAuth({
       }).catch(() => console.error(`Failed to send email to ${user.email}, manual verification link --`, url));
     },
   },
-  logger: {
-    verboseLogging: true,
-  },
+  logger: { level: "debug" },
   plugins: [admin()],
   rateLimit: {
     enabled: true,

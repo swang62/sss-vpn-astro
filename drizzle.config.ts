@@ -12,7 +12,7 @@ const DB_URL = IS_TESTING ? DB_TEST : DB_REMOTE;
 console.debug("Connecting to DB -", DB_URL);
 
 export default defineConfig({
-  breakpoints: false,
+  breakpoints: true,
   casing: "camelCase",
   dbCredentials: {
     authToken: DB_AUTH_TOKEN,

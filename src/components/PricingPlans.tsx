@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import useSWR from "swr";
 
 import type { PricingPlan } from "@/config/constants";
+import type { User } from "@/lib/api-clients";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +18,7 @@ import {
 } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { PRICING_PLANS } from "@/config/constants";
-import { apiClient, fetchUser, parseApi, type User } from "@/lib/api-clients";
+import { apiClient, fetchUser, parseApi } from "@/lib/api-clients";
 import { capitalize, cn } from "@/lib/utils";
 
 function PricingCard({
@@ -38,11 +39,11 @@ function PricingCard({
     setLoading(true);
     const { data } = isActive
       ? await parseApi(
-        apiClient.stripe["customer-portal"].$post({ json: { plan } }),
-      )
+          apiClient.stripe["customer-portal"].$post({ json: { plan } }),
+        )
       : await parseApi(
-        apiClient.stripe.checkout.$post({ json: { monthly, plan } }),
-      );
+          apiClient.stripe.checkout.$post({ json: { monthly, plan } }),
+        );
     if (data?.url) {
       navigate(data.url);
     } else {

@@ -22,8 +22,8 @@ export async function setSubscriptionRenew(subscriptionId: string, isAutoRenew: 
 export async function updateSubscription(subscription: Stripe.Subscription) {
   const stripeCustomerId = subscription.customer as string;
   const subscriptionId = subscription.id;
-  const subscriptionStartAt = new Date(subscription.current_period_start * 1000);
-  const subscriptionEndAt = new Date(subscription.current_period_end * 1000);
+  const subscriptionStartAt = new Date(subscription.items.data[0].current_period_start * 1000);
+  const subscriptionEndAt = new Date(subscription.items.data[0].current_period_end * 1000);
   const status = subscription.status;
   const isAutoRenew = !subscription.cancel_at_period_end;
 
@@ -85,16 +85,16 @@ export async function handleItemPurchases(stripeCustomerId: string, invoice: Str
   let purchasedDataPlan = false;
   let totalSpent = 0;
   for (const item of lineItems) {
-    const priceId = item.price?.id;
+    const priceId = item.pricing?.price_details?.price;
     const product = await getProductByPriceId(priceId);
     if (product && product.id === "router") {
       purchasedRouter = true;
     }
 
-    const unitPrice = Number(item.unit_amount_excluding_tax);
+    const unitPrice = Number(item.pricing?.unit_amount_decimal);
     if (unitPrice === DATA_PACKAGE_PRICE * 100) {
       purchasedDataPlan = true;
-      totalSpent += Number(item.amount_excluding_tax || 0) / 100;
+      totalSpent += Number(item.amount || 0) / 100;
     }
   }
 
