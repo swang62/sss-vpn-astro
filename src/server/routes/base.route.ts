@@ -33,11 +33,8 @@ const route = createBaseRouter()
       const { email } = c.req.valid("query");
 
       const user = await getUserByEmail(email);
-      if (!user || !email) {
-        return c.json({ exists: false });
-      }
 
-      return c.json({ exists: true });
+      return c.json({ exists: !!user && !!email });
     },
   )
   .get("/error", (c) => {

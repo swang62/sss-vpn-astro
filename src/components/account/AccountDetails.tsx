@@ -80,9 +80,15 @@ function AccountDetails(_props: Props) {
     },
   ];
 
+  // Poll for hiddify profile creation
   useEffect(() => {
     if (!profile?.hiddifyId) {
-      setIntervalId(setInterval(mutate, 2000));
+      setIntervalId(setInterval(async () => {
+        const data = await mutate();
+        if (data?.user?.profile?.hiddifyId) {
+          clearInterval(intervalId);
+        }
+      }, 2000));
     } else {
       clearInterval(intervalId);
     }
@@ -90,6 +96,7 @@ function AccountDetails(_props: Props) {
     return () => clearInterval(intervalId);
   }, [profile?.hiddifyId]);
 
+  // Poll for stripe subscription renewal
   useEffect(() => {
     if (loading) {
       setIntervalId(setInterval(async () => {

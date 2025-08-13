@@ -12,6 +12,7 @@ export const profile = t.sqliteTable("profile", {
     .$default(() => new Date()),
   hiddifyId: t
     .text()
+    .primaryKey()
     .notNull(),
   hiddifyServerId: t
     .text()

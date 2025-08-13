@@ -1,4 +1,5 @@
 import { navigate } from "astro:transitions/client";
+import { CopyrightIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -42,8 +43,9 @@ function AccountPortal(_props: Props) {
         </p>
       </CardContent>
       <CardFooter className="justify-between gap-4 py-4 border-t bg-muted">
-        <span className="text-muted-foreground">
+        <span className="text-muted-foreground inline-flex">
           Powered by Stripe
+          <CopyrightIcon className="ml-0.5 w-3 h-3 self-center" />
         </span>
         <Button
           disabled={loading}
