@@ -13,7 +13,9 @@ import { cancelSubscription, handleItemPurchases, setSubscriptionRenew, updateSu
 import { updateUser } from "@/db/mutations-user";
 import { getProductByKey, getProfileByStripeId } from "@/db/queries";
 import { stripe } from "@/lib/server-clients";
-import { authUser, createBaseRouter } from "@/server/app";
+import { createBaseRouter } from "@/server/app";
+
+import { getAuthenticatedUser } from "../middleware";
 
 // All stripe routes must be authenticated
 
@@ -25,7 +27,7 @@ const route = createBaseRouter()
       plan: z.enum(PAID_PLANS),
     }),
   ), async (c) => {
-    const { profile } = await authUser(c);
+    const { profile } = await getAuthenticatedUser(c);
     const { monthly, plan } = c.req.valid("json");
 
     const product = await getProductByKey(plan);
@@ -70,7 +72,7 @@ const route = createBaseRouter()
   })
 
   .post("/add-data", async (c) => {
-    const { profile } = await authUser(c);
+    const { profile } = await getAuthenticatedUser(c);
     if (!profile?.subscriptionId) throw new Error("No active subscription");
 
     const currentPlan = profile.subscriptionType;
@@ -106,7 +108,7 @@ const route = createBaseRouter()
   })
 
   .post("/buy-router", async (c) => {
-    const { profile } = await authUser(c);
+    const { profile } = await getAuthenticatedUser(c);
 
     const product = await getProductByKey("router");
     if (!product || !profile) throw new Error("Router missing");
@@ -130,7 +132,7 @@ const route = createBaseRouter()
       plan: z.enum(PAID_PLANS).optional(),
     }).optional(),
   ), async (c) => {
-    const { profile } = await authUser(c);
+    const { profile } = await getAuthenticatedUser(c);
     if (!profile) throw new Error("Profile missing");
 
     const body = c.req.valid("json");
@@ -167,7 +169,7 @@ const route = createBaseRouter()
       renew: z.boolean(),
     }),
   ), async (c) => {
-    const { profile } = await authUser(c);
+    const { profile } = await getAuthenticatedUser(c);
     if (!profile) throw new Error("Profile missing");
 
     const { renew } = c.req.valid("json");

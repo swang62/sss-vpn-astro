@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { PasswordInput } from "@/components/ui/password-input";
-import { resetPassword, signIn } from "@/lib/auth-client";
+import { resetPassword, signIn } from "@/lib/auth-clients";
 import { sleep } from "@/lib/utils";
 
 const formSchema = z

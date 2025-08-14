@@ -50,7 +50,7 @@ function AccountPortal(_props: Props) {
           loading={loading}
           onClick={redirectCustomerPortal}
         >
-          <span>Visit customer portal</span>
+          <span>Visit portal</span>
         </Button>
       </CardFooter>
     </Card>

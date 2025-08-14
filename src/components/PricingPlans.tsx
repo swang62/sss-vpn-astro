@@ -126,7 +126,7 @@ function PricingCard({
           {isCurrentPlan
             ? (
                 <div className="flex gap-2">
-                  <Button loading={loading} disabled={loading} onClick={onClickAddData}>Add more data</Button>
+                  <Button loading={loading} disabled={loading} onClick={onClickAddData}>+ Add data</Button>
                   <a href="/dashboard/account"><Button variant="outline">Manage</Button></a>
                 </div>
               )

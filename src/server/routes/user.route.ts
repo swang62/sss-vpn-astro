@@ -4,13 +4,15 @@ import { z } from "zod";
 import { MAX_NAME_LENGTH } from "@/config/constants";
 import { updateStripeName, updateUser } from "@/db/mutations-user";
 import { getHiddifyUsage } from "@/db/queries";
-import { authUser, createBaseRouter } from "@/server/app";
+import { createBaseRouter } from "@/server/app";
+
+import { getAuthenticatedUser } from "../middleware";
 
 // All user routes must be authenticated
 
 const route = createBaseRouter()
   .get("/", async (c) => {
-    const user = await authUser(c);
+    const user = await getAuthenticatedUser(c);
     const session = c.get("session");
 
     return c.json({ session, user });
@@ -21,7 +23,7 @@ const route = createBaseRouter()
       name: z.string().max(MAX_NAME_LENGTH),
     }),
   ), async (c) => {
-    const user = await authUser(c);
+    const user = await getAuthenticatedUser(c);
     const { name } = c.req.valid("json");
     const stripeCustomerId = user.profile?.stripeCustomerId;
 
@@ -31,7 +33,7 @@ const route = createBaseRouter()
     return c.json({ user: updatedUser });
   })
   .get("/usage", async (c) => {
-    const user = await authUser(c);
+    const user = await getAuthenticatedUser(c);
     if (!user.profile) {
       return c.json({ usage: null, user: null }, 404);
     };

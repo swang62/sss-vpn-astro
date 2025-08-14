@@ -1,6 +1,6 @@
 import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
 import { navigate } from "astro:transitions/client";
-import { Cog, Edit, Home, LogOut, User } from "lucide-react";
+import { Cog, Edit, Home, LogOut, User, Wrench } from "lucide-react";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { fetchUser } from "@/lib/api-clients";
-import { signOut } from "@/lib/auth-client";
+import { signOut } from "@/lib/auth-clients";
 import { cn } from "@/lib/utils";
 
 interface Props {}
@@ -21,6 +21,7 @@ function AvatarMenu(_props: Props) {
   const { data } = useSWR("fetchUser", fetchUser);
   const user = data?.user;
   const nameLetter = user?.name?.length && user.name[0].toUpperCase();
+  const isAdmin = user?.role === "admin" || false;
 
   // Handlers
   const logout = async () => {
@@ -71,6 +72,16 @@ function AvatarMenu(_props: Props) {
           </a>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+        {isAdmin && (
+          <DropdownMenuItem className={menuStyle}>
+            <a href="/dashboard/debug" className="w-full">
+              <Button variant="ghost" className={buttonStyle}>
+                <Wrench className="text-destructive" />
+                <span>Admin API</span>
+              </Button>
+            </a>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem className={menuStyle}>
           <Button variant="ghost" className={buttonStyle} onClick={logout}>
             <LogOut />

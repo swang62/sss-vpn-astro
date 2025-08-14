@@ -7,7 +7,7 @@ import ThemeToggle from "@/components/header/ThemeToggle";
 import { SITE_NAME } from "@/config/constants";
 import { setupNewUser } from "@/db/mutations-user";
 import Base from "@/layouts/Base.astro";
-import Header from "@/layouts/Header.astro";
+import Navbar from "@/layouts/Navbar.astro";
 
 interface Props {
   title: string;
@@ -30,7 +30,7 @@ if (isVerified && !user.profile?.stripeCustomerId) {
 ---
 
 <Base title={title}>
-  <Header>
+  <Navbar>
     <DashboardMobileMenu current={pathname} slot="mobile" client:load />
     <span class="text-xl text-nowrap md:inline-block" slot="left">
       {SITE_NAME}
@@ -42,7 +42,7 @@ if (isVerified && !user.profile?.stripeCustomerId) {
       <ThemeToggle client:load />
       <AvatarMenu client:load />
     </div>
-  </Header>
+  </Navbar>
 
   <main class="container flex grow gap-4 pb-8 mx-auto md:gap-8">
     {isVerified ? <slot /> : <DashboardVerify client:load user={user} />}

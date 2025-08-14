@@ -38,7 +38,7 @@ export function Combobox({ defaultValue, options, setValue, value }: Props) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="flex grow justify-between max-w-[250px]"
         >
           {value
             ? options.find(option => option.value === value)?.label
@@ -46,7 +46,7 @@ export function Combobox({ defaultValue, options, setValue, value }: Props) {
           <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="flex grow max-w-[250px] p-1">
         <Command>
           <CommandInput placeholder="Search..." />
           <CommandList>

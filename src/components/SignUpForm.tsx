@@ -29,7 +29,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { MAX_NAME_LENGTH } from "@/config/constants";
-import { sendVerificationEmail, signUp } from "@/lib/auth-client";
+import { sendVerificationEmail, signUp } from "@/lib/auth-clients";
 import { secondsPassed } from "@/lib/utils";
 
 const formSchema = z

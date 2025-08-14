@@ -39,8 +39,8 @@ const route = createBaseRouter()
       return c.json({ exists: !!user && !!email });
     },
   )
-  .get("/error", (c) => {
-    const message = "Fake server error";
+  .put("/error", (c) => {
+    const message = "Manually triggered server-side error";
     captureException(new Error(message));
     return c.json({ message }, 500);
   });

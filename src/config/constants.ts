@@ -1,7 +1,7 @@
 /* eslint-disable perfectionist/sort-objects */
 import type { HiddifyServer, HiddifyServerId, PaidPlan, SubscriptionType } from "./types";
 
-export const SITE_NAME = "SSSVPN";
+export const SITE_NAME = "SSS-VPN";
 
 export const SITE_EMAIL = "hello@sss-vpn.com";
 export const SITE_EMAIL_ADMIN = "admin@sss-vpn.com";

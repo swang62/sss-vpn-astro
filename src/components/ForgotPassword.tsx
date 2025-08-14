@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { apiClient, parseApi } from "@/lib/api-clients";
-import { forgetPassword } from "@/lib/auth-client";
+import { forgetPassword } from "@/lib/auth-clients";
 import { secondsPassed } from "@/lib/utils";
 
 const formSchema = z.object({

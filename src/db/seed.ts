@@ -8,13 +8,13 @@ import { DB_LOCAL_URL } from "../config/server";
 
 export const TEST_USER = {
   banned: false,
-  createdAt: new Date("2050-01-01T00:00:00.000Z"),
+  createdAt: new Date("2000-01-01T00:00:00.000Z"),
   email: TEST_EMAIL,
   emailVerified: true,
   id: "admin-id",
   name: "steve",
   role: "admin",
-  updatedAt: new Date("2050-01-01T00:00:00.000Z"),
+  updatedAt: new Date("2000-01-01T00:00:00.000Z"),
 };
 
 export async function push() {

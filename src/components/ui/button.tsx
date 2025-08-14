@@ -45,6 +45,7 @@ function Button({
   asChild = false,
   children,
   className,
+  disabled,
   loading,
   size,
   variant,
@@ -60,7 +61,7 @@ function Button({
     <Comp
       data-slot="button"
       className={cn("cursor-pointer", buttonVariants({ className, size, variant }))}
-      disabled={loading}
+      disabled={loading || disabled}
       {...props}
     >
       {loading && (

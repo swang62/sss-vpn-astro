@@ -185,17 +185,23 @@ function getSteps(
            icon), set IPv6 Route to
            {" "}
            <b>Enable</b>
+           ,
            {" "}
+           Remote DNS to
+           {" "}
+           <b>udp://1.1.1.1</b>
+           ,
            and Direct DNS to
            {" "}
            <b>local</b>
            .
+
          </div>
          <img src="/setup/dns-config.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />
          {!isMobile && (
            <>
              <p>
-               Scroll further down and make sure the service mode is set to
+               Scroll down and make sure the service mode is set to
                {" "}
                <b>VPN</b>
                .

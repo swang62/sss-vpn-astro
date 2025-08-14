@@ -58,7 +58,7 @@ function AccountDetails(_props: Props) {
               variant="outline"
               className="flex px-3 flex-nowrap"
             >
-              <Rocket />
+              <Rocket className="text-orange-300" />
               <span>Upgrade</span>
             </Button>
           </a>

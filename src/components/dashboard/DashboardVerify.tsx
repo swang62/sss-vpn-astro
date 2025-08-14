@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import type { UserDB } from "@/db/queries";
 
 import { Button } from "@/components/ui/button";
-import { sendVerificationEmail } from "@/lib/auth-client";
+import { sendVerificationEmail } from "@/lib/auth-clients";
 import { secondsPassed } from "@/lib/utils";
 
 interface Props {

@@ -27,7 +27,7 @@ function DashboardMobileMenu({ current: _current }: Props) {
         <Button
           variant="outline"
           size="icon"
-          className="gap-0 p-0 shrink-0 md:hidden"
+          className="gap-0 p-0 shrink-0"
         >
           <Sidebar />
           <span className="sr-only">Toggle navigation menu</span>
@@ -44,13 +44,6 @@ function DashboardMobileMenu({ current: _current }: Props) {
           <SheetDescription className="sr-only">Main menu</SheetDescription>
         </SheetHeader>
 
-        <SheetHeader>
-          <SheetTitle className="pl-4 mt-6 mb-0 text-sm text-left text-muted-foreground">
-            Dashboard
-          </SheetTitle>
-          <SheetDescription className="sr-only">Dashboard</SheetDescription>
-        </SheetHeader>
-
         <div className="my-2 h-[calc(100vh-8rem)] w-full py-2">
           <div className="flex flex-col space-y-2">
             {DASHBOARD_LINKS.map(
@@ -64,7 +57,7 @@ function DashboardMobileMenu({ current: _current }: Props) {
                     <Button
                       variant="ghost"
                       className={cn(
-                        "m-0 flex h-6 w-11/12 justify-start gap-4 py-6 text-xl",
+                        "ml-3 flex h-6 w-11/12 justify-start gap-4 py-6 text-xl",
                       )}
                     >
                       <span>{link.icon}</span>
