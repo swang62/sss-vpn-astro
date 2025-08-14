@@ -69,21 +69,21 @@ export type PricingPlan = {
 export const PRICING_PLANS: PricingPlan[] = [
   {
     description: "Should be enough data for most people",
-    features: [`${PLAN_LIMITS.basic.data}GB of data/month`, "Email, social media, light browsing", "Unlimited devices, mobile & desktop"],
+    features: [`${PLAN_LIMITS.basic.data}GB data/month`, "Email, social media, light browsing", "Unlimited devices, mobile & desktop"],
     plan: "basic",
     price: PLAN_LIMITS.basic.price,
 
   },
   {
     description: "Good for heavy streaming & media usage",
-    features: [`${PLAN_LIMITS.pro.data}GB of data/month`, "Streaming, gaming, video calls, etc.", "Same as basic but with more data"],
+    features: [`${PLAN_LIMITS.pro.data}GB data/month`, "Streaming, gaming, video calls, etc.", "Same as basic but with more data"],
     plan: "pro",
     price: PLAN_LIMITS.pro.price,
   },
   {
     description: "One device to connect multiple people or all your gadgets at once",
     features: [
-      `${PLAN_LIMITS.premium.data}GB of data/month`,
+      `${PLAN_LIMITS.premium.data}GB data/month`,
       "Fully pre-configured WiFi6 router",
       "Shipping only within China",
     ],

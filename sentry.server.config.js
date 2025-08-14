@@ -1,14 +1,19 @@
 import * as Sentry from "@sentry/astro";
 
+import { NODE_ENV, PUBLIC_SENTRY_DSN, SOURCE_COMMIT } from "@/config/client";
+
 Sentry.init({
   attachStacktrace: true,
-  dsn: process.env.SENTRY_DSN,
-  environment: process.env.NODE_ENV,
-  ignoreErrors: ["TypeError: Illegal invocation"],
+  dsn: PUBLIC_SENTRY_DSN,
+  environment: NODE_ENV,
+  ignoreErrors: [
+    "TypeError: Illegal invocation",
+  ],
   registerEsmLoaderHooks: {
-    exclude: ["drizzle-orm"],
-    onlyIncludeInstrumentedModules: true,
+    exclude: [
+      "drizzle-orm",
+    ],
   },
-  release: process.env.SOURCE_COMMIT || "default",
+  release: SOURCE_COMMIT,
   sendDefaultPii: true,
 });

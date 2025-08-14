@@ -17,7 +17,7 @@ interface Props {}
 
 function AccountLinks(_props: Props) {
   const [url, setUrl] = useState("Loading...");
-  const [qrcode, setQrcode] = useState("");
+  const [qrcode, setQrcode] = useState<string>();
   const { data } = useSWR("fetchUser", fetchUser);
   const user = data?.user;
   const profile = user?.profile;

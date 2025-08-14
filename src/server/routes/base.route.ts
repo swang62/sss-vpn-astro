@@ -6,6 +6,8 @@ import { IS_PRODUCTION } from "@/config/server";
 import { getUserByEmail } from "@/db/queries";
 import { createBaseRouter } from "@/server/app";
 
+// Unauthenticated routes
+
 const route = createBaseRouter()
   .get("/status", (c) => {
     const response: any = {};
@@ -38,7 +40,7 @@ const route = createBaseRouter()
     },
   )
   .get("/error", (c) => {
-    const message = "Fake api error";
+    const message = "Fake server error";
     captureException(new Error(message));
     return c.json({ message }, 500);
   });

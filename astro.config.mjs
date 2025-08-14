@@ -3,6 +3,7 @@ import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import inoxToolswhen from "@inox-tools/astro-when";
 import sentry from "@sentry/astro";
+import spotlightjs from "@spotlightjs/astro";
 import tailwindcss from "@tailwindcss/vite";
 import compressor from "astro-compressor";
 import icon from "astro-icon";
@@ -39,14 +40,15 @@ export default defineConfig({
         excludeReplayShadowDom: true,
         excludeReplayWorker: true,
       },
-      clientInitPath: "./sentry.client.config.js",
-      enabled: !!process.env.SENTRY_TOKEN && !!process.env.SENTRY_DSN,
-      serverInitPath: "./sentry.server.config.js",
+      debug: false,
+      enabled: !!process.env.SENTRY_TOKEN,
       sourceMapsUploadOptions: {
         authToken: process.env.SENTRY_TOKEN,
         project: process.env.SENTRY_PROJECT,
+        telemetry: false,
       },
     }),
+
     robotsTxt({
       policy: [
         {
@@ -57,7 +59,8 @@ export default defineConfig({
       ],
     }),
     sitemap(),
-    compressor(), // Must be last
+    spotlightjs(),
+    compressor(),
   ],
   output: "server",
   server: {
@@ -71,7 +74,9 @@ export default defineConfig({
         external: [/vitest.*/, /.*\.test\..*/],
       },
     },
-
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss({ nesting: true })],
+    server: {
+      allowedHosts: ["dazzling-breeze-21743.pktriot.net", "localhost", "127.0.0.1", "192.168.8.129"],
+    },
   },
 });

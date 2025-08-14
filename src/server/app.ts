@@ -28,7 +28,7 @@ export async function authUser(c: Context<Bindings>) {
   const user = c.get("user");
   if (!user) {
     c.status(401);
-    throw new Error(`User not found`);
+    throw new Error(`Unauthorized`);
   }
 
   const id = user.id;

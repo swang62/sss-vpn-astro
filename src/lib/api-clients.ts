@@ -1,4 +1,4 @@
-import type { ClientResponse } from "hono/client";
+import type { ClientRequestOptions, ClientResponse } from "hono/client";
 
 import { hc } from "hono/client";
 
@@ -10,15 +10,16 @@ import { SITE_URL } from "@/config/client";
 
 // Hono
 export const { api: apiClient } = hc<App>(SITE_URL);
+export type HonoClient = (args?: object, options?: ClientRequestOptions) => Promise<ClientResponse<object>>;
 
 export async function parseApi<T>(request: Promise<ClientResponse<T>>) {
   const response = await request;
   if (!response.ok) {
     const error = await response.text();
-    return { error, status: response.status };
+    return { error, statusCode: response.status };
   }
   const data = (await response.json()) as T;
-  return { data, status: response.status };
+  return { data, statusCode: response.status };
 }
 
 // SWR
@@ -38,8 +39,4 @@ export async function fetchUsage() {
     }
     return res.json();
   });
-}
-
-export async function fetchStatus() {
-  return apiClient.status.$get().then(res => res.json());
 }

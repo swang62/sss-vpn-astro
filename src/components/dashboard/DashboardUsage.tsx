@@ -36,9 +36,9 @@ function DashboardOverview(_props: Props) {
     : <span className="text-red-500">Inactive</span>;
 
   // Handlers
-  const onClickRefresh = async () => {
+  const onClickRefresh = () => {
     // @ts-expect-error
-    await mutate(null);
+    mutate(null);
   };
 
   // Markup
@@ -63,7 +63,7 @@ function DashboardOverview(_props: Props) {
 
   return (
     <Card x-chunk="Dashboard usage">
-      <CardHeader className="flex flex-row items-center content-center gap-2 pt-4 align-middle justify-between">
+      <CardHeader className="flex flex-row items-center content-center gap-2 align-middle justify-between">
         <CardTitle>Data usage</CardTitle>
         <Button variant="link" onClick={onClickRefresh} className="px-0">
           <RefreshCcw />
@@ -94,7 +94,7 @@ function DashboardOverview(_props: Props) {
           ))}
         </div>
       </CardContent>
-      <CardFooter className="flex justify-end">
+      <CardFooter className="flex justify-end pb-6">
         <a href="/dashboard/account">
           <Button variant="outline">
             <Edit />

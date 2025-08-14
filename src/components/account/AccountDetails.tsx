@@ -115,7 +115,7 @@ function AccountDetails(_props: Props) {
 
   return (
     <Card x-chunk="Plan details">
-      <CardContent className="flex flex-col gap-6 py-6">
+      <CardContent className="flex flex-col gap-6">
         {planDetails.map(({ title, value }, index) => (
           <div key={index}>
             <h1 className="h-8 mb-1 text-xl font-semibold">{title}</h1>

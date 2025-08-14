@@ -5,13 +5,22 @@ import DashboardLayout from "@/layouts/DashboardLayout.astro";
 import SubHeader from "@/layouts/SubHeader.astro";
 
 const { user } = Astro.locals;
+
+let shouldShowWelcome = false;
+
+// Only show welcome if the cookie didn't exist already
 const showedWelcome = Astro.cookies.get("showedWelcome");
+if (showedWelcome?.value !== user.email) {
+  shouldShowWelcome = true;
+  Astro.cookies.set("showedWelcome", user.email, { maxAge: 2147483647, path: "/dashboard", sameSite: "lax" });
+}
+
 ---
 
 <DashboardLayout title="Dashboard">
   <div class="flex flex-col w-full max-w-2xl gap-6 py-4 mx-auto">
     <SubHeader title="Overview" />
-    <ShowWelcome client:load showedWelcome={showedWelcome?.value} name={user.name} />
+    {shouldShowWelcome && <ShowWelcome client:load name={user.name} />}
     <DashboardUsage client:load />
   </div>
 </DashboardLayout>

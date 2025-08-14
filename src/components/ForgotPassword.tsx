@@ -52,7 +52,7 @@ function ForgotPasswordForm(_props: Props) {
     if (!data?.exists) {
       form.setError(
         "email",
-        { message: "Email not found in our system." },
+        { message: "Email does not exist." },
         { shouldFocus: true },
       );
       return;

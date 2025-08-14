@@ -10,20 +10,20 @@ const client = testClient(createApp().route("/", router));
 
 describe("route /", () => {
   it("get status", async () => {
-    const { data, status } = await parseApi(client.api.status.$get());
+    const { data, statusCode } = await parseApi(client.api.status.$get());
 
-    expect(status).toBe(200);
+    expect(statusCode).toBe(200);
     expect(data?.production).toBe(false);
   });
 
   it("get user by email", async () => {
-    const { data, status } = await parseApi(
+    const { data, statusCode } = await parseApi(
       client.api["search-email"].$get({
         query: { email: TEST_EMAIL },
       }),
     );
 
-    expect(status).toBe(200);
+    expect(statusCode).toBe(200);
     expect(data?.exists).toBe(true);
   });
 });

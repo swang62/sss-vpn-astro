@@ -1,20 +1,9 @@
-import { useCookies } from "react-cookie";
-
 interface Props {
-  showedWelcome?: string;
   name: string;
 }
 
-function WelcomeMsg({ name, showedWelcome }: Props) {
-  const [_, setCookie] = useCookies(["showedWelcome"]);
-
-  const shouldShow = !showedWelcome;
-  if (shouldShow) {
-    // Immediately set the cookie to indicate shown welcome msg
-    setCookie("showedWelcome", "true", { maxAge: 2147483647, path: "/dashboard", sameSite: "lax" });
-  }
-
-  return shouldShow && (
+function WelcomeMsg({ name }: Props) {
+  return (
     <p className="w-full px-4 py-3 rounded-lg bg-muted">
       Welcome
       {name ? ` ${name}` : ""}

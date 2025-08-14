@@ -1,5 +1,5 @@
 import { navigate } from "astro:transitions/client";
-import { CheckCircle2 } from "lucide-react";
+import { BadgeCheck } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
@@ -67,12 +67,12 @@ function PricingCard({
 
   return (
     <Card
-      className={cn(`mx-auto flex max-w-80 flex-col justify-between bg-background pt-2 pb-6 text-foreground sm:mx-0`, user && isCurrentPlan && "border-rose-400")}
+      className={cn(`mx-auto flex max-w-80 flex-col justify-between bg-background pt-2 text-foreground sm:mx-0`, user && isCurrentPlan && "border-rose-400")}
     >
       <div>
         <CardHeader className="pt-4 pb-6">
           <div className="flex justify-between">
-            <CardTitle className="text-xl">{title}</CardTitle>
+            <CardTitle>{title}</CardTitle>
             {user && plan.includes("basic") && !isActive && (
               <div
                 className={cn(
@@ -115,14 +115,14 @@ function PricingCard({
         <CardContent className="flex flex-col gap-2">
           {features.map((feature: string) => (
             <div key={feature} className="flex gap-2">
-              <CheckCircle2 size={18} className="my-auto text-green-500" />
+              <BadgeCheck size={18} className="my-auto text-green-500" />
               <p className="w-11/12 pt-0.5 text-sm">{feature}</p>
             </div>
           ))}
         </CardContent>
       </div>
       {user && (
-        <CardFooter className="flex justify-center mt-2">
+        <CardFooter className="flex justify-center pb-6">
           {isCurrentPlan
             ? (
                 <div className="flex gap-2">
@@ -169,15 +169,15 @@ function PricingPlans(_props: Props) {
       {data?.user && !isActive && (
         <div className="flex flex-col items-center gap-6 mb-4 text-center">
           <p className="max-w-md leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            You have a choice between buying a single month or a regular subscription
+            You have a choice between a single month or monthly subscription (cancel anytime)
           </p>
           <div className="flex items-center justify-center gap-4 text-xl">
-            <span className={cn(monthly && "text-muted-foreground")}>Single month</span>
+            <span className={cn({ "text-muted-foreground no-underline": monthly, "underline": !monthly })}>1 Month</span>
             <Switch
               checked={monthly}
               onCheckedChange={() => setMonthly(!monthly)}
             />
-            <span className={cn(!monthly && "text-muted-foreground")}>Subscription</span>
+            <span className={cn({ "text-muted-foreground no-underline": !monthly, "underline": monthly })}>Subscription</span>
           </div>
         </div>
       )}

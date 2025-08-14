@@ -16,7 +16,7 @@ function DashboardVerify({ user }: Props) {
   const [sentEmail, setSentEmail] = useState("");
 
   // Handlers
-  const onClickVerify = async () => {
+  const onClickVerify = () => {
     const minutesSince = Math.floor(secondsPassed(sentEmail) / 60);
     if (minutesSince < 3) {
       toast.warning(

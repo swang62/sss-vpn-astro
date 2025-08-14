@@ -44,3 +44,8 @@ export type HiddifyUser = {
   usage_limit_GB: number;
   uuid: string;
 };
+
+export type Option = {
+  value: string;
+  label: string;
+};

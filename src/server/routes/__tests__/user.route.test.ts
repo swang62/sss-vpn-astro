@@ -13,9 +13,10 @@ const client = testClient(createApp().use(testMiddleware).route("/", router));
 
 describe("route /user", () => {
   it("no user found", async () => {
-    const { status } = await parseApi(clientNoAuth.api.$get());
+    const { data, statusCode } = await parseApi(clientNoAuth.api.$get());
 
-    expect(status).toBe(401);
+    expect(statusCode).toBe(401);
+    expect(data?.user).toBeFalsy();
   });
 
   it("get user", async () => {
@@ -29,15 +30,16 @@ describe("route /user", () => {
 
 describe("route /session", () => {
   it("no session", async () => {
-    const { data, status } = await parseApi(clientNoAuth.api.session.$get());
+    const { data, statusCode } = await parseApi(clientNoAuth.api.session.$get());
 
-    expect(status).toBe(200);
+    expect(statusCode).toBe(200);
     expect(data?.session).toBeFalsy();
   });
 
   it("get session", async () => {
-    const { data } = await parseApi(client.api.session.$get());
+    const { data, statusCode } = await parseApi(client.api.session.$get());
 
+    expect(statusCode).toBe(200);
     expect(data?.session?.userId).toBe(TEST_USER.id);
   });
 });

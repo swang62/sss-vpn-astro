@@ -64,7 +64,7 @@ function SignUpForm(_props: Props) {
   });
 
   // Submit handler
-  async function onSubmit(values: z.infer<typeof formSchema>, event?: React.BaseSyntheticEvent) {
+  function onSubmit(values: z.infer<typeof formSchema>, event?: React.BaseSyntheticEvent) {
     event?.preventDefault();
 
     const timeSince = secondsPassed(sentEmail);
@@ -74,7 +74,7 @@ function SignUpForm(_props: Props) {
     }
 
     const { email, name, password } = values;
-    await signUp.email(
+    signUp.email(
       {
         email,
         name,
@@ -218,7 +218,7 @@ function SignUpForm(_props: Props) {
         </div>
       </CardContent>
       <CardFooter>
-        <div className="flex justify-center w-full pt-6 border-t">
+        <div className="flex justify-center w-full border-t py-4">
           <p className="text-xs text-center text-muted-foreground">
             Terms and conditions
             <a className="px-1 text-foreground" href="/privacy" target="_blank" rel="noreferrer">here</a>

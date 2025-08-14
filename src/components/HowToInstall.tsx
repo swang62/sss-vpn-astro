@@ -225,7 +225,7 @@ function getSteps(
       title: (
         <div className="flex flex-nowrap">
           All done!
-          <PartyPopper className="ml-2 text-orange-400" />
+          <PartyPopper className="size-4 ml-2 text-orange-400" />
         </div>
       ),
     },
@@ -299,7 +299,7 @@ function HowToInstall(props: Props) {
 
   return (
     <Tabs defaultValue={platform}>
-      <TabsList className="grid w-full grid-cols-4 mb-8 bg-slate-700">
+      <TabsList className="grid w-full grid-cols-4 h-10 mb-8 bg-slate-400 dark:bg-slate-800">
         <TabsTrigger value="android">
           <img width="20" height="20" src={FILE_TYPES.android.icon} alt="android" loading="eager" />
           <span className="ml-1">Android</span>

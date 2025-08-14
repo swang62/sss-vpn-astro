@@ -38,9 +38,9 @@ function LoginForm(_props: Props) {
   });
 
   // Submit handler
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof formSchema>) {
     const { email, password } = values;
-    await signIn.email(
+    signIn.email(
       {
         callbackURL: "/dashboard",
         email,
