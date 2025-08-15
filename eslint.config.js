@@ -27,6 +27,7 @@ export default antfu(
       "node/prefer-global/process": ["off"],
       "perfectionist/sort-imports": ["warn", { internalPattern: ["^@/.+"] }],
       "perfectionist/sort-objects": ["warn"],
+      "style/arrow-parens": ["off"],
       "style/brace-style": ["off"],
       "ts/ban-ts-comment": ["off"],
       "ts/consistent-type-definitions": ["off"],
