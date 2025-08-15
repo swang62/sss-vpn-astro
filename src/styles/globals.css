@@ -40,7 +40,7 @@
   --card-foreground: hsl(252 0% 30.77%);
   --border: hsl(0 0% 86.92%);
   --input: hsl(0 0% 74.62%);
-  --primary: hsl(27.06 92.51% 79%);
+  --primary: hsl(27, 100%, 78%);
   --primary-link: hsl(27.06 70.51% 60.46%);
   --primary-foreground: hsl(0 0% 0%);
   --secondary: hsl(164.12 70.54% 73.89%);
@@ -116,10 +116,13 @@
   code {
     padding: 2rem;
     color: rgb(216, 216, 216);
-    background-color: rgb(31, 32, 53);
+    background-color: rgb(51, 53, 85);
     border-radius: 0.5rem;
     word-wrap: break-word;
     white-space: pre-wrap;
+  }
+  code:is(.dark *) {
+    background-color: rgb(31, 32, 53);
   }
 
   .text-gradient {

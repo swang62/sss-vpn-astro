@@ -180,9 +180,9 @@ function getSteps(
          <div>
            In the options panel
            <Menu className="mx-1 inline-block" />
-           under Config Options (look for a
+           under Config Options
            <CogIcon className="mx-1 inline-block" />
-           icon), set IPv6 Route to
+           , set IPv6 Route to
            {" "}
            <b>Enable</b>
            ,
@@ -217,7 +217,7 @@ function getSteps(
       content:
       <>
         <p>
-          Go back to the home screen and tap the giant button in the middle and you should be connected!
+          Go back to the home screen and tap the giant button in the middle and you should be all connected!
           {" "}
           {isMobile && (
             <>
@@ -229,7 +229,7 @@ function getSteps(
         <img src="/setup/connected.png" width={imageWidth} alt="connected" className="self-center" loading="lazy" />
       </>,
       title: (
-        <div className="flex flex-nowrap">
+        <div className="flex items-center">
           All done!
           <PartyPopper className="size-4 ml-2 text-orange-400" />
         </div>
@@ -325,19 +325,19 @@ function HowToInstall(props: Props) {
       </TabsList>
       <TabsContent value="android">
         {getSteps(FILE_TYPES.android.fileType, FILE_TYPES.android.icon, links)
-          .map((step, idx) => <Step key={idx} content={step.content} title={step.title} idx={idx} />)}
+          .map((step, idx) => <Step key={idx} {...step} />)}
       </TabsContent>
       <TabsContent value="pc">
         {getSteps(FILE_TYPES.pc.fileType, FILE_TYPES.pc.icon, links)
-          .map((step, idx) => <Step key={idx} content={step.content} title={step.title} idx={idx} />)}
+          .map((step, idx) => <Step key={idx} {...step} />)}
       </TabsContent>
       <TabsContent value="ios">
         {getSteps(FILE_TYPES.ios.fileType, FILE_TYPES.ios.icon, links)
-          .map((step, idx) => <Step key={idx} content={step.content} title={step.title} idx={idx} />)}
+          .map((step, idx) => <Step key={idx} {...step} />)}
       </TabsContent>
       <TabsContent value="mac">
         {getSteps(FILE_TYPES.mac.fileType, FILE_TYPES.mac.icon, links)
-          .map((step, idx) => <Step key={idx} content={step.content} title={step.title} idx={idx} />)}
+          .map((step, idx) => <Step key={idx} {...step} />)}
       </TabsContent>
     </Tabs>
   );

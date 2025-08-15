@@ -53,10 +53,6 @@ function AccountLinks(_props: Props) {
         </div>
 
         <img src={qrcode} width={200} height={200} alt="QR Code" className="self-center" />
-
-        <p className="mt-1 text-center text-muted-foreground">
-          For mobile-only
-        </p>
       </CardContent>
     </Card>
   );

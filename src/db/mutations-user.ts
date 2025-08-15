@@ -12,6 +12,14 @@ import type { UserDB } from "./queries";
 import { createHiddifyUser } from "./mutations-hiddify";
 import { getProductByPriceId, searchHiddifyUser } from "./queries";
 
+export async function updateIpAddress(user: UserDB, ip: string) {
+  const userId = user.id;
+
+  await db.update(profileTable)
+    .set({ lastKnownIpAddress: ip })
+    .where(eq(profileTable.userId, userId));
+}
+
 export async function updateStripeName(stripeCustomerId: string, name: string) {
   await stripe.customers.update(stripeCustomerId, { name });
 }
@@ -34,6 +42,7 @@ async function updateProfile(
   stripeCustomerId: string,
   hiddifyId: string,
   hiddifyServerId: HiddifyServerId,
+  ip: string,
 ) {
   const userId = user.id;
 
@@ -64,7 +73,7 @@ async function updateProfile(
         subscriptionType: "none" as SubscriptionType,
       };
 
-  await db.insert(profileTable).values([{ ...data, userId }]).onConflictDoUpdate({
+  await db.insert(profileTable).values([{ ...data, lastKnownIpAddress: ip, userId }]).onConflictDoUpdate({
     set: data,
     target: profileTable.userId,
   });
@@ -72,7 +81,13 @@ async function updateProfile(
   console.debug(`Successfully updated profile for ${userId}`);
 }
 
-async function startFreeTrial(user: UserDB, email: string, hiddifyId: string, hiddifyServerId: HiddifyServerId) {
+async function startFreeTrial(
+  user: UserDB,
+  email: string,
+  hiddifyId: string,
+  hiddifyServerId: HiddifyServerId,
+  ip: string,
+) {
   const userId = user.id;
 
   const customer = await stripe.customers.create({ email, name: user.name });
@@ -94,7 +109,7 @@ async function startFreeTrial(user: UserDB, email: string, hiddifyId: string, hi
     subscriptionType: "trial" as SubscriptionType,
   };
 
-  await db.insert(profileTable).values([{ ...data, userId }]).onConflictDoUpdate({
+  await db.insert(profileTable).values([{ ...data, lastKnownIpAddress: ip, userId }]).onConflictDoUpdate({
     set: data,
     target: profileTable.userId,
   });
@@ -103,7 +118,7 @@ async function startFreeTrial(user: UserDB, email: string, hiddifyId: string, hi
 }
 
 // Profile is most likely missing for this route
-export async function setupNewUser(user: UserDB) {
+export async function setupNewUser(user: UserDB, ip: string) {
   const email = user.email;
 
   // Validate stripe user
@@ -128,8 +143,8 @@ export async function setupNewUser(user: UserDB) {
   }
 
   if (stripeCustomerId) {
-    await updateProfile(user, stripeCustomerId, hiddifyId, hiddifyServerId);
+    await updateProfile(user, stripeCustomerId, hiddifyId, hiddifyServerId, ip);
   } else {
-    await startFreeTrial(user, email, hiddifyId, hiddifyServerId);
+    await startFreeTrial(user, email, hiddifyId, hiddifyServerId, ip);
   }
 }

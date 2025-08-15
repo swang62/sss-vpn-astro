@@ -12,7 +12,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { PRICING_PLANS } from "@/config/constants";
 import { FREE_PLANS } from "@/config/types";
-import { apiClient, fetchUser, parseApi } from "@/lib/api-clients";
+import { api, fetchUser, parseApi } from "@/lib/api-clients";
 import { capitalize, dateToString } from "@/lib/utils";
 
 interface Props {}
@@ -28,7 +28,7 @@ function AccountDetails(_props: Props) {
   const renewPlan = async (renew: boolean) => {
     setLoading(true);
     const { error } = await parseApi(
-      apiClient.stripe["renew-plan"].$post({ json: { renew } }),
+      api.stripe["renew-plan"].$post({ json: { renew } }),
     );
     if (error) {
       toast.error("Failed to update subscription, please try again later.");

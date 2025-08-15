@@ -1,146 +1,15 @@
 import { navigate } from "astro:transitions/client";
-import { BadgeCheck } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
-import type { PricingPlan } from "@/config/types";
-import type { User } from "@/lib/api-clients";
-
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { PRICING_PLANS } from "@/config/constants";
-import { apiClient, fetchUser, parseApi } from "@/lib/api-clients";
-import { capitalize, cn } from "@/lib/utils";
+import { api, fetchUser, parseApi } from "@/lib/api-clients";
+import { cn } from "@/lib/utils";
 
-function PricingCard({
-  description,
-  features,
-  isActive,
-  monthly,
-  plan,
-  price,
-  user,
-}: PricingPlan & { monthly: boolean; isActive: boolean; user?: User }) {
-  const [loading, setLoading] = useState(false);
-  const title = capitalize(plan);
-  const isCurrentPlan = isActive && user?.profile?.subscriptionType === plan;
-  const hasPurchasedRouter = user?.profile?.purchasedRouter;
-
-  const onClickCheckout = async () => {
-    setLoading(true);
-    const { data } = isActive
-      ? await parseApi(
-          apiClient.stripe["customer-portal"].$post({ json: { plan } }),
-        )
-      : await parseApi(
-          apiClient.stripe.checkout.$post({ json: { monthly, plan } }),
-        );
-    if (data?.url) {
-      navigate(data.url);
-    } else {
-      toast.error("Unknown error, please try again later.");
-      setLoading(false);
-    }
-  };
-
-  const onClickAddData = async () => {
-    setLoading(true);
-    const { data } = await parseApi(
-      apiClient.stripe["add-data"].$post(),
-    );
-    if (data?.url) {
-      navigate(data.url);
-    } else {
-      toast.error("Unknown error, please try again later.");
-      setLoading(false);
-    }
-  };
-
-  return (
-    <Card
-      className={cn(`mx-auto flex max-w-80 flex-col justify-between bg-background pt-2 text-foreground sm:mx-0`, user && isCurrentPlan && "border-rose-400")}
-    >
-      <div>
-        <CardHeader className="pt-4 pb-6">
-          <div className="flex justify-between">
-            <CardTitle>{title}</CardTitle>
-            {user && plan.includes("basic") && !isActive && (
-              <div
-                className={cn(
-                  "h-fit rounded-xl px-2.5 py-1 text-sm",
-                  "bg-linear-to-r from-orange-300 to-rose-400 dark:text-black",
-                )}
-              >
-                Recommended
-              </div>
-            )}
-            {user && isCurrentPlan && (
-              <div
-                className={cn(
-                  "h-fit rounded-xl px-2.5 py-1 text-sm",
-                  "bg-linear-to-r from-orange-300 to-rose-300 dark:text-black",
-                )}
-              >
-                Current plan
-              </div>
-            )}
-          </div>
-          <div className="flex flex-wrap gap-0.5">
-            <span className="inline-flex">
-              <h3 className="text-3xl font-semibold">{`$${price}`}</h3>
-              {!monthly && !isActive
-                ? <span className="flex items-end mb-1 text-sm"></span>
-                : <span className="flex items-end mb-1 text-sm">/month</span>}
-            </span>
-            {plan.includes("premium") && !hasPurchasedRouter && !isActive && (
-              <span className="inline-flex">
-                <h3 className="text-3xl font-semibold">+$60</h3>
-                <span className="flex items-end mb-1 text-sm">router</span>
-              </span>
-            )}
-          </div>
-          <CardDescription className="pt-1.5">
-            {plan.includes("premium") && (hasPurchasedRouter || isActive) ? "Even more data! Router not included*" : description }
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-2">
-          {features.map((feature: string) => (
-            <div key={feature} className="flex gap-2">
-              <BadgeCheck size={18} className="my-auto text-green-500" />
-              <p className="w-11/12 pt-0.5 text-sm">{feature}</p>
-            </div>
-          ))}
-        </CardContent>
-      </div>
-      {user && (
-        <CardFooter className="flex justify-center pb-6">
-          {isCurrentPlan
-            ? (
-                <div className="flex gap-2">
-                  <Button loading={loading} disabled={loading} onClick={onClickAddData}>+ Add data</Button>
-                  <a href="/dashboard/account"><Button variant="outline">Manage</Button></a>
-                </div>
-              )
-            : (
-                <Button loading={loading} disabled={loading} onClick={onClickCheckout}>
-                  {isActive ? `Switch to ` : `Get `}
-                  {title}
-                </Button>
-              )}
-        </CardFooter>
-      )}
-    </Card>
-  );
-}
+import PricingCard from "./PricingCard";
 
 interface Props {}
 
@@ -154,7 +23,7 @@ function PricingPlans(_props: Props) {
   const onClickRouter = async () => {
     setLoading(true);
     const { data } = await parseApi(
-      apiClient.stripe["buy-router"].$post(),
+      api.stripe["buy-router"].$post(),
     );
     if (data?.url) {
       navigate(data.url);
@@ -166,21 +35,19 @@ function PricingPlans(_props: Props) {
 
   return (
     <div className="flex flex-col items-center py-4 mb-8">
-      {data?.user && !isActive && (
-        <div className="flex flex-col items-center gap-6 mb-4 text-center">
-          <p className="max-w-md leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            You have a choice between a single month or monthly subscription (cancel anytime)
-          </p>
-          <div className="flex items-center justify-center gap-4 text-xl">
-            <span className={cn({ "text-muted-foreground no-underline": monthly, "underline": !monthly })}>1 Month</span>
-            <Switch
-              checked={monthly}
-              onCheckedChange={() => setMonthly(!monthly)}
-            />
-            <span className={cn({ "text-muted-foreground no-underline": !monthly, "underline": monthly })}>Subscription</span>
-          </div>
+      <div className="flex flex-col items-center gap-6 mb-4 text-center">
+        <p className="max-w-md leading-normal sm:text-lg sm:leading-7">
+          You have a choice between a single month or a monthly subscription (auto-renewal)
+        </p>
+        <div className="flex items-center justify-center gap-4 text-xl">
+          <span className={cn({ "text-muted-foreground/60": monthly })}>1 Month</span>
+          <Switch
+            checked={monthly}
+            onCheckedChange={() => setMonthly(!monthly)}
+          />
+          <span className={cn({ "text-muted-foreground/60": !monthly })}>Subscription</span>
         </div>
-      )}
+      </div>
       <div className="flex flex-col justify-center gap-8 mt-4 sm:flex-row sm:flex-wrap">
         {PRICING_PLANS.map((plan) => {
           return <PricingCard key={plan.plan} {...plan} user={data?.user} monthly={monthly} isActive={isActive} />;
@@ -189,7 +56,7 @@ function PricingPlans(_props: Props) {
       <div className="flex flex-col justify-center gap-8 sm:flex-row sm:flex-wrap">
         {data?.user && !purchasedRouter && isActive && (
           <div className="px-8 mt-8 text-center text-muted-foreground">
-            Still want to purchase the router package? Buy it separately
+            Still want to purchase the router? Buy it separately
             <Button loading={loading} disabled={loading} variant="link" className="p-0 m-0 ml-1 text-base underline" onClick={onClickRouter}>here</Button>
           </div>
         )}

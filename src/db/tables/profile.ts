@@ -16,6 +16,7 @@ export const profile = sqliteTable("profile", {
     .notNull()
     .$type<HiddifyServerId>()
     .default("1"),
+  lastKnownIpAddress: text(),
   purchasedRouter: integer({ mode: "boolean" })
     .notNull()
     .default(false),

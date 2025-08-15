@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { MIN_WAIT_TIME } from "@/config/constants";
-import { apiClient, parseApi } from "@/lib/api-clients";
+import { api, parseApi } from "@/lib/api-clients";
 import { forgetPassword } from "@/lib/auth-clients";
 import { minutesPassedSince } from "@/lib/utils";
 
@@ -48,7 +48,7 @@ function ForgotPasswordForm(_props: Props) {
     }
 
     const { email } = values;
-    const { data } = await parseApi(apiClient["search-email"].$get({ query: { email } }));
+    const { data } = await parseApi(api["search-email"].$get({ query: { email } }));
 
     if (!data?.exists) {
       form.setError(
