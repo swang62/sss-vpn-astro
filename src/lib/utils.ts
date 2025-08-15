@@ -18,14 +18,14 @@ export async function sleep(msec = 1000) {
 }
 
 export function capitalize(str = "") {
-  return str ? str[0].toUpperCase() + str.slice(1) : str;
+  return str ? str[0].toUpperCase() + str.slice(1).toLowerCase() : str;
 }
 
-export function secondsPassed(modified: string) {
+export function minutesPassedSince(lastModified: string) {
   const now = new Date().getTime();
-  const compare = new Date(modified || 0).getTime();
+  const compare = new Date(lastModified || 0).getTime();
 
-  return Math.floor((now - compare) / 1000);
+  return Math.floor((now - compare) / (60 * 1000));
 }
 
 export function dateToString(date: number) {
@@ -61,8 +61,8 @@ export function getDaysLeft(packageStart?: string, mode = "no_reset", packageDay
     end.setMonth(end.getMonth() + 1);
   }
 
-  const DAY_LENGTH = 24 * 60 * 60 * 1000;
-  const days = Math.ceil((end.valueOf() - now.valueOf()) / DAY_LENGTH);
+  const dayTotalMs = 24 * 60 * 60 * 1000;
+  const days = Math.ceil((end.valueOf() - now.valueOf()) / dayTotalMs);
   const daysLeft = days > 0 ? days : 0;
   const endDate = end.toLocaleDateString("us", { dateStyle: "medium" });
 

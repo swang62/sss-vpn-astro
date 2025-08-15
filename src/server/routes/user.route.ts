@@ -3,12 +3,12 @@ import { z } from "zod";
 
 import { MAX_NAME_LENGTH } from "@/config/constants";
 import { updateStripeName, updateUser } from "@/db/mutations-user";
-import { getHiddifyUsage } from "@/db/queries";
+import { getUserRawById } from "@/db/queries";
 import { createBaseRouter } from "@/server/app";
 
-import { getAuthenticatedUser } from "../middleware";
+import { checkAdminAccess, getAuthenticatedUser } from "../middleware";
 
-// All user routes must be authenticated
+//* All user routes must be authenticated
 
 const route = createBaseRouter()
   .get("/", async (c) => {
@@ -17,7 +17,19 @@ const route = createBaseRouter()
 
     return c.json({ session, user });
   })
-  .post("/", zValidator(
+  .get("/:id", async (c) => {
+    await checkAdminAccess(c);
+
+    const userId = c.req.param("id");
+    const user = await getUserRawById(userId);
+    if (!user) {
+      c.status(404);
+      throw new Error(`UserId ${userId} not found`);
+    }
+
+    return c.json({ user });
+  })
+  .patch("/", zValidator(
     "json",
     z.object({
       name: z.string().max(MAX_NAME_LENGTH),
@@ -31,20 +43,6 @@ const route = createBaseRouter()
     if (stripeCustomerId) await updateStripeName(stripeCustomerId, name);
 
     return c.json({ user: updatedUser });
-  })
-  .get("/usage", async (c) => {
-    const user = await getAuthenticatedUser(c);
-    if (!user.profile) {
-      return c.json({ usage: null, user: null }, 404);
-    };
-
-    const usage = await getHiddifyUsage(user.profile.hiddifyId, user.profile.hiddifyServerId);
-
-    return c.json({ usage, user });
-  })
-  .get("/session", async (c) => {
-    const session = c.get("session");
-    return c.json({ session });
   });
 
 export default route;

@@ -1,12 +1,3 @@
-export const SUBSCRIPTION_PLANS = [
-  "none",
-  "trial",
-  "basic",
-  "pro",
-  "premium",
-] as const;
-export type SubscriptionType = (typeof SUBSCRIPTION_PLANS)[number];
-
 export const FREE_PLANS = [
   "none",
   "trial",
@@ -19,6 +10,25 @@ export const PAID_PLANS = [
   "premium",
 ] as const;
 export type PaidPlan = (typeof PAID_PLANS)[number];
+
+export const SUBSCRIPTION_PLANS = [
+  ...FREE_PLANS,
+  ...PAID_PLANS,
+] as const;
+export type SubscriptionType = (typeof SUBSCRIPTION_PLANS)[number];
+
+export type PricingPlan = {
+  plan: PaidPlan;
+  price: number;
+  description: string;
+  features: string[];
+};
+
+export type Platform
+  = "ios"
+    | "android"
+    | "mac"
+    | "pc";
 
 export const HIDDIFY_SERVER_IDS = [
   "1",

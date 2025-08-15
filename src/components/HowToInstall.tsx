@@ -4,13 +4,13 @@ import { CogIcon, Copy, Download, Menu, PartyPopper } from "lucide-react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
-import type { Platform } from "@/config/constants";
+import type { Platform } from "@/config/types";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FILE_TYPES, HIDDIFY_DOWNLOAD_URL } from "@/config/constants";
+import { FILE_DOWNLOAD_URL, FILE_TYPES } from "@/config/constants";
 import { fetchUser } from "@/lib/api-clients";
 import { copyToClipboard, getHiddifyLinks } from "@/lib/utils";
 
@@ -53,7 +53,7 @@ function getSteps(
           </>
         )}
       </p>
-      <a href={`${HIDDIFY_DOWNLOAD_URL}${downloadFile}`} className="self-center pr-8">
+      <a href={`${FILE_DOWNLOAD_URL}${downloadFile}`} className="self-center pr-8">
         <Button>
           <Download />
           Download for
@@ -100,7 +100,7 @@ function getSteps(
           <div className="text-foreground">
             For macOS, you will need download an extra shortcut file
             {" "}
-            <a href={`${HIDDIFY_DOWNLOAD_URL}start_vpn.command`} className="text-primary-link underline">here</a>
+            <a href={`${FILE_DOWNLOAD_URL}start_vpn.command`} className="text-primary-link underline">here</a>
             . Save this file to your desktop and open up the Terminal app.
             Type "sudo chmod +x ~/Desktop/start_vpn.command" into the terminal
             and hit enter. Enter your password (it will be invisible) and hit enter again.

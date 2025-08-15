@@ -28,9 +28,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { MAX_NAME_LENGTH } from "@/config/constants";
+import { MAX_NAME_LENGTH, MIN_WAIT_TIME } from "@/config/constants";
 import { sendVerificationEmail, signUp } from "@/lib/auth-clients";
-import { secondsPassed } from "@/lib/utils";
+import { minutesPassedSince } from "@/lib/utils";
 
 const formSchema = z
   .object({
@@ -67,9 +67,9 @@ function SignUpForm(_props: Props) {
   function onSubmit(values: z.infer<typeof formSchema>, event?: React.BaseSyntheticEvent) {
     event?.preventDefault();
 
-    const timeSince = secondsPassed(sentEmail);
-    if (timeSince < 10) {
-      toast.warning("Too many signup attempts, try again later.");
+    const minutesSince = minutesPassedSince(sentEmail);
+    if (minutesSince < MIN_WAIT_TIME) {
+      toast.warning("Too many signup attempts, please wait and try again later.");
       return;
     }
 

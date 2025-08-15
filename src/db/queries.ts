@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 
 import type { HiddifyServerId, HiddifyUser, SubscriptionType } from "@/config/types";
 
-import { HIDDIFY_SERVERS, MAX_BANDWIDTH_GB } from "@/config/constants";
+import { HIDDIFY_SERVERS, MAX_BANDWIDTH } from "@/config/constants";
 import { HIDDIFY_SERVER_IDS } from "@/config/types";
 import db, {
   product as productTable,
@@ -22,7 +22,7 @@ export async function getUserByEmail(email?: string) {
   });
 }
 
-export async function getUserByToken(token?: string) {
+export async function getUserByResetToken(token?: string) {
   if (!token) return;
 
   const row = await db.query.verification.findFirst({
@@ -43,15 +43,22 @@ export async function getUserById(id: string) {
     },
   });
 }
+
+export async function getUserRawById(id: string) {
+  return await db.query.user.findFirst({
+    where: eq(userTable.id, id),
+    with: {
+      account: true,
+      profile: true,
+      session: true,
+      verification: true,
+    },
+  });
+}
+
 export type UserDB = NonNullable<Awaited<ReturnType<typeof getUserById>>>;
 
 /// //////////////////// PROFILE ///////////////////////
-
-export async function getProfileById(id: string) {
-  return await db.query.profile.findFirst({
-    where: eq(profileTable.userId, id),
-  });
-}
 
 export async function getProfileByStripeId(stripeCustomerId: string) {
   return await db.query.profile.findFirst({
@@ -91,7 +98,7 @@ export async function findAvailableServer() {
 
     console.debug(`Total bandwidth for hiddify-${serverId}: ${totalBandwidth}GB`);
 
-    if (totalBandwidth < MAX_BANDWIDTH_GB) {
+    if (totalBandwidth < MAX_BANDWIDTH) {
       id = serverId;
       break;
     }

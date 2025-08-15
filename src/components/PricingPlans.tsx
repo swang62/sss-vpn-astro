@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
-import type { PricingPlan } from "@/config/constants";
+import type { PricingPlan } from "@/config/types";
 import type { User } from "@/lib/api-clients";
 
 import { Button } from "@/components/ui/button";

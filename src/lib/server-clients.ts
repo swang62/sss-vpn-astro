@@ -2,17 +2,18 @@ import axios from "axios";
 import postmark from "postmark";
 import { Stripe } from "stripe";
 
+import { STRIPE_API_VERSION } from "@/config/constants";
 import {
   HIDDIFY_API_KEY,
   POSTMARK_TOKEN,
   STRIPE_SECRET_KEY,
 } from "@/config/server";
 
-//* Should only contain server-side clients/actions
+//* Should only contain server-side clients
 
 // Stripe
 export const stripe = new Stripe(STRIPE_SECRET_KEY || "test", {
-  apiVersion: "2025-07-30.basil",
+  apiVersion: STRIPE_API_VERSION,
   maxNetworkRetries: 3,
   timeout: 10 * 1000,
 });

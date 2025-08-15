@@ -1,18 +1,25 @@
 /* eslint-disable perfectionist/sort-objects */
-import type { HiddifyServer, HiddifyServerId, PaidPlan, SubscriptionType } from "./types";
+import type { HiddifyServer, HiddifyServerId, Platform, PricingPlan, SubscriptionType } from "./types";
 
 export const SITE_NAME = "SSS-VPN";
-
 export const SITE_EMAIL = "hello@sss-vpn.com";
-export const SITE_EMAIL_ADMIN = "admin@sss-vpn.com";
-export const TEST_EMAIL = "test@sss-vpn.com";
+export const SITE_ADMIN = "admin@sss-vpn.com";
+
+export const TEST_ADMIN = "test-admin@sss-vpn.com";
+export const TEST_USER = "test-user@sss-vpn.com";
+export const DEFAULT_PASSWORD = "password";
 
 export const DB_LOCAL = "file:local.db";
 export const DB_TEST = "file:test.db";
 export const DB_SYNC_INTERVAL = 30;
 
 export const DATA_PACKAGE_PRICE = 2; // dollars
-export const TRIAL_TIME = 3;
+export const MAX_NAME_LENGTH = 20; // characters
+export const MAX_BANDWIDTH = 6000; // GB
+export const MIN_WAIT_TIME = 1; // minutes
+export const TRIAL_TIME = 3; // days
+
+export const STRIPE_API_VERSION = "2025-07-30.basil";
 
 // When changing these, make sure to update stripe products, tags, and customer portal
 export const PLAN_LIMITS: Record<SubscriptionType, { data: number; price: number }> = {
@@ -24,7 +31,7 @@ export const PLAN_LIMITS: Record<SubscriptionType, { data: number; price: number
     data: 3,
     price: 0,
   },
-  // Paid tiers
+  // PAID TIER
   basic: {
     data: 100,
     price: 5,
@@ -39,7 +46,7 @@ export const PLAN_LIMITS: Record<SubscriptionType, { data: number; price: number
   },
 };
 
-export type Platform = "ios" | "android" | "mac" | "pc";
+export const FILE_DOWNLOAD_URL = "https://seafile.mildlybrewed.com/d/f7cef31aca9f488c9ff8/files/?dl=1&p=%2F";
 export const FILE_TYPES: Record<Platform, { fileType: string; icon: string }> = {
   android: {
     fileType: "Hiddify.apk",
@@ -57,13 +64,6 @@ export const FILE_TYPES: Record<Platform, { fileType: string; icon: string }> = 
     fileType: "Hiddify.dmg",
     icon: "/setup/mac.png",
   },
-};
-
-export type PricingPlan = {
-  plan: PaidPlan;
-  price: number;
-  description: string;
-  features: string[];
 };
 
 export const PRICING_PLANS: PricingPlan[] = [
@@ -92,10 +92,6 @@ export const PRICING_PLANS: PricingPlan[] = [
   },
 ];
 
-export const MAX_NAME_LENGTH = 20;
-export const MAX_BANDWIDTH_GB = 6000;
-
-export const HIDDIFY_DOWNLOAD_URL = "https://seafile.mildlybrewed.com/d/f7cef31aca9f488c9ff8/files/?dl=1&p=%2F";
 export const HIDDIFY_SERVERS: Record<HiddifyServerId, HiddifyServer> = {
   1: {
     baseUrl: "https://link.sss-vpn.com/QwId8HABKn9c6GYrnRNcxMj/api/v2",

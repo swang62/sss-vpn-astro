@@ -9,15 +9,24 @@ import { createMiddleware } from "hono/factory";
 import pino from "pino";
 import pretty from "pino-pretty";
 
-import { IS_PRODUCTION, IS_TESTING, LOG_LEVEL } from "@/config/server";
+import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
 import { getUserById } from "@/db/queries";
-import { TEST_USER } from "@/db/seed";
 import { auth } from "@/lib/auth";
 import { redis } from "@/lib/redis";
 
 import type { Bindings } from "./app";
 
-// Psuedo-middleware (needed for all auth routes)
+// Admin-only routes
+export async function checkAdminAccess(c: Context<Bindings>) {
+  const userSession = c.get("userSession");
+  if (userSession?.role !== "admin") {
+    c.status(401);
+    throw new Error(`Unauthorized`);
+  }
+
+  return true;
+}
+
 // Get the actual user record from the DB
 export async function getAuthenticatedUser(c: Context<Bindings>) {
   const userSession = c.get("userSession");
@@ -38,10 +47,6 @@ export async function getAuthenticatedUser(c: Context<Bindings>) {
 
 // Add better-auth user/session tokens to Hono context
 export const authMiddleware = createMiddleware<Bindings>(async (c, next) => {
-  if (IS_TESTING) {
-    return next();
-  }
-
   const session = await auth.api.getSession({ headers: c.req.raw.headers });
   if (!session) {
     c.set("userSession", null);
@@ -51,25 +56,6 @@ export const authMiddleware = createMiddleware<Bindings>(async (c, next) => {
 
   c.set("userSession", session.user);
   c.set("session", session.session);
-  return next();
-});
-
-export const testMiddleware = createMiddleware<Bindings>(async (c, next) => {
-  if (!IS_TESTING) {
-    return next();
-  }
-
-  const now = new Date();
-
-  c.set("userSession", TEST_USER);
-  c.set("session", {
-    createdAt: now,
-    expiresAt: now,
-    id: TEST_USER.id,
-    token: "",
-    updatedAt: now,
-    userId: TEST_USER.id,
-  });
   return next();
 });
 

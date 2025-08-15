@@ -26,7 +26,8 @@ export function createBaseRouter() {
 }
 
 export default function createApp() {
-  const app = createBaseRouter().basePath("/api");
+  const app = createBaseRouter()
+    .basePath("/api");
 
   app.use(authMiddleware);
   app.use(pinoLogger());

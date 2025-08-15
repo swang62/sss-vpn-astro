@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 
 import type { SubscriptionType } from "@/config/types";
 
-import { DATA_PACKAGE_PRICE, PLAN_LIMITS, SITE_EMAIL, SITE_EMAIL_ADMIN } from "@/config/constants";
+import { DATA_PACKAGE_PRICE, PLAN_LIMITS, SITE_ADMIN, SITE_EMAIL } from "@/config/constants";
 import db, { profile as profileTable } from "@/db";
 import { postmarkClient, stripe } from "@/lib/server-clients";
 
@@ -108,7 +108,7 @@ export async function handleItemPurchases(stripeCustomerId: string, invoice: Str
 
     if (postmarkClient) {
       postmarkClient.sendEmailWithTemplate({
-        Bcc: SITE_EMAIL_ADMIN,
+        Cc: SITE_ADMIN,
         From: SITE_EMAIL,
         TemplateAlias: "router",
         TemplateModel: {},

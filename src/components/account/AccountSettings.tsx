@@ -43,7 +43,7 @@ function AccountSettings({ user }: Props) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     const { error } = await parseApi(
-      apiClient.user.$post({ json: { name: values.name } }),
+      apiClient.user.$patch({ json: { name: values.name } }),
     );
 
     if (!error) {

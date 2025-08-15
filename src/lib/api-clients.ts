@@ -22,18 +22,18 @@ export async function parseApi<T>(request: Promise<ClientResponse<T>>) {
   return { data, statusCode: response.status };
 }
 
-// SWR
+// React/SWR (client-side)
 export async function fetchUser() {
   return apiClient.user.$get().then(res => res.json());
 }
 export type User = Awaited<ReturnType<typeof fetchUser>>["user"];
 
 export async function fetchSession() {
-  return apiClient.user.session.$get().then(res => res.json());
+  return apiClient.session.$get().then(res => res.json());
 }
 
 export async function fetchUsage() {
-  return apiClient.user.usage.$get().then((res) => {
+  return apiClient.hiddify.usage.$get().then((res) => {
     if (!res.ok) {
       throw new Error("Failed to get usage data");
     }

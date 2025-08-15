@@ -16,9 +16,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { MIN_WAIT_TIME } from "@/config/constants";
 import { apiClient, parseApi } from "@/lib/api-clients";
 import { forgetPassword } from "@/lib/auth-clients";
-import { secondsPassed } from "@/lib/utils";
+import { minutesPassedSince } from "@/lib/utils";
 
 const formSchema = z.object({
   email: z.email().toLowerCase(),
@@ -40,8 +41,8 @@ function ForgotPasswordForm(_props: Props) {
 
   // Submit handler
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const minutesSince = Math.floor(secondsPassed(sentEmail) / 60);
-    if (minutesSince < 1) {
+    const minutesSince = minutesPassedSince(sentEmail);
+    if (minutesSince < MIN_WAIT_TIME) {
       toast.warning(`Please wait a minute before trying again.`);
       return;
     }

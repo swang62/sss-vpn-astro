@@ -20,6 +20,15 @@ import { getAuthenticatedUser } from "../middleware";
 // All stripe routes must be authenticated
 
 const route = createBaseRouter()
+  .get("/user", async (c) => {
+    const { profile } = await getAuthenticatedUser(c);
+    if (!profile?.stripeCustomerId) throw new Error("Invalid stripe user");
+
+    const customer = await stripe.customers.retrieve(profile.stripeCustomerId);
+
+    return c.json({ customer });
+  })
+
   .post("/checkout", zValidator(
     "json",
     z.object({

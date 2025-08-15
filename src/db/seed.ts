@@ -3,18 +3,31 @@ import { execSync } from "node:child_process";
 import fs from "node:fs";
 
 // !!! Must use relative imports and conditional imports !!!
-import { TEST_EMAIL } from "../config/constants";
+import { DEFAULT_PASSWORD, TEST_ADMIN, TEST_USER } from "../config/constants";
 import { DB_LOCAL_URL } from "../config/server";
 
-export const TEST_USER = {
+const now = new Date("2000-01-01T00:00:00.000Z");
+
+// Fake users to seed into dev/testing DB
+export const adminUser = {
   banned: false,
-  createdAt: new Date("2000-01-01T00:00:00.000Z"),
-  email: TEST_EMAIL,
+  createdAt: now,
+  email: TEST_ADMIN,
   emailVerified: true,
   id: "admin-id",
   name: "steve",
   role: "admin",
-  updatedAt: new Date("2000-01-01T00:00:00.000Z"),
+  updatedAt: now,
+};
+export const testUser = {
+  banned: false,
+  createdAt: now,
+  email: TEST_USER,
+  emailVerified: false,
+  id: "user-id",
+  name: "jenny",
+  role: "user",
+  updatedAt: now,
 };
 
 export async function push() {
@@ -30,25 +43,37 @@ export async function seed() {
   console.debug("Seeding database...");
 
   const { account, default: db, user } = await import("../db");
-  const password = "password";
-  const hash = await hashPassword(password);
+  const password = await hashPassword(DEFAULT_PASSWORD);
 
-  await db.insert(user).values([TEST_USER]);
+  await db.insert(user).values([adminUser]);
   await db.insert(account).values([
     {
-      accountId: TEST_USER.id,
-      createdAt: TEST_USER.createdAt,
-      id: "admin-account",
-      password: hash,
+      accountId: adminUser.id,
+      createdAt: adminUser.createdAt,
+      id: `${adminUser.id}-account`,
+      password,
       providerId: "credential",
-      updatedAt: TEST_USER.updatedAt,
-      userId: TEST_USER.id,
+      updatedAt: adminUser.updatedAt,
+      userId: adminUser.id,
+    },
+  ]);
+
+  await db.insert(user).values([testUser]);
+  await db.insert(account).values([
+    {
+      accountId: testUser.id,
+      createdAt: testUser.createdAt,
+      id: `${testUser.id}-account`,
+      password,
+      providerId: "credential",
+      updatedAt: testUser.updatedAt,
+      userId: testUser.id,
     },
   ]);
 }
 
 // Don't use this during testing as stripe is disabled
-export async function seedProducts() {
+export async function syncProducts() {
   console.debug("Seeding products...");
 
   const { stripe } = await import("@/lib/server-clients");

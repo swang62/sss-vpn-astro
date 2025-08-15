@@ -6,7 +6,7 @@ import { IS_PRODUCTION } from "@/config/server";
 import { getUserByEmail } from "@/db/queries";
 import { createBaseRouter } from "@/server/app";
 
-// Unauthenticated routes
+//* Unauthenticated routes
 
 const route = createBaseRouter()
   .get("/status", (c) => {
@@ -23,22 +23,21 @@ const route = createBaseRouter()
       response,
     });
   })
-  .get(
-    "/search-email",
-    zValidator(
-      "query",
-      z.object({
-        email: z.string(),
-      }),
-    ),
-    async (c) => {
-      const { email } = c.req.valid("query");
+  .get("/search-email", zValidator(
+    "query",
+    z.object({
+      email: z.string(),
+    }),
+  ), async (c) => {
+    const { email } = c.req.valid("query");
+    const user = await getUserByEmail(email);
 
-      const user = await getUserByEmail(email);
-
-      return c.json({ exists: !!user && !!email });
-    },
-  )
+    return c.json({ exists: !!user && !!email });
+  })
+  .get("/session", (c) => {
+    const session = c.get("session");
+    return c.json({ session });
+  })
   .put("/error", (c) => {
     const message = "Manually triggered server-side error";
     captureException(new Error(message));

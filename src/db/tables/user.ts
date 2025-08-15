@@ -4,6 +4,7 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { account } from "./account";
 import { profile } from "./profile";
 import { session } from "./session";
+import { verification } from "./verification";
 
 export const user = sqliteTable("user", {
   banExpires: integer({ mode: "timestamp" }),
@@ -29,4 +30,5 @@ export const UserRelations = relations(user, ({ many, one }) => ({
   account: one(account),
   profile: one(profile),
   session: many(session),
+  verification: many(verification),
 }));
