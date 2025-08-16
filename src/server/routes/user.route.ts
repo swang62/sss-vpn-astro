@@ -3,7 +3,8 @@ import { z } from "zod";
 
 import { MAX_NAME_LENGTH } from "@/config/constants";
 import { updateStripeName, updateUser } from "@/db/mutations-user";
-import { getUserRawById } from "@/db/queries";
+import { getHiddifyUsage, getUserRawById } from "@/db/queries";
+import { stripe } from "@/lib/server-clients";
 import { createBaseRouter } from "@/server/app";
 
 import { checkAdminAccess, getAuthenticatedUser } from "../middleware";
@@ -27,7 +28,16 @@ const route = createBaseRouter()
       throw new Error(`UserId ${userId} not found`);
     }
 
-    return c.json({ user });
+    let usage = null;
+    let customer = null;
+    if (user.profile?.hiddifyId) {
+      usage = await getHiddifyUsage(user.profile.hiddifyId, user.profile.hiddifyServerId);
+    }
+    if (user.profile?.stripeCustomerId) {
+      customer = await stripe.customers.retrieve(user.profile.stripeCustomerId);
+    }
+
+    return c.json({ _user: user, hiddify: usage, stripe: customer });
   })
   .patch("/", zValidator(
     "json",

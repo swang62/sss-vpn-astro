@@ -1,4 +1,6 @@
 ---
+import crypto from "node:crypto";
+
 import DashboardUsage from "@/components/dashboard/DashboardUsage";
 import ShowWelcome from "@/components/dashboard/WelcomeMsg";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
@@ -9,12 +11,20 @@ const { user } = Astro.locals;
 let shouldShowWelcome = false;
 
 // Only show welcome if the cookie didn't exist already
-const showedWelcome = Astro.cookies.get("showedWelcome");
-if (showedWelcome?.value !== user.email) {
+const uniqueLoginCookie = crypto
+  .createHash("md5")
+  .update(user.email)
+  .digest("hex");
+const showedWelcome = Astro.cookies.get(uniqueLoginCookie);
+if (!showedWelcome?.value) {
   shouldShowWelcome = true;
-  Astro.cookies.set("showedWelcome", user.email, { maxAge: 2147483647, path: "/dashboard", sameSite: "lax" });
-}
 
+  Astro.cookies.set(uniqueLoginCookie, "true", {
+    maxAge: 2147483647,
+    path: "/dashboard",
+    sameSite: "lax",
+  });
+}
 ---
 
 <DashboardLayout title="Dashboard">

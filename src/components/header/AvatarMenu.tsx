@@ -1,6 +1,6 @@
 import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
 import { navigate } from "astro:transitions/client";
-import { Cog, Edit, Home, LogOut, User, Wrench } from "lucide-react";
+import { Cog, Edit, Home, LogOut, MessageCircleQuestionMark, User, Wrench } from "lucide-react";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SITE_EMAIL } from "@/config/constants";
 import { fetchUser } from "@/lib/api-clients";
 import { signOut } from "@/lib/auth-clients";
 import { cn } from "@/lib/utils";
@@ -64,6 +65,19 @@ function AvatarMenu(_props: Props) {
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem className={menuStyle}>
+          <a
+            href={`mailto:${SITE_EMAIL}`}
+            target="_blank"
+            rel="noreferrer"
+            className="w-full"
+          >
+            <Button variant="ghost" className={buttonStyle}>
+              <MessageCircleQuestionMark />
+              <span>Contact me</span>
+            </Button>
+          </a>
+        </DropdownMenuItem>
+        <DropdownMenuItem className={menuStyle}>
           <a href="/dashboard/settings" className="w-full">
             <Button variant="ghost" className={buttonStyle}>
               <Cog />
@@ -72,11 +86,12 @@ function AvatarMenu(_props: Props) {
           </a>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+
         {isAdmin && (
           <DropdownMenuItem className={menuStyle}>
             <a href="/dashboard/debug" className="w-full">
               <Button variant="ghost" className={buttonStyle}>
-                <Wrench className="text-destructive" />
+                <Wrench className="text-secondary" />
                 <span>Admin API</span>
               </Button>
             </a>

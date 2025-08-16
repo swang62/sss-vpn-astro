@@ -148,19 +148,7 @@ function SignUpForm(_props: Props) {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nickname</FormLabel>
-                  <FormControl>
-                    <Input placeholder="(optional)" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
             <FormField
               control={form.control}
               name="email"
@@ -169,6 +157,19 @@ function SignUpForm(_props: Props) {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nickname</FormLabel>
+                  <FormControl>
+                    <Input placeholder="(optional)" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

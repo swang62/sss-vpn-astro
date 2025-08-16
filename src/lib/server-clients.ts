@@ -15,7 +15,7 @@ import {
 export const stripe = new Stripe(STRIPE_SECRET_KEY || "test", {
   apiVersion: STRIPE_API_VERSION,
   maxNetworkRetries: 3,
-  timeout: 10 * 1000,
+  timeout: 5000,
 });
 
 // Postmark
@@ -28,4 +28,4 @@ export const axiosHiddify = axios.create({ headers: {
   "accept": "application/json",
   "content-type": "application/json",
   "Hiddify-API-Key": HIDDIFY_API_KEY,
-} });
+}, timeout: 5000 });

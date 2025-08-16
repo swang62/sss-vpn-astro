@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import type { Option } from "@/config/types";
@@ -14,18 +14,17 @@ type Endpoint
     | "/user"
     | "/usage"
     | "/stripe"
-    | "/all-users"
     | "/server-error"
     | "/client-error"
     | "";
 
 const options: Option[] = [
   {
-    label: "GET /api/status",
+    label: "GET /status",
     value: "/status",
   },
   {
-    label: "GET /user/db",
+    label: "GET /user/me",
     value: "/user",
   },
   {
@@ -35,10 +34,6 @@ const options: Option[] = [
   {
     label: "GET /user/stripe",
     value: "/stripe",
-  },
-  {
-    label: "GET /users/all",
-    value: "/all-users",
   },
   {
     label: "PUT /server-error",
@@ -55,7 +50,6 @@ const options: Option[] = [
 
 interface Props {
   device: UAParser.IResult;
-  pathname: string;
   origin: string;
 }
 
@@ -66,7 +60,7 @@ function ApiStatus(props: Props) {
   const [loading, setLoading] = useState(false);
   const [endpoint, setEndpoint] = useState<Endpoint>("");
   const [users, setUsers] = useState<Option[]>([]);
-  const [userId, setUserId] = useState("");
+  const [userSelected, setUserSelected] = useState("");
 
   // Handlers
   const getEndpoint = async () => {
@@ -105,23 +99,6 @@ function ApiStatus(props: Props) {
         }
       }
       setCode(JSON.stringify(data || error, null, 2));
-    } else if (endpoint === "/all-users") {
-      const { data, error } = await admin.listUsers({
-        query: {
-          sortBy: "email",
-          sortDirection: "asc",
-        },
-      });
-      if (!data || error) {
-        toast.error(error?.message);
-      }
-      setCode(JSON.stringify(data?.users || error?.message, null, 2));
-
-      // Populate users list
-      if (data) {
-        const userOptions = data.users.map((user): Option => ({ label: user.email, value: user.id }));
-        setUsers(userOptions);
-      }
     }
 
     setLoading(false);
@@ -130,7 +107,7 @@ function ApiStatus(props: Props) {
   const getUser = async () => {
     setLoading(true);
 
-    const { data, error } = await parseApi(api.user[":id"].$get({ param: { id: userId } }));
+    const { data, error } = await parseApi(api.user[":id"].$get({ param: { id: userSelected } }));
     if (!data || error) {
       toast.error(error);
     }
@@ -139,13 +116,34 @@ function ApiStatus(props: Props) {
     setLoading(false);
   };
 
-  const resetUser = () => {
-    setEndpoint("");
-    setCode(defaultOutput);
+  const getAllUsers = async () => {
+    const { data, error } = await admin.listUsers({
+      query: {
+        sortBy: "email",
+        sortDirection: "asc",
+      },
+    });
+    if (!data || error) toast.error(error?.message);
+    if (data) {
+      const userOptions = data.users.map((user): Option => ({ label: user.email, value: user.id }));
+      setUsers(userOptions);
+    }
   };
 
+  const onReset = () => {
+    setEndpoint("");
+    setUserSelected("");
+    setCode(defaultOutput);
+    getAllUsers();
+  };
+
+  // Lifecycle
+  useEffect(() => {
+    getAllUsers();
+  }, []);
+
   return (
-    <div className="flex flex-col w-full pb-0 gap-4 md:pt-2 mx-auto">
+    <div className="flex flex-col w-full pb-0 gap-2 md:pt-6 mx-auto">
       <div className="flex flex-row gap-2">
         <Combobox options={options} value={endpoint} setValue={setEndpoint} defaultValue="API endpoint..." />
         <Button loading={loading} variant="secondary" onClick={getEndpoint} disabled={!endpoint}>
@@ -153,15 +151,15 @@ function ApiStatus(props: Props) {
         </Button>
       </div>
       <div className="flex flex-row gap-2">
-        <Combobox options={users} value={userId} setValue={setUserId} defaultValue="User..." />
-        <Button loading={loading} variant="secondary" onClick={getUser} disabled={users.length === 0}>
+        <Combobox options={users} value={userSelected} setValue={setUserSelected} defaultValue="Select user..." />
+        <Button loading={loading} variant="secondary" onClick={getUser} disabled={users.length === 0 || !userSelected}>
           Go
         </Button>
       </div>
 
       <code className="min-h-[68vh] max-h-[68vh] overflow-y-auto dark">{code}</code>
 
-      <Button variant="destructive" className="w-full" onClick={resetUser}>
+      <Button variant="destructive" className="w-full" onClick={onReset}>
         Reset
       </Button>
     </div>

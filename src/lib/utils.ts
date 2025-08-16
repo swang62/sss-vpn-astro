@@ -17,6 +17,23 @@ export async function sleep(msec = 1000) {
   return await new Promise(resolve => setTimeout(resolve, msec));
 }
 
+export async function retryOnError<T>(
+  func: () => Promise<T>,
+  retries = 3,
+  delay = 500,
+): Promise<T> {
+  try {
+    const response = await func();
+    return response;
+  } catch (error) {
+    if (retries === 0) throw error;
+
+    // Wait and then try again.
+    await sleep(delay);
+    return retryOnError(func, retries - 1, delay * 2);
+  }
+}
+
 export function capitalize(str = "") {
   return str ? str[0].toUpperCase() + str.slice(1).toLowerCase() : str;
 }

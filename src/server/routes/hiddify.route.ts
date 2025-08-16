@@ -13,6 +13,9 @@ const route = createBaseRouter()
     };
 
     const usage = await getHiddifyUsage(user.profile.hiddifyId, user.profile.hiddifyServerId);
+    if (!usage) {
+      return c.json({ usage: null, user: null }, 404);
+    };
 
     return c.json({ usage, user });
   });

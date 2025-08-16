@@ -44,10 +44,10 @@ export type HiddifyServer = {
 
 export type HiddifyUser = {
   current_usage_GB: number; // Can't be set
-  enable: boolean;
+  enable: boolean; // Is this user allowed to connect to VPN
   is_active: boolean; // Is user actively using VPN
   last_online: Date | null;
-  mode: string;
+  mode: "no_reset" | "monthly";
   name: string;
   package_days: number;
   start_date: string; // Format: YYYY-MM-DD

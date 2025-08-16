@@ -11,6 +11,7 @@ import db, {
   verification as verificationTable,
 } from "@/db";
 import { axiosHiddify } from "@/lib/server-clients";
+import { retryOnError } from "@/lib/utils";
 
 /// //////////////////// USER ///////////////////////
 
@@ -93,9 +94,10 @@ export async function findAvailableServer() {
   let id = "1" as HiddifyServerId;
   for (const serverId of HIDDIFY_SERVER_IDS) {
     const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
-    const { data } = await axiosHiddify.get<HiddifyUser[]>(`${baseUrl}/admin/user`);
+    const { data } = await retryOnError(async () => {
+      return await axiosHiddify.get<HiddifyUser[]>(`${baseUrl}/admin/user`);
+    });
     const totalBandwidth = data.filter(users => users.enable).reduce((prev, curr) => prev + curr.usage_limit_GB, 0);
-
     console.debug(`Total bandwidth for hiddify-${serverId}: ${totalBandwidth}GB`);
 
     if (totalBandwidth < MAX_BANDWIDTH) {
@@ -112,7 +114,9 @@ export async function searchHiddifyUser(email?: string) {
 
   for (const serverId of HIDDIFY_SERVER_IDS) {
     const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
-    const { data } = await axiosHiddify.get<HiddifyUser[]>(`${baseUrl}/admin/user`);
+    const { data } = await retryOnError(async () => {
+      return await axiosHiddify.get<HiddifyUser[]>(`${baseUrl}/admin/user`);
+    });
     const user = data.find(user => user.name === email);
     if (user) {
       return { hiddifyId: user.uuid, hiddifyServerId: serverId };
@@ -124,7 +128,10 @@ export async function searchHiddifyUser(email?: string) {
 
 export async function getHiddifyUsage(id: string, serverId: HiddifyServerId) {
   const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
-  const { data } = await axiosHiddify.get<HiddifyUser>(`${baseUrl}/admin/user/${id}`);
+
+  const { data } = await retryOnError(async () => {
+    return await axiosHiddify.get<HiddifyUser>(`${baseUrl}/admin/user/${id}`);
+  });
 
   return data?.uuid ? data : null;
 }

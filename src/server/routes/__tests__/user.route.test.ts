@@ -36,7 +36,7 @@ describe("/api/user/:id", () => {
       apiNoAuth[":id"].$get({ param: { id: adminUser.id } }),
     );
     expect(statusCode).toBe(401);
-    expect(data?.user).toBeFalsy();
+    expect(data?._user).toBeFalsy();
   });
 
   it("non-admin session, query user", async () => {
@@ -44,7 +44,7 @@ describe("/api/user/:id", () => {
       apiUser[":id"].$get({ param: { id: adminUser.id } }),
     );
     expect(statusCode).toBe(401);
-    expect(data?.user).toBeFalsy();
+    expect(data?._user).toBeFalsy();
   });
 
   it("admin session, query nonexistent user", async () => {
@@ -52,7 +52,7 @@ describe("/api/user/:id", () => {
       apiAdmin[":id"].$get({ param: { id: "fake_id" } }),
     );
     expect(statusCode).toBe(404);
-    expect(data?.user).toBeFalsy();
+    expect(data?._user).toBeFalsy();
   });
 
   it("admin session, query real user", async () => {
@@ -60,10 +60,10 @@ describe("/api/user/:id", () => {
       apiAdmin[":id"].$get({ param: { id: testUser.id } }),
     );
 
-    expect(data?.user.id).toBe(testUser.id);
-    expect(data?.user.email).toBe(testUser.email);
-    expect(data?.user.account?.userId).toBe(testUser.id);
-    expect(data?.user.session.length).toBe(0);
+    expect(data?._user.id).toBe(testUser.id);
+    expect(data?._user.email).toBe(testUser.email);
+    expect(data?._user.account?.userId).toBe(testUser.id);
+    expect(data?._user.session.length).toBe(0);
   });
 });
 
