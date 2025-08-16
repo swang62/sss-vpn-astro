@@ -1,3 +1,4 @@
+import ReactJsonView from "@microlink/react-json-view";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -6,6 +7,7 @@ import type { HonoClient } from "@/lib/api-clients";
 
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
+import { useMounted } from "@/hooks/use-mounted";
 import { api, parseApi } from "@/lib/api-clients";
 import { admin } from "@/lib/auth-clients";
 
@@ -53,10 +55,10 @@ interface Props {
   origin: string;
 }
 
-function ApiStatus(props: Props) {
-  const defaultOutput = JSON.stringify(props, null, 2);
-
-  const [code, setCode] = useState(defaultOutput);
+function ApiStatus({ device, origin }: Props) {
+  const defaultCode = { device, origin };
+  const mounted = useMounted();
+  const [code, setCode] = useState<object>(defaultCode);
   const [loading, setLoading] = useState(false);
   const [endpoint, setEndpoint] = useState<Endpoint>("");
   const [users, setUsers] = useState<Option[]>([]);
@@ -97,8 +99,10 @@ function ApiStatus(props: Props) {
           setLoading(false);
           throw new Error("Manually triggered client-side error");
         }
+        setLoading(false);
+        return;
       }
-      setCode(JSON.stringify(data || error, null, 2));
+      setCode(data);
     }
 
     setLoading(false);
@@ -110,9 +114,10 @@ function ApiStatus(props: Props) {
     const { data, error } = await parseApi(api.user[":id"].$get({ param: { id: userSelected } }));
     if (!data || error) {
       toast.error(error);
+      setLoading(false);
+      return;
     }
-    setCode(JSON.stringify(data || error, null, 2));
-
+    setCode(data);
     setLoading(false);
   };
 
@@ -133,7 +138,7 @@ function ApiStatus(props: Props) {
   const onReset = () => {
     setEndpoint("");
     setUserSelected("");
-    setCode(defaultOutput);
+    setCode(defaultCode);
     getAllUsers();
   };
 
@@ -157,7 +162,19 @@ function ApiStatus(props: Props) {
         </Button>
       </div>
 
-      <code className="min-h-[68vh] max-h-[68vh] overflow-y-auto dark">{code}</code>
+      <code className="min-h-[68vh] max-h-[68vh] overflow-y-auto dark">
+        {mounted && (
+          <ReactJsonView
+            src={code}
+            sortKeys
+            enableClipboard={false}
+            displayDataTypes={false}
+            displayObjectSize={false}
+            style={{ background: "rgb(31, 32, 53)" }}
+            theme="chalk"
+          />
+        )}
+      </code>
 
       <Button variant="destructive" className="w-full" onClick={onReset}>
         Reset

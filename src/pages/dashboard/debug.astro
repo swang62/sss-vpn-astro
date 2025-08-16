@@ -11,6 +11,6 @@ const device = UAParser(session?.userAgent || "");
 
 <DashboardLayout title="Debug">
   <div class="flex flex-col w-full max-w-2xl gap-6 py-4 mx-auto">
-    <ApiStatus device={device} origin={origin} client:load />
+    <ApiStatus device={device} origin={origin} client:only="react" />
   </div>
 </DashboardLayout>
