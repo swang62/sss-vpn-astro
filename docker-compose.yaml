@@ -32,6 +32,8 @@ services:
   redis:
     command: redis-server --save 60 100 --appendonly yes --requirepass ${REDIS_PASS:-default}
     container_name: redis
+    expose:
+      - 6379
     healthcheck:
       interval: 5s
       retries: 5
@@ -39,8 +41,6 @@ services:
       test: redis-cli ping
       timeout: 5s
     image: redis:8.0-M01
-    expose:
-      - 6379
     restart: unless-stopped
     volumes:
       - redis:/data
