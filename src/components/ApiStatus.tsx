@@ -170,7 +170,7 @@ function ApiStatus({ device, origin }: Props) {
             enableClipboard={false}
             displayDataTypes={false}
             displayObjectSize={false}
-            style={{ background: "rgb(31, 32, 53)" }}
+            style={{ background: "rgb(31, 32, 53)", fontSize: 14 }}
             theme="chalk"
           />
         )}
