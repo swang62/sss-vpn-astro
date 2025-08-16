@@ -2,12 +2,13 @@ import axios from "axios";
 import postmark from "postmark";
 import { Stripe } from "stripe";
 
-import { STRIPE_API_VERSION } from "@/config/constants";
+// ! relative imports for scripts
+import { STRIPE_API_VERSION } from "../config/constants";
 import {
   HIDDIFY_API_KEY,
   POSTMARK_TOKEN,
   STRIPE_SECRET_KEY,
-} from "@/config/server";
+} from "../config/server";
 
 //* Should only contain server-side clients
 

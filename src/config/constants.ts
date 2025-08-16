@@ -11,7 +11,6 @@ export const DEFAULT_PASSWORD = "password";
 
 export const DB_LOCAL = "file:local.db";
 export const DB_TEST = "file:test.db";
-export const DB_SYNC_INTERVAL = 30;
 
 export const DATA_PACKAGE_PRICE = 2; // dollars
 export const MAX_NAME_LENGTH = 20; // characters

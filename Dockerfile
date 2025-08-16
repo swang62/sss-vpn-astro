@@ -50,14 +50,16 @@ ENV NODE_ENV=production
 EXPOSE ${PORT}
 
 # Astro production build
-COPY --from=dependencies /app/package.json ./package.json
 COPY --from=dependencies /app/node_modules ./node_modules
+COPY --from=dependencies /app/package.json ./package.json
 COPY --from=build /app/dist ./dist
+COPY --from=build /app/drizzle.config.ts ./drizzle.config.ts
 
 # Drizzle-kit migrations
-COPY --from=build /app/drizzle.config.ts ./drizzle.config.ts
+COPY --from=build /app/scripts ./scripts
 COPY --from=build /app/src/db ./src/db
 COPY --from=build /app/src/config ./src/config
+COPY --from=build /app/src/lib ./src/lib
 
 # Entrypoint
-CMD ["pnpm", "start"]
+ENTRYPOINT [ "./scripts/entrypoint.sh" ]

@@ -1,10 +1,10 @@
-import { push, remove, seed } from "@/db/seed";
+import { deleteDB, migrate, seed } from "@/db/seed";
 
 export async function setup() {
-  await push();
+  await migrate();
   await seed();
 }
 
 export async function teardown() {
-  await remove();
+  await deleteDB();
 }

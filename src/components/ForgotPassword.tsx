@@ -88,7 +88,7 @@ function ForgotPasswordForm(_props: Props) {
   return (
     <div className="flex flex-col w-full max-w-xs mx-auto">
       <Card className="">
-        <CardHeader className="pb-4 text-center">
+        <CardHeader className="text-center">
           <CardTitle className="text-2xl">Forgot password?</CardTitle>
         </CardHeader>
 

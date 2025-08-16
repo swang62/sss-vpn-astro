@@ -1,6 +1,6 @@
 import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
 import { navigate } from "astro:transitions/client";
-import { Cog, Edit, Home, LogOut, MessageCircleQuestionMark, User, Wrench } from "lucide-react";
+import { Cog, Edit, Home, LogOut, Mail, User, Wrench } from "lucide-react";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
@@ -72,7 +72,7 @@ function AvatarMenu(_props: Props) {
             className="w-full"
           >
             <Button variant="ghost" className={buttonStyle}>
-              <MessageCircleQuestionMark />
+              <Mail />
               <span>Contact me</span>
             </Button>
           </a>

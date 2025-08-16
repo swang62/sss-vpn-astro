@@ -325,19 +325,19 @@ function HowToInstall(props: Props) {
       </TabsList>
       <TabsContent value="android">
         {getSteps(FILE_TYPES.android.fileType, FILE_TYPES.android.icon, links)
-          .map((step, idx) => <Step key={idx} {...step} />)}
+          .map((step, idx) => <Step key={idx} idx={idx} {...step} />)}
       </TabsContent>
       <TabsContent value="pc">
         {getSteps(FILE_TYPES.pc.fileType, FILE_TYPES.pc.icon, links)
-          .map((step, idx) => <Step key={idx} {...step} />)}
+          .map((step, idx) => <Step key={idx} idx={idx} {...step} />)}
       </TabsContent>
       <TabsContent value="ios">
         {getSteps(FILE_TYPES.ios.fileType, FILE_TYPES.ios.icon, links)
-          .map((step, idx) => <Step key={idx} {...step} />)}
+          .map((step, idx) => <Step key={idx} idx={idx} {...step} />)}
       </TabsContent>
       <TabsContent value="mac">
         {getSteps(FILE_TYPES.mac.fileType, FILE_TYPES.mac.icon, links)
-          .map((step, idx) => <Step key={idx} {...step} />)}
+          .map((step, idx) => <Step key={idx} idx={idx} {...step} />)}
       </TabsContent>
     </Tabs>
   );

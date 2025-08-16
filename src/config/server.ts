@@ -14,7 +14,7 @@ const EnvSchema = z.object({
     "warn",
     "error",
     "placeholder",
-  ]),
+  ]).default("debug"),
   NODE_ENV: z.string().default("development"),
   POSTMARK_TOKEN: z.string().optional(),
   REDIS_PASS: z.string().optional(),

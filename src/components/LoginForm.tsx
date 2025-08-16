@@ -69,7 +69,7 @@ function LoginForm(_props: Props) {
 
   return (
     <Card className="w-full max-w-xs mx-auto">
-      <CardHeader className="pb-4 text-center">
+      <CardHeader className="text-center">
         <CardTitle className="text-2xl">Log in</CardTitle>
       </CardHeader>
 

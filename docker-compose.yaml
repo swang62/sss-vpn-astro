@@ -9,11 +9,11 @@ services:
       - SQLD_NODE=primary
       - SQLD_HTTP_AUTH=basic:${DB_AUTH_TOKEN:-default}
       - SQLD_ENABLE_BOTTOMLESS_REPLICATION=${MINIO_BACKUP:-false}
-      - LIBSQL_BOTTOMLESS_ENDPOINT=${MINIO_ENDPOINT}
-      - LIBSQL_BOTTOMLESS_AWS_ACCESS_KEY_ID=${MINIO_ACCESS_KEY}
-      - LIBSQL_BOTTOMLESS_AWS_SECRET_ACCESS_KEY=${MINIO_SECRET_KEY}
+      - LIBSQL_BOTTOMLESS_ENDPOINT=${MINIO_ENDPOINT:-localhost}
+      - LIBSQL_BOTTOMLESS_AWS_ACCESS_KEY_ID=${MINIO_ACCESS_KEY:-secret}
+      - LIBSQL_BOTTOMLESS_AWS_SECRET_ACCESS_KEY=${MINIO_SECRET_KEY:-secret}
       - LIBSQL_BOTTOMLESS_BUCKET=sssvpn-${NODE_ENV}
-      - LIBSQL_BOTTOMLESS_AWS_DEFAULT_REGION=${MINIO_REGION}
+      - LIBSQL_BOTTOMLESS_AWS_DEFAULT_REGION=${MINIO_REGION:-eu-west-1}
       - RUST_LOG=info,bottomless=info
     healthcheck:
       interval: 5s
@@ -22,8 +22,6 @@ services:
       test: "sqld --version || exit 1"
       timeout: 5s
     image: ghcr.io/tursodatabase/libsql-server:v0.24.32
-    labels:
-      - com.centurylinklabs.watchtower.enable=false
     ports:
       - 8888:8080
       - 5001:5001
@@ -41,10 +39,8 @@ services:
       test: redis-cli ping
       timeout: 5s
     image: redis:8.0-M01
-    labels:
-      - com.centurylinklabs.watchtower.enable=false
-    ports:
-      - 6379:6379
+    expose:
+      - 6379
     restart: unless-stopped
     volumes:
       - redis:/data
@@ -79,14 +75,12 @@ services:
       - STRIPE_WEBHOOK_SECRET
       - LOG_LEVEL
     healthcheck:
-      interval: 1m
+      interval: 30s
       retries: 5
       start_period: 10s
       test: "curl -fs -o /dev/null http://localhost:4321"
       timeout: 5s
     image: swang62/sssvpn
-    labels:
-      - com.centurylinklabs.watchtower.enable=false
     ports:
       - 4321:4321
     restart: unless-stopped

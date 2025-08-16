@@ -30,17 +30,19 @@ export const testUser = {
   updatedAt: now,
 };
 
-export async function push() {
-  await remove();
+export async function deleteDB() {
+  fs.rmSync(DB_LOCAL_URL.replace("file:", ""), { force: true });
+  console.debug(`Deleted ${DB_LOCAL_URL}.`);
+}
 
-  console.debug("Pushing migrations...");
+export async function migrate() {
+  console.debug("Applying migrations...");
   const result = execSync("pnpm drizzle-kit migrate");
-
   console.debug(result.toString());
 }
 
 export async function seed() {
-  console.debug("Seeding database...");
+  console.debug("Seeding users...");
 
   const { account, default: db, user } = await import("../db");
   const password = await hashPassword(DEFAULT_PASSWORD);
@@ -76,8 +78,8 @@ export async function seed() {
 export async function syncProducts() {
   console.debug("Seeding products...");
 
-  const { stripe } = await import("@/lib/server-clients");
-  const { default: db, product } = await import(".");
+  const { stripe } = await import("../lib/server-clients");
+  const { default: db, product } = await import("./index");
 
   const { data } = await stripe.prices.list();
 
@@ -99,9 +101,4 @@ export async function syncProducts() {
       target: product.id,
     });
   }
-}
-
-export async function remove() {
-  console.debug(`Deleting ${DB_LOCAL_URL}...`);
-  fs.rmSync(DB_LOCAL_URL.replace("file:", ""), { force: true });
 }

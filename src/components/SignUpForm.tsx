@@ -131,14 +131,14 @@ function SignUpForm(_props: Props) {
               </span>
             </PopoverTrigger>
             <PopoverContent className="w-fit">
-              <h1 className="font-2xl">Recommended Emails</h1>
+              <h1 className="font-2xl">Recommended</h1>
               <hr className="my-3" />
               <ul>
-                <li>microsoft.com</li>
-                <li>outlook.com</li>
-                <li>live.com</li>
-                <li>icloud.com</li>
+                <li>qq.com</li>
                 <li>163.com</li>
+                <li>icloud.com</li>
+                <li>live.com</li>
+                <li>outlook.com</li>
               </ul>
             </PopoverContent>
           </Popover>
