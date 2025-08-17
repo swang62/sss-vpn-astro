@@ -8,9 +8,7 @@ export const user = sqliteTable("user", {
     .$defaultFn(() => /* @__PURE__ */ new Date())
     .notNull(),
   email: text("email").notNull().unique(),
-  emailVerified: integer("email_verified", { mode: "boolean" })
-    .default(false)
-    .notNull(),
+  emailVerified: integer("email_verified", { mode: "boolean" }).default(false).notNull(),
   id: text("id").primaryKey(),
   image: text("image"),
   name: text("name").notNull(),
@@ -58,13 +56,13 @@ export const account = sqliteTable("account", {
 
 export const verification = sqliteTable("verification", {
   createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
-    () => /* @__PURE__ */ new Date(),
+    () => /* @__PURE__ */ new Date()
   ),
   expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
   id: text("id").primaryKey(),
   identifier: text("identifier").notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
-    () => /* @__PURE__ */ new Date(),
+    () => /* @__PURE__ */ new Date()
   ),
   value: text("value").notNull(),
 });

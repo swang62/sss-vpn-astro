@@ -51,11 +51,7 @@ function ForgotPasswordForm(_props: Props) {
     const { data } = await parseApi(api["search-email"].$get({ query: { email } }));
 
     if (!data?.exists) {
-      form.setError(
-        "email",
-        { message: "Email does not exist." },
-        { shouldFocus: true },
-      );
+      form.setError("email", { message: "Email does not exist." }, { shouldFocus: true });
       return;
     }
 
@@ -81,12 +77,12 @@ function ForgotPasswordForm(_props: Props) {
           setSentEmail(new Date().toISOString());
           setLoading(false);
         },
-      },
+      }
     );
   }
 
   return (
-    <div className="flex flex-col w-full max-w-xs mx-auto">
+    <div className="mx-auto flex w-full max-w-xs flex-col">
       <Card className="">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Forgot password?</CardTitle>
@@ -109,17 +105,23 @@ function ForgotPasswordForm(_props: Props) {
                 )}
               />
 
-              <Button className="w-full" type="submit" loading={loading} disabled={loading} data-umami-event="password-reset">
+              <Button
+                className="w-full"
+                type="submit"
+                loading={loading}
+                disabled={loading}
+                data-umami-event="password-reset"
+              >
                 Send reset link
               </Button>
             </form>
           </Form>
         </CardContent>
       </Card>
-      <div className="mt-4 text-sm text-center">
+      <div className="mt-4 text-center text-sm">
         <a
           href="/login"
-          className="flex items-center justify-center mr-4 text-center text-foreground hover:underline"
+          className="text-foreground mr-4 flex items-center justify-center text-center hover:underline"
         >
           <ChevronLeft className="h-4" />
           Back to login

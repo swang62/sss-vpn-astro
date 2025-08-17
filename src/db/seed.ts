@@ -96,9 +96,12 @@ export async function syncProducts() {
       productId: price.product as string,
     };
 
-    await db.insert(product).values([{ ...data, id: lookupKey }]).onConflictDoUpdate({
-      set: data,
-      target: product.id,
-    });
+    await db
+      .insert(product)
+      .values([{ ...data, id: lookupKey }])
+      .onConflictDoUpdate({
+        set: data,
+        target: product.id,
+      });
   }
 }

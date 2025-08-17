@@ -102,21 +102,18 @@ function ThemeToggle() {
     }
   }, [theme]);
 
-  return mounted
-    ? (
-        <button
-          role="button"
-          onClick={toggleTheme}
-          className="block min-h-[40px] focus:outline-hidden cursor-pointer"
-        >
-          <span className="sr-only">Toggle mode</span>
-          <AnimatePresence initial={false}>
-            {theme !== "dark" ? <SunIcon /> : <MoonIcon />}
-          </AnimatePresence>
-        </button>
-      )
-    : null
-  ;
+  return mounted ? (
+    <button
+      role="button"
+      onClick={toggleTheme}
+      className="block min-h-[40px] cursor-pointer focus:outline-hidden"
+    >
+      <span className="sr-only">Toggle mode</span>
+      <AnimatePresence initial={false}>
+        {theme !== "dark" ? <SunIcon /> : <MoonIcon />}
+      </AnimatePresence>
+    </button>
+  ) : null;
 }
 
 export default ThemeToggle;

@@ -15,19 +15,21 @@ import { getProductByPriceId, searchForHiddifyEmail } from "./queries";
 export async function updateIpAddress(user: UserDB, ip: string) {
   const userId = user.id;
 
-  await db.update(profileTable)
+  await db
+    .update(profileTable)
     .set({ lastKnownIpAddress: ip })
     .where(eq(profileTable.userId, userId));
 }
 
-export async function updateUser(
-  userId: string,
-  name: string,
-) {
+export async function updateUser(userId: string, name: string) {
   const nameFixed = name.length > MAX_NAME_LENGTH ? name.slice(0, MAX_NAME_LENGTH - 1) : name;
-  const user = await db.update(userTable).set({
-    name: nameFixed,
-  }).where(eq(userTable.id, userId)).returning();
+  const user = await db
+    .update(userTable)
+    .set({
+      name: nameFixed,
+    })
+    .where(eq(userTable.id, userId))
+    .returning();
 
   return user[0];
 }
@@ -37,7 +39,7 @@ async function updateProfile(
   stripeCustomerId: string,
   hiddifyId: string,
   hiddifyServerId: HiddifyServerId,
-  ip: string,
+  ip: string
 ) {
   const userId = user.id;
 
@@ -55,7 +57,9 @@ async function updateProfile(
         hiddifyId,
         hiddifyServerId,
         stripeCustomerId,
-        subscriptionEndAt: isAutoRenew ? null : new Date(subscription.items.data[0].current_period_end * 1000),
+        subscriptionEndAt: isAutoRenew
+          ? null
+          : new Date(subscription.items.data[0].current_period_end * 1000),
         subscriptionId: subscription.id,
         subscriptionItemId: itemId,
         subscriptionStartAt: new Date(subscription.items.data[0].current_period_start * 1000),
@@ -68,10 +72,13 @@ async function updateProfile(
         subscriptionType: "none" as SubscriptionType,
       };
 
-  await db.insert(profileTable).values([{ ...data, lastKnownIpAddress: ip, userId }]).onConflictDoUpdate({
-    set: data,
-    target: profileTable.userId,
-  });
+  await db
+    .insert(profileTable)
+    .values([{ ...data, lastKnownIpAddress: ip, userId }])
+    .onConflictDoUpdate({
+      set: data,
+      target: profileTable.userId,
+    });
 
   console.debug(`Successfully updated profile for ${userId}`);
 }
@@ -81,7 +88,7 @@ async function startFreeTrial(
   email: string,
   hiddifyId: string,
   hiddifyServerId: HiddifyServerId,
-  ip: string,
+  ip: string
 ) {
   const userId = user.id;
 
@@ -104,10 +111,13 @@ async function startFreeTrial(
     subscriptionType: "trial" as SubscriptionType,
   };
 
-  await db.insert(profileTable).values([{ ...data, lastKnownIpAddress: ip, userId }]).onConflictDoUpdate({
-    set: data,
-    target: profileTable.userId,
-  });
+  await db
+    .insert(profileTable)
+    .values([{ ...data, lastKnownIpAddress: ip, userId }])
+    .onConflictDoUpdate({
+      set: data,
+      target: profileTable.userId,
+    });
 
   console.debug(`Successfully created profile for ${userId}`);
 }

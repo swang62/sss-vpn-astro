@@ -45,7 +45,7 @@ export async function getAuthenticatedUser(c: Context<Bindings>) {
   }
 
   return user;
-};
+}
 
 // Add better-auth user/session tokens to Hono context
 export const authMiddleware = createMiddleware<Bindings>(async (c, next) => {
@@ -70,10 +70,8 @@ export const notFound: NotFoundHandler = (c) => {
 export const onError: ErrorHandler = (error, c) => {
   captureException(error);
 
-  const currentStatus
-    = "status" in error ? error.status : c.newResponse(null).status;
-  const statusCode
-    = currentStatus !== 200 ? (currentStatus as ContentfulStatusCode) : 500;
+  const currentStatus = "status" in error ? error.status : c.newResponse(null).status;
+  const statusCode = currentStatus !== 200 ? (currentStatus as ContentfulStatusCode) : 500;
   const errorMessage = {
     message: statusCode === 401 ? "Unauthorized" : error.message,
     stack: IS_PRODUCTION ? undefined : error.stack,
@@ -91,10 +89,8 @@ export function corsMiddleware(): MiddlewareHandler {
         credentials: true,
         exposeHeaders: ["*"],
         maxAge: 600,
-        origin: origin =>
-          origin.includes("sss-vpn") || origin.includes("mildlybrewed")
-            ? origin
-            : "localhost",
+        origin: (origin) =>
+          origin.includes("sss-vpn") || origin.includes("mildlybrewed") ? origin : "localhost",
       });
 }
 
@@ -111,7 +107,7 @@ export function pinoLogger(): MiddlewareHandler {
           },
         };
       },
-      onResBindings: c => ({
+      onResBindings: (c) => ({
         status: c.res.status,
       }),
       reqId: false,
@@ -122,9 +118,8 @@ export function pinoLogger(): MiddlewareHandler {
 
 export function limiter(): MiddlewareHandler {
   return rateLimiter({
-    keyGenerator: c =>
-      `${c.req.path}-${c.req.header("cf-connecting-ip") ?? ""}`,
-    limit: c => (c.req.header("host")?.includes("localhost") ? 1000 : 50),
+    keyGenerator: (c) => `${c.req.path}-${c.req.header("cf-connecting-ip") ?? ""}`,
+    limit: (c) => (c.req.header("host")?.includes("localhost") ? 1000 : 50),
     message: {
       message: "Too many requests, try again later.",
     },

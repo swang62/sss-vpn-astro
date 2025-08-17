@@ -8,37 +8,23 @@ import { PRICING_PLANS } from "@/config/constants";
 
 <section id="pricing" class="container py-8 sm:py-16">
   <div class="py-8">
-    <div
-      class="flex flex-col items-center justify-center gap-4 pb-3 mx-auto text-center"
-    >
-      <h2 class="font-heading text-3xl leading-[1.1] sm:text-4xl md:text-5xl">
-        Simple pricing
-      </h2>
-      <p
-        class="max-w-xs md:max-w-lg leading-normal text-muted-foreground sm:text-lg sm:leading-7"
-      >
+    <div class="mx-auto flex flex-col items-center justify-center gap-4 pb-3 text-center">
+      <h2 class="font-heading text-3xl leading-[1.1] sm:text-4xl md:text-5xl">Simple pricing</h2>
+      <p class="text-muted-foreground max-w-xs leading-normal sm:text-lg sm:leading-7 md:max-w-lg">
         Just some money for me to cover server costs, thanks.
       </p>
     </div>
 
-    <div
-      class="flex flex-col justify-center gap-8 py-4 mt-4 sm:flex-row sm:flex-wrap"
-    >
+    <div class="mt-4 flex flex-col justify-center gap-8 py-4 sm:flex-row sm:flex-wrap">
       {PRICING_PLANS.map((plan) => <PricingCard {...plan} />)}
     </div>
 
-    <div class="flex flex-col items-center justify-center gap-4 mt-10">
-      <div
-        class="leading-normal text-center text-muted-foreground sm:text-lg sm:leading-7"
-      >
+    <div class="mt-10 flex flex-col items-center justify-center gap-4">
+      <div class="text-muted-foreground text-center leading-normal sm:text-lg sm:leading-7">
         Try it out first before picking a plan
       </div>
       <a href="/signup">
-        <Button
-          className="rounded-full"
-          variant="secondary"
-          data-umami-event="get-started-pricing"
-        >
+        <Button className="rounded-full" variant="secondary" data-umami-event="get-started-pricing">
           Get started
           <ArrowRight className="size-6" />
         </Button>

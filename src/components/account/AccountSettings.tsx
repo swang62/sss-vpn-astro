@@ -8,13 +8,15 @@ import { z } from "zod";
 import type { UserDB } from "@/db/queries";
 
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { MAX_NAME_LENGTH } from "@/config/constants";
 import { api, parseApi } from "@/lib/api-clients";
@@ -42,9 +44,7 @@ function AccountSettings({ user }: Props) {
   // Submit handler
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
-    const { error } = await parseApi(
-      api.user.$patch({ json: { name: values.name } }),
-    );
+    const { error } = await parseApi(api.user.$patch({ json: { name: values.name } }));
 
     if (!error) {
       mutate("fetchUser");
@@ -53,7 +53,7 @@ function AccountSettings({ user }: Props) {
       toast.error("Failed to update, please try again later.");
     }
     setLoading(false);
-  };
+  }
 
   return (
     <Card x-chunk="account settings">
@@ -76,25 +76,18 @@ function AccountSettings({ user }: Props) {
                 </FormItem>
               )}
             />
-
           </CardContent>
-          <CardFooter className="justify-between gap-4 py-4 border-t bg-muted">
-            <span className="flex text-muted-foreground">
+          <CardFooter className="bg-muted justify-between gap-4 border-t py-4">
+            <span className="text-muted-foreground flex">
               Feel free to call yourself whatever you like :)
             </span>
-            <Button
-              disabled={loading}
-              loading={loading}
-              type="submit"
-            >
+            <Button disabled={loading} loading={loading} type="submit">
               <span>Save</span>
             </Button>
           </CardFooter>
-
         </form>
       </Form>
     </Card>
-
   );
 }
 

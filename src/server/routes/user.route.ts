@@ -60,32 +60,38 @@ const route = createBaseRouter()
       await stripe.customers.del(user.profile.stripeCustomerId);
     }
     // Finally, delete all local traces of user
-    const data = await auth.api.removeUser({
-      body: { userId },
-      headers: c.req.raw.headers,
-    }).catch((error: Error) => {
-      c.status(500);
-      throw new Error(error.message);
-    });
+    const data = await auth.api
+      .removeUser({
+        body: { userId },
+        headers: c.req.raw.headers,
+      })
+      .catch((error: Error) => {
+        c.status(500);
+        throw new Error(error.message);
+      });
 
     return c.json(data);
   })
-  .patch("/", zValidator(
-    "json",
-    z.object({
-      name: z.string().max(MAX_NAME_LENGTH),
-    }),
-  ), async (c) => {
-    const user = await getAuthenticatedUser(c);
-    const { name } = c.req.valid("json");
-    const stripeCustomerId = user.profile?.stripeCustomerId;
+  .patch(
+    "/",
+    zValidator(
+      "json",
+      z.object({
+        name: z.string().max(MAX_NAME_LENGTH),
+      })
+    ),
+    async (c) => {
+      const user = await getAuthenticatedUser(c);
+      const { name } = c.req.valid("json");
+      const stripeCustomerId = user.profile?.stripeCustomerId;
 
-    const updatedUser = await updateUser(user.id, name);
-    if (stripeCustomerId) {
-      await stripe.customers.update(stripeCustomerId, { name });
+      const updatedUser = await updateUser(user.id, name);
+      if (stripeCustomerId) {
+        await stripe.customers.update(stripeCustomerId, { name });
+      }
+
+      return c.json({ user: updatedUser });
     }
-
-    return c.json({ user: updatedUser });
-  });
+  );
 
 export default route;

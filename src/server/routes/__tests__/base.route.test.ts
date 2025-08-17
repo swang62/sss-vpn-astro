@@ -13,9 +13,7 @@ const apiUser = testClient(createApp().use(testUserMiddleware).route("/", baseRo
 
 describe("/api/status", () => {
   it("get API status", async () => {
-    const { data, statusCode } = await parseApi(
-      apiNoAuth.status.$get(),
-    );
+    const { data, statusCode } = await parseApi(apiNoAuth.status.$get());
     expect(statusCode).toBe(200);
     expect(data?.production).toBe(false);
   });
@@ -26,7 +24,7 @@ describe("/api/search-email", () => {
     const { data } = await parseApi(
       apiNoAuth["search-email"].$get({
         query: { email: adminUser.email },
-      }),
+      })
     );
     expect(data?.exists).toBe(true);
   });
@@ -35,7 +33,7 @@ describe("/api/search-email", () => {
     const { data } = await parseApi(
       apiNoAuth["search-email"].$get({
         query: { email: "fake@email.com" },
-      }),
+      })
     );
     expect(data?.exists).toBe(false);
   });
@@ -43,23 +41,17 @@ describe("/api/search-email", () => {
 
 describe("/api/session", () => {
   it("no session data", async () => {
-    const { data } = await parseApi(
-      apiNoAuth.session.$get(),
-    );
+    const { data } = await parseApi(apiNoAuth.session.$get());
     expect(data?.session).toBeFalsy();
   });
 
   it("admin session", async () => {
-    const { data } = await parseApi(
-      apiAdmin.session.$get(),
-    );
+    const { data } = await parseApi(apiAdmin.session.$get());
     expect(data?.session?.userId).toBe(adminUser.id);
   });
 
   it("user session", async () => {
-    const { data } = await parseApi(
-      apiUser.session.$get(),
-    );
+    const { data } = await parseApi(apiUser.session.$get());
     expect(data?.session?.userId).toBe(testUser.id);
   });
 });

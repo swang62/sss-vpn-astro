@@ -8,8 +8,7 @@ import { TRIAL_TIME } from "@/config/constants";
 
 const data = [
   {
-    answer:
-      `Once you create an account, you'll get immediate access to the VPN. The trial period will last for ${TRIAL_TIME} days. I want to make sure everyone tries out the VPN first. You can install and use it on unlimited devices, so I recommend testing on both mobile and desktop.`,
+    answer: `Once you create an account, you'll get immediate access to the VPN. The trial period will last for ${TRIAL_TIME} days. I want to make sure everyone tries out the VPN first. You can install and use it on unlimited devices, so I recommend testing on both mobile and desktop.`,
     id: "1",
     question: "How does the trial period work?",
   },
@@ -37,17 +36,15 @@ function Faqs() {
   return (
     <section id="faqs" className="container max-w-2xl py-8 sm:py-16">
       <div className="py-8">
-        <h1 className="text-4xl text-balance font-heading sm:text-5xl md:text-6xl">
+        <h1 className="font-heading text-4xl text-balance sm:text-5xl md:text-6xl">
           Frequently Asked
-          <span className="font-extrabold text-gradient"> Questions</span>
+          <span className="text-gradient font-extrabold"> Questions</span>
         </h1>
 
         <Accordion type="single" collapsible className="w-full py-4">
-          {data.map(item => (
+          {data.map((item) => (
             <AccordionItem key={item.id} value={item.id}>
-              <AccordionTrigger className="text-lg text-left">
-                {item.question}
-              </AccordionTrigger>
+              <AccordionTrigger className="text-left text-lg">{item.question}</AccordionTrigger>
               <AccordionContent className="text-base">{item.answer}</AccordionContent>
             </AccordionItem>
           ))}

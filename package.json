@@ -138,8 +138,9 @@
     "vitest": "^3.2.4"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "pnpm lint:fix"
+    "*": [
+      "pnpm lint:fix",
+      "pnpm styles:fix"
     ]
   },
   "volta": {
