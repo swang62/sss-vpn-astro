@@ -1,14 +1,12 @@
 {
   "_meta": {
-    "columns": {
-      "\"account\".\"expiresAt\"": "\"account\".\"accessTokenExpiresAt\""
-    },
+    "columns": {},
     "schemas": {},
     "tables": {}
   },
   "dialect": "sqlite",
   "enums": {},
-  "id": "b604271d-8c3e-44fd-b1d7-884e6d977e5e",
+  "id": "92dbdfdf-ba88-4cab-9b0e-919bc2a45e1e",
   "internal": {
     "indexes": {}
   },
@@ -24,13 +22,6 @@
           "primaryKey": false,
           "type": "text"
         },
-        "accessTokenExpiresAt": {
-          "autoincrement": false,
-          "name": "accessTokenExpiresAt",
-          "notNull": false,
-          "primaryKey": false,
-          "type": "integer"
-        },
         "accountId": {
           "autoincrement": false,
           "name": "accountId",
@@ -38,9 +29,9 @@
           "primaryKey": false,
           "type": "text"
         },
-        "createdAt": {
+        "expiresAt": {
           "autoincrement": false,
-          "name": "createdAt",
+          "name": "expiresAt",
           "notNull": false,
           "primaryKey": false,
           "type": "integer"
@@ -79,27 +70,6 @@
           "notNull": false,
           "primaryKey": false,
           "type": "text"
-        },
-        "refreshTokenExpiresAt": {
-          "autoincrement": false,
-          "name": "refreshTokenExpiresAt",
-          "notNull": false,
-          "primaryKey": false,
-          "type": "integer"
-        },
-        "scope": {
-          "autoincrement": false,
-          "name": "scope",
-          "notNull": false,
-          "primaryKey": false,
-          "type": "text"
-        },
-        "updatedAt": {
-          "autoincrement": false,
-          "name": "updatedAt",
-          "notNull": false,
-          "primaryKey": false,
-          "type": "integer"
         },
         "userId": {
           "autoincrement": false,
@@ -214,13 +184,6 @@
           "primaryKey": false,
           "type": "text"
         },
-        "lastKnownIpAddress": {
-          "autoincrement": false,
-          "name": "lastKnownIpAddress",
-          "notNull": false,
-          "primaryKey": false,
-          "type": "text"
-        },
         "purchasedRouter": {
           "autoincrement": false,
           "default": false,
@@ -318,17 +281,10 @@
     "session": {
       "checkConstraints": {},
       "columns": {
-        "createdAt": {
-          "autoincrement": false,
-          "name": "createdAt",
-          "notNull": false,
-          "primaryKey": false,
-          "type": "integer"
-        },
         "expiresAt": {
           "autoincrement": false,
           "name": "expiresAt",
-          "notNull": false,
+          "notNull": true,
           "primaryKey": false,
           "type": "integer"
         },
@@ -352,20 +308,6 @@
           "notNull": false,
           "primaryKey": false,
           "type": "text"
-        },
-        "token": {
-          "autoincrement": false,
-          "name": "token",
-          "notNull": false,
-          "primaryKey": false,
-          "type": "text"
-        },
-        "updatedAt": {
-          "autoincrement": false,
-          "name": "updatedAt",
-          "notNull": false,
-          "primaryKey": false,
-          "type": "integer"
         },
         "userAgent": {
           "autoincrement": false,
@@ -501,13 +443,6 @@
     "verification": {
       "checkConstraints": {},
       "columns": {
-        "createdAt": {
-          "autoincrement": false,
-          "name": "createdAt",
-          "notNull": false,
-          "primaryKey": false,
-          "type": "integer"
-        },
         "expiresAt": {
           "autoincrement": false,
           "name": "expiresAt",
@@ -528,13 +463,6 @@
           "notNull": true,
           "primaryKey": false,
           "type": "text"
-        },
-        "updatedAt": {
-          "autoincrement": false,
-          "name": "updatedAt",
-          "notNull": false,
-          "primaryKey": false,
-          "type": "integer"
         },
         "value": {
           "autoincrement": false,
