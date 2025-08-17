@@ -39,7 +39,7 @@ function DashboardVerify({ user }: Props) {
         <span className="text-sm text-muted-foreground">Sometimes the email can be delayed by a couple minutes or sent to your spam folder</span>
       </div>
 
-      <Button onClick={onClickVerify}>Click to resend</Button>
+      <Button onClick={onClickVerify} data-umami-event="verify-email">Click to resend</Button>
     </div>
   );
 }

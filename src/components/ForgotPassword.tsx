@@ -109,7 +109,7 @@ function ForgotPasswordForm(_props: Props) {
                 )}
               />
 
-              <Button className="w-full" type="submit" loading={loading} disabled={loading}>
+              <Button className="w-full" type="submit" loading={loading} disabled={loading} data-umami-event="password-reset">
                 Send reset link
               </Button>
             </form>

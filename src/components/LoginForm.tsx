@@ -111,7 +111,7 @@ function LoginForm(_props: Props) {
               )}
             />
 
-            <Button className="w-full" type="submit" loading={loading} disabled={loading}>
+            <Button className="w-full" type="submit" loading={loading} disabled={loading} data-umami-event="login">
               Log in
             </Button>
           </form>
