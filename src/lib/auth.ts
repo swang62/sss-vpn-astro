@@ -4,23 +4,23 @@ import { admin } from "better-auth/plugins";
 
 import { SITE_URL } from "@/config/client";
 import { SITE_EMAIL } from "@/config/constants";
+import { LOG_LEVEL } from "@/config/server";
 import db from "@/db";
 import { redis } from "@/lib/redis";
 import { postmarkClient } from "@/lib/server-clients";
 
 const client = redis ? redis.client : null;
+const level = LOG_LEVEL === "silent" ? undefined : LOG_LEVEL;
 
 export const auth = betterAuth({
   baseURL: SITE_URL,
-  database: drizzleAdapter(db, {
-    provider: "sqlite",
-  }),
+  database: drizzleAdapter(db, { provider: "sqlite" }),
   emailAndPassword: {
     autoSignIn: true,
     enabled: true,
-    async sendResetPassword(user, url) {
+    sendResetPassword: async ({ url, user }) => {
       if (!postmarkClient) {
-        console.debug("Reset password link --", url);
+        console.debug("RESET PASSWORD --", url);
         return;
       }
 
@@ -36,9 +36,13 @@ export const auth = betterAuth({
     },
   },
   emailVerification: {
-    async sendVerificationEmail(user, url) {
-      if (!postmarkClient) {
-        console.debug("Verification link --", url);
+    autoSignInAfterVerification: true,
+    sendOnSignUp: false,
+    sendVerificationEmail: async ({ url, user }) => {
+      if (url.endsWith("callbackURL=/")) {
+        return;
+      } else if (!postmarkClient) {
+        console.debug("VERIFICATION --", url);
         return;
       }
 
@@ -50,29 +54,28 @@ export const auth = betterAuth({
           verification_url: url,
         },
         To: user.email,
-      }).catch(() => console.error(`Failed to send email to ${user.email}, manual verification link --`, url));
+      }).catch(() => console.error(`Failed to send email to ${user.email}, link:`, url));
     },
   },
-  logger: {
-    verboseLogging: true,
-  },
+  logger: { level },
   plugins: [admin()],
-  rateLimit: {
-    enabled: true,
-  },
+  rateLimit: { enabled: true },
   secondaryStorage: client
     ? {
         delete: async key => client.del(key).toString(),
         get: async key => client.get(key),
         set: async (key, value, ttl) => {
-          if (ttl) client.set(key, value, { EX: ttl });
+          if (ttl) client.set(key, value, { expiration: { type: "EX", value: ttl } });
           else client.set(key, value);
         },
       }
     : undefined,
-  session: {
-    storeSessionInDatabase: true,
-
-  },
+  session: { storeSessionInDatabase: true },
+  telemetry: { enabled: false },
   trustedOrigins: ["localhost", "127.0.0.1", "192.168.8.129"],
+  user: {
+    deleteUser: {
+      enabled: true,
+    },
+  },
 });

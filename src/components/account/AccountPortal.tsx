@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { apiClient, parseApi } from "@/lib/api-clients";
+import { api, parseApi } from "@/lib/api-clients";
 
 interface Props {}
 
@@ -21,7 +21,7 @@ function AccountPortal(_props: Props) {
   const redirectCustomerPortal = async () => {
     setLoading(true);
     const { data } = await parseApi(
-      apiClient.stripe["customer-portal"].$post(),
+      api.stripe["customer-portal"].$post(),
     );
     if (data?.url) {
       navigate(data.url);
@@ -50,7 +50,7 @@ function AccountPortal(_props: Props) {
           loading={loading}
           onClick={redirectCustomerPortal}
         >
-          <span>Visit customer portal</span>
+          <span>Visit portal</span>
         </Button>
       </CardFooter>
     </Card>

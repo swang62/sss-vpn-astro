@@ -16,12 +16,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { apiClient, parseApi } from "@/lib/api-clients";
-import { forgetPassword } from "@/lib/auth-client";
-import { secondsPassed } from "@/lib/utils";
+import { MIN_WAIT_TIME } from "@/config/constants";
+import { api, parseApi } from "@/lib/api-clients";
+import { forgetPassword } from "@/lib/auth-clients";
+import { minutesPassedSince } from "@/lib/utils";
 
 const formSchema = z.object({
-  email: z.string().email().toLowerCase(),
+  email: z.email().toLowerCase(),
 });
 
 interface Props {}
@@ -40,19 +41,19 @@ function ForgotPasswordForm(_props: Props) {
 
   // Submit handler
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const minutesSince = Math.floor(secondsPassed(sentEmail) / 60);
-    if (minutesSince < 1) {
+    const minutesSince = minutesPassedSince(sentEmail);
+    if (minutesSince < MIN_WAIT_TIME) {
       toast.warning(`Please wait a minute before trying again.`);
       return;
     }
 
     const { email } = values;
-    const { data } = await parseApi(apiClient["search-email"].$get({ query: { email } }));
+    const { data } = await parseApi(api["search-email"].$get({ query: { email } }));
 
     if (!data?.exists) {
       form.setError(
         "email",
-        { message: "Email not found in our system." },
+        { message: "Email does not exist." },
         { shouldFocus: true },
       );
       return;
@@ -87,7 +88,7 @@ function ForgotPasswordForm(_props: Props) {
   return (
     <div className="flex flex-col w-full max-w-xs mx-auto">
       <Card className="">
-        <CardHeader className="pb-4 text-center">
+        <CardHeader className="text-center">
           <CardTitle className="text-2xl">Forgot password?</CardTitle>
         </CardHeader>
 
@@ -108,7 +109,7 @@ function ForgotPasswordForm(_props: Props) {
                 )}
               />
 
-              <Button className="w-full" type="submit" loading={loading} disabled={loading}>
+              <Button className="w-full" type="submit" loading={loading} disabled={loading} data-umami-event="password-reset">
                 Send reset link
               </Button>
             </form>

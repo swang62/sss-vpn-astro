@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { PasswordInput } from "@/components/ui/password-input";
-import { resetPassword, signIn } from "@/lib/auth-client";
+import { resetPassword, signIn } from "@/lib/auth-clients";
 import { sleep } from "@/lib/utils";
 
 const formSchema = z
@@ -39,13 +39,14 @@ const formSchema = z
 
 interface Props {
   email?: string;
+  token: string;
 }
 
-function ResetPasswordForm({ email }: Props) {
+function ResetPasswordForm({ email, token }: Props) {
   const [loading, setLoading] = useState(false);
 
   // Validate token/email
-  if (!email) {
+  if (!email || !token) {
     toast.error("Invalid token! Redirecting...");
     sleep(1000).then(() => navigate("/forgot-password"));
     return;
@@ -61,12 +62,12 @@ function ResetPasswordForm({ email }: Props) {
   });
 
   // Submit handler
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof formSchema>) {
     if (!email) return;
     const { password } = values;
 
-    await resetPassword(
-      { newPassword: password },
+    resetPassword(
+      { newPassword: password, token },
       {
         onError: (ctx) => {
           toast.warning(ctx.error.message);
@@ -75,18 +76,17 @@ function ResetPasswordForm({ email }: Props) {
         onRequest: () => {
           setLoading(true);
         },
-        onSuccess: async () => {
+        onSuccess: () => {
           toast.success("Password reset. Redirecting...");
           form.reset();
-          await sleep(1000);
-          await signIn.email(
+          sleep(1000).then(() => signIn.email(
             {
               callbackURL: "/dashboard",
               email,
               password,
             },
             { onError: () => navigate("/login") },
-          );
+          ));
         },
       },
     );
@@ -95,7 +95,7 @@ function ResetPasswordForm({ email }: Props) {
   return (
     <div className="flex flex-col w-full max-w-xs mx-auto">
       <Card className="">
-        <CardHeader className="pb-4 text-center">
+        <CardHeader className="text-center">
           <CardTitle>Reset password</CardTitle>
           <CardDescription>Enter a new password below.</CardDescription>
         </CardHeader>

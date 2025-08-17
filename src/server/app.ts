@@ -1,10 +1,10 @@
 import type { PinoLogger } from "hono-pino";
 
-import { type Context, Hono } from "hono";
+import { Hono } from "hono";
 
-import type { Session, UserSession } from "@/lib/auth-client";
+import type { Session, UserSession } from "@/lib/auth-clients";
 
-import { getUserById } from "@/db/queries";
+import { auth } from "@/lib/auth";
 
 import {
   authMiddleware,
@@ -15,30 +15,15 @@ import {
   pinoLogger,
 } from "./middleware";
 
+export const ALLOWED_METHODS = ["POST", "GET", "DELETE", "PUT", "PATCH", "OPTIONS"];
+
 export interface Bindings {
   Variables: {
     logger: PinoLogger;
-    user: UserSession;
+    userSession: UserSession;
     session: Session;
   };
 }
-
-export async function authUser(c: Context<Bindings>) {
-  const user = c.get("user");
-  if (!user) {
-    c.status(401);
-    throw new Error(`User not found`);
-  }
-
-  const id = user.id;
-  const userRecord = await getUserById(id);
-  if (!userRecord) {
-    c.status(404);
-    throw new Error(`User ${id} not found`);
-  }
-
-  return userRecord;
-};
 
 export function createBaseRouter() {
   return new Hono<Bindings>({ strict: false });
@@ -47,6 +32,7 @@ export function createBaseRouter() {
 export default function createApp() {
   const app = createBaseRouter().basePath("/api");
 
+  app.on(ALLOWED_METHODS, "/auth/**", (c) => auth.handler(c.req.raw)); ;
   app.use(authMiddleware);
   app.use(pinoLogger());
   app.use(corsMiddleware());

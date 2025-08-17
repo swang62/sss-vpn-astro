@@ -12,7 +12,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { PRICING_PLANS } from "@/config/constants";
 import { FREE_PLANS } from "@/config/types";
-import { apiClient, fetchUser, parseApi } from "@/lib/api-clients";
+import { api, fetchUser, parseApi } from "@/lib/api-clients";
 import { capitalize, dateToString } from "@/lib/utils";
 
 interface Props {}
@@ -28,7 +28,7 @@ function AccountDetails(_props: Props) {
   const renewPlan = async (renew: boolean) => {
     setLoading(true);
     const { error } = await parseApi(
-      apiClient.stripe["renew-plan"].$post({ json: { renew } }),
+      api.stripe["renew-plan"].$post({ json: { renew } }),
     );
     if (error) {
       toast.error("Failed to update subscription, please try again later.");
@@ -58,7 +58,7 @@ function AccountDetails(_props: Props) {
               variant="outline"
               className="flex px-3 flex-nowrap"
             >
-              <Rocket />
+              <Rocket className="text-orange-400" />
               <span>Upgrade</span>
             </Button>
           </a>
@@ -80,9 +80,15 @@ function AccountDetails(_props: Props) {
     },
   ];
 
+  // Poll for hiddify profile creation
   useEffect(() => {
     if (!profile?.hiddifyId) {
-      setIntervalId(setInterval(mutate, 2000));
+      setIntervalId(setInterval(async () => {
+        const data = await mutate();
+        if (data?.user?.profile?.hiddifyId) {
+          clearInterval(intervalId);
+        }
+      }, 2000));
     } else {
       clearInterval(intervalId);
     }
@@ -90,6 +96,7 @@ function AccountDetails(_props: Props) {
     return () => clearInterval(intervalId);
   }, [profile?.hiddifyId]);
 
+  // Poll for stripe subscription renewal
   useEffect(() => {
     if (loading) {
       setIntervalId(setInterval(async () => {
@@ -108,7 +115,7 @@ function AccountDetails(_props: Props) {
 
   return (
     <Card x-chunk="Plan details">
-      <CardContent className="flex flex-col gap-6 py-6">
+      <CardContent className="flex flex-col gap-6">
         {planDetails.map(({ title, value }, index) => (
           <div key={index}>
             <h1 className="h-8 mb-1 text-xl font-semibold">{title}</h1>

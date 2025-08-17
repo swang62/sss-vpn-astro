@@ -1,4 +1,6 @@
-import { type ClassValue, clsx } from "clsx";
+import type { ClassValue } from "clsx";
+
+import { clsx } from "clsx";
 import QRCode from "qrcode";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
@@ -15,15 +17,32 @@ export async function sleep(msec = 1000) {
   return await new Promise(resolve => setTimeout(resolve, msec));
 }
 
-export function capitalize(str = "") {
-  return str ? str[0].toUpperCase() + str.slice(1) : str;
+export async function retryOnError<T>(
+  func: () => Promise<T>,
+  retries = 3,
+  delay = 500,
+): Promise<T> {
+  try {
+    const response = await func();
+    return response;
+  } catch (error) {
+    if (retries === 0) throw error;
+
+    // Wait and then try again.
+    await sleep(delay);
+    return retryOnError(func, retries - 1, delay * 2);
+  }
 }
 
-export function secondsPassed(modified: string) {
-  const now = new Date().getTime();
-  const compare = new Date(modified || 0).getTime();
+export function capitalize(str = "") {
+  return str ? str[0].toUpperCase() + str.slice(1).toLowerCase() : str;
+}
 
-  return Math.floor((now - compare) / 1000);
+export function minutesPassedSince(lastModified: string) {
+  const now = new Date().getTime();
+  const compare = new Date(lastModified || 0).getTime();
+
+  return Math.floor((now - compare) / (60 * 1000));
 }
 
 export function dateToString(date: number) {
@@ -59,8 +78,8 @@ export function getDaysLeft(packageStart?: string, mode = "no_reset", packageDay
     end.setMonth(end.getMonth() + 1);
   }
 
-  const DAY_LENGTH = 24 * 60 * 60 * 1000;
-  const days = Math.ceil((end.valueOf() - now.valueOf()) / DAY_LENGTH);
+  const dayTotalMs = 24 * 60 * 60 * 1000;
+  const days = Math.ceil((end.valueOf() - now.valueOf()) / dayTotalMs);
   const daysLeft = days > 0 ? days : 0;
   const endDate = end.toLocaleDateString("us", { dateStyle: "medium" });
 
@@ -97,6 +116,7 @@ export async function copyToClipboard(text: string) {
     document.body.prepend(textarea);
     textarea.select();
     try {
+      // @ts-nocheck
       document.execCommand("copy");
       toast.success("Copied to clipboard!");
     } catch (err) {

@@ -1,9 +1,10 @@
 import node from "@astrojs/node";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
-import tailwind from "@astrojs/tailwind";
 import inoxToolswhen from "@inox-tools/astro-when";
 import sentry from "@sentry/astro";
+import spotlightjs from "@spotlightjs/astro";
+import tailwindcss from "@tailwindcss/vite";
 import compressor from "astro-compressor";
 import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
@@ -33,41 +34,41 @@ export default defineConfig({
       },
     }),
     react(),
-    tailwind({
-      applyBaseStyles: false,
-      configFile: "tailwind.config.mjs",
-      nesting: true,
-    }),
     sentry({
       bundleSizeOptimizations: {
         excludeReplayIframe: true,
         excludeReplayShadowDom: true,
         excludeReplayWorker: true,
       },
-      dsn: process.env.SENTRY_DSN,
-      enabled: !!process.env.SENTRY_TOKEN && !!process.env.SENTRY_DSN,
-      environment: process.env.NODE_ENV,
-      release: process.env.SOURCE_COMMIT || "default",
-      serverInitPath: "./sentry.server.config.js",
+      debug: false,
+      enabled: !!process.env.SENTRY_TOKEN,
       sourceMapsUploadOptions: {
         authToken: process.env.SENTRY_TOKEN,
+        org: process.env.SENTRY_ORG,
         project: process.env.SENTRY_PROJECT,
+        telemetry: false,
       },
     }),
+
     robotsTxt({
       policy: [
         {
           allow: "/",
-          disallow: ["/api/*", "/dashboard", "/dashboard/*", "/debug"],
+          disallow: [
+            "/login",
+            "/signup",
+            "*password*",
+            "/api/*",
+            "/dashboard",
+            "/dashboard/*",
+          ],
           userAgent: "*",
         },
       ],
     }),
     sitemap(),
-    compressor({
-      brotli: true,
-      gzip: false,
-    }),
+    spotlightjs(),
+    compressor(),
   ],
   output: "server",
   server: {
@@ -80,6 +81,15 @@ export default defineConfig({
       rollupOptions: {
         external: [/vitest.*/, /.*\.test\..*/],
       },
+    },
+    plugins: [tailwindcss({ nesting: true })],
+    server: {
+      allowedHosts: [
+        "dazzling-breeze-21743.pktriot.net",
+        "localhost",
+        "127.0.0.1",
+        "192.168.8.129",
+      ],
     },
   },
 });

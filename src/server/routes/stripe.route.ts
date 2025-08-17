@@ -13,11 +13,22 @@ import { cancelSubscription, handleItemPurchases, setSubscriptionRenew, updateSu
 import { updateUser } from "@/db/mutations-user";
 import { getProductByKey, getProfileByStripeId } from "@/db/queries";
 import { stripe } from "@/lib/server-clients";
-import { authUser, createBaseRouter } from "@/server/app";
+import { createBaseRouter } from "@/server/app";
+
+import { getAuthenticatedUser } from "../middleware";
 
 // All stripe routes must be authenticated
 
 const route = createBaseRouter()
+  .get("/user", async (c) => {
+    const { profile } = await getAuthenticatedUser(c);
+    if (!profile?.stripeCustomerId) throw new Error("Invalid stripe user");
+
+    const customer = await stripe.customers.retrieve(profile.stripeCustomerId);
+
+    return c.json({ customer });
+  })
+
   .post("/checkout", zValidator(
     "json",
     z.object({
@@ -25,7 +36,7 @@ const route = createBaseRouter()
       plan: z.enum(PAID_PLANS),
     }),
   ), async (c) => {
-    const { profile } = await authUser(c);
+    const { profile } = await getAuthenticatedUser(c);
     const { monthly, plan } = c.req.valid("json");
 
     const product = await getProductByKey(plan);
@@ -70,7 +81,7 @@ const route = createBaseRouter()
   })
 
   .post("/add-data", async (c) => {
-    const { profile } = await authUser(c);
+    const { profile } = await getAuthenticatedUser(c);
     if (!profile?.subscriptionId) throw new Error("No active subscription");
 
     const currentPlan = profile.subscriptionType;
@@ -106,7 +117,7 @@ const route = createBaseRouter()
   })
 
   .post("/buy-router", async (c) => {
-    const { profile } = await authUser(c);
+    const { profile } = await getAuthenticatedUser(c);
 
     const product = await getProductByKey("router");
     if (!product || !profile) throw new Error("Router missing");
@@ -130,7 +141,7 @@ const route = createBaseRouter()
       plan: z.enum(PAID_PLANS).optional(),
     }).optional(),
   ), async (c) => {
-    const { profile } = await authUser(c);
+    const { profile } = await getAuthenticatedUser(c);
     if (!profile) throw new Error("Profile missing");
 
     const body = c.req.valid("json");
@@ -167,7 +178,7 @@ const route = createBaseRouter()
       renew: z.boolean(),
     }),
   ), async (c) => {
-    const { profile } = await authUser(c);
+    const { profile } = await getAuthenticatedUser(c);
     if (!profile) throw new Error("Profile missing");
 
     const { renew } = c.req.valid("json");
@@ -200,14 +211,13 @@ const route = createBaseRouter()
 
         const reason = invoice.billing_reason;
         const stripeCustomerId = invoice.customer as string;
-        const subscriptionId = invoice.subscription as string;
         const profile = await getProfileByStripeId(stripeCustomerId);
         if (!profile) throw new Error(`Customer missing for ${stripeCustomerId}`);
 
         if (reason === "manual" || reason === "subscription_create") {
           await handleItemPurchases(stripeCustomerId, invoice, c.var.logger);
-        } else if (subscriptionId && reason === "subscription_cycle") {
-          await resetUsageLimit(profile.hiddifyId, profile.hiddifyServerId, profile.subscriptionType);
+        } else if (reason === "subscription_cycle") {
+          await resetUsageLimit(profile.hiddifyId, profile.hiddifyServerId, profile.subscriptionType, c.var.logger);
         }
         break;
       }
@@ -223,30 +233,33 @@ const route = createBaseRouter()
         if (session.status === "complete") {
           if (subscriptionId && isNewSubscription) {
             await setSubscriptionRenew(subscriptionId, isAutoRenew);
-            c.var.logger.debug(`Set subscription auto-renew:${isAutoRenew} for ${stripeCustomerId}`);
+            c.var.logger.debug(`Set subscription to auto-renew:${isAutoRenew} for ${stripeCustomerId}`);
           }
         }
         break;
       }
       case "customer.updated": {
         const customer = event.data.object;
+
         const stripeCustomerId = customer.id;
         const profile = await getProfileByStripeId(stripeCustomerId);
         if (!profile) throw new Error(`Customer update failed for ${stripeCustomerId}`);
-        await updateUser(profile.userId, customer.name || "");
 
+        await updateUser(profile.userId, customer.name || "");
         c.var.logger.debug(`Customer updated for ${stripeCustomerId}`);
         break;
       }
       case "customer.subscription.created":
       case "customer.subscription.updated": {
         const subscription = event.data.object;
+
         await updateSubscription(subscription);
         c.var.logger.debug(`Subscription updated for ${subscription.customer}`);
         break;
       }
       case "customer.subscription.deleted": {
         const subscription = event.data.object;
+
         await cancelSubscription(subscription);
         c.var.logger.debug(`Subscription cancelled for ${subscription.customer}`);
         break;
@@ -254,13 +267,14 @@ const route = createBaseRouter()
       case "product.created":
       case "product.updated": {
         const product = event.data.object;
+
         await updateProduct(product);
         c.var.logger.debug(`${product.name} synced to DB`);
         break;
       }
       default:
         processed = false;
-        c.var.logger.debug(`Receive webhook event:${event.type} but did not process.`);
+        c.var.logger.error(`Receive webhook event:${event.type} but failed to process!`);
         break;
     }
     return c.json({ message: processed ? "Successfully processed" : "Failed to process" }, 200);

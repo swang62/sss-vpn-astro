@@ -1,12 +1,12 @@
 ---
+import { Image } from "astro:assets";
+
 import { SITE_NAME } from "@/config/constants";
 import laptop from "@/images/laptop-internet.jpg";
 import { cn } from "@/lib/utils";
-import { Image } from "astro:assets";
 
 const info = [
   {
-    title: "Why I created this site",
     description: `When I first arrived in China for remote work,
     I knew my biggest hurdle would be overcoming the <span class='font-semibold text-primary-link'>great firewall.</span>
     Not just to watch youtube videos but I needed 24/7 access
@@ -15,13 +15,14 @@ const info = [
     `,
     image: laptop,
     reverse: false,
+    title: "Why I created this site",
   },
 ];
 ---
 
 <section id="about" class="py-8 sm:py-16">
   {
-    info.map((data) => (
+    info.map(data => (
       <div class="container py-8">
         <div class="grid gap-10 px-0 mx-auto max-w-7xl sm:gap-16 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-4">
           <div class={cn(data.reverse ? "lg:order-2" : "lg:order-1")}>
@@ -36,7 +37,7 @@ const info = [
                 alt={data.title}
                 width={800}
                 height={400}
-                loading="lazy"
+                loading="eager"
               />
             </div>
           </div>

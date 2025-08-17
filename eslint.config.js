@@ -5,11 +5,10 @@ export default antfu(
     astro: true,
     formatters: true,
     ignores: [
-      "**/migrations/*",
+      "**/db/migrations/*",
       "**/node_modules/*",
-      "**/public*",
+      "**/public/*",
       "**/.github/*",
-      "**/components/ui/*",
     ],
     settings: {
       "vitest-globals/env": true,
@@ -23,11 +22,13 @@ export default antfu(
   {
     rules: {
       "antfu/if-newline": ["off"],
+      "import/first": ["off"],
       "jsonc/sort-keys": ["off"],
       "no-console": ["off"],
       "node/prefer-global/process": ["off"],
-      "perfectionist/sort-imports": ["warn", { internalPattern: ["@/**"] }],
+      "perfectionist/sort-imports": ["warn", { internalPattern: ["^@/.+"] }],
       "perfectionist/sort-objects": ["warn"],
+      "style/arrow-parens": ["off"],
       "style/brace-style": ["off"],
       "ts/ban-ts-comment": ["off"],
       "ts/consistent-type-definitions": ["off"],

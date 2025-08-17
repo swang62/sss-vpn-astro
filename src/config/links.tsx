@@ -3,7 +3,7 @@ import { Download, Home, Lightbulb, Rocket } from "lucide-react";
 export type MenuLink = {
   href: string;
   label: string;
-  icon?: JSX.Element;
+  icon?: React.JSX.Element;
 };
 
 export const MAIN_LINKS: MenuLink[] = [
@@ -44,6 +44,6 @@ export const DASHBOARD_LINKS: MenuLink[] = [
   {
     href: "/dashboard/pricing",
     icon: <Rocket />,
-    label: "Upgrade",
+    label: "Upgrade Plan",
   },
 ];

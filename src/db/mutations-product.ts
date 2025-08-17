@@ -1,6 +1,8 @@
 import type Stripe from "stripe";
 
-import db, { type ProductInsert, product as productTable } from "@/db";
+import type { ProductInsert } from "@/db";
+
+import db, { product as productTable } from "@/db";
 import { stripe } from "@/lib/server-clients";
 
 export async function updateProduct(

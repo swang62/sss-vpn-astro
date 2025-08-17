@@ -1,29 +1,18 @@
-import { useCookies } from "react-cookie";
-
 interface Props {
-  showedWelcome?: string;
   name: string;
 }
 
-function WelcomeMsg({ name, showedWelcome }: Props) {
-  const [_, setCookie] = useCookies(["showedWelcome"]);
-
-  const shouldShow = !showedWelcome;
-  if (shouldShow) {
-    // Immediately set the cookie to indicate shown welcome msg
-    setCookie("showedWelcome", "true", { maxAge: 2147483647, path: "/dashboard", sameSite: "lax" });
-  }
-
-  return shouldShow && (
+function WelcomeMsg({ name }: Props) {
+  return (
     <p className="w-full px-4 py-3 rounded-lg bg-muted">
       Welcome
       {name ? ` ${name}` : ""}
       ! Looks like it's your first time here. This page
-      contains important information about your current plan usage. Your profile is being set up as we speak, in the meantime, visit this
+      contains important information about your current plan usage. Your profile is being set up right now, in the meantime, click
       {" "}
-      <a href="/dashboard/install" className="underline text-secondary-link">link</a>
+      <a href="/dashboard/install" className="underline text-secondary-link">here</a>
       {" "}
-      for instructions on how to get connected.
+      for instructions on how to access the VPN on all your devices.
     </p>
   )
   ;

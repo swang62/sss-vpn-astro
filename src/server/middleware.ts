@@ -1,5 +1,5 @@
-import type { ErrorHandler, MiddlewareHandler, NotFoundHandler } from "hono";
-import type { StatusCode } from "hono/utils/http-status";
+import type { Context, ErrorHandler, MiddlewareHandler, NotFoundHandler } from "hono";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
 
 import { captureException } from "@sentry/astro";
 import { pinoLogger as logger } from "hono-pino";
@@ -9,41 +9,55 @@ import { createMiddleware } from "hono/factory";
 import pino from "pino";
 import pretty from "pino-pretty";
 
-import { IS_PRODUCTION, IS_TESTING, LOG_LEVEL } from "@/config/server";
-import { TEST_USER } from "@/db/seed";
+import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
+import { getUserById } from "@/db/queries";
 import { auth } from "@/lib/auth";
 import { redis } from "@/lib/redis";
 
 import type { Bindings } from "./app";
 
-export const authMiddleware = createMiddleware<Bindings>(async (c, next) => {
-  if (IS_TESTING) {
-    return next();
+import { ALLOWED_METHODS } from "./app";
+
+// Admin-only routes
+export async function checkAdminAccess(c: Context<Bindings>) {
+  const userSession = c.get("userSession");
+  if (userSession?.role !== "admin") {
+    c.status(401);
+    throw new Error(`Unauthorized`);
   }
 
+  return true;
+}
+
+// Get the actual user record from the DB
+export async function getAuthenticatedUser(c: Context<Bindings>) {
+  const userSession = c.get("userSession");
+  if (!userSession) {
+    c.status(401);
+    throw new Error(`Unauthorized`);
+  }
+
+  const id = userSession.id;
+  const user = await getUserById(id);
+  if (!user) {
+    c.status(404);
+    throw new Error(`User ${id} not found`);
+  }
+
+  return user;
+};
+
+// Add better-auth user/session tokens to Hono context
+export const authMiddleware = createMiddleware<Bindings>(async (c, next) => {
   const session = await auth.api.getSession({ headers: c.req.raw.headers });
   if (!session) {
-    c.set("user", null);
+    c.set("userSession", null);
     c.set("session", null);
     return next();
   }
 
-  c.set("user", session.user);
+  c.set("userSession", session.user);
   c.set("session", session.session);
-  return next();
-});
-
-export const testMiddleware = createMiddleware<Bindings>(async (c, next) => {
-  if (!IS_TESTING) {
-    return next();
-  }
-
-  c.set("user", TEST_USER);
-  c.set("session", {
-    expiresAt: new Date(),
-    id: TEST_USER.id,
-    userId: TEST_USER.id,
-  });
   return next();
 });
 
@@ -59,7 +73,7 @@ export const onError: ErrorHandler = (error, c) => {
   const currentStatus
     = "status" in error ? error.status : c.newResponse(null).status;
   const statusCode
-    = currentStatus !== 200 ? (currentStatus as StatusCode) : 500;
+    = currentStatus !== 200 ? (currentStatus as ContentfulStatusCode) : 500;
   const errorMessage = {
     message: statusCode === 401 ? "Unauthorized" : error.message,
     stack: IS_PRODUCTION ? undefined : error.stack,
@@ -72,16 +86,16 @@ export function corsMiddleware(): MiddlewareHandler {
   return !IS_PRODUCTION
     ? createMiddleware((_c, next) => next())
     : cors({
-      allowHeaders: ["*"],
-      allowMethods: ["GET", "POST", "OPTIONS"],
-      credentials: true,
-      exposeHeaders: ["*"],
-      maxAge: 600,
-      origin: origin =>
-        origin.includes(".mildlybrewed.")
-          ? origin
-          : "localhost",
-    });
+        allowHeaders: ["*"],
+        allowMethods: ALLOWED_METHODS,
+        credentials: true,
+        exposeHeaders: ["*"],
+        maxAge: 600,
+        origin: origin =>
+          origin.includes("sss-vpn") || origin.includes("mildlybrewed")
+            ? origin
+            : "localhost",
+      });
 }
 
 export function pinoLogger(): MiddlewareHandler {

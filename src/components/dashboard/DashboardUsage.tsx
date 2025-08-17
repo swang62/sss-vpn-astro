@@ -17,7 +17,7 @@ import { getDaysLeft } from "@/lib/utils";
 interface Props {}
 
 function DashboardOverview(_props: Props) {
-  const { data, mutate } = useSWR("fetchUsage", fetchUsage, { errorRetryCount: 20, errorRetryInterval: 1000 });
+  const { data, mutate } = useSWR("fetchUsage", fetchUsage, { errorRetryCount: 10, errorRetryInterval: 2000 });
 
   const user = data?.user;
   const usage = data?.usage;
@@ -27,24 +27,24 @@ function DashboardOverview(_props: Props) {
   const percentUsed = currentUsed / totalAllowed * 100;
   const date = usage?.last_online && new Date(usage.last_online).toLocaleDateString("us", { dateStyle: "medium" });
   const time = usage?.last_online && new Date(usage.last_online).toLocaleTimeString();
-  const lastConnected = usage?.last_online && !usage.last_online.startsWith("000") ? `${date} - ${time}` : "-";
-  const { daysLeft, endDate: _endDate } = getDaysLeft(usage?.start_date, usage?.mode, usage?.package_days);
+  const lastConnected = usage?.last_online && !usage.last_online.startsWith("000") ? `${date} - ${time}` : "Never";
+  const { daysLeft } = getDaysLeft(usage?.start_date, usage?.mode, usage?.package_days);
 
-  const resetMode = usage?.mode !== "no_reset" ? "data resets" : currentPlan === "trial" ? "trial ends" : "plan ends";
+  const resetMode = usage?.mode === "monthly" ? "data resets" : currentPlan === "trial" ? "trial ends" : "plan ends";
   const serviceStatus = usage?.enable && daysLeft > 0
     ? <span className="text-green-500">Active</span>
     : <span className="text-red-500">Inactive</span>;
 
   // Handlers
-  const onClickRefresh = async () => {
+  const onClickRefresh = () => {
     // @ts-expect-error
-    await mutate(null);
+    mutate(null);
   };
 
   // Markup
   const details = [
     {
-      title: "Total used",
+      title: "Total data used",
       value: `${currentUsed.toFixed(2)} GB of ${totalAllowed} GB`,
     },
     {
@@ -56,14 +56,14 @@ function DashboardOverview(_props: Props) {
       value: lastConnected,
     },
     {
-      title: "Status",
+      title: "Account status",
       value: serviceStatus,
     },
   ];
 
   return (
     <Card x-chunk="Dashboard usage">
-      <CardHeader className="flex flex-row items-center content-center gap-2 pt-4 align-middle justify-between">
+      <CardHeader className="flex flex-row items-center content-center gap-2 align-middle justify-between">
         <CardTitle>Data usage</CardTitle>
         <Button variant="link" onClick={onClickRefresh} className="px-0">
           <RefreshCcw />
@@ -94,7 +94,7 @@ function DashboardOverview(_props: Props) {
           ))}
         </div>
       </CardContent>
-      <CardFooter className="flex justify-end">
+      <CardFooter className="flex justify-end pb-6">
         <a href="/dashboard/account">
           <Button variant="outline">
             <Edit />

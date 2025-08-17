@@ -2,13 +2,15 @@ import type { MiddlewareHandler } from "astro";
 
 import { When, whenAmI } from "@it-astro:when";
 
+import { getUserById } from "@/db/queries";
 import { auth } from "@/lib/auth";
 
-import { getUserById } from "./db/queries";
+// This file is automatically imported/bundled into SSR routes
 
 export const authenticate: MiddlewareHandler = async (ctx, next) => {
   const { pathname } = ctx.url;
 
+  const needsAdmin = pathname.includes("debug");
   const needsAuth = pathname.startsWith("/dashboard");
   if (!needsAuth) return next();
 
@@ -21,6 +23,9 @@ export const authenticate: MiddlewareHandler = async (ctx, next) => {
     if (!session) {
       // Redirect for invalid sessions
       return ctx.redirect("/login");
+    } else if (needsAdmin && session.user.role !== "admin") {
+      // Redirect for unauthorized users
+      return ctx.redirect("/dashboard");
     } else {
       // Store in Astro.locals
       const user = await getUserById(session.user.id);

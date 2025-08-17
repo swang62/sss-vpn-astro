@@ -21,7 +21,7 @@ function MainMobileMenu(_props: Props) {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="secondary" className="mr-2 h-8 w-8 px-1.5 md:hidden">
+        <Button variant="secondary" className="mr-2 h-8 w-8 px-1.5">
           <Menu />
           <span className="sr-only">Toggle Menu</span>
         </Button>
@@ -37,7 +37,7 @@ function MainMobileMenu(_props: Props) {
           <SheetDescription className="sr-only">Main menu</SheetDescription>
         </SheetHeader>
 
-        <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-10 pt-4 text-2xl">
+        <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-10 text-2xl">
           <div className="flex flex-col space-y-6">
             {MAIN_LINKS.map(
               link =>

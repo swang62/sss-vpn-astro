@@ -2,18 +2,21 @@ import axios from "axios";
 import postmark from "postmark";
 import { Stripe } from "stripe";
 
+// ! relative imports for scripts
+import { STRIPE_API_VERSION } from "../config/constants";
 import {
   HIDDIFY_API_KEY,
   POSTMARK_TOKEN,
   STRIPE_SECRET_KEY,
-} from "@/config/server";
+} from "../config/server";
 
-//* Should only contain server-side clients/actions
+//* Should only contain server-side clients
 
 // Stripe
 export const stripe = new Stripe(STRIPE_SECRET_KEY || "test", {
+  apiVersion: STRIPE_API_VERSION,
   maxNetworkRetries: 3,
-  timeout: 10 * 1000,
+  timeout: 5000,
 });
 
 // Postmark
@@ -26,4 +29,4 @@ export const axiosHiddify = axios.create({ headers: {
   "accept": "application/json",
   "content-type": "application/json",
   "Hiddify-API-Key": HIDDIFY_API_KEY,
-} });
+}, timeout: 5000 });

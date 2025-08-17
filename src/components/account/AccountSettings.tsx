@@ -17,7 +17,7 @@ import {
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { MAX_NAME_LENGTH } from "@/config/constants";
-import { apiClient, parseApi } from "@/lib/api-clients";
+import { api, parseApi } from "@/lib/api-clients";
 
 const formSchema = z.object({
   name: z.string().max(MAX_NAME_LENGTH),
@@ -43,7 +43,7 @@ function AccountSettings({ user }: Props) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     const { error } = await parseApi(
-      apiClient.user.$post({ json: { name: values.name } }),
+      api.user.$patch({ json: { name: values.name } }),
     );
 
     if (!error) {

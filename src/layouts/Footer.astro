@@ -1,13 +1,19 @@
 ---
 import { SITE_EMAIL } from "@/config/constants";
+
+const year = new Date().getFullYear();
 ---
 
 <footer class="py-8 bg-muted text-muted-foreground">
   <div class="container flex items-center justify-between w-full gap-4 md:px-8 xl:px-2">
     <p class="text-sm leading-loose text-center text-muted-foreground md:text-left">
-      © 2024 Built by
-      <a href=`mailto:${SITE_EMAIL}` target="_blank" rel="noreferrer" class="font-medium underline underline-offset-2"
-        >me</a
+      © {year} Built by
+      <a
+        href=`mailto:${SITE_EMAIL}`
+        target="_blank"
+        rel="noreferrer"
+        class="font-medium underline underline-offset-2"
+      >me</a
       >
     </p>
     <p class="text-sm leading-loose text-center text-muted-foreground md:text-right">

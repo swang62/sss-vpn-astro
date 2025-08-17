@@ -16,10 +16,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
-import { signIn } from "@/lib/auth-client";
+import { signIn } from "@/lib/auth-clients";
 
 const formSchema = z.object({
-  email: z.string().email().toLowerCase(),
+  email: z.email().toLowerCase(),
   password: z.string(),
 });
 
@@ -38,9 +38,9 @@ function LoginForm(_props: Props) {
   });
 
   // Submit handler
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof formSchema>) {
     const { email, password } = values;
-    await signIn.email(
+    signIn.email(
       {
         callbackURL: "/dashboard",
         email,
@@ -69,7 +69,7 @@ function LoginForm(_props: Props) {
 
   return (
     <Card className="w-full max-w-xs mx-auto">
-      <CardHeader className="pb-4 text-center">
+      <CardHeader className="text-center">
         <CardTitle className="text-2xl">Log in</CardTitle>
       </CardHeader>
 
@@ -111,7 +111,7 @@ function LoginForm(_props: Props) {
               )}
             />
 
-            <Button className="w-full" type="submit" loading={loading} disabled={loading}>
+            <Button className="w-full" type="submit" loading={loading} disabled={loading} data-umami-event="login">
               Log in
             </Button>
           </form>

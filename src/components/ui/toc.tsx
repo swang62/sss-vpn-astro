@@ -1,14 +1,14 @@
-import * as React from "react"
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 interface TableOfContentsListProps
   extends React.ComponentPropsWithoutRef<"ul"> {
-  indent?: boolean
+  indent?: boolean;
 }
 
 const TableOfContentsList = React.forwardRef<
-  React.ElementRef<"ul">,
+  React.ComponentRef<"ul">,
   TableOfContentsListProps
 >(({ className, indent, ...props }, ref) => (
   <ul
@@ -16,14 +16,14 @@ const TableOfContentsList = React.forwardRef<
     className={cn("m-0 list-none", indent && "pl-4", className)}
     {...props}
   />
-))
-TableOfContentsList.displayName = "TableOfContentsList"
+));
+TableOfContentsList.displayName = "TableOfContentsList";
 
 interface TableOfContentsTitleProps
   extends React.ComponentPropsWithoutRef<"li"> {}
 
 const TableOfContentsTitle = React.forwardRef<
-  React.ElementRef<"li">,
+  React.ComponentRef<"li">,
   TableOfContentsTitleProps
 >(({ className, ...props }, ref) => (
   <li
@@ -31,16 +31,16 @@ const TableOfContentsTitle = React.forwardRef<
     className={cn("mb-2 font-medium", className)}
     {...props}
   />
-))
-TableOfContentsTitle.displayName = "TableOfContentsTitle"
+));
+TableOfContentsTitle.displayName = "TableOfContentsTitle";
 
 interface TableOfContentsItemProps
   extends React.ComponentPropsWithoutRef<"li"> {
-  indent?: boolean
+  indent?: boolean;
 }
 
 const TableOfContentsItem = React.forwardRef<
-  React.ElementRef<"li">,
+  React.ComponentRef<"li">,
   TableOfContentsItemProps
 >(({ className, indent, ...props }, ref) => (
   <li
@@ -48,15 +48,15 @@ const TableOfContentsItem = React.forwardRef<
     className={cn("mt-0 pt-2", indent && "ml-4", className)}
     {...props}
   />
-))
-TableOfContentsItem.displayName = "TableOfContentsItem"
+));
+TableOfContentsItem.displayName = "TableOfContentsItem";
 
 interface TableOfContentsLinkProps extends React.ComponentPropsWithoutRef<"a"> {
-  isActive?: boolean
+  isActive?: boolean;
 }
 
 const TableOfContentsLink = React.forwardRef<
-  React.ElementRef<"a">,
+  React.ComponentRef<"a">,
   TableOfContentsLinkProps
 >(({ className, isActive, ...props }, ref) => (
   <a
@@ -64,15 +64,16 @@ const TableOfContentsLink = React.forwardRef<
     className={cn(
       "font-medium text-foreground transition-colors hover:text-primary",
       isActive ? "font-medium text-foreground" : "text-muted-foreground",
-      className
+      className,
     )}
     {...props}
   />
-))
-TableOfContentsLink.displayName = "TableOfContentsLink"
+));
+TableOfContentsLink.displayName = "TableOfContentsLink";
 
 export {
   TableOfContentsItem,
-  TableOfContentsLink, TableOfContentsList,
-  TableOfContentsTitle
-}
+  TableOfContentsLink,
+  TableOfContentsList,
+  TableOfContentsTitle,
+};

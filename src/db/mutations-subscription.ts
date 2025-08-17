@@ -5,12 +5,12 @@ import { eq } from "drizzle-orm";
 
 import type { SubscriptionType } from "@/config/types";
 
-import { DATA_PACKAGE_PRICE, PLAN_LIMITS, SITE_EMAIL, SITE_EMAIL_ADMIN } from "@/config/constants";
+import { DATA_PACKAGE_PRICE, PLAN_LIMITS, SITE_ADMIN, SITE_EMAIL } from "@/config/constants";
 import db, { profile as profileTable } from "@/db";
 import { postmarkClient, stripe } from "@/lib/server-clients";
 
-import { cancelHiddifyUser, increaseUsageLimit, updateHiddifyUser } from "./mutations-hiddify";
-import { getHiddifyUsage, getProductByPriceId, getProfileByStripeId } from "./queries";
+import { cancelHiddifyPlan, increaseUsageLimit, updateHiddifyUser } from "./mutations-hiddify";
+import { getHiddifyUserById, getProductByPriceId, getProfileByStripeId } from "./queries";
 
 export async function setSubscriptionRenew(subscriptionId: string, isAutoRenew: boolean) {
   await stripe.subscriptions.update(
@@ -22,8 +22,8 @@ export async function setSubscriptionRenew(subscriptionId: string, isAutoRenew: 
 export async function updateSubscription(subscription: Stripe.Subscription) {
   const stripeCustomerId = subscription.customer as string;
   const subscriptionId = subscription.id;
-  const subscriptionStartAt = new Date(subscription.current_period_start * 1000);
-  const subscriptionEndAt = new Date(subscription.current_period_end * 1000);
+  const subscriptionStartAt = new Date(subscription.items.data[0].current_period_start * 1000);
+  const subscriptionEndAt = new Date(subscription.items.data[0].current_period_end * 1000);
   const status = subscription.status;
   const isAutoRenew = !subscription.cancel_at_period_end;
 
@@ -67,7 +67,7 @@ export async function cancelSubscription(subscription: Stripe.Subscription) {
   if (!profile || !profile.hiddifyId) throw new Error(`Subscription cancellation failed for ${stripeCustomerId}`);
 
   if (status === "canceled" && profile.subscriptionId === subscriptionId) {
-    await cancelHiddifyUser(profile.hiddifyId, profile.hiddifyServerId);
+    await cancelHiddifyPlan(profile.hiddifyId, profile.hiddifyServerId);
     await db.update(profileTable).set({
       subscriptionEndAt: null,
       subscriptionId: null,
@@ -85,16 +85,16 @@ export async function handleItemPurchases(stripeCustomerId: string, invoice: Str
   let purchasedDataPlan = false;
   let totalSpent = 0;
   for (const item of lineItems) {
-    const priceId = item.price?.id;
+    const priceId = item.pricing?.price_details?.price;
     const product = await getProductByPriceId(priceId);
     if (product && product.id === "router") {
       purchasedRouter = true;
     }
 
-    const unitPrice = Number(item.unit_amount_excluding_tax);
+    const unitPrice = Number(item.pricing?.unit_amount_decimal);
     if (unitPrice === DATA_PACKAGE_PRICE * 100) {
       purchasedDataPlan = true;
-      totalSpent += Number(item.amount_excluding_tax || 0) / 100;
+      totalSpent += Number(item.amount || 0) / 100;
     }
   }
 
@@ -108,7 +108,7 @@ export async function handleItemPurchases(stripeCustomerId: string, invoice: Str
 
     if (postmarkClient) {
       postmarkClient.sendEmailWithTemplate({
-        Bcc: SITE_EMAIL_ADMIN,
+        Cc: SITE_ADMIN,
         From: SITE_EMAIL,
         TemplateAlias: "router",
         TemplateModel: {},
@@ -127,7 +127,7 @@ export async function handleItemPurchases(stripeCustomerId: string, invoice: Str
     const GBPerDollar = PLAN_LIMITS[currentPlan].data / PLAN_LIMITS[currentPlan].price;
     const dataPurchased = totalSpent * GBPerDollar;
 
-    const usage = await getHiddifyUsage(profile.hiddifyId, profile.hiddifyServerId);
+    const usage = await getHiddifyUserById(profile.hiddifyId, profile.hiddifyServerId);
     const currentLimit = usage?.usage_limit_GB ?? PLAN_LIMITS[currentPlan].data;
     const newLimit = currentLimit + dataPurchased;
 

@@ -28,13 +28,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { MAX_NAME_LENGTH } from "@/config/constants";
-import { sendVerificationEmail, signUp } from "@/lib/auth-client";
-import { secondsPassed } from "@/lib/utils";
+import { MAX_NAME_LENGTH, MIN_WAIT_TIME } from "@/config/constants";
+import { sendVerificationEmail, signUp } from "@/lib/auth-clients";
+import { minutesPassedSince } from "@/lib/utils";
 
 const formSchema = z
   .object({
-    email: z.string().email().toLowerCase(),
+    email: z.email().toLowerCase(),
     name: z.string().max(MAX_NAME_LENGTH),
     password: z
       .string()
@@ -64,17 +64,17 @@ function SignUpForm(_props: Props) {
   });
 
   // Submit handler
-  async function onSubmit(values: z.infer<typeof formSchema>, event?: React.BaseSyntheticEvent) {
+  function onSubmit(values: z.infer<typeof formSchema>, event?: React.BaseSyntheticEvent) {
     event?.preventDefault();
 
-    const timeSince = secondsPassed(sentEmail);
-    if (timeSince < 10) {
-      toast.warning("Too many signup attempts, try again later.");
+    const minutesSince = minutesPassedSince(sentEmail);
+    if (minutesSince < MIN_WAIT_TIME) {
+      toast.warning("Too many signup attempts, please wait and try again later.");
       return;
     }
 
     const { email, name, password } = values;
-    await signUp.email(
+    signUp.email(
       {
         email,
         name,
@@ -131,14 +131,14 @@ function SignUpForm(_props: Props) {
               </span>
             </PopoverTrigger>
             <PopoverContent className="w-fit">
-              <h1 className="font-2xl">Recommended Emails</h1>
+              <h1 className="font-2xl">Recommended</h1>
               <hr className="my-3" />
               <ul>
-                <li>microsoft.com</li>
-                <li>outlook.com</li>
-                <li>live.com</li>
-                <li>icloud.com</li>
+                <li>qq.com</li>
                 <li>163.com</li>
+                <li>icloud.com</li>
+                <li>live.com</li>
+                <li>outlook.com</li>
               </ul>
             </PopoverContent>
           </Popover>
@@ -148,19 +148,7 @@ function SignUpForm(_props: Props) {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nickname</FormLabel>
-                  <FormControl>
-                    <Input placeholder="(optional)" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
             <FormField
               control={form.control}
               name="email"
@@ -169,6 +157,19 @@ function SignUpForm(_props: Props) {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nickname</FormLabel>
+                  <FormControl>
+                    <Input placeholder="(optional)" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -201,7 +202,7 @@ function SignUpForm(_props: Props) {
               )}
             />
 
-            <Button className="w-full" type="submit" loading={loading} disabled={loading}>
+            <Button className="w-full" type="submit" loading={loading} disabled={loading} data-umami-event="signup">
               Create account
             </Button>
           </form>
@@ -218,7 +219,7 @@ function SignUpForm(_props: Props) {
         </div>
       </CardContent>
       <CardFooter>
-        <div className="flex justify-center w-full pt-6 border-t">
+        <div className="flex justify-center w-full border-t py-4">
           <p className="text-xs text-center text-muted-foreground">
             Terms and conditions
             <a className="px-1 text-foreground" href="/privacy" target="_blank" rel="noreferrer">here</a>

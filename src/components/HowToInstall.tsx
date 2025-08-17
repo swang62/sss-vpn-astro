@@ -4,11 +4,13 @@ import { CogIcon, Copy, Download, Menu, PartyPopper } from "lucide-react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
+import type { Platform } from "@/config/types";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FILE_TYPES, HIDDIFY_DOWNLOAD_URL, type Platform } from "@/config/constants";
+import { FILE_DOWNLOAD_URL, FILE_TYPES } from "@/config/constants";
 import { fetchUser } from "@/lib/api-clients";
 import { copyToClipboard, getHiddifyLinks } from "@/lib/utils";
 
@@ -34,24 +36,24 @@ function getSteps(
       content:
     <>
       <p>
-        Click the button below to download the app manually,
+        Click the button below to download the app manually
         {" "}
         {isIOS && (
           <>
-            or click
+            , or click
             <a href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532" target="_blank" rel="noreferrer" className="px-1 text-primary-link underline">here</a>
-            to directly install from the App store. If successfully installed through the App store, skip directly to Step 3.
+            to directly install from the App store. If successfully installed (may not work in China), skip directly to Step 3.
           </>
         )}
         {isAndroid && (
           <>
-            or click
+            , or click
             <a href="https://play.google.com/store/apps/details?id=app.hiddify.com&hl=en-us" target="_blank" rel="noreferrer" className="px-1 text-primary-link underline">here</a>
-            to directly install from the Play store. If successfully installed through the Play store, skip directly to Step 3.
+            to directly install from the Play store. If successfully installed (may not work in China), skip directly to Step 3.
           </>
         )}
       </p>
-      <a href={`${HIDDIFY_DOWNLOAD_URL}${downloadFile}`} className="self-center pr-8">
+      <a href={`${FILE_DOWNLOAD_URL}${downloadFile}`} className="self-center pr-8">
         <Button>
           <Download />
           Download for
@@ -87,7 +89,7 @@ function getSteps(
               {" "}
               {downloadFile}
               {" "}
-              file to your phone's Apps folder to install.
+              file to your phone to install.
             </p>
             <p>
               3) Install with a third-party app like FlexStore, AltStore, eSign or Bullfrog Assistant. You may need to look up guides online.
@@ -98,7 +100,7 @@ function getSteps(
           <div className="text-foreground">
             For macOS, you will need download an extra shortcut file
             {" "}
-            <a href={`${HIDDIFY_DOWNLOAD_URL}start_vpn.command`} className="text-primary-link underline">here</a>
+            <a href={`${FILE_DOWNLOAD_URL}start_vpn.command`} className="text-primary-link underline">here</a>
             . Save this file to your desktop and open up the Terminal app.
             Type "sudo chmod +x ~/Desktop/start_vpn.command" into the terminal
             and hit enter. Enter your password (it will be invisible) and hit enter again.
@@ -119,7 +121,7 @@ function getSteps(
         {isWindows
           ? (
               <>
-                Open up the app using the desktop shortcut (or launching as administrator),
+                Open up the app using the desktop shortcut (or launch as administrator),
               </>
             )
           : isMacOS
@@ -149,7 +151,7 @@ function getSteps(
         <div className="flex items-center gap-2">
           <Input defaultValue={links?.url || "Loading..."} readOnly className="bg-muted text-muted-foreground" />
           <Button size="sm" onClick={() => copyToClipboard(links?.url || "")}>
-            <Copy className="w-4 h-4" />
+            <Copy className="size-4" />
           </Button>
         </div>
         <div>
@@ -168,7 +170,7 @@ function getSteps(
         <br />
         <img src="/setup/start-screen.png" width={imageWidth} alt="start screen" className="self-center" loading="lazy" />
         <br />
-        <div className="text-muted-foreground">Note: for monthly subscriptions, the days remaining will show infinity, but will reset correctly each month.</div>
+        <div className="text-muted-foreground">Note: for monthly subscriptions, the days remaining will show infinity, but will reset each month.</div>
       </>,
       title: "Add your profile",
     },
@@ -178,18 +180,32 @@ function getSteps(
          <div>
            In the options panel
            <Menu className="mx-1 inline-block" />
-           under Config Options (look for a
+           under Config Options
            <CogIcon className="mx-1 inline-block" />
-           icon), set IPv6 Route to 'Enable' and Direct DNS to
+           , set IPv6 Route to
            {" "}
-           {isMobile ? "'local'. If using WiFi, you may need to change the Direct DNS to 'udp://1.1.1.1'." : "'udp://1.1.1.1'."}
+           <b>Enable</b>
+           ,
+           {" "}
+           Remote DNS to
+           {" "}
+           <b>udp://1.1.1.1</b>
+           ,
+           and Direct DNS to
+           {" "}
+           <b>local</b>
+           .
+
          </div>
-         {isMobile
-           ? <img src="/setup/dns-config.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />
-           : <img src="/setup/dns-config-desktop.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />}
+         <img src="/setup/dns-config.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />
          {!isMobile && (
            <>
-             <p>Confirm the service mode is set to 'VPN'.</p>
+             <p>
+               Scroll down and make sure the service mode is set to
+               {" "}
+               <b>VPN</b>
+               .
+             </p>
              <img src="/setup/service-mode.png" alt="dns" width={imageWidth / 1.5} className="self-center" loading="lazy" />
            </>
          )}
@@ -201,7 +217,7 @@ function getSteps(
       content:
       <>
         <p>
-          Go back to the home screen and tap the giant button in the middle and you should be connected!
+          Go back to the home screen and tap the giant button in the middle and you should be all connected!
           {" "}
           {isMobile && (
             <>
@@ -213,9 +229,9 @@ function getSteps(
         <img src="/setup/connected.png" width={imageWidth} alt="connected" className="self-center" loading="lazy" />
       </>,
       title: (
-        <div className="flex flex-nowrap">
+        <div className="flex items-center">
           All done!
-          <PartyPopper className="ml-2 text-orange-400" />
+          <PartyPopper className="size-4 ml-2 text-orange-400" />
         </div>
       ),
     },
@@ -271,9 +287,15 @@ function HowToInstall(props: Props) {
   const links = profile ? getHiddifyLinks(user.email, profile.hiddifyId, profile.hiddifyServerId) : undefined;
   const platform = getPlatform(props);
 
+  // Poll for hiddify profile creation
   useEffect(() => {
     if (!profile?.hiddifyId) {
-      setIntervalId(setInterval(mutate, 2000));
+      setIntervalId(setInterval(async () => {
+        const data = await mutate();
+        if (data?.user?.profile?.hiddifyId) {
+          clearInterval(intervalId);
+        }
+      }, 2000));
     } else {
       clearInterval(intervalId);
     }
@@ -283,7 +305,7 @@ function HowToInstall(props: Props) {
 
   return (
     <Tabs defaultValue={platform}>
-      <TabsList className="grid w-full grid-cols-4 mb-8 bg-slate-700">
+      <TabsList className="grid w-full grid-cols-4 h-10 mb-8 bg-slate-400 dark:bg-slate-800">
         <TabsTrigger value="android">
           <img width="20" height="20" src={FILE_TYPES.android.icon} alt="android" loading="eager" />
           <span className="ml-1">Android</span>
@@ -303,19 +325,19 @@ function HowToInstall(props: Props) {
       </TabsList>
       <TabsContent value="android">
         {getSteps(FILE_TYPES.android.fileType, FILE_TYPES.android.icon, links)
-          .map((step, idx) => <Step key={idx} content={step.content} title={step.title} idx={idx} />)}
+          .map((step, idx) => <Step key={idx} idx={idx} {...step} />)}
       </TabsContent>
       <TabsContent value="pc">
         {getSteps(FILE_TYPES.pc.fileType, FILE_TYPES.pc.icon, links)
-          .map((step, idx) => <Step key={idx} content={step.content} title={step.title} idx={idx} />)}
+          .map((step, idx) => <Step key={idx} idx={idx} {...step} />)}
       </TabsContent>
       <TabsContent value="ios">
         {getSteps(FILE_TYPES.ios.fileType, FILE_TYPES.ios.icon, links)
-          .map((step, idx) => <Step key={idx} content={step.content} title={step.title} idx={idx} />)}
+          .map((step, idx) => <Step key={idx} idx={idx} {...step} />)}
       </TabsContent>
       <TabsContent value="mac">
         {getSteps(FILE_TYPES.mac.fileType, FILE_TYPES.mac.icon, links)
-          .map((step, idx) => <Step key={idx} content={step.content} title={step.title} idx={idx} />)}
+          .map((step, idx) => <Step key={idx} idx={idx} {...step} />)}
       </TabsContent>
     </Tabs>
   );

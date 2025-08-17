@@ -3,27 +3,28 @@ import { Icon } from "astro-icon/components";
 
 const features = [
   {
-    title: "It actually works.",
     description:
       "Almost all commercial VPN services are banned/unreliable in China (despite their claims). The fact that this VPN actually works is the biggest selling point IMO",
     icon: "lucide:biceps-flexed",
+    title: "It actually works.",
   },
   {
-    title: "Unbeatable customer service.",
-    description: "Personal customer support from someone you actually know and trust.",
-    icon: "lucide:heart-handshake",
-  },
-  {
-    title: "Faster than most chinese VPNs.",
     description:
-      "Most VPNs in china are throttled due to their popularity (public ones are easily tracked). For this VPN, streaming at 720p+ HD quality is possible on most streaming sites.",
-    icon: "lucide:zap",
+      "Personal customer support from someone you actually know and trust.",
+    icon: "lucide:heart-handshake",
+    title: "Unbeatable customer service.",
   },
   {
-    title: "Resilient against bans.",
+    description:
+      "Most VPNs in china are throttled due to their popularity (public ones are easily detected). For this VPN, streaming at 720p+ HD quality is possible on most streaming sites.",
+    icon: "lucide:zap",
+    title: "Faster than most chinese VPNs.",
+  },
+  {
     description:
       "Everything is self-hosted on a SINGLE server. If the server gets banned, I can spin up another one in no time.",
     icon: "lucide:shield-check",
+    title: "Resilient against bans.",
   },
 ];
 ---
@@ -32,8 +33,12 @@ const features = [
   <div class="py-8">
     <div class="container max-w-6xl">
       <div class="flex flex-col items-center text-center">
-        <div class="mb-6 text-xl font-semibold text-gradient md:text-2xl">Features</div>
-        <h2 class="font-heading text-3xl md:text-4xl lg:text-[40px]">What makes this VPN unique?</h2>
+        <div class="mb-6 text-2xl font-semibold text-gradient md:text-3xl">
+          Features
+        </div>
+        <h2 class="font-heading text-3xl md:text-4xl lg:text-[40px]">
+          What makes this VPN unique?
+        </h2>
       </div>
 
       <div class="grid gap-4 mt-12 sm:grid-cols-2">
@@ -42,16 +47,20 @@ const features = [
             <div class="relative p-5 overflow-hidden border group rounded-2xl bg-background md:p-8">
               <div
                 aria-hidden="true"
-                class="absolute inset-0 duration-300 -translate-y-1/2 border rounded-full opacity-25 aspect-video bg-gradient-to-b to-white from-primary/30 blur-2xl group-hover:-translate-y-1/4 dark:from-gray-300 dark:to-gray-600 dark:opacity-5 dark:group-hover:opacity-10"
+                class="absolute inset-0 duration-300 -translate-y-1/2 border rounded-full opacity-25 aspect-video bg-linear-to-b to-white from-primary/30 blur-2xl group-hover:-translate-y-1/4 dark:from-gray-300 dark:to-gray-600 dark:opacity-5 dark:group-hover:opacity-10"
               />
               <div class="relative" aria-label={feature.title}>
                 <div class="flex flex-row items-center gap-2">
-                  <div class="flex relative size-12 rounded-xl border border-border shadow-sm *:relative *:m-auto *:size-6 ">
-                    {feature.icon && <Icon name={feature.icon} class="size-5" />}
+                  <div class="flex relative size-12 rounded-xl border border-border shadow-sm *:relative *:m-auto *:size-6 mr-1">
+                    {feature.icon && (
+                      <Icon name={feature.icon} class="size-4" />
+                    )}
                   </div>
                   <h1>{feature.title}</h1>
                 </div>
-                <p class="pb-6 mt-6 text-muted-foreground">{feature.description}</p>
+                <p class="pb-6 mt-6 text-muted-foreground">
+                  {feature.description}
+                </p>
               </div>
             </div>
           ))

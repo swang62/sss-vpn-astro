@@ -4,6 +4,7 @@ import { DB_LOCAL, DB_TEST } from "./constants";
 
 // Server-side variables
 const EnvSchema = z.object({
+  BETTER_AUTH_SECRET: z.string().default("default"),
   DB_AUTH_TOKEN: z.string().default("default"),
   DB_REMOTE: z.string().optional(),
   HIDDIFY_API_KEY: z.string().optional(),
@@ -14,7 +15,7 @@ const EnvSchema = z.object({
     "warn",
     "error",
     "placeholder",
-  ]),
+  ]).default("debug"),
   NODE_ENV: z.string().default("development"),
   POSTMARK_TOKEN: z.string().optional(),
   REDIS_PASS: z.string().optional(),
@@ -23,7 +24,6 @@ const EnvSchema = z.object({
   STRIPE_WEBHOOK_SECRET: z.string().optional(),
 });
 
-// @ts-ignore
 const { data, error } = EnvSchema.safeParse({
   ...(import.meta.env ?? {}),
   ...(process.env ?? {}),
@@ -31,12 +31,13 @@ const { data, error } = EnvSchema.safeParse({
 
 if (error) {
   console.error("❌ Invalid env:");
-  console.error(JSON.stringify(error.flatten().fieldErrors, null, 2));
+  console.error(JSON.stringify(z.treeifyError(error), null, 2));
   process?.exit(1);
 }
 
-if (import.meta.env?.DEV && data.LOG_LEVEL !== "silent")
+if (data.LOG_LEVEL !== "silent") {
   console.debug("SERVER_ENV", data);
+}
 
 //* Constants *//
 const _ = "placeholder"; // Catch build errors
@@ -45,7 +46,7 @@ export const DB_AUTH_TOKEN = data.DB_AUTH_TOKEN;
 export const DB_REMOTE = data.DB_REMOTE === _ ? "" : data.DB_REMOTE;
 export const HIDDIFY_API_KEY = data.HIDDIFY_API_KEY;
 
-export const LOG_LEVEL = data.LOG_LEVEL === _ ? "debug" : data.LOG_LEVEL;
+export const LOG_LEVEL = data.LOG_LEVEL === _ ? "debug" : data.LOG_LEVEL; // prettier-ignore
 export const NODE_ENV = data.NODE_ENV;
 export const POSTMARK_TOKEN = data.POSTMARK_TOKEN === _ ? "" : data.POSTMARK_TOKEN; // prettier-ignore
 export const REDIS_URL = data.REDIS_URL === _ ? "" : data.REDIS_URL; // prettier-ignore

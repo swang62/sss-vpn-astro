@@ -3,54 +3,83 @@ import { execSync } from "node:child_process";
 import fs from "node:fs";
 
 // !!! Must use relative imports and conditional imports !!!
-import { TEST_EMAIL } from "../config/constants";
+import { DEFAULT_PASSWORD, TEST_ADMIN, TEST_USER } from "../config/constants";
 import { DB_LOCAL_URL } from "../config/server";
-import { account } from "./schema";
 
-export const TEST_USER = {
-  banned: undefined,
-  createdAt: new Date(),
-  email: TEST_EMAIL,
+const now = new Date("2000-01-01T00:00:00.000Z");
+
+// Fake users to seed into dev/testing DB
+export const adminUser = {
+  banned: false,
+  createdAt: now,
+  email: TEST_ADMIN,
   emailVerified: true,
   id: "admin-id",
   name: "steve",
   role: "admin",
-  updatedAt: new Date(),
+  updatedAt: now,
+};
+export const testUser = {
+  banned: false,
+  createdAt: now,
+  email: TEST_USER,
+  emailVerified: false,
+  id: "user-id",
+  name: "jenny",
+  role: "user",
+  updatedAt: now,
 };
 
-export async function push() {
-  await remove();
+export async function deleteDB() {
+  fs.rmSync(DB_LOCAL_URL.replace("file:", ""), { force: true });
+  console.debug(`Deleted ${DB_LOCAL_URL}.`);
+}
 
-  console.debug("Pushing migrations...");
-  execSync("pnpm drizzle-kit migrate");
+export async function migrate() {
+  console.debug("Applying migrations...");
+  const result = execSync("pnpm drizzle-kit migrate");
+  console.debug(result.toString());
 }
 
 export async function seed() {
-  console.debug("Seeding database...");
+  console.debug("Seeding users...");
 
-  const { default: db, user } = await import(".");
-  const password = "password";
-  const hash = await hashPassword(password);
+  const { account, default: db, user } = await import("../db");
+  const password = await hashPassword(DEFAULT_PASSWORD);
 
-  await db.insert(user).values([TEST_USER]);
+  await db.insert(user).values([adminUser]);
   await db.insert(account).values([
     {
-      accountId: TEST_USER.id,
-      expiresAt: new Date("2050-01-01T00:00:00.000Z"),
-      id: "admin-account",
-      password: hash,
+      accountId: adminUser.id,
+      createdAt: adminUser.createdAt,
+      id: `${adminUser.id}-account`,
+      password,
       providerId: "credential",
-      userId: TEST_USER.id,
+      updatedAt: adminUser.updatedAt,
+      userId: adminUser.id,
+    },
+  ]);
+
+  await db.insert(user).values([testUser]);
+  await db.insert(account).values([
+    {
+      accountId: testUser.id,
+      createdAt: testUser.createdAt,
+      id: `${testUser.id}-account`,
+      password,
+      providerId: "credential",
+      updatedAt: testUser.updatedAt,
+      userId: testUser.id,
     },
   ]);
 }
 
 // Don't use this during testing as stripe is disabled
-export async function seedProducts() {
+export async function syncProducts() {
   console.debug("Seeding products...");
 
-  const { stripe } = await import("@/lib/server-clients");
-  const { default: db, product } = await import(".");
+  const { stripe } = await import("../lib/server-clients");
+  const { default: db, product } = await import("./index");
 
   const { data } = await stripe.prices.list();
 
@@ -72,9 +101,4 @@ export async function seedProducts() {
       target: product.id,
     });
   }
-}
-
-export async function remove() {
-  console.debug(`Deleting ${DB_LOCAL_URL}...`);
-  fs.rmSync(DB_LOCAL_URL.replace("file:", ""), { force: true });
 }

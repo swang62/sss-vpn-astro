@@ -5,9 +5,9 @@ import DashboardDesktopMenu from "@/components/header/DashboardDesktopMenu";
 import DashboardMobileMenu from "@/components/header/DashboardMobileMenu";
 import ThemeToggle from "@/components/header/ThemeToggle";
 import { SITE_NAME } from "@/config/constants";
-import { setupNewUser } from "@/db/mutations-user";
+import { setupNewUser, updateIpAddress } from "@/db/mutations-user";
 import Base from "@/layouts/Base.astro";
-import Header from "@/layouts/Header.astro";
+import Navbar from "@/layouts/Navbar.astro";
 
 interface Props {
   title: string;
@@ -16,6 +16,10 @@ const { title } = Astro.props;
 const { pathname } = Astro.url;
 
 // Get session data
+const connectingIp = Astro.request.headers.get("cf-connecting-ip");
+const astroIp = Astro.clientAddress;
+const ip = connectingIp || astroIp;
+
 const { session, user } = Astro.locals;
 if (!session || !user) {
   Astro.redirect("/login");
@@ -24,13 +28,17 @@ if (!session || !user) {
 
 // For verified first time users, setup their profile
 const isVerified = user.emailVerified;
-if (isVerified && !user.profile?.stripeCustomerId) {
-  setupNewUser(user);
+if (isVerified) {
+  if (!user.profile?.stripeCustomerId) {
+    setupNewUser(user, ip);
+  } else {
+    updateIpAddress(user, ip);
+  }
 }
 ---
 
 <Base title={title}>
-  <Header>
+  <Navbar>
     <DashboardMobileMenu current={pathname} slot="mobile" client:load />
     <span class="text-xl text-nowrap md:inline-block" slot="left">
       {SITE_NAME}
@@ -42,9 +50,9 @@ if (isVerified && !user.profile?.stripeCustomerId) {
       <ThemeToggle client:load />
       <AvatarMenu client:load />
     </div>
-  </Header>
+  </Navbar>
 
-  <main class="container flex flex-grow gap-4 pb-8 mx-auto md:gap-8">
+  <main class="container flex grow gap-4 pb-8 mx-auto md:gap-8">
     {isVerified ? <slot /> : <DashboardVerify client:load user={user} />}
   </main>
 </Base>

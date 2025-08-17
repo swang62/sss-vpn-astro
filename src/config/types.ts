@@ -1,12 +1,3 @@
-export const SUBSCRIPTION_PLANS = [
-  "none",
-  "trial",
-  "basic",
-  "pro",
-  "premium",
-] as const;
-export type SubscriptionType = (typeof SUBSCRIPTION_PLANS)[number];
-
 export const FREE_PLANS = [
   "none",
   "trial",
@@ -19,6 +10,25 @@ export const PAID_PLANS = [
   "premium",
 ] as const;
 export type PaidPlan = (typeof PAID_PLANS)[number];
+
+export const SUBSCRIPTION_PLANS = [
+  ...FREE_PLANS,
+  ...PAID_PLANS,
+] as const;
+export type SubscriptionType = (typeof SUBSCRIPTION_PLANS)[number];
+
+export type PricingPlan = {
+  plan: PaidPlan;
+  price: number;
+  description: string;
+  features: string[];
+};
+
+export type Platform
+  = "ios"
+    | "android"
+    | "mac"
+    | "pc";
 
 export const HIDDIFY_SERVER_IDS = [
   "1",
@@ -34,13 +44,18 @@ export type HiddifyServer = {
 
 export type HiddifyUser = {
   current_usage_GB: number; // Can't be set
-  enable: boolean;
+  enable: boolean; // Is this user allowed to connect to VPN
   is_active: boolean; // Is user actively using VPN
   last_online: Date | null;
-  mode: string;
+  mode: "no_reset" | "monthly";
   name: string;
   package_days: number;
   start_date: string; // Format: YYYY-MM-DD
   usage_limit_GB: number;
   uuid: string;
+};
+
+export type Option = {
+  value: string;
+  label: string;
 };
