@@ -1,5 +1,6 @@
 import js from "@eslint/js";
 import astro from "eslint-plugin-astro";
+import jsxA11y from "eslint-plugin-jsx-a11y";
 import perfectionist from "eslint-plugin-perfectionist";
 import prettier from "eslint-plugin-prettier";
 import { defineConfig } from "eslint/config";
@@ -38,7 +39,6 @@ export default defineConfig([
 
   // Astro config
   astro.configs.recommended,
-  astro.configs["jsx-a11y-recommended"],
   {
     files: ["**/*.astro"],
     languageOptions: {
@@ -67,6 +67,11 @@ export default defineConfig([
     },
   },
 
+  {
+    plugins: { "jsx-a11y": jsxA11y },
+    rules: jsxA11y.configs.recommended.rules,
+  },
+
   // Global ignore patterns
   {
     rules: {
@@ -77,6 +82,15 @@ export default defineConfig([
     },
   },
   {
-    ignores: ["src/db/migrations/**/*", "node_modules/*", "public/*", ".github/*", "dist/*", "**/*.d.ts", "**/*.json", "**/*.sql"],
+    ignores: [
+      "**/db/migrations/*",
+      "node_modules/*",
+      "public/*",
+      ".github/*",
+      "dist/*",
+      "**/*.d.ts",
+      "**/*.json",
+      "**/*.sql",
+    ],
   },
 ]);
