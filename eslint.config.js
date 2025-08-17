@@ -37,8 +37,14 @@ export default defineConfig([
     },
   },
 
+  {
+    plugins: { "jsx-a11y": jsxA11y },
+  },
+
   // Astro config
   astro.configs.recommended,
+  astro.configs["jsx-a11y-recommended"],
+
   {
     files: ["**/*.astro"],
     languageOptions: {
@@ -65,11 +71,6 @@ export default defineConfig([
       "perfectionist/sort-imports": "warn",
       "perfectionist/sort-objects": "warn",
     },
-  },
-
-  {
-    plugins: { "jsx-a11y": jsxA11y },
-    rules: jsxA11y.configs.recommended.rules,
   },
 
   // Global ignore patterns
