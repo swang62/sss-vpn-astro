@@ -59,8 +59,8 @@ const { title } = Astro.props;
   function setDarkMode() {
     const theme = (() => {
       if (
-        typeof localStorage !== "undefined" &&
-        localStorage.getItem("theme")
+        typeof localStorage !== "undefined"
+        && localStorage.getItem("theme")
       ) {
         return localStorage.getItem("theme");
       }
