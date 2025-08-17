@@ -1,556 +1,548 @@
 {
-  "version": "6",
+  "_meta": {
+    "columns": {
+      "\"account\".\"expiresAt\"": "\"account\".\"accessTokenExpiresAt\""
+    },
+    "schemas": {},
+    "tables": {}
+  },
   "dialect": "sqlite",
+  "enums": {},
   "id": "b604271d-8c3e-44fd-b1d7-884e6d977e5e",
+  "internal": {
+    "indexes": {}
+  },
   "prevId": "85398275-edd3-46fa-8978-be7a255f233b",
   "tables": {
     "account": {
-      "name": "account",
+      "checkConstraints": {},
       "columns": {
         "accessToken": {
+          "autoincrement": false,
           "name": "accessToken",
-          "type": "text",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
         },
         "accessTokenExpiresAt": {
+          "autoincrement": false,
           "name": "accessTokenExpiresAt",
-          "type": "integer",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "integer"
         },
         "accountId": {
+          "autoincrement": false,
           "name": "accountId",
-          "type": "text",
-          "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
         },
         "createdAt": {
+          "autoincrement": false,
           "name": "createdAt",
-          "type": "integer",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "integer"
         },
         "id": {
+          "autoincrement": false,
           "name": "id",
-          "type": "text",
-          "primaryKey": true,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": true,
+          "type": "text"
         },
         "idToken": {
+          "autoincrement": false,
           "name": "idToken",
-          "type": "text",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
         },
         "password": {
+          "autoincrement": false,
           "name": "password",
-          "type": "text",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
         },
         "providerId": {
+          "autoincrement": false,
           "name": "providerId",
-          "type": "text",
-          "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
         },
         "refreshToken": {
+          "autoincrement": false,
           "name": "refreshToken",
-          "type": "text",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
         },
         "refreshTokenExpiresAt": {
+          "autoincrement": false,
           "name": "refreshTokenExpiresAt",
-          "type": "integer",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "integer"
         },
         "scope": {
+          "autoincrement": false,
           "name": "scope",
-          "type": "text",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
         },
         "updatedAt": {
+          "autoincrement": false,
           "name": "updatedAt",
-          "type": "integer",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "integer"
         },
         "userId": {
+          "autoincrement": false,
           "name": "userId",
-          "type": "text",
-          "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "foreignKeys": {
+        "account_userId_user_id_fk": {
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "name": "account_userId_user_id_fk",
+          "onDelete": "cascade",
+          "onUpdate": "cascade",
+          "tableFrom": "account",
+          "tableTo": "user"
         }
       },
       "indexes": {
         "account_userId_unique": {
-          "name": "account_userId_unique",
           "columns": [
             "userId"
           ],
-          "isUnique": true
+          "isUnique": true,
+          "name": "account_userId_unique"
         }
       },
-      "foreignKeys": {
-        "account_userId_user_id_fk": {
-          "name": "account_userId_user_id_fk",
-          "tableFrom": "account",
-          "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
+      "name": "account",
+      "uniqueConstraints": {}
     },
     "product": {
-      "name": "product",
+      "checkConstraints": {},
       "columns": {
         "createdAt": {
+          "autoincrement": false,
           "name": "createdAt",
-          "type": "integer",
-          "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "integer"
         },
         "id": {
+          "autoincrement": false,
           "name": "id",
-          "type": "text",
-          "primaryKey": true,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": true,
+          "type": "text"
         },
         "name": {
+          "autoincrement": false,
           "name": "name",
-          "type": "text",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
         },
         "priceId": {
+          "autoincrement": false,
           "name": "priceId",
-          "type": "text",
-          "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
         },
         "productId": {
+          "autoincrement": false,
           "name": "productId",
-          "type": "text",
-          "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
         },
         "updatedAt": {
+          "autoincrement": false,
           "name": "updatedAt",
-          "type": "integer",
-          "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "integer"
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
+      "foreignKeys": {},
+      "indexes": {},
+      "name": "product",
+      "uniqueConstraints": {}
     },
     "profile": {
-      "name": "profile",
+      "checkConstraints": {},
       "columns": {
         "createdAt": {
+          "autoincrement": false,
           "name": "createdAt",
-          "type": "integer",
-          "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "integer"
         },
         "hiddifyId": {
+          "autoincrement": false,
           "name": "hiddifyId",
-          "type": "text",
-          "primaryKey": true,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": true,
+          "type": "text"
         },
         "hiddifyServerId": {
-          "name": "hiddifyServerId",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
           "autoincrement": false,
-          "default": "'1'"
+          "default": "'1'",
+          "name": "hiddifyServerId",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "text"
         },
         "lastKnownIpAddress": {
+          "autoincrement": false,
           "name": "lastKnownIpAddress",
-          "type": "text",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
         },
         "purchasedRouter": {
-          "name": "purchasedRouter",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
           "autoincrement": false,
-          "default": false
+          "default": false,
+          "name": "purchasedRouter",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "integer"
         },
         "stripeCustomerId": {
+          "autoincrement": false,
           "name": "stripeCustomerId",
-          "type": "text",
-          "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
         },
         "subscriptionEndAt": {
+          "autoincrement": false,
           "name": "subscriptionEndAt",
-          "type": "integer",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "integer"
         },
         "subscriptionId": {
+          "autoincrement": false,
           "name": "subscriptionId",
-          "type": "text",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
         },
         "subscriptionItemId": {
+          "autoincrement": false,
           "name": "subscriptionItemId",
-          "type": "text",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
         },
         "subscriptionStartAt": {
+          "autoincrement": false,
           "name": "subscriptionStartAt",
-          "type": "integer",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "integer"
         },
         "subscriptionType": {
-          "name": "subscriptionType",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
           "autoincrement": false,
-          "default": "'none'"
+          "default": "'none'",
+          "name": "subscriptionType",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "text"
         },
         "updatedAt": {
+          "autoincrement": false,
           "name": "updatedAt",
-          "type": "integer",
-          "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "integer"
         },
         "userId": {
+          "autoincrement": false,
           "name": "userId",
-          "type": "text",
-          "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
         }
       },
-      "indexes": {
-        "profile_userId_unique": {
-          "name": "profile_userId_unique",
-          "columns": [
-            "userId"
-          ],
-          "isUnique": true
-        }
-      },
+      "compositePrimaryKeys": {},
       "foreignKeys": {
         "profile_userId_user_id_fk": {
-          "name": "profile_userId_user_id_fk",
-          "tableFrom": "profile",
-          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
           "columnsTo": [
             "id"
           ],
+          "name": "profile_userId_user_id_fk",
           "onDelete": "cascade",
-          "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "session": {
-      "name": "session",
-      "columns": {
-        "createdAt": {
-          "name": "createdAt",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "expiresAt": {
-          "name": "expiresAt",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "impersonatedBy": {
-          "name": "impersonatedBy",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "ipAddress": {
-          "name": "ipAddress",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "token": {
-          "name": "token",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "userAgent": {
-          "name": "userAgent",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "userId": {
-          "name": "userId",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "onUpdate": "cascade",
+          "tableFrom": "profile",
+          "tableTo": "user"
         }
       },
       "indexes": {},
+      "name": "profile",
+      "uniqueConstraints": {}
+    },
+    "session": {
+      "checkConstraints": {},
+      "columns": {
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "notNull": false,
+          "primaryKey": false,
+          "type": "integer"
+        },
+        "expiresAt": {
+          "autoincrement": false,
+          "name": "expiresAt",
+          "notNull": false,
+          "primaryKey": false,
+          "type": "integer"
+        },
+        "id": {
+          "autoincrement": false,
+          "name": "id",
+          "notNull": true,
+          "primaryKey": true,
+          "type": "text"
+        },
+        "impersonatedBy": {
+          "autoincrement": false,
+          "name": "impersonatedBy",
+          "notNull": false,
+          "primaryKey": false,
+          "type": "text"
+        },
+        "ipAddress": {
+          "autoincrement": false,
+          "name": "ipAddress",
+          "notNull": false,
+          "primaryKey": false,
+          "type": "text"
+        },
+        "token": {
+          "autoincrement": false,
+          "name": "token",
+          "notNull": false,
+          "primaryKey": false,
+          "type": "text"
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "notNull": false,
+          "primaryKey": false,
+          "type": "integer"
+        },
+        "userAgent": {
+          "autoincrement": false,
+          "name": "userAgent",
+          "notNull": false,
+          "primaryKey": false,
+          "type": "text"
+        },
+        "userId": {
+          "autoincrement": false,
+          "name": "userId",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "text"
+        }
+      },
+      "compositePrimaryKeys": {},
       "foreignKeys": {
         "session_userId_user_id_fk": {
-          "name": "session_userId_user_id_fk",
-          "tableFrom": "session",
-          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
           "columnsTo": [
             "id"
           ],
+          "name": "session_userId_user_id_fk",
           "onDelete": "cascade",
-          "onUpdate": "cascade"
+          "onUpdate": "cascade",
+          "tableFrom": "session",
+          "tableTo": "user"
+        }
+      },
+      "indexes": {},
+      "name": "session",
+      "uniqueConstraints": {}
+    },
+    "user": {
+      "checkConstraints": {},
+      "columns": {
+        "banExpires": {
+          "autoincrement": false,
+          "name": "banExpires",
+          "notNull": false,
+          "primaryKey": false,
+          "type": "integer"
+        },
+        "banReason": {
+          "autoincrement": false,
+          "name": "banReason",
+          "notNull": false,
+          "primaryKey": false,
+          "type": "text"
+        },
+        "banned": {
+          "autoincrement": false,
+          "name": "banned",
+          "notNull": false,
+          "primaryKey": false,
+          "type": "integer"
+        },
+        "createdAt": {
+          "autoincrement": false,
+          "name": "createdAt",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "integer"
+        },
+        "email": {
+          "autoincrement": false,
+          "name": "email",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "text"
+        },
+        "emailVerified": {
+          "autoincrement": false,
+          "default": false,
+          "name": "emailVerified",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "integer"
+        },
+        "id": {
+          "autoincrement": false,
+          "name": "id",
+          "notNull": true,
+          "primaryKey": true,
+          "type": "text"
+        },
+        "image": {
+          "autoincrement": false,
+          "name": "image",
+          "notNull": false,
+          "primaryKey": false,
+          "type": "text"
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "text"
+        },
+        "role": {
+          "autoincrement": false,
+          "name": "role",
+          "notNull": false,
+          "primaryKey": false,
+          "type": "text"
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "name": "updatedAt",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "integer"
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "user": {
-      "name": "user",
-      "columns": {
-        "banExpires": {
-          "name": "banExpires",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "banned": {
-          "name": "banned",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "banReason": {
-          "name": "banReason",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "email": {
-          "name": "email",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "emailVerified": {
-          "name": "emailVerified",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": false
-        },
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "image": {
-          "name": "image",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "role": {
-          "name": "role",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
+      "foreignKeys": {},
       "indexes": {
         "user_email_unique": {
-          "name": "user_email_unique",
           "columns": [
             "email"
           ],
-          "isUnique": true
+          "isUnique": true,
+          "name": "user_email_unique"
         }
       },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
+      "name": "user",
+      "uniqueConstraints": {}
     },
     "verification": {
-      "name": "verification",
+      "checkConstraints": {},
       "columns": {
         "createdAt": {
+          "autoincrement": false,
           "name": "createdAt",
-          "type": "integer",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "integer"
         },
         "expiresAt": {
+          "autoincrement": false,
           "name": "expiresAt",
-          "type": "integer",
-          "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "integer"
         },
         "id": {
+          "autoincrement": false,
           "name": "id",
-          "type": "text",
-          "primaryKey": true,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": true,
+          "type": "text"
         },
         "identifier": {
+          "autoincrement": false,
           "name": "identifier",
-          "type": "text",
-          "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
         },
         "updatedAt": {
+          "autoincrement": false,
           "name": "updatedAt",
-          "type": "integer",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "integer"
         },
         "value": {
+          "autoincrement": false,
           "name": "value",
-          "type": "text",
-          "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "primaryKey": false,
+          "type": "text"
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
+      "foreignKeys": {},
+      "indexes": {},
+      "name": "verification",
+      "uniqueConstraints": {}
     }
   },
-  "views": {},
-  "enums": {},
-  "_meta": {
-    "schemas": {},
-    "tables": {},
-    "columns": {
-      "\"account\".\"expiresAt\"": "\"account\".\"accessTokenExpiresAt\""
-    }
-  },
-  "internal": {
-    "indexes": {}
-  }
+  "version": "6",
+  "views": {}
 }

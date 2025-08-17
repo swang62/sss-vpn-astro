@@ -25,7 +25,6 @@ export const profile = sqliteTable("profile", {
     .$onUpdate(() => new Date()),
   userId: text()
     .notNull()
-    .unique()
     .references(() => user.id, { onDelete: "cascade", onUpdate: "cascade" }),
 });
 
