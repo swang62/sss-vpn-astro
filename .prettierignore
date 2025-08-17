@@ -7,7 +7,7 @@ dist
 **/node_modules
 **/public
 **/dist
-**/db/migrations
+**/db/migrations/**/*
 
 # lockfiles
 pnpm-lock.yaml
