@@ -44,8 +44,9 @@ export async function getUserById(id: string) {
     },
   });
 }
+export type UserDB = NonNullable<Awaited<ReturnType<typeof getUserById>>>;
 
-export async function getUserRawById(id: string) {
+export async function getUserFullById(id: string) {
   return await db.query.user.findFirst({
     where: eq(userTable.id, id),
     with: {
@@ -56,10 +57,7 @@ export async function getUserRawById(id: string) {
     },
   });
 }
-
-export type UserDB = NonNullable<Awaited<ReturnType<typeof getUserById>>>;
-
-/// //////////////////// PROFILE ///////////////////////
+export type UserFullDB = NonNullable<Awaited<ReturnType<typeof getUserFullById>>>;
 
 export async function getProfileByStripeId(stripeCustomerId: string) {
   return await db.query.profile.findFirst({
@@ -90,7 +88,7 @@ export async function getProductByPriceId(priceId?: string) {
 
 /// //////////////////// HIDDIFY ///////////////////////
 
-export async function findAvailableServer() {
+export async function findBestHiddifyServer() {
   let id = "1" as HiddifyServerId;
   for (const serverId of HIDDIFY_SERVER_IDS) {
     const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
@@ -109,7 +107,7 @@ export async function findAvailableServer() {
   return id;
 }
 
-export async function searchHiddifyUser(email?: string) {
+export async function searchForHiddifyEmail(email?: string) {
   if (!email) return null;
 
   for (const serverId of HIDDIFY_SERVER_IDS) {
@@ -126,7 +124,7 @@ export async function searchHiddifyUser(email?: string) {
   return null;
 }
 
-export async function getHiddifyUsage(id: string, serverId: HiddifyServerId) {
+export async function getHiddifyUserById(id: string, serverId: HiddifyServerId) {
   const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
 
   const { data } = await retryOnError(async () => {

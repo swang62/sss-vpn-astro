@@ -1,4 +1,4 @@
-FROM node:22-slim AS base
+FROM node:22-alpine AS base
 
 ENV NODE_ENV=development
 ENV HOST=0.0.0.0
@@ -12,11 +12,8 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN npm -g install pnpm@${PNPM_VERSION}
 
 # Setup linux dependencies
-RUN --mount=type=cache,target=/var/lib/apt/lists \
-    --mount=type=cache,target=/var/cache/apt \
-      rm -f /etc/apt/apt.conf.d/docker-clean \
-      && apt-get update \
-      && apt-get install -y wget curl ca-certificates
+RUN --mount=type=cache,target=/var/cache/apk apk add --update-cache \
+      bash openssl wget curl ca-certificates
 
 FROM base AS dependencies 
 
@@ -33,6 +30,7 @@ COPY . .
 # Monitoring/analytics
 ARG PUBLIC_GTM_ID
 ARG PUBLIC_SENTRY_DSN
+ARG SENTRY_ORG
 ARG SENTRY_PROJECT
 ARG SOURCE_COMMIT
 ARG SITE_URL
@@ -40,8 +38,8 @@ ARG SITE_URL
 # Final production build to /dist
 ENV NODE_ENV=production
 RUN printenv
-RUN --mount=type=secret,id=sentry_token \
-    SENTRY_TOKEN=/run/secrets/sentry_token \
+RUN --mount=type=secret,id=sentry_token,required \
+    SENTRY_TOKEN=$(cat /run/secrets/sentry_token) \
     pnpm build
 
 FROM base AS runtime
@@ -62,4 +60,4 @@ COPY --from=build /app/src/config ./src/config
 COPY --from=build /app/src/lib ./src/lib
 
 # Entrypoint
-ENTRYPOINT [ "./scripts/entrypoint.sh" ]
+ENTRYPOINT [ "/bin/bash", "-c", "./scripts/entrypoint.sh" ]

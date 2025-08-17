@@ -2,8 +2,10 @@ import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 
 import { MAX_NAME_LENGTH } from "@/config/constants";
-import { updateStripeName, updateUser } from "@/db/mutations-user";
-import { getHiddifyUsage, getUserRawById } from "@/db/queries";
+import { deleteHiddifyUser } from "@/db/mutations-hiddify";
+import { updateUser } from "@/db/mutations-user";
+import { getHiddifyUserById, getUserFullById } from "@/db/queries";
+import { auth } from "@/lib/auth";
 import { stripe } from "@/lib/server-clients";
 import { createBaseRouter } from "@/server/app";
 
@@ -22,22 +24,51 @@ const route = createBaseRouter()
     await checkAdminAccess(c);
 
     const userId = c.req.param("id");
-    const user = await getUserRawById(userId);
+    const user = await getUserFullById(userId);
     if (!user) {
       c.status(404);
       throw new Error(`UserId ${userId} not found`);
     }
 
-    let usage = null;
-    let customer = null;
+    let hiddify = null;
+    let stripe_account = null;
     if (user.profile?.hiddifyId) {
-      usage = await getHiddifyUsage(user.profile.hiddifyId, user.profile.hiddifyServerId);
+      hiddify = await getHiddifyUserById(user.profile.hiddifyId, user.profile.hiddifyServerId);
     }
     if (user.profile?.stripeCustomerId) {
-      customer = await stripe.customers.retrieve(user.profile.stripeCustomerId);
+      stripe_account = await stripe.customers.retrieve(user.profile.stripeCustomerId);
     }
 
-    return c.json({ _user: user, hiddify: usage, stripe: customer });
+    return c.json({ _user: user, hiddify, stripe_account });
+  })
+  .delete("/:id", async (c) => {
+    await checkAdminAccess(c);
+
+    const userId = c.req.param("id");
+    const user = await getUserFullById(userId);
+    if (!user) {
+      c.status(404);
+      throw new Error(`UserId ${userId} not found`);
+    }
+
+    if (user.profile?.hiddifyId) {
+      // delete hiddify account if exists
+      await deleteHiddifyUser(user.profile.hiddifyId, user.profile.hiddifyServerId);
+    }
+    if (user.profile?.stripeCustomerId) {
+      // delete stripe customer if exists
+      await stripe.customers.del(user.profile.stripeCustomerId);
+    }
+    // Finally, delete all local traces of user
+    const data = await auth.api.removeUser({
+      body: { userId },
+      headers: c.req.raw.headers,
+    }).catch((error: Error) => {
+      c.status(500);
+      throw new Error(error.message);
+    });
+
+    return c.json(data);
   })
   .patch("/", zValidator(
     "json",
@@ -50,7 +81,9 @@ const route = createBaseRouter()
     const stripeCustomerId = user.profile?.stripeCustomerId;
 
     const updatedUser = await updateUser(user.id, name);
-    if (stripeCustomerId) await updateStripeName(stripeCustomerId, name);
+    if (stripeCustomerId) {
+      await stripe.customers.update(stripeCustomerId, { name });
+    }
 
     return c.json({ user: updatedUser });
   });

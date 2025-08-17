@@ -4,6 +4,7 @@ import { DB_LOCAL, DB_TEST } from "./constants";
 
 // Server-side variables
 const EnvSchema = z.object({
+  BETTER_AUTH_SECRET: z.string().default("default"),
   DB_AUTH_TOKEN: z.string().default("default"),
   DB_REMOTE: z.string().optional(),
   HIDDIFY_API_KEY: z.string().optional(),
@@ -23,7 +24,6 @@ const EnvSchema = z.object({
   STRIPE_WEBHOOK_SECRET: z.string().optional(),
 });
 
-// @ts-ignore
 const { data, error } = EnvSchema.safeParse({
   ...(import.meta.env ?? {}),
   ...(process.env ?? {}),

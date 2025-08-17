@@ -50,6 +50,7 @@ services:
       args:
         - PUBLIC_GTM_ID
         - PUBLIC_SENTRY_DSN
+        - SENTRY_ORG
         - SENTRY_PROJECT
         - SOURCE_COMMIT
         - SITE_URL

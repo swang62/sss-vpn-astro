@@ -3,8 +3,19 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import type { Option } from "@/config/types";
-import type { HonoClient } from "@/lib/api-clients";
+import type { HonoClient, UserFull } from "@/lib/api-clients";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 import { useMounted } from "@/hooks/use-mounted";
@@ -60,9 +71,11 @@ function ApiStatus({ device, origin }: Props) {
   const mounted = useMounted();
   const [code, setCode] = useState<object>(defaultCode);
   const [loading, setLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState("Loading...");
   const [endpoint, setEndpoint] = useState<Endpoint>("");
   const [users, setUsers] = useState<Option[]>([]);
-  const [userSelected, setUserSelected] = useState("");
+  const [userIdSelected, setUserSelected] = useState("");
+  const [userActive, setUserActive] = useState<UserFull | null>(null);
 
   // Handlers
   const getEndpoint = async () => {
@@ -104,19 +117,19 @@ function ApiStatus({ device, origin }: Props) {
       }
       setCode(data);
     }
-
     setLoading(false);
   };
 
   const getUser = async () => {
     setLoading(true);
 
-    const { data, error } = await parseApi(api.user[":id"].$get({ param: { id: userSelected } }));
+    const { data, error } = await parseApi(api.user[":id"].$get({ param: { id: userIdSelected } }));
     if (!data || error) {
       toast.error(error);
       setLoading(false);
       return;
     }
+    setUserActive(data._user);
     setCode(data);
     setLoading(false);
   };
@@ -128,17 +141,32 @@ function ApiStatus({ device, origin }: Props) {
         sortDirection: "asc",
       },
     });
-    if (!data || error) toast.error(error?.message);
-    if (data) {
-      const userOptions = data.users.map((user): Option => ({ label: user.email, value: user.id }));
-      setUsers(userOptions);
+    if (!data || error) {
+      toast.error(error?.message);
+      return;
     }
+    const userOptions = data.users.map((user): Option => ({ label: user.email, value: user.id }));
+    setUsers(userOptions);
+    setLoadingText("Select a user...");
+  };
+
+  const deleteUser = async () => {
+    setLoading(true);
+
+    const { data, error } = await parseApi(api.user[":id"].$delete({ param: { id: userIdSelected } }));
+    if (!data || error) {
+      toast.error(error);
+      setLoading(false);
+      return;
+    }
+    setCode(data);
+    setLoading(false);
   };
 
   const onReset = () => {
+    setCode(defaultCode);
     setEndpoint("");
     setUserSelected("");
-    setCode(defaultCode);
     getAllUsers();
   };
 
@@ -147,17 +175,21 @@ function ApiStatus({ device, origin }: Props) {
     getAllUsers();
   }, []);
 
+  useEffect(() => {
+    setUserActive(null);
+  }, [endpoint, userIdSelected]);
+
   return (
     <div className="flex flex-col w-full pb-0 gap-2 md:pt-6 mx-auto">
       <div className="flex flex-row gap-2">
-        <Combobox options={options} value={endpoint} setValue={setEndpoint} defaultValue="API endpoint..." />
+        <Combobox options={options} value={endpoint} setValue={setEndpoint} defaultValue="Request API..." />
         <Button loading={loading} variant="secondary" onClick={getEndpoint} disabled={!endpoint}>
           Go
         </Button>
       </div>
       <div className="flex flex-row gap-2">
-        <Combobox options={users} value={userSelected} setValue={setUserSelected} defaultValue="Select user..." />
-        <Button loading={loading} variant="secondary" onClick={getUser} disabled={users.length === 0 || !userSelected}>
+        <Combobox options={users} value={userIdSelected} setValue={setUserSelected} defaultValue={loadingText} />
+        <Button loading={loading} variant="secondary" onClick={getUser} disabled={users.length === 0 || !userIdSelected}>
           Go
         </Button>
       </div>
@@ -176,9 +208,52 @@ function ApiStatus({ device, origin }: Props) {
         )}
       </code>
 
-      <Button variant="destructive" className="w-full" onClick={onReset}>
-        Reset
-      </Button>
+      <div className="flex flex-row gap-2">
+        <Button variant="default" className="flex grow" onClick={onReset}>
+          Reset Console
+        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="destructive" className="flex grow" disabled={!userActive}>
+              Delete User
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                Are you absolutely sure?
+              </AlertDialogTitle>
+              <AlertDialogDescription className="flex flex-col text-lg">
+                <span>
+                  Email:
+                  {" "}
+                  {userActive?.email}
+                </span>
+                <span>
+                  Name:
+                  {" "}
+                  {userActive?.name}
+                </span>
+                <span>
+                  HiddifyId:
+                  {" "}
+                  {userActive?.profile?.hiddifyId}
+                </span>
+                <span>
+                  Stripe:
+                  {" "}
+                  {userActive?.profile?.stripeCustomerId}
+                </span>
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction className="bg-destructive hover:bg-destructive/80 cursor-pointer" onClick={deleteUser}>Delete</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
+
     </div>
   );
 }

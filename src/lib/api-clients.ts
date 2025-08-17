@@ -28,6 +28,11 @@ export async function fetchUser() {
 }
 export type User = Awaited<ReturnType<typeof fetchUser>>["user"];
 
+export async function fetchUserFull(id: string) {
+  return api.user[":id"].$get({ param: { id } }).then(res => res.json());
+}
+export type UserFull = Awaited<ReturnType<typeof fetchUserFull>>["_user"];
+
 export async function fetchSession() {
   return api.session.$get().then(res => res.json());
 }

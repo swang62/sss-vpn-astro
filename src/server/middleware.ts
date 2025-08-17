@@ -16,6 +16,8 @@ import { redis } from "@/lib/redis";
 
 import type { Bindings } from "./app";
 
+import { ALLOWED_METHODS } from "./app";
+
 // Admin-only routes
 export async function checkAdminAccess(c: Context<Bindings>) {
   const userSession = c.get("userSession");
@@ -85,12 +87,12 @@ export function corsMiddleware(): MiddlewareHandler {
     ? createMiddleware((_c, next) => next())
     : cors({
         allowHeaders: ["*"],
-        allowMethods: ["GET", "POST", "OPTIONS"],
+        allowMethods: ALLOWED_METHODS,
         credentials: true,
         exposeHeaders: ["*"],
         maxAge: 600,
         origin: origin =>
-          origin.includes(".mildlybrewed.")
+          origin.includes("sss-vpn") || origin.includes("mildlybrewed")
             ? origin
             : "localhost",
       });

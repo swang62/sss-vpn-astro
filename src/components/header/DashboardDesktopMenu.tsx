@@ -30,7 +30,6 @@ function DashboardDesktopMenu({ current }: Props) {
               })}
             >
               {link.label}
-              {link.label === "Upgrade" && <span className="flex size-4 items-center ml-1">{link.icon}</span>}
             </a>
           ))}
         </NavigationMenuItem>

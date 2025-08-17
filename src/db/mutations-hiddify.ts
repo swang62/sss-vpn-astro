@@ -6,10 +6,10 @@ import { HIDDIFY_SERVERS, PLAN_LIMITS, TRIAL_TIME } from "@/config/constants";
 import { axiosHiddify } from "@/lib/server-clients";
 import { retryOnError } from "@/lib/utils";
 
-import { findAvailableServer } from "./queries";
+import { findBestHiddifyServer } from "./queries";
 
 export async function createHiddifyUser(email: string) {
-  const serverId = await findAvailableServer();
+  const serverId = await findBestHiddifyServer();
   const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
 
   const body: Partial<HiddifyUser> = {
@@ -77,7 +77,7 @@ export async function increaseUsageLimit(
   await retryOnError(async () => await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body));
 }
 
-export async function cancelHiddifyUser(id: string, serverId: HiddifyServerId) {
+export async function cancelHiddifyPlan(id: string, serverId: HiddifyServerId) {
   const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
 
   const body: Partial<HiddifyUser> = {
@@ -88,4 +88,14 @@ export async function cancelHiddifyUser(id: string, serverId: HiddifyServerId) {
     usage_limit_GB: 0,
   };
   await retryOnError(async () => await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body));
+}
+
+export async function deleteHiddifyUser(id: string, serverId: HiddifyServerId) {
+  const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
+
+  const { data } = await retryOnError(async () => {
+    return await axiosHiddify.delete<{ msg: string }>(`${baseUrl}/admin/user/${id}`);
+  });
+
+  return data;
 }

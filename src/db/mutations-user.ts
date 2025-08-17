@@ -10,7 +10,7 @@ import { stripe } from "@/lib/server-clients";
 import type { UserDB } from "./queries";
 
 import { createHiddifyUser } from "./mutations-hiddify";
-import { getProductByPriceId, searchHiddifyUser } from "./queries";
+import { getProductByPriceId, searchForHiddifyEmail } from "./queries";
 
 export async function updateIpAddress(user: UserDB, ip: string) {
   const userId = user.id;
@@ -20,16 +20,11 @@ export async function updateIpAddress(user: UserDB, ip: string) {
     .where(eq(profileTable.userId, userId));
 }
 
-export async function updateStripeName(stripeCustomerId: string, name: string) {
-  await stripe.customers.update(stripeCustomerId, { name });
-}
-
 export async function updateUser(
   userId: string,
   name: string,
 ) {
   const nameFixed = name.length > MAX_NAME_LENGTH ? name.slice(0, MAX_NAME_LENGTH - 1) : name;
-
   const user = await db.update(userTable).set({
     name: nameFixed,
   }).where(eq(userTable.id, userId)).returning();
@@ -133,9 +128,8 @@ export async function setupNewUser(user: UserDB, ip: string) {
   // Validate hiddify account
   let hiddifyId = user.profile?.hiddifyId;
   let hiddifyServerId = user.profile?.hiddifyServerId;
-
   if (!hiddifyId || !hiddifyServerId) {
-    let data = await searchHiddifyUser(email);
+    let data = await searchForHiddifyEmail(email);
     if (!data) data = await createHiddifyUser(email);
 
     hiddifyId = data.hiddifyId;

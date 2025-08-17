@@ -44,6 +44,7 @@ export default defineConfig({
       enabled: !!process.env.SENTRY_TOKEN,
       sourceMapsUploadOptions: {
         authToken: process.env.SENTRY_TOKEN,
+        org: process.env.SENTRY_ORG,
         project: process.env.SENTRY_PROJECT,
         telemetry: false,
       },
@@ -53,7 +54,7 @@ export default defineConfig({
       policy: [
         {
           allow: "/",
-          disallow: ["/api/*", "/dashboard", "/dashboard/*"],
+          disallow: ["/login", "/signup", "*password*", "/api/*", "/dashboard", "/dashboard/*"],
           userAgent: "*",
         },
       ],

@@ -9,8 +9,8 @@ import { DATA_PACKAGE_PRICE, PLAN_LIMITS, SITE_ADMIN, SITE_EMAIL } from "@/confi
 import db, { profile as profileTable } from "@/db";
 import { postmarkClient, stripe } from "@/lib/server-clients";
 
-import { cancelHiddifyUser, increaseUsageLimit, updateHiddifyUser } from "./mutations-hiddify";
-import { getHiddifyUsage, getProductByPriceId, getProfileByStripeId } from "./queries";
+import { cancelHiddifyPlan, increaseUsageLimit, updateHiddifyUser } from "./mutations-hiddify";
+import { getHiddifyUserById, getProductByPriceId, getProfileByStripeId } from "./queries";
 
 export async function setSubscriptionRenew(subscriptionId: string, isAutoRenew: boolean) {
   await stripe.subscriptions.update(
@@ -67,7 +67,7 @@ export async function cancelSubscription(subscription: Stripe.Subscription) {
   if (!profile || !profile.hiddifyId) throw new Error(`Subscription cancellation failed for ${stripeCustomerId}`);
 
   if (status === "canceled" && profile.subscriptionId === subscriptionId) {
-    await cancelHiddifyUser(profile.hiddifyId, profile.hiddifyServerId);
+    await cancelHiddifyPlan(profile.hiddifyId, profile.hiddifyServerId);
     await db.update(profileTable).set({
       subscriptionEndAt: null,
       subscriptionId: null,
@@ -127,7 +127,7 @@ export async function handleItemPurchases(stripeCustomerId: string, invoice: Str
     const GBPerDollar = PLAN_LIMITS[currentPlan].data / PLAN_LIMITS[currentPlan].price;
     const dataPurchased = totalSpent * GBPerDollar;
 
-    const usage = await getHiddifyUsage(profile.hiddifyId, profile.hiddifyServerId);
+    const usage = await getHiddifyUserById(profile.hiddifyId, profile.hiddifyServerId);
     const currentLimit = usage?.usage_limit_GB ?? PLAN_LIMITS[currentPlan].data;
     const newLimit = currentLimit + dataPurchased;
 

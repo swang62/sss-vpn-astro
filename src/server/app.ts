@@ -4,6 +4,8 @@ import { Hono } from "hono";
 
 import type { Session, UserSession } from "@/lib/auth-clients";
 
+import { auth } from "@/lib/auth";
+
 import {
   authMiddleware,
   corsMiddleware,
@@ -12,6 +14,8 @@ import {
   onError,
   pinoLogger,
 } from "./middleware";
+
+export const ALLOWED_METHODS = ["POST", "GET", "DELETE", "PUT", "PATCH", "OPTIONS"];
 
 export interface Bindings {
   Variables: {
@@ -26,9 +30,9 @@ export function createBaseRouter() {
 }
 
 export default function createApp() {
-  const app = createBaseRouter()
-    .basePath("/api");
+  const app = createBaseRouter().basePath("/api");
 
+  app.on(ALLOWED_METHODS, "/auth/**", (c) => auth.handler(c.req.raw)); ;
   app.use(authMiddleware);
   app.use(pinoLogger());
   app.use(corsMiddleware());
