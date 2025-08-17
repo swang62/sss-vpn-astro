@@ -10,10 +10,7 @@ import { SITE_URL } from "@/config/client";
 
 // Hono
 export const { api } = hc<App>(SITE_URL);
-export type HonoClient = (
-  args?: object,
-  options?: ClientRequestOptions
-) => Promise<ClientResponse<object>>;
+export type HonoClient = (args?: object, options?: ClientRequestOptions) => Promise<ClientResponse<object>>;
 
 export async function parseApi<T>(request: Promise<ClientResponse<T>>) {
   const response = await request;
@@ -27,17 +24,17 @@ export async function parseApi<T>(request: Promise<ClientResponse<T>>) {
 
 // React/SWR (client-side)
 export async function fetchUser() {
-  return api.user.$get().then((res) => res.json());
+  return api.user.$get().then(res => res.json());
 }
 export type User = Awaited<ReturnType<typeof fetchUser>>["user"];
 
 export async function fetchUserFull(id: string) {
-  return api.user[":id"].$get({ param: { id } }).then((res) => res.json());
+  return api.user[":id"].$get({ param: { id } }).then(res => res.json());
 }
 export type UserFull = Awaited<ReturnType<typeof fetchUserFull>>["_user"];
 
 export async function fetchSession() {
-  return api.session.$get().then((res) => res.json());
+  return api.session.$get().then(res => res.json());
 }
 
 export async function fetchUsage() {

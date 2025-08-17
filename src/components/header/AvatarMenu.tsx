@@ -37,13 +37,13 @@ function AvatarMenu(_props: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="icon" className="h-8 w-8 rounded-full">
+        <Button size="icon" className="w-8 h-8 rounded-full">
           {nameLetter || <User />}
           <span className="sr-only">Toggle user menu</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel className="text-muted-foreground flex flex-col p-2 text-sm">
+        <DropdownMenuLabel className="flex flex-col p-2 text-sm text-muted-foreground">
           <span className="text-foreground">{user?.name}</span>
           <span>{user?.email}</span>
         </DropdownMenuLabel>
@@ -65,7 +65,12 @@ function AvatarMenu(_props: Props) {
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem className={menuStyle}>
-          <a href={`mailto:${SITE_EMAIL}`} target="_blank" rel="noreferrer" className="w-full">
+          <a
+            href={`mailto:${SITE_EMAIL}`}
+            target="_blank"
+            rel="noreferrer"
+            className="w-full"
+          >
             <Button variant="ghost" className={buttonStyle}>
               <Mail />
               <span>Contact me</span>

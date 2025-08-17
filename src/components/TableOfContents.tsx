@@ -7,24 +7,35 @@ import {
 
 function TableOfContents() {
   return (
-    <div className="mx-auto lg:fixed lg:top-24 lg:left-12 lg:mx-0 xl:left-32 2xl:left-64">
+    <div className="mx-auto lg:mx-0 lg:fixed lg:top-24 lg:left-12 xl:left-32 2xl:left-64">
+
       <TableOfContentsList>
         <TableOfContentsTitle>Table of Contents</TableOfContentsTitle>
         <TableOfContentsItem>
-          <TableOfContentsLink href="#configuration">Overview</TableOfContentsLink>
+          <TableOfContentsLink href="#configuration">
+            Overview
+          </TableOfContentsLink>
         </TableOfContentsItem>
         <TableOfContentsItem indent>
-          <TableOfContentsLink href="#proxies">Proxies</TableOfContentsLink>
+          <TableOfContentsLink href="#proxies">
+            Proxies
+          </TableOfContentsLink>
         </TableOfContentsItem>
         <TableOfContentsItem indent>
-          <TableOfContentsLink href="#options">Config options</TableOfContentsLink>
+          <TableOfContentsLink href="#options">
+            Config options
+          </TableOfContentsLink>
         </TableOfContentsItem>
         <TableOfContentsItem indent>
-          <TableOfContentsLink href="#updates">App updates</TableOfContentsLink>
+          <TableOfContentsLink href="#updates">
+            App updates
+          </TableOfContentsLink>
         </TableOfContentsItem>
 
         <TableOfContentsItem>
-          <TableOfContentsLink href="#mobile">Mobile-only tips</TableOfContentsLink>
+          <TableOfContentsLink href="#mobile">
+            Mobile-only tips
+          </TableOfContentsLink>
         </TableOfContentsItem>
       </TableOfContentsList>
     </div>

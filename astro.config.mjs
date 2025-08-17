@@ -77,12 +77,7 @@ export default defineConfig({
     },
     plugins: [tailwindcss({ nesting: true })],
     server: {
-      allowedHosts: [
-        "dazzling-breeze-21743.pktriot.net",
-        "localhost",
-        "127.0.0.1",
-        "192.168.8.129",
-      ],
+      allowedHosts: ["dazzling-breeze-21743.pktriot.net", "localhost", "127.0.0.1", "192.168.8.129"],
     },
   },
 });

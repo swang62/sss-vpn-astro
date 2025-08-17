@@ -5,7 +5,9 @@ import type { ProductInsert } from "@/db";
 import db, { product as productTable } from "@/db";
 import { stripe } from "@/lib/server-clients";
 
-export async function updateProduct(product: Stripe.Product) {
+export async function updateProduct(
+  product: Stripe.Product,
+) {
   const priceId = product.default_price as string;
   const price = await stripe.prices.retrieve(priceId);
 
@@ -19,11 +21,8 @@ export async function updateProduct(product: Stripe.Product) {
     productId: product.id,
   };
 
-  await db
-    .insert(productTable)
-    .values([{ ...data, id: lookupKey }])
-    .onConflictDoUpdate({
-      set: data,
-      target: productTable.id,
-    });
+  await db.insert(productTable).values([{ ...data, id: lookupKey }]).onConflictDoUpdate({
+    set: data,
+    target: productTable.id,
+  });
 }

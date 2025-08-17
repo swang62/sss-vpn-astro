@@ -95,9 +95,7 @@ export async function findBestHiddifyServer() {
     const { data } = await retryOnError(async () => {
       return await axiosHiddify.get<HiddifyUser[]>(`${baseUrl}/admin/user`);
     });
-    const totalBandwidth = data
-      .filter((users) => users.enable)
-      .reduce((prev, curr) => prev + curr.usage_limit_GB, 0);
+    const totalBandwidth = data.filter(users => users.enable).reduce((prev, curr) => prev + curr.usage_limit_GB, 0);
     console.debug(`Total bandwidth for hiddify-${serverId}: ${totalBandwidth}GB`);
 
     if (totalBandwidth < MAX_BANDWIDTH) {
@@ -117,7 +115,7 @@ export async function searchForHiddifyEmail(email?: string) {
     const { data } = await retryOnError(async () => {
       return await axiosHiddify.get<HiddifyUser[]>(`${baseUrl}/admin/user`);
     });
-    const user = data.find((user) => user.name === email);
+    const user = data.find(user => user.name === email);
     if (user) {
       return { hiddifyId: user.uuid, hiddifyServerId: serverId };
     }

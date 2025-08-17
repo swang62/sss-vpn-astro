@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-function PasswordInput({ className, ...props }: React.ComponentProps<typeof Input>) {
+function PasswordInput({
+  className,
+  ...props
+}: React.ComponentProps<typeof Input>) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -23,14 +26,24 @@ function PasswordInput({ className, ...props }: React.ComponentProps<typeof Inpu
         variant="ghost"
         size="sm"
         className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
-        onClick={() => setShowPassword((prev) => !prev)}
+        onClick={() => setShowPassword(prev => !prev)}
       >
-        {showPassword ? (
-          <EyeIcon className="size-4" aria-hidden="true" />
-        ) : (
-          <EyeOffIcon className="size-4" aria-hidden="true" />
-        )}
-        <span className="sr-only">{showPassword ? "Hide password" : "Show password"}</span>
+        {showPassword
+          ? (
+              <EyeIcon
+                className="size-4"
+                aria-hidden="true"
+              />
+            )
+          : (
+              <EyeOffIcon
+                className="size-4"
+                aria-hidden="true"
+              />
+            )}
+        <span className="sr-only">
+          {showPassword ? "Hide password" : "Show password"}
+        </span>
       </Button>
     </div>
   );

@@ -52,7 +52,7 @@ if (isVerified) {
     </div>
   </Navbar>
 
-  <main class="container mx-auto flex grow gap-4 pb-8 md:gap-8">
+  <main class="container flex grow gap-4 pb-8 mx-auto md:gap-8">
     {isVerified ? <slot /> : <DashboardVerify client:load user={user} />}
   </main>
 </Base>

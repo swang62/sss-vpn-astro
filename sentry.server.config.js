@@ -6,9 +6,13 @@ Sentry.init({
   attachStacktrace: true,
   dsn: PUBLIC_SENTRY_DSN,
   environment: NODE_ENV,
-  ignoreErrors: ["TypeError: Illegal invocation"],
+  ignoreErrors: [
+    "TypeError: Illegal invocation",
+  ],
   registerEsmLoaderHooks: {
-    exclude: ["drizzle-orm"],
+    exclude: [
+      "drizzle-orm",
+    ],
   },
   release: SOURCE_COMMIT,
   sendDefaultPii: true,

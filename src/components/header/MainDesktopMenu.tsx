@@ -13,13 +13,13 @@ function MainDesktopMenu(_props: Props) {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem className="flex gap-2">
-          {MAIN_LINKS.map((link) => (
+          {MAIN_LINKS.map(link => (
             <a
               key={link.href}
               href={link.href}
               className={navigationMenuTriggerStyle({
                 className:
-                  "hover:text-muted-foreground bg-transparent hover:bg-transparent focus:bg-transparent",
+                  "bg-transparent hover:bg-transparent hover:text-muted-foreground focus:bg-transparent",
               })}
             >
               {link.label}

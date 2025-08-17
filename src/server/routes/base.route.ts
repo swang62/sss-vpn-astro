@@ -23,21 +23,17 @@ const route = createBaseRouter()
       response,
     });
   })
-  .get(
-    "/search-email",
-    zValidator(
-      "query",
-      z.object({
-        email: z.string(),
-      })
-    ),
-    async (c) => {
-      const { email } = c.req.valid("query");
-      const user = await getUserByEmail(email);
+  .get("/search-email", zValidator(
+    "query",
+    z.object({
+      email: z.string(),
+    }),
+  ), async (c) => {
+    const { email } = c.req.valid("query");
+    const user = await getUserByEmail(email);
 
-      return c.json({ exists: !!user && !!email });
-    }
-  )
+    return c.json({ exists: !!user && !!email });
+  })
   .get("/session", (c) => {
     const session = c.get("session");
     return c.json({ session });
