@@ -10,7 +10,7 @@ const imageWidth = 300;
 ---
 
 <DashboardLayout title="Tips & Tricks">
-  <div class="container flex flex-col w-full max-w-2xl gap-6 py-4 mx-auto">
+  <div class="container mx-auto flex w-full max-w-2xl flex-col gap-6 py-4">
     <SubHeader title="Tips & Tricks" />
 
     <hr />
@@ -20,8 +20,7 @@ const imageWidth = 300;
     <section id="configuration" class={sectionStyle}>
       <h1 class={headingStyle}>Overview</h1>
       <p class={paragraphStyle}>
-        There are various option menus in Hiddify, I'll be covering the most
-        important ones here.
+        There are various option menus in Hiddify, I'll be covering the most important ones here.
       </p>
       <img
         src="/tips/config.png"
@@ -44,13 +43,13 @@ const imageWidth = 300;
     <section id="proxies" class={sectionStyle}>
       <h1 class={headingStyle}>Proxies</h1>
       <p class={paragraphStyle}>
-        By default, the app will automatically choose the proxy with the lowest
-        ping. However, if streaming/downloading feels slow, I recommend manually
-        selecting proxies with <b>Vless</b> or <b>Vmess</b>.
+        By default, the app will automatically choose the proxy with the lowest ping. However, if
+        streaming/downloading feels slow, I recommend manually selecting proxies with <b>Vless</b> or
+        <b>Vmess</b>.
         <br />
         <br />
-        Both of these, in my experience, have pretty fast download speeds. There
-        isn't much difference between tls and tls_h2.
+        Both of these, in my experience, have pretty fast download speeds. There isn't much difference
+        between tls and tls_h2.
       </p>
       <img
         src="/tips/proxy.png"
@@ -69,16 +68,16 @@ const imageWidth = 300;
         <h1 class="mb-1">Remote DNS</h1>
         <ul class="mb-6 list-outside list-disc">
           <li class="ml-8">
-            udp://1.1.1.1 is pretty stable most of the time, but on mobile
-            networks like 4G/5G, you can try tcp://1.1.1.1 or 8.8.8.8.
+            udp://1.1.1.1 is pretty stable most of the time, but on mobile networks like 4G/5G, you
+            can try tcp://1.1.1.1 or 8.8.8.8.
           </li>
         </ul>
         <h1 class="mb-1">Direct DNS</h1>
         <ul class="list-outside list-disc">
           <li class="ml-8">
-            local is the correct option for most scenarios, but when using WiFi,
-            especially in public areas (which are very restrictive), you can try
-            udp://1.1.1.1, tcp://1.1.1.1 or 8.8.8.8.
+            local is the correct option for most scenarios, but when using WiFi, especially in
+            public areas (which are very restrictive), you can try udp://1.1.1.1, tcp://1.1.1.1 or
+            8.8.8.8.
           </li>
         </ul>
       </p>
@@ -89,17 +88,16 @@ const imageWidth = 300;
     <section id="updates" class={sectionStyle}>
       <h1 class={headingStyle}>App updates</h1>
       <p class={paragraphStyle}>
-        As a last resort, under the About section, you can update the app
-        itself. If you want to turn on auto-updates, you'll need to enable the
-        beta updates. It is extremely rare that the app will require an update,
-        99% of the time it's the server, or during a Chinese holiday/political
-        event.
+        As a last resort, under the About section, you can update the app itself. If you want to
+        turn on auto-updates, you'll need to enable the beta updates. It is extremely rare that the
+        app will require an update, 99% of the time it's the server, or during a Chinese
+        holiday/political event.
       </p>
       <img
         src="/tips/update.png"
         alt="update"
         width={imageWidth}
-        class="self-center mb-4"
+        class="mb-4 self-center"
         loading="lazy"
       />
     </section>
@@ -109,15 +107,13 @@ const imageWidth = 300;
     <section id="mobile" class={sectionStyle}>
       <h1 class={headingStyle}>Mobile-only tips</h1>
       <p class={paragraphStyle}>
-        This feature is only available on mobile. Under Settings {">"} Advanced {
-          ">"
-        } Per-App Proxy. If you have mainly Chinese apps, select 'Proxy only selected
-        apps" and pick foreign apps like Google/Youtube.
+        This feature is only available on mobile. Under Settings {">"} Advanced {">"} Per-App Proxy.
+        If you have mainly Chinese apps, select 'Proxy only selected apps" and pick foreign apps like
+        Google/Youtube.
         <br />
         <br />
-        However, if you mainly have US/international apps, choose "Do not proxy selected
-        apps" and pick Chinese apps like Alipay/WeChat. This way you can avoid constantly
-        turning the VPN on/off.
+        However, if you mainly have US/international apps, choose "Do not proxy selected apps" and pick
+        Chinese apps like Alipay/WeChat. This way you can avoid constantly turning the VPN on/off.
       </p>
       <img
         src="/tips/per-app.png"

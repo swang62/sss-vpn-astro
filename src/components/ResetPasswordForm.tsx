@@ -6,13 +6,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -27,12 +21,10 @@ import { sleep } from "@/lib/utils";
 
 const formSchema = z
   .object({
-    password: z
-      .string()
-      .min(8, { message: "Password must be at least 8 characters" }),
+    password: z.string().min(8, { message: "Password must be at least 8 characters" }),
     passwordConfirm: z.string().optional(),
   })
-  .refine(data => data.password === data.passwordConfirm, {
+  .refine((data) => data.password === data.passwordConfirm, {
     message: "Passwords don't match",
     path: ["passwordConfirm"],
   });
@@ -79,21 +71,23 @@ function ResetPasswordForm({ email, token }: Props) {
         onSuccess: () => {
           toast.success("Password reset. Redirecting...");
           form.reset();
-          sleep(1000).then(() => signIn.email(
-            {
-              callbackURL: "/dashboard",
-              email,
-              password,
-            },
-            { onError: () => navigate("/login") },
-          ));
+          sleep(1000).then(() =>
+            signIn.email(
+              {
+                callbackURL: "/dashboard",
+                email,
+                password,
+              },
+              { onError: () => navigate("/login") }
+            )
+          );
         },
-      },
+      }
     );
   }
 
   return (
-    <div className="flex flex-col w-full max-w-xs mx-auto">
+    <div className="mx-auto flex w-full max-w-xs flex-col">
       <Card className="">
         <CardHeader className="text-center">
           <CardTitle>Reset password</CardTitle>

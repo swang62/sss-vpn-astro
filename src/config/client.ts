@@ -9,21 +9,13 @@ if (isBrowserRuntime) {
   }
 }
 
-export const SOURCE_COMMIT = isBrowserRuntime
-  ? "default"
-  : process.env.SOURCE_COMMIT;
+export const SOURCE_COMMIT = isBrowserRuntime ? "default" : process.env.SOURCE_COMMIT;
 
-export const NODE_ENV = isBrowserRuntime
-  ? import.meta.env.MODE
-  : process.env.NODE_ENV;
+export const NODE_ENV = isBrowserRuntime ? import.meta.env.MODE : process.env.NODE_ENV;
 
-export const SITE_URL = isBrowserRuntime
-  ? import.meta.env.SITE
-  : process.env.SITE_URL || "/";
+export const SITE_URL = isBrowserRuntime ? import.meta.env.SITE : process.env.SITE_URL || "/";
 
-export const PUBLIC_GTM_ID = isBrowserRuntime
-  ? import.meta.env.PUBLIC_GTM_ID
-  : "";
+export const PUBLIC_GTM_ID = isBrowserRuntime ? import.meta.env.PUBLIC_GTM_ID : "";
 
 export const PUBLIC_SENTRY_DSN = isBrowserRuntime
   ? import.meta.env.PUBLIC_SENTRY_DSN

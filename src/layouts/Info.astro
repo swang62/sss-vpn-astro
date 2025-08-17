@@ -22,17 +22,21 @@ const info = [
 
 <section id="about" class="py-8 sm:py-16">
   {
-    info.map(data => (
+    info.map((data) => (
       <div class="container py-8">
-        <div class="grid gap-10 px-0 mx-auto max-w-7xl sm:gap-16 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-4">
+        <div class="mx-auto grid max-w-7xl gap-10 px-0 sm:gap-16 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-4">
           <div class={cn(data.reverse ? "lg:order-2" : "lg:order-1")}>
-            <h2 class="font-heading text-3xl text-foreground md:text-4xl lg:text-[40px]">{data.title}</h2>
-            <p class="mt-6 text-lg text-muted-foreground" set:html={data.description} />
+            <h2 class="font-heading text-foreground text-3xl md:text-4xl lg:text-[40px]">
+              {data.title}
+            </h2>
+            <p class="text-muted-foreground mt-6 text-lg" set:html={data.description} />
           </div>
-          <div class={cn("rounded-xl overflow-hidden border", data.reverse ? "order-1" : "order-2")}>
+          <div
+            class={cn("overflow-hidden rounded-xl border", data.reverse ? "order-1" : "order-2")}
+          >
             <div class="relative aspect-video">
               <Image
-                class="object-fill size-full"
+                class="size-full object-fill"
                 src={data.image}
                 alt={data.title}
                 width={800}

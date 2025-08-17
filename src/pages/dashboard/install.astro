@@ -7,13 +7,12 @@ import SubHeader from "@/layouts/SubHeader.astro";
 
 const { session } = Astro.locals;
 const { device, os } = UAParser(session?.userAgent || "");
-
 ---
 
 <DashboardLayout title="Installation">
-  <div class="flex flex-col w-full max-w-2xl gap-6 py-4 mx-auto">
+  <div class="mx-auto flex w-full max-w-2xl flex-col gap-6 py-4">
     <SubHeader title="Installation" />
-    <h1 class="px-1 text-xl font-semibold text-center text-foreground">Choose your platform</h1>
+    <h1 class="text-foreground px-1 text-center text-xl font-semibold">Choose your platform</h1>
     <HowToInstall device={device.type} os={os.name} client:load />
   </div>
 </DashboardLayout>

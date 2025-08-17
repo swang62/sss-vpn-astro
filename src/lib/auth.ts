@@ -46,15 +46,17 @@ export const auth = betterAuth({
         return;
       }
 
-      postmarkClient.sendEmailWithTemplate({
-        From: SITE_EMAIL,
-        TemplateAlias: "verify",
-        TemplateModel: {
-          email: user.name || user.email,
-          verification_url: url,
-        },
-        To: user.email,
-      }).catch(() => console.error(`Failed to send email to ${user.email}, link:`, url));
+      postmarkClient
+        .sendEmailWithTemplate({
+          From: SITE_EMAIL,
+          TemplateAlias: "verify",
+          TemplateModel: {
+            email: user.name || user.email,
+            verification_url: url,
+          },
+          To: user.email,
+        })
+        .catch(() => console.error(`Failed to send email to ${user.email}, link:`, url));
     },
   },
   logger: { level },
@@ -62,8 +64,8 @@ export const auth = betterAuth({
   rateLimit: { enabled: true },
   secondaryStorage: client
     ? {
-        delete: async key => client.del(key).toString(),
-        get: async key => client.get(key),
+        delete: async (key) => client.del(key).toString(),
+        get: async (key) => client.get(key),
         set: async (key, value, ttl) => {
           if (ttl) client.set(key, value, { expiration: { type: "EX", value: ttl } });
           else client.set(key, value);

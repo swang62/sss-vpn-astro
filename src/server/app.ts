@@ -32,7 +32,7 @@ export function createBaseRouter() {
 export default function createApp() {
   const app = createBaseRouter().basePath("/api");
 
-  app.on(ALLOWED_METHODS, "/auth/**", (c) => auth.handler(c.req.raw)); ;
+  app.on(ALLOWED_METHODS, "/auth/**", (c) => auth.handler(c.req.raw));
   app.use(authMiddleware);
   app.use(pinoLogger());
   app.use(corsMiddleware());

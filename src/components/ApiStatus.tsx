@@ -22,14 +22,7 @@ import { useMounted } from "@/hooks/use-mounted";
 import { api, parseApi } from "@/lib/api-clients";
 import { admin } from "@/lib/auth-clients";
 
-type Endpoint
-  = "/status"
-    | "/user"
-    | "/usage"
-    | "/stripe"
-    | "/server-error"
-    | "/client-error"
-    | "";
+type Endpoint = "/status" | "/user" | "/usage" | "/stripe" | "/server-error" | "/client-error" | "";
 
 const options: Option[] = [
   {

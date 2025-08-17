@@ -16,11 +16,11 @@
       "when": 1731144741955
     },
     {
+      "breakpoints": true,
       "idx": 2,
-      "version": "6",
-      "when": 1755456199667,
       "tag": "0002_modern_roxanne_simpson",
-      "breakpoints": true
+      "version": "6",
+      "when": 1755456199667
     }
   ],
   "version": "7"

@@ -14,13 +14,13 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export async function sleep(msec = 1000) {
-  return await new Promise(resolve => setTimeout(resolve, msec));
+  return await new Promise((resolve) => setTimeout(resolve, msec));
 }
 
 export async function retryOnError<T>(
   func: () => Promise<T>,
   retries = 3,
-  delay = 500,
+  delay = 500
 ): Promise<T> {
   try {
     const response = await func();
@@ -48,10 +48,14 @@ export function minutesPassedSince(lastModified: string) {
 export function dateToString(date: number) {
   if (date > 3 && date < 21) return `${date}th`;
   switch (date % 10) {
-    case 1: return `${date}st`;
-    case 2: return `${date}nd`;
-    case 3: return `${date}rd`;
-    default: return `${date}th`;
+    case 1:
+      return `${date}st`;
+    case 2:
+      return `${date}nd`;
+    case 3:
+      return `${date}rd`;
+    default:
+      return `${date}th`;
   }
 }
 
@@ -83,7 +87,7 @@ export function getDaysLeft(packageStart?: string, mode = "no_reset", packageDay
   const daysLeft = days > 0 ? days : 0;
   const endDate = end.toLocaleDateString("us", { dateStyle: "medium" });
 
-  return { daysLeft, endDate }; ;
+  return { daysLeft, endDate };
 }
 
 export function getHiddifyLinks(email: string, id: string, serverId: HiddifyServerId) {

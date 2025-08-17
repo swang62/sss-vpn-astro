@@ -11,10 +11,7 @@ const { user } = Astro.locals;
 let shouldShowWelcome = false;
 
 // Only show welcome if the cookie didn't exist already
-const uniqueLoginCookie = crypto
-  .createHash("md5")
-  .update(user.email)
-  .digest("hex");
+const uniqueLoginCookie = crypto.createHash("md5").update(user.email).digest("hex");
 const showedWelcome = Astro.cookies.get(uniqueLoginCookie);
 if (!showedWelcome?.value) {
   shouldShowWelcome = true;
@@ -28,7 +25,7 @@ if (!showedWelcome?.value) {
 ---
 
 <DashboardLayout title="Dashboard">
-  <div class="flex flex-col w-full max-w-2xl gap-6 py-4 mx-auto">
+  <div class="mx-auto flex w-full max-w-2xl flex-col gap-6 py-4">
     <SubHeader title="Overview" />
     {shouldShowWelcome && <ShowWelcome client:load name={user.name} />}
     <DashboardUsage client:load />

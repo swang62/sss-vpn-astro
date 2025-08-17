@@ -50,11 +50,7 @@ function LoginForm(_props: Props) {
         onError: (ctx) => {
           const status = ctx.error.status;
           if (status === 401) {
-            form.setError(
-              "password",
-              { message: ctx.error.message },
-              { shouldFocus: true },
-            );
+            form.setError("password", { message: ctx.error.message }, { shouldFocus: true });
           } else if (status === 429) {
             toast.warning(ctx.error.message);
           }
@@ -63,12 +59,12 @@ function LoginForm(_props: Props) {
         onRequest: () => {
           setLoading(true);
         },
-      },
+      }
     );
   }
 
   return (
-    <Card className="w-full max-w-xs mx-auto">
+    <Card className="mx-auto w-full max-w-xs">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl">Log in</CardTitle>
       </CardHeader>
@@ -98,7 +94,7 @@ function LoginForm(_props: Props) {
                     <FormLabel>Password</FormLabel>
                     <a
                       href="/forgot-password"
-                      className="inline-block ml-auto text-sm text-right text-muted-foreground"
+                      className="text-muted-foreground ml-auto inline-block text-right text-sm"
                     >
                       Forgot password?
                     </a>
@@ -111,18 +107,21 @@ function LoginForm(_props: Props) {
               )}
             />
 
-            <Button className="w-full" type="submit" loading={loading} disabled={loading} data-umami-event="login">
+            <Button
+              className="w-full"
+              type="submit"
+              loading={loading}
+              disabled={loading}
+              data-umami-event="login"
+            >
               Log in
             </Button>
           </form>
         </Form>
 
-        <div className="mt-4 text-sm text-center">
+        <div className="mt-4 text-center text-sm">
           Don't have an account?
-          <a
-            href="/signup"
-            className="ml-2 underline text-primary-link"
-          >
+          <a href="/signup" className="text-primary-link ml-2 underline">
             Sign up
           </a>
         </div>

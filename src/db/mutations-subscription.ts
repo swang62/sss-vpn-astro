@@ -13,10 +13,7 @@ import { cancelHiddifyPlan, increaseUsageLimit, updateHiddifyUser } from "./muta
 import { getHiddifyUserById, getProductByPriceId, getProfileByStripeId } from "./queries";
 
 export async function setSubscriptionRenew(subscriptionId: string, isAutoRenew: boolean) {
-  await stripe.subscriptions.update(
-    subscriptionId,
-    { cancel_at_period_end: !isAutoRenew },
-  );
+  await stripe.subscriptions.update(subscriptionId, { cancel_at_period_end: !isAutoRenew });
 }
 
 export async function updateSubscription(subscription: Stripe.Subscription) {
@@ -40,22 +37,26 @@ export async function updateSubscription(subscription: Stripe.Subscription) {
 
   if (status === "active") {
     const profile = await getProfileByStripeId(stripeCustomerId);
-    if (!profile || !profile.hiddifyId) throw new Error(`Subscription update failed for ${stripeCustomerId}`);
+    if (!profile || !profile.hiddifyId)
+      throw new Error(`Subscription update failed for ${stripeCustomerId}`);
 
     await updateHiddifyUser(
       profile.hiddifyId,
       profile.hiddifyServerId,
       subscriptionStartAt,
       subscriptionType,
-      isAutoRenew,
+      isAutoRenew
     );
-    await db.update(profileTable).set({
-      subscriptionEndAt: isAutoRenew ? null : subscriptionEndAt,
-      subscriptionId,
-      subscriptionItemId,
-      subscriptionStartAt,
-      subscriptionType,
-    }).where(eq(profileTable.stripeCustomerId, stripeCustomerId));
+    await db
+      .update(profileTable)
+      .set({
+        subscriptionEndAt: isAutoRenew ? null : subscriptionEndAt,
+        subscriptionId,
+        subscriptionItemId,
+        subscriptionStartAt,
+        subscriptionType,
+      })
+      .where(eq(profileTable.stripeCustomerId, stripeCustomerId));
   }
 }
 
@@ -64,21 +65,29 @@ export async function cancelSubscription(subscription: Stripe.Subscription) {
   const stripeCustomerId = subscription.customer as string;
   const status = subscription.status;
   const profile = await getProfileByStripeId(stripeCustomerId);
-  if (!profile || !profile.hiddifyId) throw new Error(`Subscription cancellation failed for ${stripeCustomerId}`);
+  if (!profile || !profile.hiddifyId)
+    throw new Error(`Subscription cancellation failed for ${stripeCustomerId}`);
 
   if (status === "canceled" && profile.subscriptionId === subscriptionId) {
     await cancelHiddifyPlan(profile.hiddifyId, profile.hiddifyServerId);
-    await db.update(profileTable).set({
-      subscriptionEndAt: null,
-      subscriptionId: null,
-      subscriptionItemId: null,
-      subscriptionStartAt: null,
-      subscriptionType: "none",
-    }).where(eq(profileTable.stripeCustomerId, stripeCustomerId));
+    await db
+      .update(profileTable)
+      .set({
+        subscriptionEndAt: null,
+        subscriptionId: null,
+        subscriptionItemId: null,
+        subscriptionStartAt: null,
+        subscriptionType: "none",
+      })
+      .where(eq(profileTable.stripeCustomerId, stripeCustomerId));
   }
 }
 
-export async function handleItemPurchases(stripeCustomerId: string, invoice: Stripe.Invoice, logger: PinoLogger) {
+export async function handleItemPurchases(
+  stripeCustomerId: string,
+  invoice: Stripe.Invoice,
+  logger: PinoLogger
+) {
   const lineItems = invoice.lines.data;
 
   let purchasedRouter = false;
@@ -102,9 +111,12 @@ export async function handleItemPurchases(stripeCustomerId: string, invoice: Str
     const profile = await getProfileByStripeId(stripeCustomerId);
     if (!profile) throw new Error(`Router setup failed for ${stripeCustomerId}`);
 
-    await db.update(profileTable).set({
-      purchasedRouter: true,
-    }).where(eq(profileTable.stripeCustomerId, stripeCustomerId));
+    await db
+      .update(profileTable)
+      .set({
+        purchasedRouter: true,
+      })
+      .where(eq(profileTable.stripeCustomerId, stripeCustomerId));
 
     if (postmarkClient) {
       postmarkClient.sendEmailWithTemplate({
@@ -132,6 +144,8 @@ export async function handleItemPurchases(stripeCustomerId: string, invoice: Str
     const newLimit = currentLimit + dataPurchased;
 
     await increaseUsageLimit(profile.hiddifyId, profile.hiddifyServerId, newLimit);
-    logger.debug(`Increased usage limit from ${currentLimit} to ${newLimit} for ${profile.user.email}`);
+    logger.debug(
+      `Increased usage limit from ${currentLimit} to ${newLimit} for ${profile.user.email}`
+    );
   }
 }

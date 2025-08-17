@@ -14,9 +14,7 @@ export const user = sqliteTable("user", {
     .$defaultFn(() => new Date())
     .notNull(),
   email: text().notNull().unique(),
-  emailVerified: integer({ mode: "boolean" })
-    .default(false)
-    .notNull(),
+  emailVerified: integer({ mode: "boolean" }).default(false).notNull(),
   id: text().primaryKey(),
   image: text(),
   name: text().notNull(),

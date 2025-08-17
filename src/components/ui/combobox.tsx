@@ -14,11 +14,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -38,21 +34,19 @@ export function Combobox({ defaultValue, options, setValue, value }: Props) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="flex grow justify-between max-w-[250px]"
+          className="flex max-w-[250px] grow justify-between"
         >
-          {value
-            ? options.find(option => option.value === value)?.label
-            : defaultValue}
+          {value ? options.find((option) => option.value === value)?.label : defaultValue}
           <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="flex grow max-w-[250px] p-1">
+      <PopoverContent className="flex max-w-[250px] grow p-1">
         <Command>
           <CommandInput placeholder="Search..." />
           <CommandList>
             <CommandEmpty>None found.</CommandEmpty>
             <CommandGroup>
-              {options.map(option => (
+              {options.map((option) => (
                 <CommandItem
                   key={option.value}
                   value={option.value}
@@ -64,7 +58,7 @@ export function Combobox({ defaultValue, options, setValue, value }: Props) {
                   <CheckIcon
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === option.value ? "opacity-100" : "opacity-0",
+                      value === option.value ? "opacity-100" : "opacity-0"
                     )}
                   />
                   {option.label}

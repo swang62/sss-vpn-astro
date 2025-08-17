@@ -3,12 +3,7 @@ import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { fetchUser } from "@/lib/api-clients";
 import { copyToClipboard, getHiddifyLinks, getHiddifyQR } from "@/lib/utils";
@@ -28,7 +23,7 @@ function AccountLinks(_props: Props) {
     const links = getHiddifyLinks(user.email, profile.hiddifyId, profile.hiddifyServerId);
 
     setUrl(links.url);
-    getHiddifyQR(links.url).then(qrcode => setQrcode(qrcode));
+    getHiddifyQR(links.url).then((qrcode) => setQrcode(qrcode));
   }, [profile?.hiddifyId]);
 
   return (
@@ -38,10 +33,10 @@ function AccountLinks(_props: Props) {
       </CardHeader>
       <CardContent className="flex flex-col">
         <p>
-          This is your unique link used to
-          {" "}
-          <a href="/dashboard/install" className="text-primary-link underline">setup</a>
-          {" "}
+          This is your unique link used to{" "}
+          <a href="/dashboard/install" className="text-primary-link underline">
+            setup
+          </a>{" "}
           new devices.
         </p>
         <div className="flex items-center gap-2 py-4">

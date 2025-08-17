@@ -20,6 +20,6 @@ function Toaster({ ...props }: ToasterProps) {
       {...props}
     />
   );
-};
+}
 
 export { Toaster };
