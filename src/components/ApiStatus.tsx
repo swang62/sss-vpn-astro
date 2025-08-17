@@ -22,14 +22,7 @@ import { useMounted } from "@/hooks/use-mounted";
 import { api, parseApi } from "@/lib/api-clients";
 import { admin } from "@/lib/auth-clients";
 
-type Endpoint
-  = "/status"
-    | "/user"
-    | "/usage"
-    | "/stripe"
-    | "/server-error"
-    | "/client-error"
-    | "";
+type Endpoint = "/status" | "/user" | "/usage" | "/stripe" | "/server-error" | "/client-error" | "";
 
 const options: Option[] = [
   {
@@ -99,7 +92,7 @@ function ApiStatus({ device, origin }: Props) {
         client = api.error.$put;
         break;
       case "/client-error":
-        // @ts-expect-error
+        // @ts-expect-error expected fake api
         client = api.fakeEndpoint.$put;
         break;
     }
@@ -153,7 +146,9 @@ function ApiStatus({ device, origin }: Props) {
   const deleteUser = async () => {
     setLoading(true);
 
-    const { data, error } = await parseApi(api.user[":id"].$delete({ param: { id: userIdSelected } }));
+    const { data, error } = await parseApi(
+      api.user[":id"].$delete({ param: { id: userIdSelected } })
+    );
     if (!data || error) {
       toast.error(error);
       setLoading(false);
@@ -180,21 +175,36 @@ function ApiStatus({ device, origin }: Props) {
   }, [endpoint, userIdSelected]);
 
   return (
-    <div className="flex flex-col w-full pb-0 gap-2 md:pt-6 mx-auto">
+    <div className="mx-auto flex w-full flex-col gap-2 pb-0 md:pt-6">
       <div className="flex flex-row gap-2">
-        <Combobox options={options} value={endpoint} setValue={setEndpoint} defaultValue="Request API..." />
+        <Combobox
+          options={options}
+          value={endpoint}
+          setValue={setEndpoint}
+          defaultValue="Request API..."
+        />
         <Button loading={loading} variant="secondary" onClick={getEndpoint} disabled={!endpoint}>
           Go
         </Button>
       </div>
       <div className="flex flex-row gap-2">
-        <Combobox options={users} value={userIdSelected} setValue={setUserSelected} defaultValue={loadingText} />
-        <Button loading={loading} variant="secondary" onClick={getUser} disabled={users.length === 0 || !userIdSelected}>
+        <Combobox
+          options={users}
+          value={userIdSelected}
+          setValue={setUserSelected}
+          defaultValue={loadingText}
+        />
+        <Button
+          loading={loading}
+          variant="secondary"
+          onClick={getUser}
+          disabled={users.length === 0 || !userIdSelected}
+        >
           Go
         </Button>
       </div>
 
-      <code className="min-h-[68vh] max-h-[68vh] overflow-y-auto dark">
+      <code className="dark max-h-[68vh] min-h-[68vh] overflow-y-auto">
         {mounted && (
           <ReactJsonView
             src={code}
@@ -220,40 +230,26 @@ function ApiStatus({ device, origin }: Props) {
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>
-                Are you absolutely sure?
-              </AlertDialogTitle>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription className="flex flex-col text-lg">
-                <span>
-                  Email:
-                  {" "}
-                  {userActive?.email}
-                </span>
-                <span>
-                  Name:
-                  {" "}
-                  {userActive?.name}
-                </span>
-                <span>
-                  HiddifyId:
-                  {" "}
-                  {userActive?.profile?.hiddifyId}
-                </span>
-                <span>
-                  Stripe:
-                  {" "}
-                  {userActive?.profile?.stripeCustomerId}
-                </span>
+                <span>Email: {userActive?.email}</span>
+                <span>Name: {userActive?.name}</span>
+                <span>HiddifyId: {userActive?.profile?.hiddifyId}</span>
+                <span>Stripe: {userActive?.profile?.stripeCustomerId}</span>
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction className="bg-destructive hover:bg-destructive/80 cursor-pointer" onClick={deleteUser}>Delete</AlertDialogAction>
+              <AlertDialogAction
+                className="bg-destructive hover:bg-destructive/80 cursor-pointer"
+                onClick={deleteUser}
+              >
+                Delete
+              </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
       </div>
-
     </div>
   );
 }

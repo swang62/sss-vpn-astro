@@ -13,7 +13,7 @@ async function getRedisStore() {
     password: REDIS_PASS,
     url: `redis://${REDIS_URL}`,
   })
-    .on("error", error => console.error("Failed to connect to redis", error))
+    .on("error", (error) => console.error("Failed to connect to redis", error))
     .connect();
 
   return {
@@ -24,5 +24,4 @@ async function getRedisStore() {
   };
 }
 
-// eslint-disable-next-line antfu/no-top-level-await
 export const redis = REDIS_URL ? await getRedisStore() : undefined;

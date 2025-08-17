@@ -1,9 +1,10 @@
+import js from "@eslint/js";
+import astro from "eslint-plugin-astro";
+import perfectionist from "eslint-plugin-perfectionist";
+import prettier from "eslint-plugin-prettier";
 import { defineConfig } from "eslint/config";
 import globals from "globals";
-import js from "@eslint/js";
 import tseslint from "typescript-eslint";
-import astro from "eslint-plugin-astro";
-import prettier from "eslint-plugin-prettier";
 
 // parsers
 const tsParser = tseslint.parser;
@@ -43,21 +44,39 @@ export default defineConfig([
     languageOptions: {
       parser: astroParser,
       parserOptions: {
-        parser: tsParser,
-        extraFileExtensions: [".astro"],
-        sourceType: "module",
         ecmaVersion: "latest",
+        extraFileExtensions: [".astro"],
+        parser: tsParser,
         project: "./tsconfig.json",
+        sourceType: "module",
       },
     },
     rules: {
-      "no-undef": "off", // Disable "not defined" errors for specific Astro types that are globally available (ImageMetadata)
-      "@typescript-eslint/no-explicit-any": "off", // you may want this as it can get annoying
+      "no-undef": "off",
     },
   },
 
-  // Ignore patterns
+  // perfectionist
   {
-    ignores: ["dist/**", "**/*.d.ts", ".github/"],
+    plugins: {
+      perfectionist,
+    },
+    rules: {
+      "perfectionist/sort-imports": "warn",
+      "perfectionist/sort-objects": "warn",
+    },
+  },
+
+  // Global ignore patterns
+  {
+    rules: {
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "no-unused-vars": "off",
+    },
+  },
+  {
+    ignores: ["db/migrations/*", "node_modules/*", "public/*", ".github/*", "dist/*", "**/*.d.ts"],
   },
 ]);
