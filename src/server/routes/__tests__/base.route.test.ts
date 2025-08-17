@@ -8,8 +8,12 @@ import baseRouter from "../base.route";
 import { testAdminMiddleware, testUserMiddleware } from "./shared";
 
 const apiNoAuth = testClient(createApp().route("/", baseRouter)).api;
-const apiAdmin = testClient(createApp().use(testAdminMiddleware).route("/", baseRouter)).api;
-const apiUser = testClient(createApp().use(testUserMiddleware).route("/", baseRouter)).api;
+const apiAdmin = testClient(
+  createApp().use(testAdminMiddleware).route("/", baseRouter)
+).api;
+const apiUser = testClient(
+  createApp().use(testUserMiddleware).route("/", baseRouter)
+).api;
 
 describe("/api/status", () => {
   it("get API status", async () => {

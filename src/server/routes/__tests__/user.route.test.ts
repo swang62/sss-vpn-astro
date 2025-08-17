@@ -8,8 +8,12 @@ import userRouter from "../user.route";
 import { testAdminMiddleware, testUserMiddleware } from "./shared";
 
 const apiNoAuth = testClient(createApp().route("/", userRouter)).api;
-const apiAdmin = testClient(createApp().use(testAdminMiddleware).route("/", userRouter)).api;
-const apiUser = testClient(createApp().use(testUserMiddleware).route("/", userRouter)).api;
+const apiAdmin = testClient(
+  createApp().use(testAdminMiddleware).route("/", userRouter)
+).api;
+const apiUser = testClient(
+  createApp().use(testUserMiddleware).route("/", userRouter)
+).api;
 
 describe("/api/user", () => {
   it("no session data", async () => {
@@ -44,13 +48,17 @@ describe("/api/user/:id", () => {
   });
 
   it("admin, query nonexistent user", async () => {
-    const { data, statusCode } = await parseApi(apiAdmin[":id"].$get({ param: { id: "fake_id" } }));
+    const { data, statusCode } = await parseApi(
+      apiAdmin[":id"].$get({ param: { id: "fake_id" } })
+    );
     expect(statusCode).toBe(404);
     expect(data?._user).toBeFalsy();
   });
 
   it("admin, query real user", async () => {
-    const { data } = await parseApi(apiAdmin[":id"].$get({ param: { id: testUser.id } }));
+    const { data } = await parseApi(
+      apiAdmin[":id"].$get({ param: { id: testUser.id } })
+    );
 
     expect(data?._user.id).toBe(testUser.id);
     expect(data?._user.email).toBe(testUser.email);
@@ -61,7 +69,9 @@ describe("/api/user/:id", () => {
 
 describe("patch /api/user", () => {
   it("try to update without auth", async () => {
-    const { data, statusCode } = await parseApi(apiNoAuth.$patch({ json: { name: "first_name" } }));
+    const { data, statusCode } = await parseApi(
+      apiNoAuth.$patch({ json: { name: "first_name" } })
+    );
     expect(statusCode).toBe(401);
     expect(data?.user).toBeFalsy();
   });
@@ -75,12 +85,16 @@ describe("patch /api/user", () => {
   });
 
   it("update name successfully", async () => {
-    const { data } = await parseApi(apiAdmin.$patch({ json: { name: "new_name" } }));
+    const { data } = await parseApi(
+      apiAdmin.$patch({ json: { name: "new_name" } })
+    );
     expect(data?.user.name).toBe("new_name");
   });
 
   it("revert name change", async () => {
-    const { data } = await parseApi(apiAdmin.$patch({ json: { name: adminUser.name } }));
+    const { data } = await parseApi(
+      apiAdmin.$patch({ json: { name: adminUser.name } })
+    );
     expect(data?.user.name).toBe(adminUser.name);
   });
 });

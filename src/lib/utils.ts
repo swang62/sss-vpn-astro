@@ -59,7 +59,11 @@ export function dateToString(date: number) {
   }
 }
 
-export function getDaysLeft(packageStart?: string, mode = "no_reset", packageDays = 0) {
+export function getDaysLeft(
+  packageStart?: string,
+  mode = "no_reset",
+  packageDays = 0
+) {
   const now = new Date();
   const start = new Date(packageStart ?? now);
 
@@ -90,7 +94,11 @@ export function getDaysLeft(packageStart?: string, mode = "no_reset", packageDay
   return { daysLeft, endDate };
 }
 
-export function getHiddifyLinks(email: string, id: string, serverId: HiddifyServerId) {
+export function getHiddifyLinks(
+  email: string,
+  id: string,
+  serverId: HiddifyServerId
+) {
   const ip = HIDDIFY_SERVERS[serverId].ip;
   const setupLink = HIDDIFY_SERVERS[serverId].setupLink;
 

@@ -12,7 +12,9 @@ const { device, os } = UAParser(session?.userAgent || "");
 <DashboardLayout title="Installation">
   <div class="mx-auto flex w-full max-w-2xl flex-col gap-6 py-4">
     <SubHeader title="Installation" />
-    <h1 class="text-foreground px-1 text-center text-xl font-semibold">Choose your platform</h1>
+    <h1 class="text-foreground px-1 text-center text-xl font-semibold">
+      Choose your platform
+    </h1>
     <HowToInstall device={device.type} os={os.name} client:load />
   </div>
 </DashboardLayout>

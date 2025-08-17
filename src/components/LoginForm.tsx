@@ -50,7 +50,11 @@ function LoginForm(_props: Props) {
         onError: (ctx) => {
           const status = ctx.error.status;
           if (status === 401) {
-            form.setError("password", { message: ctx.error.message }, { shouldFocus: true });
+            form.setError(
+              "password",
+              { message: ctx.error.message },
+              { shouldFocus: true }
+            );
           } else if (status === 429) {
             toast.warning(ctx.error.message);
           }

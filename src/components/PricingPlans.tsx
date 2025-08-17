@@ -35,12 +35,20 @@ function PricingPlans(_props: Props) {
     <div className="mb-8 flex flex-col items-center py-4">
       <div className="mb-4 flex flex-col items-center gap-6 text-center">
         <p className="max-w-md leading-normal sm:text-lg sm:leading-7">
-          You have a choice between a single month or a monthly subscription (auto-renewal)
+          You have a choice between a single month or a monthly subscription
+          (auto-renewal)
         </p>
         <div className="flex items-center justify-center gap-4 text-xl">
-          <span className={cn({ "text-muted-foreground/60": monthly })}>1 Month</span>
-          <Switch checked={monthly} onCheckedChange={() => setMonthly(!monthly)} />
-          <span className={cn({ "text-muted-foreground/60": !monthly })}>Subscription</span>
+          <span className={cn({ "text-muted-foreground/60": monthly })}>
+            1 Month
+          </span>
+          <Switch
+            checked={monthly}
+            onCheckedChange={() => setMonthly(!monthly)}
+          />
+          <span className={cn({ "text-muted-foreground/60": !monthly })}>
+            Subscription
+          </span>
         </div>
       </div>
       <div className="mt-4 flex flex-col justify-center gap-8 sm:flex-row sm:flex-wrap">

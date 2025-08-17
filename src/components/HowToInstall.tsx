@@ -48,8 +48,8 @@ function getSteps(
                 >
                   here
                 </a>
-                to directly install from the App store. If successfully installed (may not work in
-                China), skip directly to Step 3.
+                to directly install from the App store. If successfully
+                installed (may not work in China), skip directly to Step 3.
               </>
             )}
             {isAndroid && (
@@ -63,16 +63,25 @@ function getSteps(
                 >
                   here
                 </a>
-                to directly install from the Play store. If successfully installed (may not work in
-                China), skip directly to Step 3.
+                to directly install from the Play store. If successfully
+                installed (may not work in China), skip directly to Step 3.
               </>
             )}
           </p>
-          <a href={`${FILE_DOWNLOAD_URL}${downloadFile}`} className="self-center pr-8">
+          <a
+            href={`${FILE_DOWNLOAD_URL}${downloadFile}`}
+            className="self-center pr-8"
+          >
             <Button>
               <Download />
               Download for
-              <img width="20" height="20" src={downloadIcon} alt="Download icon" loading="eager" />
+              <img
+                width="20"
+                height="20"
+                src={downloadIcon}
+                alt="Download icon"
+                loading="eager"
+              />
             </Button>
           </a>
         </>
@@ -83,9 +92,10 @@ function getSteps(
       content: (
         <>
           <div>
-            Navigate to where you downloaded the file and install it normally (usually by
-            double-clicking).
-            {isMobile && " Allow unknown sources and accept all permissions during installation."}
+            Navigate to where you downloaded the file and install it normally
+            (usually by double-clicking).
+            {isMobile &&
+              " Allow unknown sources and accept all permissions during installation."}
           </div>
           {isIOS && (
             <div className="flex flex-col gap-4">
@@ -100,16 +110,17 @@ function getSteps(
                 >
                   link
                 </a>
-                and upload the {downloadFile} file. You can now visit the generated link on your
-                iPhone to install it through Safari.
+                and upload the {downloadFile} file. You can now visit the
+                generated link on your iPhone to install it through Safari.
               </p>
               <p>
-                2) Install iTunes on your computer, connect your phone, and drag the {downloadFile}{" "}
-                file to your phone to install.
+                2) Install iTunes on your computer, connect your phone, and drag
+                the {downloadFile} file to your phone to install.
               </p>
               <p>
-                3) Install with a third-party app like FlexStore, AltStore, eSign or Bullfrog
-                Assistant. You may need to look up guides online.
+                3) Install with a third-party app like FlexStore, AltStore,
+                eSign or Bullfrog Assistant. You may need to look up guides
+                online.
               </p>
             </div>
           )}
@@ -122,15 +133,17 @@ function getSteps(
               >
                 here
               </a>
-              . Save this file to your desktop and open up the Terminal app. Type "sudo chmod +x
-              ~/Desktop/start_vpn.command" into the terminal and hit enter. Enter your password (it
-              will be invisible) and hit enter again. Then, close the terminal and use the desktop
-              shortcut to launch the app from now on.
+              . Save this file to your desktop and open up the Terminal app.
+              Type "sudo chmod +x ~/Desktop/start_vpn.command" into the terminal
+              and hit enter. Enter your password (it will be invisible) and hit
+              enter again. Then, close the terminal and use the desktop shortcut
+              to launch the app from now on.
             </div>
           )}
           {isWindows && (
             <div className="text-foreground">
-              If you get a warning during install, click on More Info &gt; Run Anyways.
+              If you get a warning during install, click on More Info &gt; Run
+              Anyways.
             </div>
           )}
         </>
@@ -141,13 +154,17 @@ function getSteps(
       content: (
         <>
           {isWindows ? (
-            <>Open up the app using the desktop shortcut (or launch as administrator),</>
+            <>
+              Open up the app using the desktop shortcut (or launch as
+              administrator),
+            </>
           ) : isMacOS ? (
             <>Open up the app by clicking the .command file,</>
           ) : (
             <>Open up the app,</>
           )}{" "}
-          change the language to English and set the region to China, then click start.
+          change the language to English and set the region to China, then click
+          start.
           <br />
           <br />
           <img
@@ -178,7 +195,10 @@ function getSteps(
           </div>
           <div>
             Go back to the app and click on the
-            <Badge variant="outline" className="text-muted-foreground bg-muted mx-1">
+            <Badge
+              variant="outline"
+              className="text-muted-foreground bg-muted mx-1"
+            >
               + New Profile
             </Badge>
             button in the center of the screen. A popup should appear:
@@ -194,7 +214,10 @@ function getSteps(
           <br />
           <div>
             Click
-            <Badge variant="outline" className="text-muted-foreground bg-muted mx-1">
+            <Badge
+              variant="outline"
+              className="text-muted-foreground bg-muted mx-1"
+            >
               Add from clipboard
             </Badge>
             and you should see your profile added to the top.
@@ -209,8 +232,8 @@ function getSteps(
           />
           <br />
           <div className="text-muted-foreground">
-            Note: for monthly subscriptions, the days remaining will show infinity, but will reset
-            each month.
+            Note: for monthly subscriptions, the days remaining will show
+            infinity, but will reset each month.
           </div>
         </>
       ),
@@ -223,8 +246,9 @@ function getSteps(
             In the options panel
             <Menu className="mx-1 inline-block" />
             under Config Options
-            <CogIcon className="mx-1 inline-block" />, set IPv6 Route to <b>Enable</b>, Remote DNS
-            to <b>udp://1.1.1.1</b>, and Direct DNS to <b>local</b>.
+            <CogIcon className="mx-1 inline-block" />, set IPv6 Route to{" "}
+            <b>Enable</b>, Remote DNS to <b>udp://1.1.1.1</b>, and Direct DNS to{" "}
+            <b>local</b>.
           </div>
           <img
             src="/setup/dns-config.png"
@@ -255,8 +279,11 @@ function getSteps(
       content: (
         <>
           <p>
-            Go back to the home screen and tap the giant button in the middle and you should be all
-            connected! {isMobile && <>You should see a key or VPN icon in the top status bar.</>}
+            Go back to the home screen and tap the giant button in the middle
+            and you should be all connected!{" "}
+            {isMobile && (
+              <>You should see a key or VPN icon in the top status bar.</>
+            )}
           </p>
           <br />
           <img
@@ -279,16 +306,20 @@ function getSteps(
       content: (
         <>
           <div>
-            If all is working, feel free to upgrade your plan to a single month, or a monthly
-            subscription{" "}
-            <a href="/dashboard/pricing" className="text-primary-link underline">
+            If all is working, feel free to upgrade your plan to a single month,
+            or a monthly subscription{" "}
+            <a
+              href="/dashboard/pricing"
+              className="text-primary-link underline"
+            >
               here
             </a>
             . I also recommend visiting{" "}
             <a href="/dashboard/tips" className="text-primary-link underline">
               Tips & Tricks
             </a>{" "}
-            to learn more about optimizing your speeds and general troubleshooting.
+            to learn more about optimizing your speeds and general
+            troubleshooting.
           </div>
         </>
       ),
@@ -352,41 +383,75 @@ function HowToInstall(props: Props) {
     <Tabs defaultValue={platform}>
       <TabsList className="mb-8 grid h-10 w-full grid-cols-4 bg-slate-400 dark:bg-slate-800">
         <TabsTrigger value="android">
-          <img width="20" height="20" src={FILE_TYPES.android.icon} alt="android" loading="eager" />
+          <img
+            width="20"
+            height="20"
+            src={FILE_TYPES.android.icon}
+            alt="android"
+            loading="eager"
+          />
           <span className="ml-1">Android</span>
         </TabsTrigger>
         <TabsTrigger value="ios">
-          <img width="20" height="20" src={FILE_TYPES.ios.icon} alt="ios" loading="eager" />
+          <img
+            width="20"
+            height="20"
+            src={FILE_TYPES.ios.icon}
+            alt="ios"
+            loading="eager"
+          />
           <span className="ml-1">iOS</span>
         </TabsTrigger>
         <TabsTrigger value="pc">
-          <img width="20" height="20" src={FILE_TYPES.pc.icon} alt="pc" loading="eager" />
+          <img
+            width="20"
+            height="20"
+            src={FILE_TYPES.pc.icon}
+            alt="pc"
+            loading="eager"
+          />
           <span className="ml-1">PC</span>
         </TabsTrigger>
         <TabsTrigger value="mac">
-          <img width="20" height="20" src={FILE_TYPES.mac.icon} alt="mac" loading="eager" />
+          <img
+            width="20"
+            height="20"
+            src={FILE_TYPES.mac.icon}
+            alt="mac"
+            loading="eager"
+          />
           <span className="ml-1">Mac</span>
         </TabsTrigger>
       </TabsList>
       <TabsContent value="android">
-        {getSteps(FILE_TYPES.android.fileType, FILE_TYPES.android.icon, links).map((step, idx) => (
+        {getSteps(
+          FILE_TYPES.android.fileType,
+          FILE_TYPES.android.icon,
+          links
+        ).map((step, idx) => (
           <Step key={idx} idx={idx} {...step} />
         ))}
       </TabsContent>
       <TabsContent value="pc">
-        {getSteps(FILE_TYPES.pc.fileType, FILE_TYPES.pc.icon, links).map((step, idx) => (
-          <Step key={idx} idx={idx} {...step} />
-        ))}
+        {getSteps(FILE_TYPES.pc.fileType, FILE_TYPES.pc.icon, links).map(
+          (step, idx) => (
+            <Step key={idx} idx={idx} {...step} />
+          )
+        )}
       </TabsContent>
       <TabsContent value="ios">
-        {getSteps(FILE_TYPES.ios.fileType, FILE_TYPES.ios.icon, links).map((step, idx) => (
-          <Step key={idx} idx={idx} {...step} />
-        ))}
+        {getSteps(FILE_TYPES.ios.fileType, FILE_TYPES.ios.icon, links).map(
+          (step, idx) => (
+            <Step key={idx} idx={idx} {...step} />
+          )
+        )}
       </TabsContent>
       <TabsContent value="mac">
-        {getSteps(FILE_TYPES.mac.fileType, FILE_TYPES.mac.icon, links).map((step, idx) => (
-          <Step key={idx} idx={idx} {...step} />
-        ))}
+        {getSteps(FILE_TYPES.mac.fileType, FILE_TYPES.mac.icon, links).map(
+          (step, idx) => (
+            <Step key={idx} idx={idx} {...step} />
+          )
+        )}
       </TabsContent>
     </Tabs>
   );

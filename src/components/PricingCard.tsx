@@ -97,7 +97,9 @@ function PricingCard({
           <div className="flex flex-wrap gap-0.5">
             <span className="inline-flex">
               <h3 className="text-3xl font-semibold">{`$${price}`}</h3>
-              {monthly && <span className="mb-1 flex items-end text-sm">/month</span>}
+              {monthly && (
+                <span className="mb-1 flex items-end text-sm">/month</span>
+              )}
             </span>
             {plan.includes("premium") && !hasPurchasedRouter && !isActive && (
               <span className="inline-flex">
@@ -125,7 +127,11 @@ function PricingCard({
         <CardFooter className="flex justify-center pb-6">
           {isCurrentPlan ? (
             <div className="flex gap-2">
-              <Button loading={loading} disabled={loading} onClick={onClickAddData}>
+              <Button
+                loading={loading}
+                disabled={loading}
+                onClick={onClickAddData}
+              >
                 + Add data
               </Button>
               <a href="/dashboard/account">
@@ -133,7 +139,11 @@ function PricingCard({
               </a>
             </div>
           ) : (
-            <Button loading={loading} disabled={loading} onClick={onClickCheckout}>
+            <Button
+              loading={loading}
+              disabled={loading}
+              onClick={onClickCheckout}
+            >
               {isActive ? `Switch to ` : `Get `}
               {title}
             </Button>

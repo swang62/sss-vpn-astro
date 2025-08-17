@@ -42,7 +42,11 @@ function MainMobileMenu(_props: Props) {
             {MAIN_LINKS.map(
               (link) =>
                 link.href && (
-                  <a key={link.href} href={link.href} onClick={() => setOpen(false)}>
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                  >
                     {link.label}
                   </a>
                 )

@@ -56,7 +56,9 @@ export const auth = betterAuth({
           },
           To: user.email,
         })
-        .catch(() => console.error(`Failed to send email to ${user.email}, link:`, url));
+        .catch(() =>
+          console.error(`Failed to send email to ${user.email}, link:`, url)
+        );
     },
   },
   logger: { level },
@@ -67,7 +69,8 @@ export const auth = betterAuth({
         delete: async (key) => client.del(key).toString(),
         get: async (key) => client.get(key),
         set: async (key, value, ttl) => {
-          if (ttl) client.set(key, value, { expiration: { type: "EX", value: ttl } });
+          if (ttl)
+            client.set(key, value, { expiration: { type: "EX", value: ttl } });
           else client.set(key, value);
         },
       }

@@ -23,7 +23,9 @@ function DashboardDesktopMenu({ current }: Props) {
               className={navigationMenuTriggerStyle({
                 className: cn(
                   "text-foreground/70 hover:text-foreground bg-transparent hover:bg-transparent focus:bg-transparent",
-                  link.href === current ? "text-foreground underline underline-offset-8" : null
+                  link.href === current
+                    ? "text-foreground underline underline-offset-8"
+                    : null
                 ),
               })}
             >

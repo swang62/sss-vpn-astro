@@ -22,7 +22,8 @@ export async function updateIpAddress(user: UserDB, ip: string) {
 }
 
 export async function updateUser(userId: string, name: string) {
-  const nameFixed = name.length > MAX_NAME_LENGTH ? name.slice(0, MAX_NAME_LENGTH - 1) : name;
+  const nameFixed =
+    name.length > MAX_NAME_LENGTH ? name.slice(0, MAX_NAME_LENGTH - 1) : name;
   const user = await db
     .update(userTable)
     .set({
@@ -43,7 +44,9 @@ async function updateProfile(
 ) {
   const userId = user.id;
 
-  const customer = await stripe.customers.retrieve(stripeCustomerId, { expand: ["subscriptions"] });
+  const customer = await stripe.customers.retrieve(stripeCustomerId, {
+    expand: ["subscriptions"],
+  });
   if (customer.deleted) return;
 
   const subscription = customer.subscriptions?.data[0];
@@ -62,7 +65,9 @@ async function updateProfile(
           : new Date(subscription.items.data[0].current_period_end * 1000),
         subscriptionId: subscription.id,
         subscriptionItemId: itemId,
-        subscriptionStartAt: new Date(subscription.items.data[0].current_period_start * 1000),
+        subscriptionStartAt: new Date(
+          subscription.items.data[0].current_period_start * 1000
+        ),
         subscriptionType: product?.id as SubscriptionType,
       }
     : {

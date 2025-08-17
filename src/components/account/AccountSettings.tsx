@@ -8,7 +8,12 @@ import { z } from "zod";
 import type { UserDB } from "@/db/queries";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -44,7 +49,9 @@ function AccountSettings({ user }: Props) {
   // Submit handler
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
-    const { error } = await parseApi(api.user.$patch({ json: { name: values.name } }));
+    const { error } = await parseApi(
+      api.user.$patch({ json: { name: values.name } })
+    );
 
     if (!error) {
       mutate("fetchUser");

@@ -48,10 +48,16 @@ function ForgotPasswordForm(_props: Props) {
     }
 
     const { email } = values;
-    const { data } = await parseApi(api["search-email"].$get({ query: { email } }));
+    const { data } = await parseApi(
+      api["search-email"].$get({ query: { email } })
+    );
 
     if (!data?.exists) {
-      form.setError("email", { message: "Email does not exist." }, { shouldFocus: true });
+      form.setError(
+        "email",
+        { message: "Email does not exist." },
+        { shouldFocus: true }
+      );
       return;
     }
 

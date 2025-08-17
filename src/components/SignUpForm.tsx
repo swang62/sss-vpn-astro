@@ -23,7 +23,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { MAX_NAME_LENGTH, MIN_WAIT_TIME } from "@/config/constants";
 import { sendVerificationEmail, signUp } from "@/lib/auth-clients";
 import { minutesPassedSince } from "@/lib/utils";
@@ -32,7 +36,9 @@ const formSchema = z
   .object({
     email: z.email().toLowerCase(),
     name: z.string().max(MAX_NAME_LENGTH),
-    password: z.string().min(8, { message: "Password must be at least 8 characters" }),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters" }),
     passwordConfirm: z.string().optional(),
   })
   .refine((data) => data.password === data.passwordConfirm, {
@@ -58,12 +64,17 @@ function SignUpForm(_props: Props) {
   });
 
   // Submit handler
-  function onSubmit(values: z.infer<typeof formSchema>, event?: React.BaseSyntheticEvent) {
+  function onSubmit(
+    values: z.infer<typeof formSchema>,
+    event?: React.BaseSyntheticEvent
+  ) {
     event?.preventDefault();
 
     const minutesSince = minutesPassedSince(sentEmail);
     if (minutesSince < MIN_WAIT_TIME) {
-      toast.warning("Too many signup attempts, please wait and try again later.");
+      toast.warning(
+        "Too many signup attempts, please wait and try again later."
+      );
       return;
     }
 
@@ -78,7 +89,11 @@ function SignUpForm(_props: Props) {
         onError: (ctx) => {
           const status = ctx.error.status;
           if (status === 422) {
-            form.setError("email", { message: "Email already exists." }, { shouldFocus: true });
+            form.setError(
+              "email",
+              { message: "Email already exists." },
+              { shouldFocus: true }
+            );
           } else if (status === 429) {
             toast.warning(ctx.error.message);
           }
@@ -116,7 +131,9 @@ function SignUpForm(_props: Props) {
           If in China, use an unblocked email
           <Popover>
             <PopoverTrigger>
-              <span className="text-secondary-link ml-1 underline">provider</span>
+              <span className="text-secondary-link ml-1 underline">
+                provider
+              </span>
             </PopoverTrigger>
             <PopoverContent className="w-fit">
               <h1 className="font-2xl">Recommended</h1>
@@ -212,7 +229,12 @@ function SignUpForm(_props: Props) {
         <div className="flex w-full justify-center border-t py-4">
           <p className="text-muted-foreground text-center text-xs">
             Terms and conditions
-            <a className="text-foreground px-1" href="/privacy" target="_blank" rel="noreferrer">
+            <a
+              className="text-foreground px-1"
+              href="/privacy"
+              target="_blank"
+              rel="noreferrer"
+            >
               here
             </a>
           </p>

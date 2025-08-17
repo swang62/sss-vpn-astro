@@ -6,7 +6,13 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -21,7 +27,9 @@ import { sleep } from "@/lib/utils";
 
 const formSchema = z
   .object({
-    password: z.string().min(8, { message: "Password must be at least 8 characters" }),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters" }),
     passwordConfirm: z.string().optional(),
   })
   .refine((data) => data.password === data.passwordConfirm, {
@@ -124,7 +132,12 @@ function ResetPasswordForm({ email, token }: Props) {
                 )}
               />
 
-              <Button className="w-full" type="submit" loading={loading} disabled={loading}>
+              <Button
+                className="w-full"
+                type="submit"
+                loading={loading}
+                disabled={loading}
+              >
                 Reset
               </Button>
             </form>

@@ -65,7 +65,12 @@ function AvatarMenu(_props: Props) {
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem className={menuStyle}>
-          <a href={`mailto:${SITE_EMAIL}`} target="_blank" rel="noreferrer" className="w-full">
+          <a
+            href={`mailto:${SITE_EMAIL}`}
+            target="_blank"
+            rel="noreferrer"
+            className="w-full"
+          >
             <Button variant="ghost" className={buttonStyle}>
               <Mail />
               <span>Contact me</span>

@@ -11,20 +11,26 @@ function TableOfContents() {
       <TableOfContentsList>
         <TableOfContentsTitle>Table of Contents</TableOfContentsTitle>
         <TableOfContentsItem>
-          <TableOfContentsLink href="#configuration">Overview</TableOfContentsLink>
+          <TableOfContentsLink href="#configuration">
+            Overview
+          </TableOfContentsLink>
         </TableOfContentsItem>
         <TableOfContentsItem indent>
           <TableOfContentsLink href="#proxies">Proxies</TableOfContentsLink>
         </TableOfContentsItem>
         <TableOfContentsItem indent>
-          <TableOfContentsLink href="#options">Config options</TableOfContentsLink>
+          <TableOfContentsLink href="#options">
+            Config options
+          </TableOfContentsLink>
         </TableOfContentsItem>
         <TableOfContentsItem indent>
           <TableOfContentsLink href="#updates">App updates</TableOfContentsLink>
         </TableOfContentsItem>
 
         <TableOfContentsItem>
-          <TableOfContentsLink href="#mobile">Mobile-only tips</TableOfContentsLink>
+          <TableOfContentsLink href="#mobile">
+            Mobile-only tips
+          </TableOfContentsLink>
         </TableOfContentsItem>
       </TableOfContentsList>
     </div>

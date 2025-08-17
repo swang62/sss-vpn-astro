@@ -22,7 +22,14 @@ import { useMounted } from "@/hooks/use-mounted";
 import { api, parseApi } from "@/lib/api-clients";
 import { admin } from "@/lib/auth-clients";
 
-type Endpoint = "/status" | "/user" | "/usage" | "/stripe" | "/server-error" | "/client-error" | "";
+type Endpoint =
+  | "/status"
+  | "/user"
+  | "/usage"
+  | "/stripe"
+  | "/server-error"
+  | "/client-error"
+  | "";
 
 const options: Option[] = [
   {
@@ -116,7 +123,9 @@ function ApiStatus({ device, origin }: Props) {
   const getUser = async () => {
     setLoading(true);
 
-    const { data, error } = await parseApi(api.user[":id"].$get({ param: { id: userIdSelected } }));
+    const { data, error } = await parseApi(
+      api.user[":id"].$get({ param: { id: userIdSelected } })
+    );
     if (!data || error) {
       toast.error(error);
       setLoading(false);
@@ -138,7 +147,9 @@ function ApiStatus({ device, origin }: Props) {
       toast.error(error?.message);
       return;
     }
-    const userOptions = data.users.map((user): Option => ({ label: user.email, value: user.id }));
+    const userOptions = data.users.map(
+      (user): Option => ({ label: user.email, value: user.id })
+    );
     setUsers(userOptions);
     setLoadingText("Select a user...");
   };
@@ -183,7 +194,12 @@ function ApiStatus({ device, origin }: Props) {
           setValue={setEndpoint}
           defaultValue="Request API..."
         />
-        <Button loading={loading} variant="secondary" onClick={getEndpoint} disabled={!endpoint}>
+        <Button
+          loading={loading}
+          variant="secondary"
+          onClick={getEndpoint}
+          disabled={!endpoint}
+        >
           Go
         </Button>
       </div>
@@ -224,7 +240,11 @@ function ApiStatus({ device, origin }: Props) {
         </Button>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="destructive" className="flex grow" disabled={!userActive}>
+            <Button
+              variant="destructive"
+              className="flex grow"
+              disabled={!userActive}
+            >
               Delete User
             </Button>
           </AlertDialogTrigger>

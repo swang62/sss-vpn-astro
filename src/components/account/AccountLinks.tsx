@@ -20,7 +20,11 @@ function AccountLinks(_props: Props) {
   useEffect(() => {
     if (!user || !profile) return;
 
-    const links = getHiddifyLinks(user.email, profile.hiddifyId, profile.hiddifyServerId);
+    const links = getHiddifyLinks(
+      user.email,
+      profile.hiddifyId,
+      profile.hiddifyServerId
+    );
 
     setUrl(links.url);
     getHiddifyQR(links.url).then((qrcode) => setQrcode(qrcode));
@@ -40,14 +44,24 @@ function AccountLinks(_props: Props) {
           new devices.
         </p>
         <div className="flex items-center gap-2 py-4">
-          <Input defaultValue={url} readOnly className="bg-muted/40 text-muted-foreground" />
+          <Input
+            defaultValue={url}
+            readOnly
+            className="bg-muted/40 text-muted-foreground"
+          />
           <Button onClick={() => copyToClipboard(url)}>
             <Copy className="size-4" />
             Copy
           </Button>
         </div>
 
-        <img src={qrcode} width={200} height={200} alt="QR Code" className="self-center" />
+        <img
+          src={qrcode}
+          width={200}
+          height={200}
+          alt="QR Code"
+          className="self-center"
+        />
       </CardContent>
     </Card>
   );

@@ -8,7 +8,9 @@ const EnvSchema = z.object({
   DB_AUTH_TOKEN: z.string().default("default"),
   DB_REMOTE: z.string().optional(),
   HIDDIFY_API_KEY: z.string().optional(),
-  LOG_LEVEL: z.enum(["silent", "debug", "info", "warn", "error", "placeholder"]).default("debug"),
+  LOG_LEVEL: z
+    .enum(["silent", "debug", "info", "warn", "error", "placeholder"])
+    .default("debug"),
   NODE_ENV: z.string().default("development"),
   POSTMARK_TOKEN: z.string().optional(),
   REDIS_PASS: z.string().optional(),

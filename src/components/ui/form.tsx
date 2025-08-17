@@ -3,7 +3,12 @@ import type { ControllerProps, FieldPath, FieldValues } from "react-hook-form";
 
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
-import { Controller, FormProvider, useFormContext, useFormState } from "react-hook-form";
+import {
+  Controller,
+  FormProvider,
+  useFormContext,
+  useFormState,
+} from "react-hook-form";
 
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
@@ -17,7 +22,9 @@ type FormFieldContextValue<
   name: TName;
 };
 
-const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue);
+const FormFieldContext = React.createContext<FormFieldContextValue>(
+  {} as FormFieldContextValue
+);
 
 function FormField<
   TFieldValues extends FieldValues = FieldValues,
@@ -34,7 +41,9 @@ type FormItemContextValue = {
   id: string;
 };
 
-const FormItemContext = React.createContext<FormItemContextValue>({} as FormItemContextValue);
+const FormItemContext = React.createContext<FormItemContextValue>(
+  {} as FormItemContextValue
+);
 
 function useFormField() {
   const fieldContext = React.useContext(FormFieldContext);
@@ -64,12 +73,19 @@ function FormItem({ className, ...props }: React.ComponentProps<"div">) {
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div data-slot="form-item" className={cn("grid gap-2", className)} {...props} />
+      <div
+        data-slot="form-item"
+        className={cn("grid gap-2", className)}
+        {...props}
+      />
     </FormItemContext.Provider>
   );
 }
 
-function FormLabel({ className, ...props }: React.ComponentProps<typeof LabelPrimitive.Root>) {
+function FormLabel({
+  className,
+  ...props
+}: React.ComponentProps<typeof LabelPrimitive.Root>) {
   const { error, formItemId } = useFormField();
 
   return (
@@ -84,13 +100,18 @@ function FormLabel({ className, ...props }: React.ComponentProps<typeof LabelPri
 }
 
 function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
-  const { error, formDescriptionId, formItemId, formMessageId } = useFormField();
+  const { error, formDescriptionId, formItemId, formMessageId } =
+    useFormField();
 
   return (
     <Slot
       data-slot="form-control"
       id={formItemId}
-      aria-describedby={!error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}
+      aria-describedby={
+        !error
+          ? `${formDescriptionId}`
+          : `${formDescriptionId} ${formMessageId}`
+      }
       aria-invalid={!!error}
       {...props}
     />

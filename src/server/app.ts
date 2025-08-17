@@ -15,7 +15,14 @@ import {
   pinoLogger,
 } from "./middleware";
 
-export const ALLOWED_METHODS = ["POST", "GET", "DELETE", "PUT", "PATCH", "OPTIONS"];
+export const ALLOWED_METHODS = [
+  "POST",
+  "GET",
+  "DELETE",
+  "PUT",
+  "PATCH",
+  "OPTIONS",
+];
 
 export interface Bindings {
   Variables: {

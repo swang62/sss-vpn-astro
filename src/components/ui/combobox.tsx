@@ -14,7 +14,11 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -36,7 +40,9 @@ export function Combobox({ defaultValue, options, setValue, value }: Props) {
           aria-expanded={open}
           className="flex max-w-[250px] grow justify-between"
         >
-          {value ? options.find((option) => option.value === value)?.label : defaultValue}
+          {value
+            ? options.find((option) => option.value === value)?.label
+            : defaultValue}
           <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>

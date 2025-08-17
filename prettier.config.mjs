@@ -12,7 +12,6 @@ const config = {
     },
   ],
   plugins: ["prettier-plugin-astro", "prettier-plugin-tailwindcss"],
-  printWidth: 100,
   semi: true,
   singleQuote: false,
   tabWidth: 2,

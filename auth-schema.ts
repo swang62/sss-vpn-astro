@@ -8,7 +8,9 @@ export const user = sqliteTable("user", {
     .$defaultFn(() => /* @__PURE__ */ new Date())
     .notNull(),
   email: text("email").notNull().unique(),
-  emailVerified: integer("email_verified", { mode: "boolean" }).default(false).notNull(),
+  emailVerified: integer("email_verified", { mode: "boolean" })
+    .default(false)
+    .notNull(),
   id: text("id").primaryKey(),
   image: text("image"),
   name: text("name").notNull(),

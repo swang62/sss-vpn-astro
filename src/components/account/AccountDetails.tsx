@@ -23,7 +23,9 @@ function AccountDetails(_props: Props) {
   // Handlers
   const renewPlan = async (renew: boolean) => {
     setLoading(true);
-    const { error } = await parseApi(api.stripe["renew-plan"].$post({ json: { renew } }));
+    const { error } = await parseApi(
+      api.stripe["renew-plan"].$post({ json: { renew } })
+    );
     if (error) {
       toast.error("Failed to update subscription, please try again later.");
       setLoading(false);
@@ -31,7 +33,9 @@ function AccountDetails(_props: Props) {
   };
 
   const endDate = profile?.subscriptionEndAt
-    ? new Date(profile?.subscriptionEndAt).toLocaleDateString("us", { dateStyle: "medium" })
+    ? new Date(profile?.subscriptionEndAt).toLocaleDateString("us", {
+        dateStyle: "medium",
+      })
     : "";
   const billingCycle = profile?.subscriptionStartAt
     ? dateToString(new Date(profile?.subscriptionStartAt).getDate())
@@ -40,7 +44,8 @@ function AccountDetails(_props: Props) {
   const plan = PRICING_PLANS.find((plan) => plan.plan === subscriptionType);
   const description = plan ? ` • ${plan.features[0]}` : "";
 
-  const isDisqualified = !!subscriptionType && FREE_PLANS.includes(subscriptionType as any);
+  const isDisqualified =
+    !!subscriptionType && FREE_PLANS.includes(subscriptionType as any);
   const autoRenew =
     isDisqualified || endDate ? (
       <span className="text-red-500">Off</span>

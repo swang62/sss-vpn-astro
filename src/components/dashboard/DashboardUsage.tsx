@@ -2,7 +2,13 @@ import { Edit, RefreshCcw } from "lucide-react";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { fetchUsage } from "@/lib/api-clients";
@@ -24,11 +30,20 @@ function DashboardOverview(_props: Props) {
   const percentUsed = (currentUsed / totalAllowed) * 100;
   const date =
     usage?.last_online &&
-    new Date(usage.last_online).toLocaleDateString("us", { dateStyle: "medium" });
-  const time = usage?.last_online && new Date(usage.last_online).toLocaleTimeString();
+    new Date(usage.last_online).toLocaleDateString("us", {
+      dateStyle: "medium",
+    });
+  const time =
+    usage?.last_online && new Date(usage.last_online).toLocaleTimeString();
   const lastConnected =
-    usage?.last_online && !usage.last_online.startsWith("000") ? `${date} - ${time}` : "Never";
-  const { daysLeft } = getDaysLeft(usage?.start_date, usage?.mode, usage?.package_days);
+    usage?.last_online && !usage.last_online.startsWith("000")
+      ? `${date} - ${time}`
+      : "Never";
+  const { daysLeft } = getDaysLeft(
+    usage?.start_date,
+    usage?.mode,
+    usage?.package_days
+  );
 
   const resetMode =
     usage?.mode === "monthly"
@@ -79,10 +94,15 @@ function DashboardOverview(_props: Props) {
         </Button>
       </CardHeader>
       <CardContent>
-        <Progress value={percentUsed} className="border-border border bg-transparent" />
+        <Progress
+          value={percentUsed}
+          className="border-border border bg-transparent"
+        />
         <div className="flex flex-row content-center items-center justify-between py-1 pb-2 align-middle">
           <span className="text-muted-foreground text-sm">0</span>
-          <span className="text-muted-foreground text-sm">{totalAllowed} GB</span>
+          <span className="text-muted-foreground text-sm">
+            {totalAllowed} GB
+          </span>
         </div>
 
         <div className="flex flex-col gap-6 pt-6">

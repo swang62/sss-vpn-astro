@@ -54,7 +54,14 @@ export default defineConfig({
       policy: [
         {
           allow: "/",
-          disallow: ["/login", "/signup", "*password*", "/api/*", "/dashboard", "/dashboard/*"],
+          disallow: [
+            "/login",
+            "/signup",
+            "*password*",
+            "/api/*",
+            "/dashboard",
+            "/dashboard/*",
+          ],
           userAgent: "*",
         },
       ],

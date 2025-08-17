@@ -45,10 +45,16 @@ function DashboardMobileMenu({ current: _current }: Props) {
             {DASHBOARD_LINKS.map(
               (link) =>
                 link.href && (
-                  <a key={link.href} href={link.href} onClick={() => setOpen(false)}>
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                  >
                     <Button
                       variant="ghost"
-                      className={cn("ml-3 flex h-6 w-11/12 justify-start gap-4 py-6 text-xl")}
+                      className={cn(
+                        "ml-3 flex h-6 w-11/12 justify-start gap-4 py-6 text-xl"
+                      )}
                     >
                       <span>{link.icon}</span>
                       <span>{link.label}</span>

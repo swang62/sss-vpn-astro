@@ -37,7 +37,8 @@ function DashboardVerify({ user }: Props) {
       <div>Please verify your email address first.</div>
       <div className="max-w-96 text-center">
         <span className="text-muted-foreground text-sm">
-          Sometimes the email can be delayed by a couple minutes or sent to your spam folder
+          Sometimes the email can be delayed by a couple minutes or sent to your
+          spam folder
         </span>
       </div>
 

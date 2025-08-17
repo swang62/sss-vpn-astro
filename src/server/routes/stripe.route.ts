@@ -96,7 +96,8 @@ const route = createBaseRouter()
     if (!profile?.subscriptionId) throw new Error("No active subscription");
 
     const currentPlan = profile.subscriptionType;
-    const GBPerDollar = PLAN_LIMITS[currentPlan].data / PLAN_LIMITS[currentPlan].price;
+    const GBPerDollar =
+      PLAN_LIMITS[currentPlan].data / PLAN_LIMITS[currentPlan].price;
     const packageData = DATA_PACKAGE_PRICE * GBPerDollar;
 
     const session = await stripe.checkout.sessions.create({
@@ -236,7 +237,8 @@ const route = createBaseRouter()
         const reason = invoice.billing_reason;
         const stripeCustomerId = invoice.customer as string;
         const profile = await getProfileByStripeId(stripeCustomerId);
-        if (!profile) throw new Error(`Customer missing for ${stripeCustomerId}`);
+        if (!profile)
+          throw new Error(`Customer missing for ${stripeCustomerId}`);
 
         if (reason === "manual" || reason === "subscription_create") {
           await handleItemPurchases(stripeCustomerId, invoice, c.var.logger);
@@ -276,7 +278,8 @@ const route = createBaseRouter()
 
         const stripeCustomerId = customer.id;
         const profile = await getProfileByStripeId(stripeCustomerId);
-        if (!profile) throw new Error(`Customer update failed for ${stripeCustomerId}`);
+        if (!profile)
+          throw new Error(`Customer update failed for ${stripeCustomerId}`);
 
         await updateUser(profile.userId, customer.name || "");
         c.var.logger.debug(`Customer updated for ${stripeCustomerId}`);
@@ -294,7 +297,9 @@ const route = createBaseRouter()
         const subscription = event.data.object;
 
         await cancelSubscription(subscription);
-        c.var.logger.debug(`Subscription cancelled for ${subscription.customer}`);
+        c.var.logger.debug(
+          `Subscription cancelled for ${subscription.customer}`
+        );
         break;
       }
       case "product.created":
@@ -307,10 +312,15 @@ const route = createBaseRouter()
       }
       default:
         processed = false;
-        c.var.logger.error(`Receive webhook event:${event.type} but failed to process!`);
+        c.var.logger.error(
+          `Receive webhook event:${event.type} but failed to process!`
+        );
         break;
     }
-    return c.json({ message: processed ? "Successfully processed" : "Failed to process" }, 200);
+    return c.json(
+      { message: processed ? "Successfully processed" : "Failed to process" },
+      200
+    );
   });
 
 export default route;
