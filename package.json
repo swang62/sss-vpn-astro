@@ -15,7 +15,7 @@
     "prepare": "husky || true",
     "preview:build": "dotenv -- astro preview",
     "seed": "dotenv -- tsx ./scripts/seed.ts",
-    "seed:docker": "pnpm stop && docker volume rm sss-vpn-astro_libsql && docker compose run sssvpn pnpm tsx ./scripts/seed.ts",
+    "seed:docker": "pnpm stop && docker volume rm sss-vpn-astro_libsql && docker compose run --entrypoint='' sssvpn pnpm tsx ./scripts/seed.ts",
     "start": "node ./dist/server/entry.mjs",
     "start:docker": "docker compose up -d --remove-orphans",
     "stop": "docker compose down --remove-orphans",

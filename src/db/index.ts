@@ -8,8 +8,6 @@ if (DB_SYNC_URL) {
   console.debug("Syncing to remote DB:", DB_SYNC_URL);
 }
 
-console.debug("Connecting to DB:", DB_LOCAL_URL);
-
 // Setup db client
 const db = drizzle({
   connection: {

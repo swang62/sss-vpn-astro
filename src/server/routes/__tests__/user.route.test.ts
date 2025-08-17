@@ -8,22 +8,29 @@ import userRouter from "../user.route";
 import { testAdminMiddleware, testUserMiddleware } from "./shared";
 
 const apiNoAuth = testClient(createApp().route("/", userRouter)).api;
-const apiAdmin = testClient(createApp().use(testAdminMiddleware).route("/", userRouter)).api;
-const apiUser = testClient(createApp().use(testUserMiddleware).route("/", userRouter)).api;
+const apiAdmin = testClient(
+  createApp().use(testAdminMiddleware).route("/", userRouter),
+).api;
+const apiUser = testClient(
+  createApp().use(testUserMiddleware).route("/", userRouter),
+).api;
 
 describe("/api/user", () => {
   it("no session data", async () => {
-    const { data, statusCode } = await parseApi(
-      apiNoAuth.$get(),
-    );
+    const { data, statusCode } = await parseApi(apiNoAuth.$get());
     expect(statusCode).toBe(401);
     expect(data?.user).toBeFalsy();
   });
 
+  it("get test user", async () => {
+    const { data } = await parseApi(apiUser.$get());
+    expect(data?.user.id).toBe(testUser.id);
+    expect(data?.user.email).toBe(testUser.email);
+    expect(data?.session?.userId).toBe(testUser.id);
+  });
+
   it("get admin user", async () => {
-    const { data } = await parseApi(
-      apiAdmin.$get(),
-    );
+    const { data } = await parseApi(apiAdmin.$get());
     expect(data?.user.id).toBe(adminUser.id);
     expect(data?.user.email).toBe(adminUser.email);
     expect(data?.session?.userId).toBe(adminUser.id);
@@ -39,7 +46,7 @@ describe("/api/user/:id", () => {
     expect(data?._user).toBeFalsy();
   });
 
-  it("non-admin session, query user", async () => {
+  it("non-admin, query user", async () => {
     const { data, statusCode } = await parseApi(
       apiUser[":id"].$get({ param: { id: adminUser.id } }),
     );
@@ -47,7 +54,7 @@ describe("/api/user/:id", () => {
     expect(data?._user).toBeFalsy();
   });
 
-  it("admin session, query nonexistent user", async () => {
+  it("admin, query nonexistent user", async () => {
     const { data, statusCode } = await parseApi(
       apiAdmin[":id"].$get({ param: { id: "fake_id" } }),
     );
@@ -55,7 +62,7 @@ describe("/api/user/:id", () => {
     expect(data?._user).toBeFalsy();
   });
 
-  it("admin session, query real user", async () => {
+  it("admin, query real user", async () => {
     const { data } = await parseApi(
       apiAdmin[":id"].$get({ param: { id: testUser.id } }),
     );
