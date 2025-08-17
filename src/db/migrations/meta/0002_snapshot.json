@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "76bf8385-6355-417d-89a9-49b513312a2c",
+  "id": "b604271d-8c3e-44fd-b1d7-884e6d977e5e",
   "prevId": "85398275-edd3-46fa-8978-be7a255f233b",
   "tables": {
     "account": {
@@ -204,6 +204,13 @@
           "autoincrement": false,
           "default": "'1'"
         },
+        "lastKnownIpAddress": {
+          "name": "lastKnownIpAddress",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "purchasedRouter": {
           "name": "purchasedRouter",
           "type": "integer",
@@ -305,14 +312,14 @@
           "name": "createdAt",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "expiresAt": {
           "name": "expiresAt",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "id": {
@@ -340,14 +347,14 @@
           "name": "token",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "updatedAt": {
           "name": "updatedAt",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "userAgent": {
@@ -365,15 +372,7 @@
           "autoincrement": false
         }
       },
-      "indexes": {
-        "session_token_unique": {
-          "name": "session_token_unique",
-          "columns": [
-            "token"
-          ],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {
         "session_userId_user_id_fk": {
           "name": "session_userId_user_id_fk",
