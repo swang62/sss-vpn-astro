@@ -4,13 +4,13 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { user } from "./user";
 
 export const session = sqliteTable("session", {
-  createdAt: integer({ mode: "timestamp" }).notNull(),
-  expiresAt: integer({ mode: "timestamp" }).notNull(),
+  createdAt: integer({ mode: "timestamp" }),
+  expiresAt: integer({ mode: "timestamp" }),
   id: text().primaryKey(),
   impersonatedBy: text(),
   ipAddress: text(),
-  token: text().notNull().unique(),
-  updatedAt: integer({ mode: "timestamp" }).notNull(),
+  token: text(),
+  updatedAt: integer({ mode: "timestamp" }),
   userAgent: text(),
   userId: text()
     .notNull()

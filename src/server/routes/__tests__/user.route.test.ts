@@ -39,7 +39,7 @@ describe("/api/user/:id", () => {
     expect(data?._user).toBeFalsy();
   });
 
-  it("non-admin session, query user", async () => {
+  it("non-admin, query user", async () => {
     const { data, statusCode } = await parseApi(
       apiUser[":id"].$get({ param: { id: adminUser.id } }),
     );
@@ -47,7 +47,7 @@ describe("/api/user/:id", () => {
     expect(data?._user).toBeFalsy();
   });
 
-  it("admin session, query nonexistent user", async () => {
+  it("admin, query nonexistent user", async () => {
     const { data, statusCode } = await parseApi(
       apiAdmin[":id"].$get({ param: { id: "fake_id" } }),
     );
@@ -55,7 +55,7 @@ describe("/api/user/:id", () => {
     expect(data?._user).toBeFalsy();
   });
 
-  it("admin session, query real user", async () => {
+  it("admin, query real user", async () => {
     const { data } = await parseApi(
       apiAdmin[":id"].$get({ param: { id: testUser.id } }),
     );

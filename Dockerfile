@@ -17,7 +17,7 @@ RUN --mount=type=cache,target=/var/cache/apk apk add --update-cache \
 
 FROM base AS dependencies 
 
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
       pnpm install --prod --frozen-lock
 

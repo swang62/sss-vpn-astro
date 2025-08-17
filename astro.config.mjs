@@ -54,7 +54,14 @@ export default defineConfig({
       policy: [
         {
           allow: "/",
-          disallow: ["/login", "/signup", "*password*", "/api/*", "/dashboard", "/dashboard/*"],
+          disallow: [
+            "/login",
+            "/signup",
+            "*password*",
+            "/api/*",
+            "/dashboard",
+            "/dashboard/*",
+          ],
           userAgent: "*",
         },
       ],
@@ -77,7 +84,12 @@ export default defineConfig({
     },
     plugins: [tailwindcss({ nesting: true })],
     server: {
-      allowedHosts: ["dazzling-breeze-21743.pktriot.net", "localhost", "127.0.0.1", "192.168.8.129"],
+      allowedHosts: [
+        "dazzling-breeze-21743.pktriot.net",
+        "localhost",
+        "127.0.0.1",
+        "192.168.8.129",
+      ],
     },
   },
 });
