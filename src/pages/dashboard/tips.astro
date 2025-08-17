@@ -10,7 +10,7 @@ const imageWidth = 300;
 ---
 
 <DashboardLayout title="Tips & Tricks">
-  <div class="container flex flex-col w-full max-w-2xl gap-6 py-4 mx-auto">
+  <div class="container mx-auto flex w-full max-w-2xl flex-col gap-6 py-4">
     <SubHeader title="Tips & Tricks" />
 
     <hr />
@@ -46,7 +46,8 @@ const imageWidth = 300;
       <p class={paragraphStyle}>
         By default, the app will automatically choose the proxy with the lowest
         ping. However, if streaming/downloading feels slow, I recommend manually
-        selecting proxies with <b>Vless</b> or <b>Vmess</b>.
+        selecting proxies with <b>Vless</b> or
+        <b>Vmess</b>.
         <br />
         <br />
         Both of these, in my experience, have pretty fast download speeds. There
@@ -99,7 +100,7 @@ const imageWidth = 300;
         src="/tips/update.png"
         alt="update"
         width={imageWidth}
-        class="self-center mb-4"
+        class="mb-4 self-center"
         loading="lazy"
       />
     </section>

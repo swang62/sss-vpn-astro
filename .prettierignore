@@ -1,0 +1,15 @@
+# Ignore artifacts:
+dist/
+.astro/
+
+# Standard
+.git/
+node_modules/
+public/
+
+*.json
+*.sql
+
+# lockfiles
+pnpm-lock.yaml
+package-lock.json

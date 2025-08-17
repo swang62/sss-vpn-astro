@@ -38,7 +38,7 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
       },
     },
-  },
+  }
 );
 
 function Button({
@@ -50,8 +50,8 @@ function Button({
   size,
   variant,
   ...props
-}: React.ComponentProps<"button">
-  & VariantProps<typeof buttonVariants> & {
+}: React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
     loading?: boolean;
   }) {
@@ -60,7 +60,10 @@ function Button({
   return (
     <Comp
       data-slot="button"
-      className={cn("cursor-pointer", buttonVariants({ className, size, variant }))}
+      className={cn(
+        "cursor-pointer",
+        buttonVariants({ className, size, variant })
+      )}
       disabled={loading || disabled}
       {...props}
     >

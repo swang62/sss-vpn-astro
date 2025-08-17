@@ -9,27 +9,16 @@ export const profile = sqliteTable("profile", {
   createdAt: integer({ mode: "timestamp_ms" })
     .notNull()
     .$default(() => new Date()),
-  hiddifyId: text()
-    .primaryKey()
-    .notNull(),
-  hiddifyServerId: text()
-    .notNull()
-    .$type<HiddifyServerId>()
-    .default("1"),
+  hiddifyId: text().primaryKey().notNull(),
+  hiddifyServerId: text().notNull().$type<HiddifyServerId>().default("1"),
   lastKnownIpAddress: text(),
-  purchasedRouter: integer({ mode: "boolean" })
-    .notNull()
-    .default(false),
-  stripeCustomerId: text()
-    .notNull(),
+  purchasedRouter: integer({ mode: "boolean" }).notNull().default(false),
+  stripeCustomerId: text().notNull(),
   subscriptionEndAt: integer({ mode: "timestamp_ms" }),
   subscriptionId: text(),
   subscriptionItemId: text(),
   subscriptionStartAt: integer({ mode: "timestamp_ms" }),
-  subscriptionType: text()
-    .notNull()
-    .$type<SubscriptionType>()
-    .default("none"),
+  subscriptionType: text().notNull().$type<SubscriptionType>().default("none"),
   updatedAt: integer({ mode: "timestamp_ms" })
     .notNull()
     .$default(() => new Date())

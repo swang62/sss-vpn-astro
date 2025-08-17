@@ -33,10 +33,15 @@ const route = createBaseRouter()
     let hiddify = null;
     let stripe_account = null;
     if (user.profile?.hiddifyId) {
-      hiddify = await getHiddifyUserById(user.profile.hiddifyId, user.profile.hiddifyServerId);
+      hiddify = await getHiddifyUserById(
+        user.profile.hiddifyId,
+        user.profile.hiddifyServerId
+      );
     }
     if (user.profile?.stripeCustomerId) {
-      stripe_account = await stripe.customers.retrieve(user.profile.stripeCustomerId);
+      stripe_account = await stripe.customers.retrieve(
+        user.profile.stripeCustomerId
+      );
     }
 
     return c.json({ _user: user, hiddify, stripe_account });
@@ -53,39 +58,48 @@ const route = createBaseRouter()
 
     if (user.profile?.hiddifyId) {
       // delete hiddify account if exists
-      await deleteHiddifyUser(user.profile.hiddifyId, user.profile.hiddifyServerId);
+      await deleteHiddifyUser(
+        user.profile.hiddifyId,
+        user.profile.hiddifyServerId
+      );
     }
     if (user.profile?.stripeCustomerId) {
       // delete stripe customer if exists
       await stripe.customers.del(user.profile.stripeCustomerId);
     }
     // Finally, delete all local traces of user
-    const data = await auth.api.removeUser({
-      body: { userId },
-      headers: c.req.raw.headers,
-    }).catch((error: Error) => {
-      c.status(500);
-      throw new Error(error.message);
-    });
+    const data = await auth.api
+      .removeUser({
+        body: { userId },
+        headers: c.req.raw.headers,
+      })
+      .catch((error: Error) => {
+        c.status(500);
+        throw new Error(error.message);
+      });
 
     return c.json(data);
   })
-  .patch("/", zValidator(
-    "json",
-    z.object({
-      name: z.string().max(MAX_NAME_LENGTH),
-    }),
-  ), async (c) => {
-    const user = await getAuthenticatedUser(c);
-    const { name } = c.req.valid("json");
-    const stripeCustomerId = user.profile?.stripeCustomerId;
+  .patch(
+    "/",
+    zValidator(
+      "json",
+      z.object({
+        name: z.string().max(MAX_NAME_LENGTH),
+      })
+    ),
+    async (c) => {
+      const user = await getAuthenticatedUser(c);
+      const { name } = c.req.valid("json");
+      const stripeCustomerId = user.profile?.stripeCustomerId;
 
-    const updatedUser = await updateUser(user.id, name);
-    if (stripeCustomerId) {
-      await stripe.customers.update(stripeCustomerId, { name });
+      const updatedUser = await updateUser(user.id, name);
+      if (stripeCustomerId) {
+        await stripe.customers.update(stripeCustomerId, { name });
+      }
+
+      return c.json({ user: updatedUser });
     }
-
-    return c.json({ user: updatedUser });
-  });
+  );
 
 export default route;

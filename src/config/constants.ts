@@ -1,5 +1,11 @@
 /* eslint-disable perfectionist/sort-objects */
-import type { HiddifyServer, HiddifyServerId, Platform, PricingPlan, SubscriptionType } from "./types";
+import type {
+  HiddifyServer,
+  HiddifyServerId,
+  Platform,
+  PricingPlan,
+  SubscriptionType,
+} from "./types";
 
 export const SITE_NAME = "SSS-VPN";
 export const SITE_EMAIL = "hello@sss-vpn.com";
@@ -21,7 +27,10 @@ export const TRIAL_TIME = 3; // days
 export const STRIPE_API_VERSION = "2025-07-30.basil";
 
 // When changing these, make sure to update stripe products, tags, and customer portal
-export const PLAN_LIMITS: Record<SubscriptionType, { data: number; price: number }> = {
+export const PLAN_LIMITS: Record<
+  SubscriptionType,
+  { data: number; price: number }
+> = {
   none: {
     data: 0,
     price: 0,
@@ -45,42 +54,52 @@ export const PLAN_LIMITS: Record<SubscriptionType, { data: number; price: number
   },
 };
 
-export const FILE_DOWNLOAD_URL = "https://seafile.mildlybrewed.com/d/f7cef31aca9f488c9ff8/files/?dl=1&p=%2F";
-export const FILE_TYPES: Record<Platform, { fileType: string; icon: string }> = {
-  android: {
-    fileType: "Hiddify.apk",
-    icon: "/setup/google-play.png",
-  },
-  ios: {
-    fileType: "Hiddify.ipa",
-    icon: "/setup/ios.png",
-  },
-  pc: {
-    fileType: "Hiddify.exe",
-    icon: "/setup/microsoft.png",
-  },
-  mac: {
-    fileType: "Hiddify.dmg",
-    icon: "/setup/mac.png",
-  },
-};
+export const FILE_DOWNLOAD_URL =
+  "https://seafile.mildlybrewed.com/d/f7cef31aca9f488c9ff8/files/?dl=1&p=%2F";
+export const FILE_TYPES: Record<Platform, { fileType: string; icon: string }> =
+  {
+    android: {
+      fileType: "Hiddify.apk",
+      icon: "/setup/google-play.png",
+    },
+    ios: {
+      fileType: "Hiddify.ipa",
+      icon: "/setup/ios.png",
+    },
+    pc: {
+      fileType: "Hiddify.exe",
+      icon: "/setup/microsoft.png",
+    },
+    mac: {
+      fileType: "Hiddify.dmg",
+      icon: "/setup/mac.png",
+    },
+  };
 
 export const PRICING_PLANS: PricingPlan[] = [
   {
     description: "Should be enough data for most people",
-    features: [`${PLAN_LIMITS.basic.data}GB data/month`, "Email, social media, light browsing", "Unlimited devices, mobile & desktop"],
+    features: [
+      `${PLAN_LIMITS.basic.data}GB data/month`,
+      "Email, social media, light browsing",
+      "Unlimited devices, mobile & desktop",
+    ],
     plan: "basic",
     price: PLAN_LIMITS.basic.price,
-
   },
   {
     description: "Good for heavy streaming & media usage",
-    features: [`${PLAN_LIMITS.pro.data}GB data/month`, "Streaming, gaming, video calls, etc.", "Same as basic but with more data"],
+    features: [
+      `${PLAN_LIMITS.pro.data}GB data/month`,
+      "Streaming, gaming, video calls, etc.",
+      "Same as basic but with more data",
+    ],
     plan: "pro",
     price: PLAN_LIMITS.pro.price,
   },
   {
-    description: "One device to connect multiple people or all your gadgets at once",
+    description:
+      "One device to connect multiple people or all your gadgets at once",
     features: [
       `${PLAN_LIMITS.premium.data}GB data/month`,
       "Fully pre-configured WiFi6 router",

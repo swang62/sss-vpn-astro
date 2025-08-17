@@ -23,15 +23,13 @@ type FormFieldContextValue<
 };
 
 const FormFieldContext = React.createContext<FormFieldContextValue>(
-  {} as FormFieldContextValue,
+  {} as FormFieldContextValue
 );
 
 function FormField<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({
-  ...props
-}: ControllerProps<TFieldValues, TName>) {
+>({ ...props }: ControllerProps<TFieldValues, TName>) {
   return (
     <FormFieldContext.Provider value={{ name: props.name }}>
       <Controller {...props} />
@@ -44,7 +42,7 @@ type FormItemContextValue = {
 };
 
 const FormItemContext = React.createContext<FormItemContextValue>(
-  {} as FormItemContextValue,
+  {} as FormItemContextValue
 );
 
 function useFormField() {
@@ -102,7 +100,8 @@ function FormLabel({
 }
 
 function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
-  const { error, formDescriptionId, formItemId, formMessageId } = useFormField();
+  const { error, formDescriptionId, formItemId, formMessageId } =
+    useFormField();
 
   return (
     <Slot

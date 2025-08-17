@@ -26,11 +26,7 @@ const TableOfContentsTitle = React.forwardRef<
   React.ComponentRef<"li">,
   TableOfContentsTitleProps
 >(({ className, ...props }, ref) => (
-  <li
-    ref={ref}
-    className={cn("mb-2 font-medium", className)}
-    {...props}
-  />
+  <li ref={ref} className={cn("mb-2 font-medium", className)} {...props} />
 ));
 TableOfContentsTitle.displayName = "TableOfContentsTitle";
 
@@ -62,9 +58,9 @@ const TableOfContentsLink = React.forwardRef<
   <a
     ref={ref}
     className={cn(
-      "font-medium text-foreground transition-colors hover:text-primary",
-      isActive ? "font-medium text-foreground" : "text-muted-foreground",
-      className,
+      "text-foreground hover:text-primary font-medium transition-colors",
+      isActive ? "text-foreground font-medium" : "text-muted-foreground",
+      className
     )}
     {...props}
   />

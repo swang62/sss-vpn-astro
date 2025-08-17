@@ -26,21 +26,13 @@ function PasswordInput({
         variant="ghost"
         size="sm"
         className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
-        onClick={() => setShowPassword(prev => !prev)}
+        onClick={() => setShowPassword((prev) => !prev)}
       >
-        {showPassword
-          ? (
-              <EyeIcon
-                className="size-4"
-                aria-hidden="true"
-              />
-            )
-          : (
-              <EyeOffIcon
-                className="size-4"
-                aria-hidden="true"
-              />
-            )}
+        {showPassword ? (
+          <EyeIcon className="size-4" aria-hidden="true" />
+        ) : (
+          <EyeOffIcon className="size-4" aria-hidden="true" />
+        )}
         <span className="sr-only">
           {showPassword ? "Hide password" : "Show password"}
         </span>

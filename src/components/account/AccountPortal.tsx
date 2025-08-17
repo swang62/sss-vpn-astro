@@ -20,9 +20,7 @@ function AccountPortal(_props: Props) {
   // Handlers
   const redirectCustomerPortal = async () => {
     setLoading(true);
-    const { data } = await parseApi(
-      api.stripe["customer-portal"].$post(),
-    );
+    const { data } = await parseApi(api.stripe["customer-portal"].$post());
     if (data?.url) {
       navigate(data.url);
     } else {
@@ -41,10 +39,8 @@ function AccountPortal(_props: Props) {
           Manage your plan, update your payment details, or view past invoices.
         </p>
       </CardContent>
-      <CardFooter className="justify-between gap-4 py-4 border-t bg-muted">
-        <span className="text-muted-foreground">
-          Powered by Stripe
-        </span>
+      <CardFooter className="bg-muted justify-between gap-4 border-t py-4">
+        <span className="text-muted-foreground">Powered by Stripe</span>
         <Button
           disabled={loading}
           loading={loading}

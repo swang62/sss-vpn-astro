@@ -7,7 +7,7 @@ const { user } = Astro.locals;
 ---
 
 <DashboardLayout title="Settings">
-  <div class="flex flex-col w-full max-w-2xl gap-6 py-4 mx-auto">
+  <div class="mx-auto flex w-full max-w-2xl flex-col gap-6 py-4">
     <SubHeader title="Settings" />
     <AccountSettings user={user} client:load />
   </div>

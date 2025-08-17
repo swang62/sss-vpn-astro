@@ -1,6 +1,10 @@
 import type { PinoLogger } from "hono-pino";
 
-import type { HiddifyServerId, HiddifyUser, SubscriptionType } from "@/config/types";
+import type {
+  HiddifyServerId,
+  HiddifyUser,
+  SubscriptionType,
+} from "@/config/types";
 
 import { HIDDIFY_SERVERS, PLAN_LIMITS, TRIAL_TIME } from "@/config/constants";
 import { axiosHiddify } from "@/lib/server-clients";
@@ -32,7 +36,7 @@ export async function updateHiddifyUser(
   serverId: HiddifyServerId,
   startAt: Date,
   plan: SubscriptionType,
-  isAutoRenew: boolean,
+  isAutoRenew: boolean
 ) {
   const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
   const mode = isAutoRenew ? "monthly" : "no_reset";
@@ -45,36 +49,47 @@ export async function updateHiddifyUser(
     start_date: new Date(startAt).toISOString().substring(0, 10),
     usage_limit_GB: PLAN_LIMITS[plan].data,
   };
-  await retryOnError(async () => await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body));
+  await retryOnError(
+    async () =>
+      await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body)
+  );
 }
 
 export async function resetUsageLimit(
   id: string,
   serverId: HiddifyServerId,
   plan: SubscriptionType,
-  logger: PinoLogger,
+  logger: PinoLogger
 ) {
   const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
 
   const body: Partial<HiddifyUser> = {
     usage_limit_GB: PLAN_LIMITS[plan].data,
   };
-  await retryOnError(async () => await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body));
+  await retryOnError(
+    async () =>
+      await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body)
+  );
 
-  logger.debug(`Reset subscription usage to ${body.usage_limit_GB} for hiddify user:${id}`);
+  logger.debug(
+    `Reset subscription usage to ${body.usage_limit_GB} for hiddify user:${id}`
+  );
 }
 
 export async function increaseUsageLimit(
   id: string,
   serverId: HiddifyServerId,
-  newLimit: number,
+  newLimit: number
 ) {
   const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
 
   const body: Partial<HiddifyUser> = {
     usage_limit_GB: newLimit,
   };
-  await retryOnError(async () => await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body));
+  await retryOnError(
+    async () =>
+      await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body)
+  );
 }
 
 export async function cancelHiddifyPlan(id: string, serverId: HiddifyServerId) {
@@ -87,14 +102,19 @@ export async function cancelHiddifyPlan(id: string, serverId: HiddifyServerId) {
     package_days: 0,
     usage_limit_GB: 0,
   };
-  await retryOnError(async () => await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body));
+  await retryOnError(
+    async () =>
+      await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body)
+  );
 }
 
 export async function deleteHiddifyUser(id: string, serverId: HiddifyServerId) {
   const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
 
   const { data } = await retryOnError(async () => {
-    return await axiosHiddify.delete<{ msg: string }>(`${baseUrl}/admin/user/${id}`);
+    return await axiosHiddify.delete<{ msg: string }>(
+      `${baseUrl}/admin/user/${id}`
+    );
   });
 
   return data;

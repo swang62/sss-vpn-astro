@@ -41,7 +41,7 @@ const formSchema = z
       .min(8, { message: "Password must be at least 8 characters" }),
     passwordConfirm: z.string().optional(),
   })
-  .refine(data => data.password === data.passwordConfirm, {
+  .refine((data) => data.password === data.passwordConfirm, {
     message: "Passwords don't match",
     path: ["passwordConfirm"],
   });
@@ -64,12 +64,17 @@ function SignUpForm(_props: Props) {
   });
 
   // Submit handler
-  function onSubmit(values: z.infer<typeof formSchema>, event?: React.BaseSyntheticEvent) {
+  function onSubmit(
+    values: z.infer<typeof formSchema>,
+    event?: React.BaseSyntheticEvent
+  ) {
     event?.preventDefault();
 
     const minutesSince = minutesPassedSince(sentEmail);
     if (minutesSince < MIN_WAIT_TIME) {
-      toast.warning("Too many signup attempts, please wait and try again later.");
+      toast.warning(
+        "Too many signup attempts, please wait and try again later."
+      );
       return;
     }
 
@@ -87,7 +92,7 @@ function SignUpForm(_props: Props) {
             form.setError(
               "email",
               { message: "Email already exists." },
-              { shouldFocus: true },
+              { shouldFocus: true }
             );
           } else if (status === 429) {
             toast.warning(ctx.error.message);
@@ -112,12 +117,12 @@ function SignUpForm(_props: Props) {
           setSentEmail(new Date().toISOString());
           setLoading(false);
         },
-      },
+      }
     );
   }
 
   return (
-    <Card className="w-full max-w-sm mx-auto">
+    <Card className="mx-auto w-full max-w-sm">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl">Create an account</CardTitle>
         <CardDescription>
@@ -126,7 +131,7 @@ function SignUpForm(_props: Props) {
           If in China, use an unblocked email
           <Popover>
             <PopoverTrigger>
-              <span className="ml-1 underline text-secondary-link">
+              <span className="text-secondary-link ml-1 underline">
                 provider
               </span>
             </PopoverTrigger>
@@ -148,7 +153,6 @@ function SignUpForm(_props: Props) {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-
             <FormField
               control={form.control}
               name="email"
@@ -202,27 +206,37 @@ function SignUpForm(_props: Props) {
               )}
             />
 
-            <Button className="w-full" type="submit" loading={loading} disabled={loading} data-umami-event="signup">
+            <Button
+              className="w-full"
+              type="submit"
+              loading={loading}
+              disabled={loading}
+              data-umami-event="signup"
+            >
               Create account
             </Button>
           </form>
         </Form>
 
-        <div className="mt-4 text-sm text-center">
+        <div className="mt-4 text-center text-sm">
           Already have an account?
-          <a
-            href="/login"
-            className="ml-2 underline text-primary-link"
-          >
+          <a href="/login" className="text-primary-link ml-2 underline">
             Log in
           </a>
         </div>
       </CardContent>
       <CardFooter>
-        <div className="flex justify-center w-full border-t py-4">
-          <p className="text-xs text-center text-muted-foreground">
+        <div className="flex w-full justify-center border-t py-4">
+          <p className="text-muted-foreground text-center text-xs">
             Terms and conditions
-            <a className="px-1 text-foreground" href="/privacy" target="_blank" rel="noreferrer">here</a>
+            <a
+              className="text-foreground px-1"
+              href="/privacy"
+              target="_blank"
+              rel="noreferrer"
+            >
+              here
+            </a>
           </p>
         </div>
       </CardFooter>

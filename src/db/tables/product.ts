@@ -4,13 +4,10 @@ export const product = sqliteTable("product", {
   createdAt: integer({ mode: "timestamp_ms" })
     .notNull()
     .$default(() => new Date()),
-  id: text()
-    .primaryKey(),
+  id: text().primaryKey(),
   name: text(),
-  priceId: text()
-    .notNull(),
-  productId: text()
-    .notNull(),
+  priceId: text().notNull(),
+  productId: text().notNull(),
   updatedAt: integer({ mode: "timestamp_ms" })
     .notNull()
     .$default(() => new Date())

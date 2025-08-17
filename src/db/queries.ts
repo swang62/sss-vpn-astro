@@ -1,6 +1,10 @@
 import { eq } from "drizzle-orm";
 
-import type { HiddifyServerId, HiddifyUser, SubscriptionType } from "@/config/types";
+import type {
+  HiddifyServerId,
+  HiddifyUser,
+  SubscriptionType,
+} from "@/config/types";
 
 import { HIDDIFY_SERVERS, MAX_BANDWIDTH } from "@/config/constants";
 import { HIDDIFY_SERVER_IDS } from "@/config/types";
@@ -57,7 +61,9 @@ export async function getUserFullById(id: string) {
     },
   });
 }
-export type UserFullDB = NonNullable<Awaited<ReturnType<typeof getUserFullById>>>;
+export type UserFullDB = NonNullable<
+  Awaited<ReturnType<typeof getUserFullById>>
+>;
 
 export async function getProfileByStripeId(stripeCustomerId: string) {
   return await db.query.profile.findFirst({
@@ -95,8 +101,12 @@ export async function findBestHiddifyServer() {
     const { data } = await retryOnError(async () => {
       return await axiosHiddify.get<HiddifyUser[]>(`${baseUrl}/admin/user`);
     });
-    const totalBandwidth = data.filter(users => users.enable).reduce((prev, curr) => prev + curr.usage_limit_GB, 0);
-    console.debug(`Total bandwidth for hiddify-${serverId}: ${totalBandwidth}GB`);
+    const totalBandwidth = data
+      .filter((users) => users.enable)
+      .reduce((prev, curr) => prev + curr.usage_limit_GB, 0);
+    console.debug(
+      `Total bandwidth for hiddify-${serverId}: ${totalBandwidth}GB`
+    );
 
     if (totalBandwidth < MAX_BANDWIDTH) {
       id = serverId;
@@ -115,7 +125,7 @@ export async function searchForHiddifyEmail(email?: string) {
     const { data } = await retryOnError(async () => {
       return await axiosHiddify.get<HiddifyUser[]>(`${baseUrl}/admin/user`);
     });
-    const user = data.find(user => user.name === email);
+    const user = data.find((user) => user.name === email);
     if (user) {
       return { hiddifyId: user.uuid, hiddifyServerId: serverId };
     }
@@ -124,7 +134,10 @@ export async function searchForHiddifyEmail(email?: string) {
   return null;
 }
 
-export async function getHiddifyUserById(id: string, serverId: HiddifyServerId) {
+export async function getHiddifyUserById(
+  id: string,
+  serverId: HiddifyServerId
+) {
   const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
 
   const { data } = await retryOnError(async () => {

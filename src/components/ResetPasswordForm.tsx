@@ -32,7 +32,7 @@ const formSchema = z
       .min(8, { message: "Password must be at least 8 characters" }),
     passwordConfirm: z.string().optional(),
   })
-  .refine(data => data.password === data.passwordConfirm, {
+  .refine((data) => data.password === data.passwordConfirm, {
     message: "Passwords don't match",
     path: ["passwordConfirm"],
   });
@@ -79,21 +79,23 @@ function ResetPasswordForm({ email, token }: Props) {
         onSuccess: () => {
           toast.success("Password reset. Redirecting...");
           form.reset();
-          sleep(1000).then(() => signIn.email(
-            {
-              callbackURL: "/dashboard",
-              email,
-              password,
-            },
-            { onError: () => navigate("/login") },
-          ));
+          sleep(1000).then(() =>
+            signIn.email(
+              {
+                callbackURL: "/dashboard",
+                email,
+                password,
+              },
+              { onError: () => navigate("/login") }
+            )
+          );
         },
-      },
+      }
     );
   }
 
   return (
-    <div className="flex flex-col w-full max-w-xs mx-auto">
+    <div className="mx-auto flex w-full max-w-xs flex-col">
       <Card className="">
         <CardHeader className="text-center">
           <CardTitle>Reset password</CardTitle>
@@ -130,7 +132,12 @@ function ResetPasswordForm({ email, token }: Props) {
                 )}
               />
 
-              <Button className="w-full" type="submit" loading={loading} disabled={loading}>
+              <Button
+                className="w-full"
+                type="submit"
+                loading={loading}
+                disabled={loading}
+              >
                 Reset
               </Button>
             </form>

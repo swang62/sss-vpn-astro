@@ -18,8 +18,6 @@ export default defineConfig({
   test: {
     env: config({ path: "./.env.test" }).parsed,
     globals: true,
-    globalSetup: [
-      "./vitest.setup.ts",
-    ],
+    globalSetup: ["./vitest.setup.ts"],
   },
 });

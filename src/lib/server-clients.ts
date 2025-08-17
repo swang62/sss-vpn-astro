@@ -25,8 +25,11 @@ export const postmarkClient = POSTMARK_TOKEN
   : null;
 
 // Hiddify
-export const axiosHiddify = axios.create({ headers: {
-  "accept": "application/json",
-  "content-type": "application/json",
-  "Hiddify-API-Key": HIDDIFY_API_KEY,
-}, timeout: 5000 });
+export const axiosHiddify = axios.create({
+  headers: {
+    accept: "application/json",
+    "content-type": "application/json",
+    "Hiddify-API-Key": HIDDIFY_API_KEY,
+  },
+  timeout: 5000,
+});
