@@ -3,7 +3,7 @@ ALTER TABLE `account` ADD `createdAt` integer;--> statement-breakpoint
 ALTER TABLE `account` ADD `refreshTokenExpiresAt` integer;--> statement-breakpoint
 ALTER TABLE `account` ADD `scope` text;--> statement-breakpoint
 ALTER TABLE `account` ADD `updatedAt` integer;--> statement-breakpoint
-ALTER TABLE `profile` ADD `lastKnownIpAddress` text;
+ALTER TABLE `profile` ADD `lastKnownIpAddress` text;--> statement-breakpoint
 PRAGMA foreign_keys=OFF;--> statement-breakpoint
 CREATE TABLE `__new_profile` (
 	`createdAt` integer NOT NULL,
