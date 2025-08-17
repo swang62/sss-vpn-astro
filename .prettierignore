@@ -1,13 +1,14 @@
 # Ignore artifacts:
-dist
-.astro
+dist/
+.astro/
 
 # Standard
-**/.git
-**/node_modules
-**/public
-**/dist
-**/db/migrations/**/*
+.git/
+node_modules/
+public/
+
+*.json
+*.sql
 
 # lockfiles
 pnpm-lock.yaml

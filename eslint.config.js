@@ -77,6 +77,6 @@ export default defineConfig([
     },
   },
   {
-    ignores: ["db/migrations/**/*", "node_modules/*", "public/*", ".github/*", "dist/*", "**/*.d.ts"],
+    ignores: ["src/db/migrations/**/*", "node_modules/*", "public/*", ".github/*", "dist/*", "**/*.d.ts", "**/*.json", "**/*.sql"],
   },
 ]);
