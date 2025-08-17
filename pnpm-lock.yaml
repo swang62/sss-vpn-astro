@@ -226,7 +226,7 @@ importers:
         specifier: ^3.4.2
         version: 3.4.2
       '@commitlint/cli':
-        specifier: latest
+        specifier: ^19.8.1
         version: 19.8.1(@types/node@24.2.1)(typescript@5.9.2)
       '@commitlint/config-conventional':
         specifier: ^19.8.1
