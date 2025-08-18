@@ -14,7 +14,7 @@ import db, {
   user as userTable,
   verification as verificationTable,
 } from "@/db";
-import { axiosHiddify } from "@/lib/server-clients";
+import { axiosHiddify } from "@/lib/axios";
 import { retryOnError } from "@/lib/utils";
 
 /// //////////////////// USER ///////////////////////

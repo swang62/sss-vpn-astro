@@ -17,7 +17,7 @@ import {
 } from "@/db/mutations-subscription";
 import { updateUser } from "@/db/mutations-user";
 import { getProductByKey, getProfileByStripeId } from "@/db/queries";
-import { stripe } from "@/lib/server-clients";
+import { stripe } from "@/lib/payments";
 import { createBaseRouter } from "@/server/app";
 
 import { getAuthenticatedUser } from "../middleware";

@@ -6,8 +6,8 @@ import { SITE_URL } from "@/config/client";
 import { SITE_EMAIL } from "@/config/constants";
 import { LOG_LEVEL } from "@/config/server";
 import db from "@/db";
+import { postmarkClient } from "@/lib/email";
 import { redis } from "@/lib/redis";
-import { postmarkClient } from "@/lib/server-clients";
 
 const client = redis ? redis.client : null;
 const level = LOG_LEVEL === "silent" ? undefined : LOG_LEVEL;

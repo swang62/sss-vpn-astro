@@ -21,6 +21,13 @@
       "tag": "0002_modern_roxanne_simpson",
       "version": "6",
       "when": 1755456199667
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1755508343241,
+      "tag": "0003_mixed_baron_strucker",
+      "breakpoints": true
     }
   ],
   "version": "7"

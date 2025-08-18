@@ -24,8 +24,6 @@ export const MAX_BANDWIDTH = 6000; // GB
 export const MIN_WAIT_TIME = 1; // minutes
 export const TRIAL_TIME = 3; // days
 
-export const STRIPE_API_VERSION = "2025-07-30.basil";
-
 // When changing these, make sure to update stripe products, tags, and customer portal
 export const PLAN_LIMITS: Record<
   SubscriptionType,

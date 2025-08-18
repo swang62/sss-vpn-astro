@@ -12,7 +12,8 @@ import {
   SITE_EMAIL,
 } from "@/config/constants";
 import db, { profile as profileTable } from "@/db";
-import { postmarkClient, stripe } from "@/lib/server-clients";
+import { postmarkClient } from "@/lib/email";
+import { stripe } from "@/lib/payments";
 
 import {
   cancelHiddifyPlan,

@@ -10,13 +10,8 @@ import compressor from "astro-compressor";
 import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
 import { defineConfig } from "astro/config";
-import { resolve, dirname } from "path";
 import { nodeExternals } from "rollup-plugin-node-externals";
-import { fileURLToPath } from "url";
 import { loadEnv } from "vite";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 process.env = {
   ...process.env,

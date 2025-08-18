@@ -28,9 +28,7 @@ function TableOfContents() {
         </TableOfContentsItem>
 
         <TableOfContentsItem>
-          <TableOfContentsLink href="#mobile">
-            Mobile-only tips
-          </TableOfContentsLink>
+          <TableOfContentsLink href="#mobile">Mobile tips</TableOfContentsLink>
         </TableOfContentsItem>
       </TableOfContentsList>
     </div>

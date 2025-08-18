@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX `profile_userId_unique` ON `profile` (`userId`);

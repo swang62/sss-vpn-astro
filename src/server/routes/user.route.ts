@@ -6,7 +6,7 @@ import { deleteHiddifyUser } from "@/db/mutations-hiddify";
 import { updateUser } from "@/db/mutations-user";
 import { getHiddifyUserById, getUserFullById } from "@/db/queries";
 import { auth } from "@/lib/auth";
-import { stripe } from "@/lib/server-clients";
+import { stripe } from "@/lib/payments";
 import { createBaseRouter } from "@/server/app";
 
 import { checkAdminAccess, getAuthenticatedUser } from "../middleware";
