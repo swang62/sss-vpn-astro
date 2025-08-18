@@ -46,9 +46,7 @@ const formSchema = z
     path: ["passwordConfirm"],
   });
 
-interface Props {}
-
-function SignUpForm(_props: Props) {
+function SignUpForm() {
   const [loading, setLoading] = useState(false);
   const [sentEmail, setSentEmail] = useState("");
 

@@ -6,9 +6,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { MAIN_LINKS } from "@/config/links";
 
-interface Props {}
-
-function MainDesktopMenu(_props: Props) {
+function MainDesktopMenu() {
   return (
     <NavigationMenu>
       <NavigationMenuList>

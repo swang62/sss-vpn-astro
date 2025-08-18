@@ -2,6 +2,7 @@ import node from "@astrojs/node";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import inoxToolswhen from "@inox-tools/astro-when";
+import commonjs from "@rollup/plugin-commonjs";
 import sentry from "@sentry/astro";
 import spotlightjs from "@spotlightjs/astro";
 import tailwindcss from "@tailwindcss/vite";
@@ -9,7 +10,13 @@ import compressor from "astro-compressor";
 import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
 import { defineConfig } from "astro/config";
+import { resolve, dirname } from "path";
+import { nodeExternals } from "rollup-plugin-node-externals";
+import { fileURLToPath } from "url";
 import { loadEnv } from "vite";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 process.env = {
   ...process.env,
@@ -49,7 +56,6 @@ export default defineConfig({
         telemetry: false,
       },
     }),
-
     robotsTxt({
       policy: [
         {
@@ -78,18 +84,18 @@ export default defineConfig({
   site: process.env.SITE_URL,
   vite: {
     build: {
+      minify: !!process.env.SENTRY_TOKEN,
+      plugins: [commonjs(), nodeExternals()],
       rollupOptions: {
-        external: [/vitest.*/, /.*\.test\..*/],
+        external: [/vitest.*/, /.*\.test\..*/, "fsevents", "@libsql/client"],
       },
     },
     plugins: [tailwindcss({ nesting: true })],
     server: {
-      allowedHosts: [
-        "dazzling-breeze-21743.pktriot.net",
-        "localhost",
-        "127.0.0.1",
-        "192.168.8.129",
-      ],
+      allowedHosts: true,
+    },
+    ssr: {
+      noExternal: true,
     },
   },
 });

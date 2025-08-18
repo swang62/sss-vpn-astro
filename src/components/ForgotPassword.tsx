@@ -25,9 +25,7 @@ const formSchema = z.object({
   email: z.email().toLowerCase(),
 });
 
-interface Props {}
-
-function ForgotPasswordForm(_props: Props) {
+function ForgotPasswordForm() {
   const [loading, setLoading] = useState(false);
   const [sentEmail, setSentEmail] = useState("");
 
