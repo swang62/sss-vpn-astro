@@ -1,6 +1,16 @@
 import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
 import { navigate } from "astro:transitions/client";
-import { Cog, Edit, Home, LogOut, Mail, User, Wrench } from "lucide-react";
+import {
+  Cog,
+  Edit,
+  Home,
+  LogOut,
+  Mail,
+  User,
+  Wrench,
+  RotateCcw,
+} from "lucide-react";
+import { toast } from "sonner";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
@@ -13,19 +23,34 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SITE_EMAIL } from "@/config/constants";
 import { fetchUser } from "@/lib/api-clients";
-import { signOut } from "@/lib/auth-clients";
+import { signOut, type Session } from "@/lib/auth-clients";
+import { admin } from "@/lib/auth-clients";
 import { cn } from "@/lib/utils";
 
-function AvatarMenu() {
+interface AvatarProps {
+  session: Session;
+}
+
+function AvatarMenu({ session }: AvatarProps) {
   const { data } = useSWR("fetchUser", fetchUser);
   const user = data?.user;
   const nameLetter = user?.name?.length && user.name[0].toUpperCase();
   const isAdmin = user?.role === "admin" || false;
+  const isImpersonating = !!session?.impersonatedBy;
 
   // Handlers
   const logout = async () => {
     await signOut();
     navigate("/login");
+  };
+
+  const stopImpersonating = async () => {
+    const { data, error } = await admin.stopImpersonating();
+    if (!data || error) {
+      toast.error(error?.message);
+      return;
+    }
+    navigate("/dashboard/debug");
   };
 
   // Styles
@@ -84,6 +109,19 @@ function AvatarMenu() {
           </a>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+
+        {isImpersonating && (
+          <DropdownMenuItem className={menuStyle}>
+            <Button
+              variant="ghost"
+              className={buttonStyle}
+              onClick={stopImpersonating}
+            >
+              <RotateCcw className="text-destructive" />
+              <span>Stop Impersonating</span>
+            </Button>
+          </DropdownMenuItem>
+        )}
 
         {isAdmin && (
           <DropdownMenuItem className={menuStyle}>
