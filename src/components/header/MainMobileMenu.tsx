@@ -13,9 +13,7 @@ import {
 import { SITE_NAME } from "@/config/constants";
 import { MAIN_LINKS } from "@/config/links";
 
-interface Props {}
-
-function MainMobileMenu(_props: Props) {
+function MainMobileMenu() {
   const [open, setOpen] = useState(false);
 
   return (

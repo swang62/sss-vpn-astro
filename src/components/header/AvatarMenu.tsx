@@ -16,9 +16,7 @@ import { fetchUser } from "@/lib/api-clients";
 import { signOut } from "@/lib/auth-clients";
 import { cn } from "@/lib/utils";
 
-interface Props {}
-
-function AvatarMenu(_props: Props) {
+function AvatarMenu() {
   const { data } = useSWR("fetchUser", fetchUser);
   const user = data?.user;
   const nameLetter = user?.name?.length && user.name[0].toUpperCase();

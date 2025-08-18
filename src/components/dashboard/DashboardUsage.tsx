@@ -14,9 +14,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { fetchUsage } from "@/lib/api-clients";
 import { getDaysLeft } from "@/lib/utils";
 
-interface Props {}
-
-function DashboardOverview(_props: Props) {
+function DashboardOverview() {
   const { data, mutate } = useSWR("fetchUsage", fetchUsage, {
     errorRetryCount: 10,
     errorRetryInterval: 2000,

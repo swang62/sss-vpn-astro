@@ -70,6 +70,7 @@ services:
       - DB_AUTH_TOKEN=${DB_AUTH_TOKEN:-default}
       - HIDDIFY_API_KEY
       - POSTMARK_TOKEN
+      - PUBLIC_SENTRY_DSN
       - REDIS_URL=${REDIS_URL:-redis:6379}
       - REDIS_PASS=${REDIS_PASS:-default}
       - STRIPE_SECRET_KEY

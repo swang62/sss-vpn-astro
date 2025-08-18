@@ -5,9 +5,7 @@ import useSWR from "swr";
 import { fetchSession } from "@/lib/api-clients";
 import { sleep } from "@/lib/utils";
 
-interface Props {}
-
-function RedirectCheck(_props: Props) {
+function RedirectCheck() {
   // Hooks
   const { data, error, isLoading } = useSWR("fetchSession", fetchSession, {
     revalidateIfStale: false,

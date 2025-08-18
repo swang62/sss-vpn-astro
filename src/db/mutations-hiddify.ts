@@ -7,7 +7,7 @@ import type {
 } from "@/config/types";
 
 import { HIDDIFY_SERVERS, PLAN_LIMITS, TRIAL_TIME } from "@/config/constants";
-import { axiosHiddify } from "@/lib/server-clients";
+import { axiosHiddify } from "@/lib/axios";
 import { retryOnError } from "@/lib/utils";
 
 import { findBestHiddifyServer } from "./queries";

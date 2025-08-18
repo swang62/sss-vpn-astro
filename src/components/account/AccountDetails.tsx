@@ -11,9 +11,7 @@ import { FREE_PLANS } from "@/config/types";
 import { api, fetchUser, parseApi } from "@/lib/api-clients";
 import { capitalize, dateToString } from "@/lib/utils";
 
-interface Props {}
-
-function AccountDetails(_props: Props) {
+function AccountDetails() {
   const [loading, setLoading] = useState(false);
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout>();
   const { data, mutate } = useSWR("fetchUser", fetchUser);

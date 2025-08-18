@@ -8,9 +8,7 @@ import { Input } from "@/components/ui/input";
 import { fetchUser } from "@/lib/api-clients";
 import { copyToClipboard, getHiddifyLinks, getHiddifyQR } from "@/lib/utils";
 
-interface Props {}
-
-function AccountLinks(_props: Props) {
+function AccountLinks() {
   const [url, setUrl] = useState("Loading...");
   const [qrcode, setQrcode] = useState<string>();
   const { data } = useSWR("fetchUser", fetchUser);

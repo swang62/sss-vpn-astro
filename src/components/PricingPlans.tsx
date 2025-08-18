@@ -11,9 +11,7 @@ import { cn } from "@/lib/utils";
 
 import PricingCard from "./PricingCard";
 
-interface Props {}
-
-function PricingPlans(_props: Props) {
+function PricingPlans() {
   const [loading, setLoading] = useState(false);
   const { data } = useSWR("fetchUser", fetchUser);
   const [monthly, setMonthly] = useState(true);

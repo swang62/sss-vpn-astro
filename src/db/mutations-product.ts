@@ -3,7 +3,7 @@ import type Stripe from "stripe";
 import type { ProductInsert } from "@/db";
 
 import db, { product as productTable } from "@/db";
-import { stripe } from "@/lib/server-clients";
+import { stripe } from "@/lib/payments";
 
 export async function updateProduct(product: Stripe.Product) {
   const priceId = product.default_price as string;

@@ -19,12 +19,9 @@ const TableOfContentsList = React.forwardRef<
 ));
 TableOfContentsList.displayName = "TableOfContentsList";
 
-interface TableOfContentsTitleProps
-  extends React.ComponentPropsWithoutRef<"li"> {}
-
 const TableOfContentsTitle = React.forwardRef<
   React.ComponentRef<"li">,
-  TableOfContentsTitleProps
+  React.ComponentPropsWithoutRef<"li">
 >(({ className, ...props }, ref) => (
   <li ref={ref} className={cn("mb-2 font-medium", className)} {...props} />
 ));

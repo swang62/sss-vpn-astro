@@ -21,26 +21,23 @@ export default defineConfig({
   adapter: node({
     mode: "standalone",
   }),
-  build: {
-    assets: "_assets",
-  },
   // ORDER MATTERS
   integrations: [
     inoxToolswhen(),
     icon({
       include: {
-        lucide: ["*"],
-        mdi: ["*"],
+        lucide: [
+          "arrow-right",
+          "biceps-flexed",
+          "heart-handshake",
+          "shield-check",
+          "zap",
+        ],
+        mdi: ["face-cool"],
       },
     }),
     react(),
     sentry({
-      bundleSizeOptimizations: {
-        excludeReplayIframe: true,
-        excludeReplayShadowDom: true,
-        excludeReplayWorker: true,
-      },
-      debug: false,
       enabled: !!process.env.SENTRY_TOKEN,
       sourceMapsUploadOptions: {
         authToken: process.env.SENTRY_TOKEN,
@@ -49,7 +46,6 @@ export default defineConfig({
         telemetry: false,
       },
     }),
-
     robotsTxt({
       policy: [
         {
@@ -83,13 +79,6 @@ export default defineConfig({
       },
     },
     plugins: [tailwindcss({ nesting: true })],
-    server: {
-      allowedHosts: [
-        "dazzling-breeze-21743.pktriot.net",
-        "localhost",
-        "127.0.0.1",
-        "192.168.8.129",
-      ],
-    },
+    server: { allowedHosts: true },
   },
 });

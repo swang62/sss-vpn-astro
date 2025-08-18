@@ -12,9 +12,7 @@ import {
 } from "@/components/ui/card";
 import { api, parseApi } from "@/lib/api-clients";
 
-interface Props {}
-
-function AccountPortal(_props: Props) {
+function AccountPortal() {
   const [loading, setLoading] = useState(false);
 
   // Handlers

@@ -2,9 +2,8 @@
 // Does not work in config files!
 
 const isBrowserRuntime = !!import.meta.env;
-
 if (isBrowserRuntime) {
-  if (!import.meta.env.PROD && import.meta.env.MODE !== "test") {
+  if (import.meta.env.MODE !== "test") {
     console.debug("CLIENT_ENV", import.meta.env);
   }
 }
