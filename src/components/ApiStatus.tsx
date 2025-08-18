@@ -1,4 +1,5 @@
 import ReactJsonView from "@microlink/react-json-view";
+import { navigate } from "astro:transitions/client";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -37,15 +38,15 @@ const options: Option[] = [
     value: "/status",
   },
   {
-    label: "GET /user/me",
+    label: "GET /me",
     value: "/user",
   },
   {
-    label: "GET /user/hiddify",
+    label: "GET /hiddify",
     value: "/usage",
   },
   {
-    label: "GET /user/stripe",
+    label: "GET /stripe",
     value: "/stripe",
   },
   {
@@ -154,6 +155,17 @@ function ApiStatus({ device, origin }: Props) {
     setLoadingText("Select a user...");
   };
 
+  const impersonateUser = async () => {
+    const { data, error } = await admin.impersonateUser({
+      userId: userActive?.id,
+    });
+    if (!data || error) {
+      toast.error(error?.message);
+      return;
+    }
+    navigate("/dashboard");
+  };
+
   const deleteUser = async () => {
     setLoading(true);
 
@@ -192,7 +204,7 @@ function ApiStatus({ device, origin }: Props) {
           options={options}
           value={endpoint}
           setValue={setEndpoint}
-          defaultValue="Request API..."
+          defaultValue="API endpoint..."
         />
         <Button
           loading={loading}
@@ -236,8 +248,18 @@ function ApiStatus({ device, origin }: Props) {
 
       <div className="flex flex-row gap-2">
         <Button variant="default" className="flex grow" onClick={onReset}>
-          Reset Console
+          Reset
         </Button>
+
+        <Button
+          variant="secondary"
+          className="flex grow"
+          onClick={impersonateUser}
+          disabled={!userActive}
+        >
+          Impersonate
+        </Button>
+
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button
@@ -245,7 +267,7 @@ function ApiStatus({ device, origin }: Props) {
               className="flex grow"
               disabled={!userActive}
             >
-              Delete User
+              Delete
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
