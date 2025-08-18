@@ -2,7 +2,6 @@ import node from "@astrojs/node";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import inoxToolswhen from "@inox-tools/astro-when";
-import commonjs from "@rollup/plugin-commonjs";
 import sentry from "@sentry/astro";
 import spotlightjs from "@spotlightjs/astro";
 import tailwindcss from "@tailwindcss/vite";
@@ -10,7 +9,6 @@ import compressor from "astro-compressor";
 import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
 import { defineConfig } from "astro/config";
-import { nodeExternals } from "rollup-plugin-node-externals";
 import { loadEnv } from "vite";
 
 process.env = {
@@ -23,26 +21,23 @@ export default defineConfig({
   adapter: node({
     mode: "standalone",
   }),
-  build: {
-    assets: "_assets",
-  },
   // ORDER MATTERS
   integrations: [
     inoxToolswhen(),
     icon({
       include: {
-        lucide: ["*"],
-        mdi: ["*"],
+        lucide: [
+          "arrow-right",
+          "biceps-flexed",
+          "heart-handshake",
+          "shield-check",
+          "zap",
+        ],
+        mdi: ["face-cool"],
       },
     }),
     react(),
     sentry({
-      bundleSizeOptimizations: {
-        excludeReplayIframe: true,
-        excludeReplayShadowDom: true,
-        excludeReplayWorker: true,
-      },
-      debug: false,
       enabled: !!process.env.SENTRY_TOKEN,
       sourceMapsUploadOptions: {
         authToken: process.env.SENTRY_TOKEN,
@@ -79,18 +74,11 @@ export default defineConfig({
   site: process.env.SITE_URL,
   vite: {
     build: {
-      minify: !!process.env.SENTRY_TOKEN,
-      plugins: [commonjs(), nodeExternals()],
       rollupOptions: {
-        external: [/vitest.*/, /.*\.test\..*/, "fsevents", "@libsql/client"],
+        external: [/vitest.*/, /.*\.test\..*/],
       },
     },
     plugins: [tailwindcss({ nesting: true })],
-    server: {
-      allowedHosts: true,
-    },
-    ssr: {
-      noExternal: true,
-    },
+    server: { allowedHosts: true },
   },
 });

@@ -17,19 +17,13 @@ RUN --mount=type=cache,target=/var/cache/apk apk add --update-cache \
 
 FROM base AS prod-dependencies 
 
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-      pnpm install \
-        @libsql/client \
-        better-auth \
-        drizzle-kit \
-        drizzle-orm \
-        stripe \
-        tsx \
-        zod
+      pnpm install --prod --frozen-lock
 
 FROM prod-dependencies AS build
 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+# Need dev dependencies for build
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
       pnpm install --frozen-lock
 
@@ -50,16 +44,11 @@ RUN --mount=type=secret,id=sentry_token,required \
     SENTRY_TOKEN=$(cat /run/secrets/sentry_token) \
     pnpm build
 
-FROM base AS runtime
+FROM prod-dependencies AS runtime
 
 ENV NODE_ENV=production
 EXPOSE ${PORT}
 
-# Production deps
-COPY --from=prod-dependencies /app/node_modules ./node_modules
-
-COPY --from=build /app/*.json ./
-COPY --from=build /app/*.yaml ./
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/build ./build
 COPY --from=build /app/src ./src
