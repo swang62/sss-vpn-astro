@@ -25,7 +25,7 @@ interface Props {
   defaultValue: string;
   options: Option[];
   value?: string;
-  setValue: (value: any) => void;
+  setValue: (value: string) => void;
 }
 
 export function Combobox({ defaultValue, options, setValue, value }: Props) {

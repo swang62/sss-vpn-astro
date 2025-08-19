@@ -35,7 +35,7 @@ export async function updateHiddifyUser(
   id: string,
   serverId: HiddifyServerId,
   startAt: Date,
-  plan: SubscriptionType,
+  plan: SubscriptionType = "none",
   isAutoRenew: boolean
 ) {
   const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
