@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import createApp from "@/server/app";
 
 import base from "./routes/base.route";
@@ -7,7 +8,6 @@ import user from "./routes/user.route";
 
 const app = createApp();
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const routes = app
   .route("/", base)
   .route("/hiddify", hiddify)

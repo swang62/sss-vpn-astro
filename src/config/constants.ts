@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-objects */
 import type {
   HiddifyServer,
   HiddifyServerId,
@@ -32,35 +31,35 @@ export const PLAN_LIMITS: Record<
   SubscriptionType,
   { data: number; price: number }
 > = {
-  none: {
-    data: 0,
-    price: 0,
-  },
-  trial: {
-    data: 3,
-    price: 0,
-  },
-  // PAID TIER
   basic: {
     data: 100,
     price: 4,
   },
-  pro: {
-    data: 300,
-    price: 8,
+  none: {
+    data: 0,
+    price: 0,
   },
   premium: {
     data: 600,
     price: 12,
   },
+  pro: {
+    data: 300,
+    price: 8,
+  },
   router: {
     data: 0,
     price: 60,
+  },
+  trial: {
+    data: 3,
+    price: 0,
   },
 };
 
 export const FILE_DOWNLOAD_URL =
   "https://seafile.mildlybrewed.com/d/f7cef31aca9f488c9ff8/files/?dl=1&p=%2F";
+
 export const FILE_TYPES: Record<Platform, { fileType: string; icon: string }> =
   {
     android: {
@@ -71,13 +70,13 @@ export const FILE_TYPES: Record<Platform, { fileType: string; icon: string }> =
       fileType: "Hiddify.ipa",
       icon: "/setup/ios.png",
     },
-    pc: {
-      fileType: "Hiddify.exe",
-      icon: "/setup/microsoft.png",
-    },
     mac: {
       fileType: "Hiddify.dmg",
       icon: "/setup/mac.png",
+    },
+    pc: {
+      fileType: "Hiddify.exe",
+      icon: "/setup/microsoft.png",
     },
   };
 
