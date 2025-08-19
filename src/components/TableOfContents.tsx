@@ -16,7 +16,9 @@ function TableOfContents() {
           </TableOfContentsLink>
         </TableOfContentsItem>
         <TableOfContentsItem indent>
-          <TableOfContentsLink href="#proxies">Proxies</TableOfContentsLink>
+          <TableOfContentsLink href="#proxies">
+            Selecting proxies
+          </TableOfContentsLink>
         </TableOfContentsItem>
         <TableOfContentsItem indent>
           <TableOfContentsLink href="#options">

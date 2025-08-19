@@ -1,7 +1,7 @@
 export const FREE_PLANS = ["none", "trial"] as const;
 export type FreePlan = (typeof FREE_PLANS)[number];
 
-export const PAID_PLANS = ["basic", "pro", "premium"] as const;
+export const PAID_PLANS = ["basic", "pro", "premium", "router"] as const;
 export type PaidPlan = (typeof PAID_PLANS)[number];
 
 export const SUBSCRIPTION_PLANS = [...FREE_PLANS, ...PAID_PLANS] as const;

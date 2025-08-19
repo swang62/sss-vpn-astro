@@ -7,16 +7,19 @@ import type {
   SubscriptionType,
 } from "./types";
 
+import { SITE_URL } from "./client";
+
 export const SITE_NAME = "SSS-VPN";
 export const SITE_EMAIL = "hello@sss-vpn.com";
 export const SITE_ADMIN = "admin@sss-vpn.com";
+export const SITE_IMAGE = `${SITE_URL}/seo-image.jpg`;
+export const SITE_ICON = `${SITE_URL}/favicon.ico`;
+export const SITE_DESCRIPTION =
+  "Steve's Super Secret VPN - Private and reliable custom VPN for accessing media in high censorship countries such as China, Iran, Russia. Connect unlimited devices, get started for free. Strict no-logs policy, using latest encryption protocols for obfuscation and firewall hopping.";
 
 export const TEST_ADMIN = "test-admin@sss-vpn.com";
 export const TEST_USER = "test-user@sss-vpn.com";
 export const DEFAULT_PASSWORD = "password";
-
-export const DB_LOCAL = "file:local.db";
-export const DB_TEST = "file:test.db";
 
 export const DATA_PACKAGE_PRICE = 2; // dollars
 export const MAX_NAME_LENGTH = 20; // characters
@@ -24,7 +27,7 @@ export const MAX_BANDWIDTH = 6000; // GB
 export const MIN_WAIT_TIME = 1; // minutes
 export const TRIAL_TIME = 3; // days
 
-// When changing these, make sure to update stripe products, tags, and customer portal
+//! Update stripe prices, tags, and customer portal
 export const PLAN_LIMITS: Record<
   SubscriptionType,
   { data: number; price: number }
@@ -40,15 +43,19 @@ export const PLAN_LIMITS: Record<
   // PAID TIER
   basic: {
     data: 100,
-    price: 5,
+    price: 4,
   },
   pro: {
     data: 300,
-    price: 10,
+    price: 8,
   },
   premium: {
     data: 600,
-    price: 15,
+    price: 12,
+  },
+  router: {
+    data: 0,
+    price: 60,
   },
 };
 

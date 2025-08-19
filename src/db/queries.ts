@@ -76,7 +76,7 @@ export async function getProfileByStripeId(stripeCustomerId: string) {
 
 /// //////////////////// PRODUCT ///////////////////////
 
-export async function getProductByKey(id?: SubscriptionType | "router") {
+export async function getProductByKey(id?: SubscriptionType) {
   if (!id) return;
 
   return await db.query.product.findFirst({
