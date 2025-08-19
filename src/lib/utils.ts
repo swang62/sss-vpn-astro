@@ -64,18 +64,29 @@ export function getDaysLeft(
   mode = "no_reset",
   packageDays = 0
 ) {
+  if (!packageStart) {
+    return { daysLeft: 0 };
+  }
+
   const now = new Date();
-  const start = new Date(packageStart ?? now);
+  const start = new Date(packageStart);
+
+  // Account for max timezone difference (hiddify start_date is imprecise)
+  // start.setDate(start.getDate() - 1);
 
   if (mode === "monthly") {
     // For auto-renew, use current monthly cycle
     start.setFullYear(now.getFullYear());
-    start.setMonth(now.getMonth());
-  }
 
-  // Subtract 1 month if start time occurs in the future
-  if (start > now) {
-    start.setMonth(start.getMonth() - 1);
+    // If the start time is way in the past, reset to the current month
+    if (now.getMonth() !== start.getMonth()) {
+      start.setMonth(now.getMonth());
+
+      // Reset 1 month if days overshoot
+      if (start.getDate() > now.getDate()) {
+        start.setMonth(start.getMonth() - 1);
+      }
+    }
   }
 
   const end = new Date(start);
