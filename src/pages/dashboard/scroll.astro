@@ -6,13 +6,14 @@
   class="fixed top-16 left-0 z-50 h-1 w-full bg-transparent"
   aria-hidden="true"
 >
-  <div class="bg-secondary/90 h-full" id="progress-scroll"></div>
+  <div class="bg-secondary/80 h-full w-0" id="progress-scroll"></div>
 </div>
 
 <script>
   function updateProgressScroll() {
     if (document) {
       const progressScroll = document.getElementById("progress-scroll");
+
       if (progressScroll) {
         const scrollTop = window.scrollY || document.documentElement.scrollTop;
         const scrollHeight =
