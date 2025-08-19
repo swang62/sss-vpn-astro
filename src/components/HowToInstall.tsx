@@ -172,7 +172,7 @@ function getSteps(
             width={imageWidth}
             alt="welcome screen"
             className="self-center"
-            loading="lazy"
+            loading="eager"
           />
           <br />
         </>
@@ -209,7 +209,7 @@ function getSteps(
             width={imageWidth}
             alt="add profile screen"
             className="self-center"
-            loading="lazy"
+            loading="eager"
           />
           <br />
           <div>
@@ -228,7 +228,7 @@ function getSteps(
             width={imageWidth}
             alt="start screen"
             className="self-center"
-            loading="lazy"
+            loading="eager"
           />
           <br />
           <div className="text-muted-foreground">
@@ -255,7 +255,7 @@ function getSteps(
             alt="dns"
             width={imageWidth / 1.5}
             className="self-center"
-            loading="lazy"
+            loading="eager"
           />
           {!isMobile && (
             <>
@@ -267,7 +267,7 @@ function getSteps(
                 alt="dns"
                 width={imageWidth / 1.5}
                 className="self-center"
-                loading="lazy"
+                loading="eager"
               />
             </>
           )}
@@ -291,7 +291,7 @@ function getSteps(
             width={imageWidth}
             alt="connected"
             className="self-center"
-            loading="lazy"
+            loading="eager"
           />
         </>
       ),

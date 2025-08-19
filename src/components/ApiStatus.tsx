@@ -73,7 +73,7 @@ function ApiStatus({ device, origin }: Props) {
   const [code, setCode] = useState<object>(defaultCode);
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("Loading...");
-  const [endpoint, setEndpoint] = useState<Endpoint>("");
+  const [endpoint, setEndpoint] = useState("");
   const [users, setUsers] = useState<Option[]>([]);
   const [userIdSelected, setUserSelected] = useState("");
   const [userActive, setUserActive] = useState<UserFull | null>(null);
@@ -83,7 +83,7 @@ function ApiStatus({ device, origin }: Props) {
     setLoading(true);
 
     let client: HonoClient | null = null;
-    switch (endpoint) {
+    switch (endpoint as Endpoint) {
       case "/status":
         client = api.status.$get;
         break;

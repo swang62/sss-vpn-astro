@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PRICING_PLANS } from "@/config/constants";
-import { FREE_PLANS } from "@/config/types";
+import { FREE_PLANS, type FreePlan } from "@/config/types";
 import { api, fetchUser, parseApi } from "@/lib/api-clients";
 import { capitalize, dateToString } from "@/lib/utils";
 
@@ -43,7 +43,7 @@ function AccountDetails() {
   const description = plan ? ` • ${plan.features[0]}` : "";
 
   const isDisqualified =
-    !!subscriptionType && FREE_PLANS.includes(subscriptionType as any);
+    !!subscriptionType && FREE_PLANS.includes(subscriptionType as FreePlan);
   const autoRenew =
     isDisqualified || endDate ? (
       <span className="text-red-500">Off</span>

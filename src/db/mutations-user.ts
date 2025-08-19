@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 
-import type { HiddifyServerId, SubscriptionType } from "@/config/types";
+import type { HiddifyServerId } from "@/config/types";
 import type { ProfileInsert } from "@/db";
 
 import { MAX_NAME_LENGTH, TRIAL_TIME } from "@/config/constants";
@@ -68,13 +68,13 @@ async function updateProfile(
         subscriptionStartAt: new Date(
           subscription.items.data[0].current_period_start * 1000
         ),
-        subscriptionType: product?.id as SubscriptionType,
+        subscriptionType: product?.id,
       }
     : {
         hiddifyId,
         hiddifyServerId,
         stripeCustomerId,
-        subscriptionType: "none" as SubscriptionType,
+        subscriptionType: "none",
       };
 
   await db
@@ -113,7 +113,7 @@ async function startFreeTrial(
     subscriptionEndAt: endDate,
     subscriptionId: null,
     subscriptionStartAt: now,
-    subscriptionType: "trial" as SubscriptionType,
+    subscriptionType: "trial",
   };
 
   await db

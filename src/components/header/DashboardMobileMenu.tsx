@@ -15,10 +15,10 @@ import { DASHBOARD_LINKS } from "@/config/links";
 import { cn } from "@/lib/utils";
 
 interface Props {
-  current: string;
+  pathname: string;
 }
 
-function DashboardMobileMenu({ current: _current }: Props) {
+function DashboardMobileMenu({ pathname }: Props) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -51,7 +51,7 @@ function DashboardMobileMenu({ current: _current }: Props) {
                     onClick={() => setOpen(false)}
                   >
                     <Button
-                      variant="ghost"
+                      variant={link.href === pathname ? "outline" : "ghost"}
                       className={cn(
                         "ml-3 flex h-6 w-11/12 justify-start gap-4 py-6 text-xl"
                       )}

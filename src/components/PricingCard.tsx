@@ -15,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { PLAN_LIMITS } from "@/config/constants";
 import { api, parseApi } from "@/lib/api-clients";
 import { capitalize, cn } from "@/lib/utils";
 
@@ -73,7 +74,7 @@ function PricingCard({
         <CardHeader className="pt-4 pb-6">
           <div className="flex justify-between">
             <CardTitle>{title}</CardTitle>
-            {user && plan.includes("basic") && !isActive && (
+            {user && plan === "basic" && !isActive && (
               <div
                 className={cn(
                   "h-fit rounded-xl px-2.5 py-1 text-sm",
@@ -101,15 +102,17 @@ function PricingCard({
                 <span className="mb-1 flex items-end text-sm">/month</span>
               )}
             </span>
-            {plan.includes("premium") && !hasPurchasedRouter && !isActive && (
+            {plan === "premium" && !hasPurchasedRouter && !isActive && (
               <span className="inline-flex">
-                <h3 className="text-3xl font-semibold">+$60</h3>
+                <h3 className="text-3xl font-semibold">
+                  +${PLAN_LIMITS["router"].price}
+                </h3>
                 <span className="mb-1 flex items-end text-sm">router</span>
               </span>
             )}
           </div>
           <CardDescription className="min-h-12 pt-1.5">
-            {plan.includes("premium") && (hasPurchasedRouter || isActive)
+            {plan === "premium" && (hasPurchasedRouter || isActive)
               ? "Give me all the data!"
               : description}
           </CardDescription>

@@ -8,10 +8,10 @@ import { DASHBOARD_LINKS } from "@/config/links";
 import { cn } from "@/lib/utils";
 
 interface Props {
-  current: string;
+  pathname: string;
 }
 
-function DashboardDesktopMenu({ current }: Props) {
+function DashboardDesktopMenu({ pathname }: Props) {
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -23,7 +23,7 @@ function DashboardDesktopMenu({ current }: Props) {
               className={navigationMenuTriggerStyle({
                 className: cn(
                   "text-foreground/70 hover:text-foreground bg-transparent hover:bg-transparent focus:bg-transparent",
-                  link.href === current
+                  link.href === pathname
                     ? "text-foreground underline underline-offset-8"
                     : null
                 ),

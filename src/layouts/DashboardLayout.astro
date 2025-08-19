@@ -39,12 +39,12 @@ if (isVerified) {
 
 <Base title={title}>
   <Navbar>
-    <DashboardMobileMenu current={pathname} slot="mobile" client:load />
+    <DashboardMobileMenu pathname={pathname} slot="mobile" client:load />
     <span class="text-xl text-nowrap md:inline-block" slot="left">
       {SITE_NAME}
     </span>
 
-    <DashboardDesktopMenu current={pathname} slot="center" />
+    <DashboardDesktopMenu pathname={pathname} slot="center" />
 
     <div class="flex items-center gap-x-4" slot="right">
       <ThemeToggle client:load />

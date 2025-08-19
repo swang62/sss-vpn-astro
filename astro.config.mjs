@@ -21,6 +21,9 @@ export default defineConfig({
   adapter: node({
     mode: "standalone",
   }),
+  build: {
+    assets: "_assets",
+  },
   // ORDER MATTERS
   integrations: [
     inoxToolswhen(),
@@ -31,7 +34,7 @@ export default defineConfig({
           "biceps-flexed",
           "heart-handshake",
           "shield-check",
-          "zap",
+          "globe-lock",
         ],
         mdi: ["face-cool"],
       },
@@ -79,6 +82,13 @@ export default defineConfig({
       },
     },
     plugins: [tailwindcss({ nesting: true })],
-    server: { allowedHosts: true },
+    server: {
+      allowedHosts: [
+        "dazzling-breeze-21743.pktriot.net",
+        "localhost",
+        "127.0.0.1",
+        "192.168.8.129",
+      ],
+    },
   },
 });

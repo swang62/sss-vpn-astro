@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import createApp from "@/server/app";
 
 import base from "./routes/base.route";
@@ -7,8 +8,7 @@ import user from "./routes/user.route";
 
 const app = createApp();
 
-// Routes
-const _routes = app
+const routes = app
   .route("/", base)
   .route("/hiddify", hiddify)
   .route("/stripe", stripe)
@@ -16,4 +16,4 @@ const _routes = app
 
 // Types
 export default app;
-export type App = typeof _routes;
+export type App = typeof routes;

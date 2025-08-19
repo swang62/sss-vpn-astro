@@ -6,7 +6,7 @@ import { z } from "zod";
 import { SITE_URL } from "@/config/client";
 import { DATA_PACKAGE_PRICE, PLAN_LIMITS } from "@/config/constants";
 import { STRIPE_WEBHOOK_SECRET } from "@/config/server";
-import { FREE_PLANS, PAID_PLANS } from "@/config/types";
+import { FREE_PLANS, PAID_PLANS, type FreePlan } from "@/config/types";
 import { resetUsageLimit } from "@/db/mutations-hiddify";
 import { updateProduct } from "@/db/mutations-product";
 import {
@@ -209,7 +209,10 @@ const route = createBaseRouter()
 
       const subscriptionId = profile.subscriptionId;
       const subscriptionType = profile.subscriptionType;
-      if (!subscriptionId || FREE_PLANS.includes(subscriptionType as any)) {
+      if (
+        !subscriptionId ||
+        FREE_PLANS.includes(subscriptionType as FreePlan)
+      ) {
         throw new Error("Not a valid subscription");
       }
       await setSubscriptionRenew(subscriptionId, renew);

@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-import { DB_LOCAL, DB_TEST } from "./constants";
-
 // Server-side variables
 const EnvSchema = z.object({
   BETTER_AUTH_SECRET: z.string().default("default"),
@@ -53,5 +51,6 @@ export const STRIPE_WEBHOOK_SECRET = data.STRIPE_WEBHOOK_SECRET === _ ? "" : dat
 export const IS_PRODUCTION = NODE_ENV === "production";
 export const IS_TESTING = NODE_ENV === "test";
 
-export const DB_LOCAL_URL = IS_TESTING ? DB_TEST : DB_LOCAL;
+//* DB access and seeding *//
+export const DB_LOCAL_URL = IS_TESTING ? "file:test.db" : "file:local.db";
 export const DB_SYNC_URL = IS_TESTING ? undefined : DB_REMOTE;

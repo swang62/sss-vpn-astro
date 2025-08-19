@@ -10,9 +10,9 @@ import { createBaseRouter } from "@/server/app";
 
 const route = createBaseRouter()
   .get("/status", (c) => {
-    const response: any = {};
+    const response = {};
     c.res.headers.forEach((value, key) => {
-      response[key] = value;
+      Object.assign(response, { [key]: value });
     });
 
     return c.json({

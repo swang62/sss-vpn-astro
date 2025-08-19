@@ -2,6 +2,9 @@ import { hashPassword } from "better-auth/crypto";
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 
+import { PAID_PLANS, type PaidPlan } from "@/config/types";
+import { capitalize } from "@/lib/utils";
+
 // !!! Must use relative imports and conditional imports !!!
 import { DEFAULT_PASSWORD, TEST_ADMIN, TEST_USER } from "../config/constants";
 import { DB_LOCAL_URL } from "../config/server";
@@ -79,7 +82,7 @@ export async function syncProducts() {
   console.debug("Seeding products...");
 
   const { stripe } = await import("../lib/payments");
-  const { default: db, product } = await import("./index");
+  const { default: db, product: productTable } = await import("./index");
 
   const { data } = await stripe.prices.list();
 
@@ -88,20 +91,26 @@ export async function syncProducts() {
 
     // Don't update products without lookup keys or have been deleted
     const lookupKey = price.lookup_key?.toLowerCase().trim();
-    if (!lookupKey || !price.active || price.deleted) continue;
+    if (
+      !PAID_PLANS.includes(lookupKey as PaidPlan) ||
+      !price.active ||
+      price.deleted
+    ) {
+      continue;
+    }
 
     const data = {
-      name: lookupKey,
+      name: `${capitalize(lookupKey)} Plan`,
       priceId,
       productId: price.product as string,
     };
 
     await db
-      .insert(product)
-      .values([{ ...data, id: lookupKey }])
+      .insert(productTable)
+      .values([{ ...data, id: lookupKey as PaidPlan }])
       .onConflictDoUpdate({
         set: data,
-        target: product.id,
+        target: productTable.id,
       });
   }
 }

@@ -1,10 +1,12 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
+import type { SubscriptionType } from "@/config/types";
+
 export const product = sqliteTable("product", {
   createdAt: integer({ mode: "timestamp_ms" })
     .notNull()
     .$default(() => new Date()),
-  id: text().primaryKey(),
+  id: text().$type<SubscriptionType>().primaryKey(),
   name: text(),
   priceId: text().notNull(),
   productId: text().notNull(),

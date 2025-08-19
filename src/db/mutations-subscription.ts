@@ -3,8 +3,6 @@ import type Stripe from "stripe";
 
 import { eq } from "drizzle-orm";
 
-import type { SubscriptionType } from "@/config/types";
-
 import {
   DATA_PACKAGE_PRICE,
   PLAN_LIMITS,
@@ -47,21 +45,22 @@ export async function updateSubscription(subscription: Stripe.Subscription) {
   const status = subscription.status;
   const isAutoRenew = !subscription.cancel_at_period_end;
 
-  let subscriptionItemId = "";
-  let subscriptionType: SubscriptionType = "none";
+  let subscriptionItemId;
+  let subscriptionType;
   for (const item of subscription.items.data) {
     const priceId = item.price.id;
     const product = await getProductByPriceId(priceId);
-    if (product && product.id !== "router") {
-      subscriptionType = product.id as SubscriptionType;
+    if (product) {
+      subscriptionType = product.id;
       subscriptionItemId = item.id;
     }
   }
 
   if (status === "active") {
     const profile = await getProfileByStripeId(stripeCustomerId);
-    if (!profile || !profile.hiddifyId)
+    if (!profile || !profile.hiddifyId) {
       throw new Error(`Subscription update failed for ${stripeCustomerId}`);
+    }
 
     await updateHiddifyUser(
       profile.hiddifyId,
@@ -119,7 +118,7 @@ export async function handleItemPurchases(
   for (const item of lineItems) {
     const priceId = item.pricing?.price_details?.price;
     const product = await getProductByPriceId(priceId);
-    if (product && product.id === "router") {
+    if (product?.id === "router") {
       purchasedRouter = true;
     }
 
