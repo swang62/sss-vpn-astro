@@ -26,7 +26,8 @@ export const MAX_BANDWIDTH = 6000; // GB
 export const MIN_WAIT_TIME = 1; // minutes
 export const TRIAL_TIME = 3; // days
 
-//! Update stripe prices, tags, and customer portal
+//! Update stripe prices, add new prices, archive/delete old keys
+//! Update customer portal available subscriptions to switch to
 export const PLAN_LIMITS: Record<
   SubscriptionType,
   { data: number; price: number }
