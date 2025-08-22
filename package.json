@@ -15,7 +15,7 @@
     "styles:fix": "prettier --write .",
     "logs": "docker compose logs -f",
     "prepare": "husky || true",
-    "preview": "dotenv -- astro preview --verbose",
+    "preview": "dotenv -- astro preview",
     "seed": "dotenv -- tsx ./src/db/scripts/seed.ts",
     "seed:docker": "pnpm stop && docker volume rm sss-vpn-astro_libsql && docker compose run --entrypoint='' sssvpn pnpm tsx ./src/db/scripts/seed.ts",
     "start": "dotenv -- node ./dist/server/entry.mjs",

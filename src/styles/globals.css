@@ -40,7 +40,7 @@
   --background: hsl(0 0% 98.46%);
   --foreground: hsl(252 0% 10%);
   --muted: hsl(0 0% 91.54%);
-  --muted-foreground: hsl(0 0% 53.08%);
+  --muted-foreground: hsl(0, 0%, 30%);
   --popover: hsl(0 0% 100%);
   --popover-foreground: hsl(252 0% 0%);
   --card: hsl(0 0% 100%);
