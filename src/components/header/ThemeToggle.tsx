@@ -77,11 +77,15 @@ function MoonIcon() {
 
 function ThemeToggle() {
   const mounted = useMounted();
+
   const [theme, setTheme] = useState(() => {
+    // Cannot toggle on the server
+    if (import.meta.env.SSR) return undefined;
+
     if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
       return localStorage.getItem("theme");
     }
-    if (mounted && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
       return "dark";
     }
     return "light";
