@@ -5,7 +5,7 @@ import type { ProfileInsert } from "@/db";
 
 import { MAX_NAME_LENGTH, TRIAL_TIME } from "@/config/constants";
 import db, { profile as profileTable, user as userTable } from "@/db";
-import { stripe } from "@/lib/payments";
+import { stripe } from "@/lib/stripe";
 
 import type { UserDB } from "./queries";
 

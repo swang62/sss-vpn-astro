@@ -1,4 +1,6 @@
+import { captureException } from "@sentry/astro";
 import { Copy } from "lucide-react";
+import QRCode from "qrcode";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
@@ -6,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { fetchUser } from "@/lib/api-clients";
-import { copyToClipboard, getHiddifyLinks, getHiddifyQR } from "@/lib/utils";
+import { copyToClipboard, getHiddifyLinks } from "@/lib/utils";
 
 function AccountLinks() {
   const [url, setUrl] = useState("Loading...");
@@ -25,7 +27,12 @@ function AccountLinks() {
     );
 
     setUrl(links.url);
-    getHiddifyQR(links.url).then((qrcode) => setQrcode(qrcode));
+    QRCode.toDataURL(links.url)
+      .then((qrcode) => setQrcode(qrcode))
+      .catch((error) => {
+        captureException(error);
+        setQrcode("");
+      });
   }, [profile?.hiddifyId]);
 
   return (

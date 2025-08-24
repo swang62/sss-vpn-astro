@@ -81,7 +81,7 @@ export async function seed() {
 export async function syncProducts() {
   console.debug("Seeding products...");
 
-  const { stripe } = await import("../lib/payments");
+  const { stripe } = await import("../lib/stripe");
   const { default: db, product: productTable } = await import("./index");
 
   const { data } = await stripe.prices.list();

@@ -1,7 +1,6 @@
 import type { ClassValue } from "clsx";
 
 import { clsx } from "clsx";
-import QRCode from "qrcode";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
@@ -116,15 +115,6 @@ export function getHiddifyLinks(
   const url = `${setupLink}/${id}/#${email}`;
 
   return { ip, url };
-}
-
-export async function getHiddifyQR(url: string) {
-  try {
-    return await QRCode.toDataURL(url);
-  } catch (error) {
-    console.error(error);
-    return "";
-  }
 }
 
 export async function copyToClipboard(text: string) {

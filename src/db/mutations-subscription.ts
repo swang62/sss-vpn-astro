@@ -11,7 +11,7 @@ import {
 } from "@/config/constants";
 import db, { profile as profileTable } from "@/db";
 import { postmarkClient } from "@/lib/email";
-import { stripe } from "@/lib/payments";
+import { stripe } from "@/lib/stripe";
 
 import {
   cancelHiddifyPlan,
