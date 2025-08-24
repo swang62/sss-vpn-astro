@@ -9,7 +9,7 @@ import compressor from "astro-compressor";
 import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
 import { defineConfig } from "astro/config";
-import Sonda from "sonda/astro";
+import sonda from "sonda/astro";
 import { loadEnv } from "vite";
 
 process.env = {
@@ -65,9 +65,11 @@ export default defineConfig({
     }),
     spotlightjs(),
     compressor(),
-    Sonda({
-      open: true,
+    sonda({
+      filename: "sonda_[env]",
+      open: false,
       outputDir: ".astro",
+      server: true,
     }),
   ],
   output: "server",

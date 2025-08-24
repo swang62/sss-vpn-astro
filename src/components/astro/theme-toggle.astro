@@ -36,6 +36,8 @@ import { Icon } from "astro-icon/components";
       document.documentElement.classList.add("dark");
     }
   }
+  applyTheme();
+  window.localStorage.setItem("theme", getTheme());
 
   const handleToggleClick = () => {
     const element = document.documentElement;
@@ -44,6 +46,10 @@ import { Icon } from "astro-icon/components";
     const isDark = element.classList.contains("dark");
     localStorage.setItem("theme", isDark ? "dark" : "light");
   };
+
+  document
+    .getElementById("themeToggle")
+    ?.addEventListener("click", handleToggleClick);
 
   document.addEventListener("astro:page-load", () => {
     document
