@@ -66,6 +66,7 @@ function AccountLinks() {
           height={200}
           alt="QR Code"
           className="self-center"
+          loading="lazy"
         />
       </CardContent>
     </Card>

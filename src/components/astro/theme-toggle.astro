@@ -8,11 +8,11 @@ import { Icon } from "astro-icon/components";
 >
   <Icon
     name="lucide:sun"
-    class="sun size-5 scale-100 rotate-0 transition-all duration-500 dark:scale-0 dark:-rotate-90"
+    class="size-5 scale-100 rotate-0 transition-all duration-500 dark:scale-0 dark:-rotate-90"
   />
   <Icon
     name="lucide:moon"
-    class="moon absolute size-5 scale-0 rotate-90 transition-all duration-500 dark:scale-100 dark:rotate-0"
+    class="absolute size-5 scale-0 rotate-90 transition-all duration-500 dark:scale-100 dark:rotate-0"
   />
   <span class="sr-only">Toggle theme</span>
 </button>
@@ -46,11 +46,12 @@ import { Icon } from "astro-icon/components";
   };
 
   document.addEventListener("astro:page-load", () => {
-    applyTheme();
-    window.localStorage.setItem("theme", getTheme());
     document
       .getElementById("themeToggle")
       ?.addEventListener("click", handleToggleClick);
   });
-  document.addEventListener("astro:after-swap", applyTheme);
+  document.addEventListener("astro:after-swap", () => {
+    applyTheme();
+    window.localStorage.setItem("theme", getTheme());
+  });
 </script>

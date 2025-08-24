@@ -13,6 +13,6 @@ import Header from "@/layouts/Header.astro";
     <Header title="Manage Account" />
     <AccountDetails client:load />
     <AccountPortal client:load />
-    <AccountLinks client:load />
+    <AccountLinks client:visible />
   </div>
 </DashboardLayout>

@@ -16,7 +16,7 @@ const { title } = Astro.props;
 ---
 
 <Base title={title}>
-  <ClientRouter slot="transition" />
+  <ClientRouter slot="transition" fallback="swap" />
 
   <RedirectCheck client:load />
   <Toaster
