@@ -40,10 +40,8 @@ ENV NODE_ENV=production
 RUN printenv
 
 COPY . .
-RUN --mount=type=secret,id=sentry_token,required \
-    --mount=type=secret,id=astro_key,required \
-    SENTRY_TOKEN=$(cat /run/secrets/sentry_token) \
-    ASTRO_KEY=$(cat /run/secrets/astro_key) \
+RUN --mount=type=secret,id=sentry_token,env=SENTRY_TOKEN \
+    --mount=type=secret,id=astro_key,env=ASTRO_KEY \
     pnpm build
 
 FROM prod-dependencies AS runtime
