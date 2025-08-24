@@ -1,4 +1,5 @@
 ---
+import { SITE_NAME } from "@/config/constants";
 import { cn } from "@/lib/utils";
 ---
 
@@ -22,8 +23,9 @@ import { cn } from "@/lib/utils";
           height={32}
           loading="eager"
         />
-        <!-- slot:left -->
-        <slot name="left" />
+        <span class="text-xl text-nowrap md:inline-block" slot="left">
+          {SITE_NAME}
+        </span>
       </a>
 
       <!-- slot:center -->

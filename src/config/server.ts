@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-// Server-side variables
+//! Make sure all placeholders exist in .env.build
 const EnvSchema = z.object({
   BETTER_AUTH_SECRET: z.string().default("default"),
   DB_AUTH_TOKEN: z.string().default("default"),

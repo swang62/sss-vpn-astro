@@ -6,10 +6,11 @@ import {
   Home,
   LogOut,
   Mail,
-  User,
+  User as UserIcon,
   Wrench,
   RotateCcw,
 } from "lucide-react";
+import { useEffect } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
@@ -22,18 +23,24 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SITE_EMAIL } from "@/config/constants";
-import { fetchUser } from "@/lib/api-clients";
-import { signOut, type Session } from "@/lib/auth-clients";
+import { fetchUser, type User } from "@/lib/api-clients";
+import { signOut, type Session, type UserSession } from "@/lib/auth-clients";
 import { admin } from "@/lib/auth-clients";
 import { cn } from "@/lib/utils";
 
 interface AvatarProps {
   session: Session;
+  user?: User | UserSession;
 }
 
-function AvatarMenu({ session }: AvatarProps) {
-  const { data } = useSWR("fetchUser", fetchUser);
-  const user = data?.user;
+function AvatarMenu({ session, user }: AvatarProps) {
+  let reset = null;
+  if (!user) {
+    const { data, mutate } = useSWR("fetchUser", fetchUser);
+    user = data?.user;
+    reset = mutate;
+  }
+
   const nameLetter = user?.name?.length && user.name[0].toUpperCase();
   const isAdmin = user?.role === "admin" || false;
   const isImpersonating = !!session?.impersonatedBy;
@@ -41,7 +48,7 @@ function AvatarMenu({ session }: AvatarProps) {
   // Handlers
   const logout = async () => {
     await signOut();
-    navigate("/login");
+    navigate("/");
   };
 
   const stopImpersonating = async () => {
@@ -53,6 +60,12 @@ function AvatarMenu({ session }: AvatarProps) {
     navigate("/dashboard/debug");
   };
 
+  // Lifecycle
+  useEffect(() => {
+    if (!reset) return;
+    reset();
+  }, [user?.name, session?.userId]);
+
   // Styles
   const buttonStyle = cn("py-0 px-2 h-8 w-full m-0 justify-start");
   const menuStyle = "px-0 py-1";
@@ -61,7 +74,7 @@ function AvatarMenu({ session }: AvatarProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button size="icon" className="h-8 w-8 rounded-full">
-          {nameLetter || <User />}
+          {nameLetter || <UserIcon />}
           <span className="sr-only">Toggle user menu</span>
         </Button>
       </DropdownMenuTrigger>

@@ -1,10 +1,9 @@
 ---
 import ThemeToggle from "@/components/astro/theme-toggle.astro";
+import MainAvatarMenu from "@/components/header/MainAvatarMenu.astro";
 import MainDesktopMenu from "@/components/header/MainDesktopMenu";
+import MainLoginButtons from "@/components/header/MainLoginButtons";
 import MainMobileMenu from "@/components/header/MainMobileMenu";
-import { Button } from "@/components/ui/button";
-import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
-import { SITE_NAME } from "@/config/constants";
 import Base from "@/layouts/Base.astro";
 import Footer from "@/layouts/Footer.astro";
 import Navbar from "@/layouts/Navbar.astro";
@@ -19,28 +18,14 @@ const { title } = Astro.props;
 <Base title={title}>
   <Navbar>
     <MainMobileMenu slot="mobile" client:visible />
-    <span class="text-xl text-nowrap md:inline-block" slot="left">
-      {SITE_NAME}
-    </span>
 
     <MainDesktopMenu slot="center" />
 
     <div class="flex items-center gap-x-4" slot="right">
       <ThemeToggle />
-      <a
-        href="/login"
-        class={navigationMenuTriggerStyle({
-          className:
-            "pr-2 pl-2 bg-transparent hover:bg-transparent hover:text-muted-foreground focus:bg-transparent",
-        })}
-      >
-        Log in
-      </a>
-      <a href="/signup">
-        <Button className="rounded-full" data-umami-event="get-started"
-          >Get started</Button
-        >
-      </a>
+      <MainAvatarMenu server:defer>
+        <MainLoginButtons slot="fallback" />
+      </MainAvatarMenu>
     </div>
   </Navbar>
 

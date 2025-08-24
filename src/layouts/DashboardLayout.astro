@@ -1,6 +1,6 @@
 ---
-import { ClientRouter } from "astro:transitions";
 import "sonner/dist/styles.css";
+import { ClientRouter } from "astro:transitions";
 
 import ThemeToggle from "@/components/astro/theme-toggle.astro";
 import DashboardVerify from "@/components/dashboard/DashboardVerify";
@@ -8,7 +8,6 @@ import AvatarMenu from "@/components/header/AvatarMenu";
 import DashboardDesktopMenu from "@/components/header/DashboardDesktopMenu";
 import DashboardMobileMenu from "@/components/header/DashboardMobileMenu";
 import { Toaster } from "@/components/ui/sonner";
-import { SITE_NAME } from "@/config/constants";
 import { setupNewUser, updateIpAddress } from "@/db/mutations-user";
 import Base from "@/layouts/Base.astro";
 import Navbar from "@/layouts/Navbar.astro";
@@ -52,21 +51,13 @@ if (isVerified) {
   />
 
   <Navbar>
-    <DashboardMobileMenu pathname={pathname} slot="mobile" client:load />
-    <span class="text-xl text-nowrap md:inline-block" slot="left">
-      {SITE_NAME}
-    </span>
+    <DashboardMobileMenu pathname={pathname} slot="mobile" client:visible />
 
     <DashboardDesktopMenu pathname={pathname} slot="center" />
 
     <div class="flex items-center gap-x-4" slot="right">
       <ThemeToggle />
-      <AvatarMenu
-        session={session}
-        client:load
-        transition:persist
-        transition:persist-props
-      />
+      <AvatarMenu session={session} client:load transition:persist />
     </div>
   </Navbar>
 

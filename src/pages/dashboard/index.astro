@@ -8,16 +8,16 @@ import Header from "@/layouts/Header.astro";
 
 const { user } = Astro.locals;
 
-let shouldShowWelcome = false;
+let showWelcomeMsg = false;
 
 // Only show welcome if the cookie didn't exist already
 const uniqueLoginCookie = crypto
   .createHash("md5")
   .update(user.email)
   .digest("hex");
-const showedWelcome = Astro.cookies.get(uniqueLoginCookie);
-if (!showedWelcome?.value) {
-  shouldShowWelcome = true;
+const previouslyShowedWelcome = Astro.cookies.has(uniqueLoginCookie);
+if (!previouslyShowedWelcome) {
+  showWelcomeMsg = true;
 
   Astro.cookies.set(uniqueLoginCookie, "true", {
     maxAge: 2147483647,
@@ -30,7 +30,7 @@ if (!showedWelcome?.value) {
 <DashboardLayout title="Dashboard">
   <div class="mx-auto flex w-full max-w-2xl flex-col gap-6 py-4">
     <Header title="Overview" />
-    {shouldShowWelcome && <ShowWelcome client:load name={user.name} />}
+    {showWelcomeMsg && <ShowWelcome client:load name={user.name} />}
     <DashboardUsage client:load />
   </div>
 </DashboardLayout>
