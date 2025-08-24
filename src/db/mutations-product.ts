@@ -4,7 +4,7 @@ import type { ProductInsert } from "@/db";
 
 import { PAID_PLANS, type PaidPlan } from "@/config/types";
 import db, { product as productTable } from "@/db";
-import { stripe } from "@/lib/payments";
+import { stripe } from "@/lib/stripe";
 
 export async function updateProduct(product: Stripe.Product) {
   const priceId = product.default_price as string;

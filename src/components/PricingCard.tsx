@@ -146,6 +146,7 @@ function PricingCard({
               loading={loading}
               disabled={loading}
               onClick={onClickCheckout}
+              data-umami-event={isActive ? `switch-plan` : `buy-plan`}
             >
               {isActive ? `Switch to ` : `Get `}
               {title}
