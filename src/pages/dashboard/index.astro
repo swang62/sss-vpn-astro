@@ -4,7 +4,7 @@ import crypto from "node:crypto";
 import DashboardUsage from "@/components/dashboard/DashboardUsage";
 import ShowWelcome from "@/components/dashboard/WelcomeMsg";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
-import SubHeader from "@/layouts/SubHeader.astro";
+import Header from "@/layouts/Header.astro";
 
 const { user } = Astro.locals;
 
@@ -29,7 +29,7 @@ if (!showedWelcome?.value) {
 
 <DashboardLayout title="Dashboard">
   <div class="mx-auto flex w-full max-w-2xl flex-col gap-6 py-4">
-    <SubHeader title="Overview" />
+    <Header title="Overview" />
     {shouldShowWelcome && <ShowWelcome client:load name={user.name} />}
     <DashboardUsage client:load />
   </div>

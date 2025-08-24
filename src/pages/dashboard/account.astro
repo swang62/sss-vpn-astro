@@ -3,14 +3,14 @@ import AccountDetails from "@/components/account/AccountDetails";
 import AccountLinks from "@/components/account/AccountLinks";
 import AccountPortal from "@/components/account/AccountPortal";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
-import SubHeader from "@/layouts/SubHeader.astro";
+import Header from "@/layouts/Header.astro";
 ---
 
 <DashboardLayout title="Account">
   <div
     class="mx-auto flex w-full max-w-2xl flex-col gap-6 py-4 md:gap-8 lg:gap-10"
   >
-    <SubHeader title="Manage Account" />
+    <Header title="Manage Account" />
     <AccountDetails client:load />
     <AccountPortal client:load />
     <AccountLinks client:load />
