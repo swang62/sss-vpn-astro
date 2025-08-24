@@ -39,6 +39,8 @@ if (isVerified) {
 ---
 
 <Base title={title}>
+  <Toaster position="top-center" richColors client:load />
+
   <Navbar>
     <DashboardMobileMenu pathname={pathname} slot="mobile" client:load />
     <span class="text-xl text-nowrap md:inline-block" slot="left">
@@ -48,7 +50,6 @@ if (isVerified) {
     <DashboardDesktopMenu pathname={pathname} slot="center" />
 
     <div class="flex items-center gap-x-4" slot="right">
-      <Toaster position="top-center" richColors client:load />
       <ThemeToggle />
       <AvatarMenu session={session} client:load />
     </div>

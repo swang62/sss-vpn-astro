@@ -17,15 +17,6 @@ import { Icon } from "astro-icon/components";
   <span class="sr-only">Toggle theme</span>
 </button>
 
-<!-- <style>
-  :global(.dark) .sun {
-    display: none;
-  }
-  :global(.dark) .moon {
-    display: block;
-  }
-</style> -->
-
 <script is:inline>
   const theme = (() => {
     const localStorageTheme = localStorage?.getItem("theme") ?? "";

@@ -29,15 +29,7 @@ export default defineConfig({
     inoxToolswhen(),
     icon({
       include: {
-        lucide: [
-          "arrow-right",
-          "biceps-flexed",
-          "heart-handshake",
-          "shield-check",
-          "globe-lock",
-          "sun",
-          "moon",
-        ],
+        lucide: ["*"],
         mdi: ["face-cool"],
       },
     }),

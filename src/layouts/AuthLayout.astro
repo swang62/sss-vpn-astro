@@ -2,6 +2,7 @@
 import RedirectCheck from "@/components/RedirectCheck";
 import { Toaster } from "@/components/ui/sonner";
 import Base from "@/layouts/Base.astro";
+import BackButton from "@/pages/back-button.astro";
 import ThemeToggle from "@/pages/theme-toggle.astro";
 
 interface Props {
@@ -12,10 +13,12 @@ const { title } = Astro.props;
 ---
 
 <Base title={title}>
-  <header class="fixed flex w-full justify-end px-4 py-2">
-    <Toaster position="top-center" richColors client:load />
+  <RedirectCheck client:load />
+  <Toaster position="top-center" richColors client:load />
+
+  <header class="fixed flex w-full justify-between px-4 py-2">
+    <BackButton />
     <ThemeToggle />
-    <RedirectCheck client:load />
   </header>
 
   <main class="container mx-auto flex grow items-center justify-center px-4">
