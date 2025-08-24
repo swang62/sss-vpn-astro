@@ -41,7 +41,9 @@ RUN printenv
 
 COPY . .
 RUN --mount=type=secret,id=sentry_token,required \
+    --mount=type=secret,id=astro_key,required \
     SENTRY_TOKEN=$(cat /run/secrets/sentry_token) \
+    ASTRO_KEY=$(cat /run/secrets/astro_key) \
     pnpm build
 
 FROM prod-dependencies AS runtime
