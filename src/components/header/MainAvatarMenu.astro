@@ -1,0 +1,20 @@
+---
+import { auth } from "@/lib/auth";
+
+import AvatarMenu from "./AvatarMenu";
+import MainLoginButtons from "./MainLoginButtons";
+
+const session = await auth.api.getSession({
+  headers: Astro.request.headers,
+});
+---
+
+<>
+  {
+    !session ? (
+      <MainLoginButtons />
+    ) : (
+      <AvatarMenu session={session.session} user={session.user} client:load />
+    )
+  }
+</>

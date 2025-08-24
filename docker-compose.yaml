@@ -1,6 +1,8 @@
 secrets:
   sentry_token:
     environment: SENTRY_TOKEN
+  astro_key:
+    environment: ASTRO_KEY
 
 services:
   db:
@@ -58,6 +60,7 @@ services:
       dockerfile: Dockerfile
       secrets:
         - sentry_token
+        - astro_key
     container_name: sssvpn
     depends_on:
       db:
