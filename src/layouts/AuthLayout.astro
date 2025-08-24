@@ -1,6 +1,5 @@
 ---
 import { ClientRouter } from "astro:transitions";
-import { fade } from "astro:transitions";
 import "sonner/dist/styles.css";
 
 import BackButton from "@/components/astro/back-button.astro";
@@ -32,10 +31,7 @@ const { title } = Astro.props;
     <ThemeToggle />
   </header>
 
-  <main
-    transition:animate={fade()}
-    class="container flex grow items-center justify-center px-4"
-  >
+  <main class="container flex grow items-center justify-center px-4">
     <slot />
   </main>
 </Base>
