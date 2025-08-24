@@ -1,7 +1,8 @@
 ---
-import ThemeToggle from "@/components/header/ThemeToggle";
 import RedirectCheck from "@/components/RedirectCheck";
+import { Toaster } from "@/components/ui/sonner";
 import Base from "@/layouts/Base.astro";
+import ThemeToggle from "@/pages/theme-toggle.astro";
 
 interface Props {
   title: string;
@@ -12,7 +13,8 @@ const { title } = Astro.props;
 
 <Base title={title}>
   <header class="fixed flex w-full justify-end px-4 py-2">
-    <ThemeToggle client:load />
+    <Toaster position="top-center" richColors client:load />
+    <ThemeToggle />
     <RedirectCheck client:load />
   </header>
 

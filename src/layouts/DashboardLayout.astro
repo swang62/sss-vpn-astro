@@ -3,11 +3,12 @@ import DashboardVerify from "@/components/dashboard/DashboardVerify";
 import AvatarMenu from "@/components/header/AvatarMenu";
 import DashboardDesktopMenu from "@/components/header/DashboardDesktopMenu";
 import DashboardMobileMenu from "@/components/header/DashboardMobileMenu";
-import ThemeToggle from "@/components/header/ThemeToggle";
+import { Toaster } from "@/components/ui/sonner";
 import { SITE_NAME } from "@/config/constants";
 import { setupNewUser, updateIpAddress } from "@/db/mutations-user";
 import Base from "@/layouts/Base.astro";
 import Navbar from "@/layouts/Navbar.astro";
+import ThemeToggle from "@/pages/theme-toggle.astro";
 
 interface Props {
   title: string;
@@ -47,7 +48,8 @@ if (isVerified) {
     <DashboardDesktopMenu pathname={pathname} slot="center" />
 
     <div class="flex items-center gap-x-4" slot="right">
-      <ThemeToggle client:load />
+      <Toaster position="top-center" richColors client:load />
+      <ThemeToggle />
       <AvatarMenu session={session} client:load />
     </div>
   </Navbar>

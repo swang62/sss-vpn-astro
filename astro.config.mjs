@@ -35,6 +35,8 @@ export default defineConfig({
           "heart-handshake",
           "shield-check",
           "globe-lock",
+          "sun",
+          "moon",
         ],
         mdi: ["face-cool"],
       },

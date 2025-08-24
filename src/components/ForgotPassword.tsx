@@ -87,7 +87,7 @@ function ForgotPasswordForm() {
 
   return (
     <div className="mx-auto flex w-full max-w-xs flex-col">
-      <Card className="">
+      <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Forgot password?</CardTitle>
         </CardHeader>

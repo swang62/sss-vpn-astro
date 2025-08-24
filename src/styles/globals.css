@@ -48,10 +48,10 @@
   --border: hsl(0 0% 86.92%);
   --input: hsl(0 0% 74.62%);
   --primary: hsl(27, 100%, 78%);
-  --primary-link: hsl(27.06 70.51% 60.46%);
+  --primary-link: hsl(29, 78%, 48%);
   --primary-foreground: hsl(0 0% 0%);
   --secondary: hsl(164.12 70.54% 73.89%);
-  --secondary-link: hsl(164.12 40.54% 50.89%);
+  --secondary-link: hsl(164, 60%, 39%);
   --secondary-foreground: hsl(0 0% 0%);
   --accent: hsl(27.06 0% 93.85%);
   --accent-foreground: hsl(0 0% 0%);
