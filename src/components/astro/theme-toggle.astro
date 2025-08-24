@@ -18,7 +18,7 @@ import { Icon } from "astro-icon/components";
 </button>
 
 <script is:inline>
-  const theme = (() => {
+  function getTheme() {
     const localStorageTheme = localStorage?.getItem("theme") ?? "";
     if (["dark", "light"].includes(localStorageTheme)) {
       return localStorageTheme;
@@ -27,15 +27,15 @@ import { Icon } from "astro-icon/components";
       return "dark";
     }
     return "light";
-  })();
-
-  if (theme === "light") {
-    document.documentElement.classList.remove("dark");
-  } else {
-    document.documentElement.classList.add("dark");
   }
 
-  window.localStorage.setItem("theme", theme);
+  function applyTheme() {
+    if (getTheme() === "light") {
+      document.documentElement.classList.remove("dark");
+    } else {
+      document.documentElement.classList.add("dark");
+    }
+  }
 
   const handleToggleClick = () => {
     const element = document.documentElement;
@@ -45,7 +45,12 @@ import { Icon } from "astro-icon/components";
     localStorage.setItem("theme", isDark ? "dark" : "light");
   };
 
-  document
-    .getElementById("themeToggle")
-    ?.addEventListener("click", handleToggleClick);
+  document.addEventListener("astro:page-load", () => {
+    applyTheme();
+    window.localStorage.setItem("theme", getTheme());
+    document
+      .getElementById("themeToggle")
+      ?.addEventListener("click", handleToggleClick);
+  });
+  document.addEventListener("astro:after-swap", applyTheme);
 </script>
