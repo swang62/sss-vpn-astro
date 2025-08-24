@@ -1,14 +1,14 @@
 ---
 import AccountSettings from "@/components/account/AccountSettings";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
-import SubHeader from "@/layouts/SubHeader.astro";
+import Header from "@/layouts/Header.astro";
 
 const { user } = Astro.locals;
 ---
 
 <DashboardLayout title="Settings">
   <div class="mx-auto flex w-full max-w-2xl flex-col gap-6 py-4">
-    <SubHeader title="Settings" />
+    <Header title="Settings" />
     <AccountSettings user={user} client:load />
   </div>
 </DashboardLayout>

@@ -1,7 +1,7 @@
 ---
 import TableOfContents from "@/components/TableOfContents";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
-import SubHeader from "@/layouts/SubHeader.astro";
+import Header from "@/layouts/Header.astro";
 
 const headingStyle = "text-3xl py-4";
 const sectionStyle = "flex flex-col";
@@ -11,7 +11,7 @@ const imageWidth = 300;
 
 <DashboardLayout title="Tips & Tricks">
   <div class="container mx-auto flex w-full max-w-2xl flex-col gap-6 py-4">
-    <SubHeader title="Tips & Tricks" />
+    <Header title="Tips & Tricks" />
 
     <hr />
     <TableOfContents />

@@ -66,69 +66,70 @@ function LoginForm() {
   }
 
   return (
-    <Card className="mx-auto w-full max-w-xs">
-      <CardHeader className="text-center">
-        <CardTitle className="text-2xl">Log in</CardTitle>
-      </CardHeader>
+    <div className="mx-auto flex w-full max-w-xs flex-col">
+      <Card>
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl">Log in</CardTitle>
+        </CardHeader>
 
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <div className="flex items-center">
-                    <FormLabel>Password</FormLabel>
-                    <a
-                      href="/forgot-password"
-                      className="text-muted-foreground ml-auto inline-block text-right text-sm"
-                    >
-                      Forgot password?
-                    </a>
-                  </div>
-                  <FormControl>
-                    <PasswordInput {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex items-center">
+                      <FormLabel>Password</FormLabel>
+                      <a
+                        href="/forgot-password"
+                        className="text-muted-foreground ml-auto inline-block text-right text-sm"
+                      >
+                        Forgot password?
+                      </a>
+                    </div>
+                    <FormControl>
+                      <PasswordInput {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <Button
-              className="w-full"
-              type="submit"
-              loading={loading}
-              disabled={loading}
-              data-umami-event="login"
-            >
-              Log in
-            </Button>
-          </form>
-        </Form>
-
-        <div className="mt-4 text-center text-sm">
-          Don't have an account?
-          <a href="/signup" className="text-primary-link ml-2 underline">
-            Sign up
-          </a>
-        </div>
-      </CardContent>
-    </Card>
+              <Button
+                className="w-full"
+                type="submit"
+                loading={loading}
+                disabled={loading}
+                data-umami-event="login"
+              >
+                Log in
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+      <div className="mt-4 text-center text-sm">
+        Don't have an account?
+        <a href="/signup" className="text-primary-link ml-2 underline">
+          Sign up
+        </a>
+      </div>
+    </div>
   );
 }
 

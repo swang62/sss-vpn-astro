@@ -9,7 +9,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -120,125 +119,121 @@ function SignUpForm() {
   }
 
   return (
-    <Card className="mx-auto w-full max-w-sm">
-      <CardHeader className="text-center">
-        <CardTitle className="text-2xl">Create an account</CardTitle>
-        <CardDescription>
-          Trial period will start after email verification.
-          <br />
-          If in China, use an unblocked email
-          <Popover>
-            <PopoverTrigger>
-              <span className="text-secondary-link ml-1 underline">
-                provider
-              </span>
-            </PopoverTrigger>
-            <PopoverContent className="w-fit">
-              <h1 className="font-2xl">Recommended</h1>
-              <hr className="my-3" />
-              <ul>
-                <li>qq.com</li>
-                <li>163.com</li>
-                <li>icloud.com</li>
-                <li>live.com</li>
-                <li>outlook.com</li>
-              </ul>
-            </PopoverContent>
-          </Popover>
-        </CardDescription>
-      </CardHeader>
+    <div className="mx-auto flex w-full max-w-xs flex-col">
+      <Card>
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl">Create an account</CardTitle>
+          <CardDescription>
+            Trial period will start after email verification. If in China, use
+            an unblocked email
+            <Popover>
+              <PopoverTrigger>
+                <span className="text-secondary-link ml-1 cursor-pointer underline">
+                  provider
+                </span>
+              </PopoverTrigger>
+              <PopoverContent className="w-fit">
+                <h1 className="font-2xl">Recommended</h1>
+                <hr className="my-3" />
+                <ul>
+                  <li>qq.com</li>
+                  <li>163.com</li>
+                  <li>icloud.com</li>
+                  <li>live.com</li>
+                  <li>outlook.com</li>
+                </ul>
+              </PopoverContent>
+            </Popover>
+          </CardDescription>
+        </CardHeader>
 
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nickname</FormLabel>
-                  <FormControl>
-                    <Input placeholder="(optional)" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <PasswordInput {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="passwordConfirm"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
-                  <FormControl>
-                    <PasswordInput {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nickname</FormLabel>
+                    <FormControl>
+                      <Input placeholder="(optional)" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <PasswordInput {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="passwordConfirm"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <FormControl>
+                      <PasswordInput {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <Button
-              className="w-full"
-              type="submit"
-              loading={loading}
-              disabled={loading}
-              data-umami-event="signup"
-            >
-              Create account
-            </Button>
-          </form>
-        </Form>
-
-        <div className="mt-4 text-center text-sm">
-          Already have an account?
-          <a href="/login" className="text-primary-link ml-2 underline">
-            Log in
-          </a>
-        </div>
-      </CardContent>
-      <CardFooter>
-        <div className="flex w-full justify-center border-t py-4">
-          <p className="text-muted-foreground text-center text-xs">
-            Terms and conditions
+              <Button
+                className="w-full"
+                type="submit"
+                loading={loading}
+                disabled={loading}
+                data-umami-event="signup"
+              >
+                Create account
+              </Button>
+            </form>
+          </Form>
+          <p className="text-muted-foreground pt-4 text-center text-xs">
             <a
-              className="text-foreground px-1"
+              className="px-1"
               href="/privacy"
               target="_blank"
               rel="noreferrer"
             >
-              here
+              Terms and conditions
             </a>
           </p>
-        </div>
-      </CardFooter>
-    </Card>
+        </CardContent>
+      </Card>
+
+      <div className="mt-4 text-center text-sm">
+        Already have an account?
+        <a href="/login" className="text-primary-link ml-2 underline">
+          Log in
+        </a>
+      </div>
+    </div>
   );
 }
 

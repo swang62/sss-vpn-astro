@@ -1,9 +1,10 @@
 ---
+import ThemeToggle from "@/components/astro/theme-toggle.astro";
 import DashboardVerify from "@/components/dashboard/DashboardVerify";
 import AvatarMenu from "@/components/header/AvatarMenu";
 import DashboardDesktopMenu from "@/components/header/DashboardDesktopMenu";
 import DashboardMobileMenu from "@/components/header/DashboardMobileMenu";
-import ThemeToggle from "@/components/header/ThemeToggle";
+import { Toaster } from "@/components/ui/sonner";
 import { SITE_NAME } from "@/config/constants";
 import { setupNewUser, updateIpAddress } from "@/db/mutations-user";
 import Base from "@/layouts/Base.astro";
@@ -38,6 +39,8 @@ if (isVerified) {
 ---
 
 <Base title={title}>
+  <Toaster position="top-center" richColors client:load />
+
   <Navbar>
     <DashboardMobileMenu pathname={pathname} slot="mobile" client:load />
     <span class="text-xl text-nowrap md:inline-block" slot="left">
@@ -47,7 +50,7 @@ if (isVerified) {
     <DashboardDesktopMenu pathname={pathname} slot="center" />
 
     <div class="flex items-center gap-x-4" slot="right">
-      <ThemeToggle client:load />
+      <ThemeToggle />
       <AvatarMenu session={session} client:load />
     </div>
   </Navbar>

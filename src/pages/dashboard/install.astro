@@ -1,11 +1,10 @@
 ---
 import { UAParser } from "ua-parser-js";
 
+import ScrollProgress from "@/components/astro/scroll.astro";
 import HowToInstall from "@/components/HowToInstall";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
-import SubHeader from "@/layouts/SubHeader.astro";
-
-import ScrollProgress from "./scroll.astro";
+import Header from "@/layouts/Header.astro";
 
 const { session } = Astro.locals;
 const { device, os } = UAParser(session?.userAgent || "");
@@ -14,7 +13,7 @@ const { device, os } = UAParser(session?.userAgent || "");
 <DashboardLayout title="Installation">
   <ScrollProgress />
   <div class="mx-auto flex w-full max-w-2xl flex-col gap-6 py-4">
-    <SubHeader title="Installation" />
+    <Header title="Installation" />
     <h1 class="text-foreground px-1 text-center text-xl font-semibold">
       Choose your platform
     </h1>
