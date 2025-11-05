@@ -21,7 +21,7 @@ import Step from "./Step";
 function getSteps(
   downloadFile: string,
   downloadIcon: string,
-  links?: ReturnType<typeof getHiddifyLinks>
+  setupLink?: string
 ): StepProps[] {
   const isMacOS = downloadFile.includes(".dmg");
   const isWindows = downloadFile.includes(".exe");
@@ -185,11 +185,11 @@ function getSteps(
           <div>First, copy your unique profile link:</div>
           <div className="flex items-center gap-2">
             <Input
-              defaultValue={links?.url || "Loading..."}
+              defaultValue={setupLink || "Loading..."}
               readOnly
               className="bg-muted text-muted-foreground"
             />
-            <Button size="sm" onClick={() => copyToClipboard(links?.url || "")}>
+            <Button size="sm" onClick={() => copyToClipboard(setupLink || "")}>
               <Copy className="size-4" />
             </Button>
           </div>
@@ -356,7 +356,7 @@ function HowToInstall(props: Props) {
   const { data, mutate } = useSWR("fetchUser", fetchUser);
   const user = data?.user;
   const profile = user?.profile;
-  const links = profile
+  const setupLink = profile
     ? getHiddifyLinks(user.email, profile.hiddifyId, profile.hiddifyServerId)
     : undefined;
   const platform = getPlatform(props);
@@ -427,27 +427,27 @@ function HowToInstall(props: Props) {
         {getSteps(
           FILE_TYPES.android.fileType,
           FILE_TYPES.android.icon,
-          links
+          setupLink
         ).map((step, idx) => (
           <Step key={idx} idx={idx} {...step} />
         ))}
       </TabsContent>
       <TabsContent value="pc">
-        {getSteps(FILE_TYPES.pc.fileType, FILE_TYPES.pc.icon, links).map(
+        {getSteps(FILE_TYPES.pc.fileType, FILE_TYPES.pc.icon, setupLink).map(
           (step, idx) => (
             <Step key={idx} idx={idx} {...step} />
           )
         )}
       </TabsContent>
       <TabsContent value="ios">
-        {getSteps(FILE_TYPES.ios.fileType, FILE_TYPES.ios.icon, links).map(
+        {getSteps(FILE_TYPES.ios.fileType, FILE_TYPES.ios.icon, setupLink).map(
           (step, idx) => (
             <Step key={idx} idx={idx} {...step} />
           )
         )}
       </TabsContent>
       <TabsContent value="mac">
-        {getSteps(FILE_TYPES.mac.fileType, FILE_TYPES.mac.icon, links).map(
+        {getSteps(FILE_TYPES.mac.fileType, FILE_TYPES.mac.icon, setupLink).map(
           (step, idx) => (
             <Step key={idx} idx={idx} {...step} />
           )
