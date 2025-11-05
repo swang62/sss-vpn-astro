@@ -49,14 +49,13 @@ import { Icon } from "astro-icon/components";
 
   document
     .getElementById("themeToggle")
-    ?.addEventListener("click", handleToggleClick);
-  document.addEventListener("astro:page-load", () => {
-    document
-      .getElementById("themeToggle")
-      ?.addEventListener("click", handleToggleClick);
-  });
+    .addEventListener("click", handleToggleClick);
+
   document.addEventListener("astro:after-swap", () => {
     applyTheme();
     window.localStorage.setItem("theme", getTheme());
+    document
+      .getElementById("themeToggle")
+      .addEventListener("click", handleToggleClick);
   });
 </script>

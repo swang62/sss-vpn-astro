@@ -118,12 +118,6 @@ export const PRICING_PLANS: PricingPlan[] = [
 export const HIDDIFY_SERVERS: Record<HiddifyServerId, HiddifyServer> = {
   1: {
     baseUrl: "https://link.sss-vpn.com/QwId8HABKn9c6GYrnRNcxMj/api/v2",
-    ip: "74.48.133.118",
     setupLink: "https://link.sss-vpn.com/rjsn7TPtBHgNGA1KBI3mfP2aNaLG",
-  },
-  2: {
-    baseUrl: "https://link2.sss-vpn.com/Y6bLeWbTns/api/v2",
-    ip: "148.135.10.52",
-    setupLink: "https://link2.sss-vpn.com/iJ6hLqtNNtOmt6ciLm2Ry",
   },
 };

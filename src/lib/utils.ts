@@ -109,12 +109,10 @@ export function getHiddifyLinks(
   id: string,
   serverId: HiddifyServerId
 ) {
-  const ip = HIDDIFY_SERVERS[serverId].ip;
   const setupLink = HIDDIFY_SERVERS[serverId].setupLink;
-
   const url = `${setupLink}/${id}/#${email}`;
 
-  return { ip, url };
+  return url;
 }
 
 export async function copyToClipboard(text: string) {

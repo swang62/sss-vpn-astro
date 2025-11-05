@@ -20,14 +20,14 @@ function AccountLinks() {
   useEffect(() => {
     if (!user || !profile) return;
 
-    const links = getHiddifyLinks(
+    const setupLink = getHiddifyLinks(
       user.email,
       profile.hiddifyId,
       profile.hiddifyServerId
     );
 
-    setUrl(links.url);
-    QRCode.toDataURL(links.url)
+    setUrl(setupLink);
+    QRCode.toDataURL(setupLink)
       .then((qrcode) => setQrcode(qrcode))
       .catch((error) => {
         captureException(error);

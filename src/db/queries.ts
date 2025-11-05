@@ -6,7 +6,7 @@ import type {
   SubscriptionType,
 } from "@/config/types";
 
-import { HIDDIFY_SERVERS, MAX_BANDWIDTH } from "@/config/constants";
+import { HIDDIFY_SERVERS } from "@/config/constants";
 import { HIDDIFY_SERVER_IDS } from "@/config/types";
 import db, {
   product as productTable,
@@ -95,24 +95,25 @@ export async function getProductByPriceId(priceId?: string) {
 /// //////////////////// HIDDIFY ///////////////////////
 
 export async function findBestHiddifyServer() {
-  let id = "1" as HiddifyServerId;
-  for (const serverId of HIDDIFY_SERVER_IDS) {
-    const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
-    const { data } = await retryOnError(async () => {
-      return await axiosHiddify.get<HiddifyUser[]>(`${baseUrl}/admin/user`);
-    });
-    const totalBandwidth = data
-      .filter((users) => users.enable)
-      .reduce((prev, curr) => prev + curr.usage_limit_GB, 0);
-    console.debug(
-      `Total bandwidth for hiddify-${serverId}: ${totalBandwidth}GB`
-    );
+  const id = "1" as HiddifyServerId;
 
-    if (totalBandwidth < MAX_BANDWIDTH) {
-      id = serverId;
-      break;
-    }
-  }
+  //   for (const serverId of HIDDIFY_SERVER_IDS) {
+  //     const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
+  //     const { data } = await retryOnError(async () => {
+  //       return await axiosHiddify.get<HiddifyUser[]>(`${baseUrl}/admin/user`);
+  //     });
+  //     const totalBandwidth = data
+  //       .filter((users) => users.enable)
+  //       .reduce((prev, curr) => prev + curr.usage_limit_GB, 0);
+  //     console.debug(
+  //       `Total bandwidth for hiddify-${serverId}: ${totalBandwidth}GB`
+  //     );
+
+  //     if (totalBandwidth < MAX_BANDWIDTH) {
+  //       id = serverId;
+  //       break;
+  //     }
+  //   }
 
   return id;
 }

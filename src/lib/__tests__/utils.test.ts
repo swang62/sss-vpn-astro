@@ -131,15 +131,7 @@ describe("getHiddifyLinks", () => {
     const serverId: HiddifyServerId = "1";
     const link = getHiddifyLinks("fake@email.com", "foo", serverId);
 
-    expect(link.url).toEqual(expect.stringMatching(/link.sss-vpn.com/));
-    expect(link.url).toEqual(expect.stringMatching(/foo\/#fake@email.com$/));
-  });
-
-  it("hiddify-2 sublink", () => {
-    const serverId: HiddifyServerId = "2";
-    const link = getHiddifyLinks("fake2@email.com", "bar", serverId);
-
-    expect(link.url).toEqual(expect.stringMatching(/link2.sss-vpn.com/));
-    expect(link.url).toEqual(expect.stringMatching(/bar\/#fake2@email.com$/));
+    expect(link).toEqual(expect.stringMatching(/link.sss-vpn.com/));
+    expect(link).toEqual(expect.stringMatching(/foo\/#fake@email.com$/));
   });
 });
