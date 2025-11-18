@@ -6,3 +6,12 @@ declare namespace App {
     user: import("@/db/queries").UserDB;
   }
 }
+
+interface ImportMetaEnv {
+  readonly PUBLIC_GTM_ID: string;
+  readonly PUBLIC_SENTRY_DSN: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}

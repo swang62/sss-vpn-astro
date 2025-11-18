@@ -1,6 +1,4 @@
 ---
-import { PUBLIC_GTM_ID } from "@/config/client";
-
 import BaseHead from "./BaseHead.astro";
 
 interface Props {
@@ -21,14 +19,14 @@ const { title } = Astro.props;
 
     <!-- Analytics scripts, load last -->
     {
-      PUBLIC_GTM_ID && (
+      import.meta.env.PUBLIC_GTM_ID && (
         <script
           is:inline
           defer
           async
           data-astro-rerun
           src="https://umami.sss-vpn.com/script.js"
-          data-website-id={PUBLIC_GTM_ID}
+          data-website-id={import.meta.env.PUBLIC_GTM_ID}
         />
       )
     }

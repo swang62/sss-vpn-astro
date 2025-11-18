@@ -72,13 +72,14 @@ services:
       - DB_REMOTE=${DB_REMOTE:-http://db:8080}
       - DB_AUTH_TOKEN=${DB_AUTH_TOKEN:-default}
       - HIDDIFY_API_KEY
+      - LOG_LEVEL
       - POSTMARK_TOKEN
       - PUBLIC_SENTRY_DSN
       - REDIS_URL=${REDIS_URL:-redis:6379}
       - REDIS_PASS=${REDIS_PASS:-default}
+      - SITE_URL
       - STRIPE_SECRET_KEY
       - STRIPE_WEBHOOK_SECRET
-      - LOG_LEVEL
     healthcheck:
       interval: 30s
       retries: 5
