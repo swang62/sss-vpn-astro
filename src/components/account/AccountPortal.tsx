@@ -37,8 +37,7 @@ function AccountPortal() {
           Manage your plan, update your payment details, or view past invoices.
         </p>
       </CardContent>
-      <CardFooter className="bg-muted justify-between gap-4 border-t py-4">
-        <span className="text-muted-foreground">Powered by Stripe</span>
+      <CardFooter>
         <Button
           disabled={loading}
           loading={loading}

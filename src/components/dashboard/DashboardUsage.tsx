@@ -114,7 +114,7 @@ function DashboardOverview() {
           ))}
         </div>
       </CardContent>
-      <CardFooter className="flex justify-end pb-6">
+      <CardFooter>
         <a href="/dashboard/account">
           <Button variant="outline">
             <Edit />
