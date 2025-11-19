@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.5",
   "scripts": {
-    "build": "NODE_ENV=production astro check && export $(cat .env.build) && astro build",
+    "build": "NODE_ENV=production astro check && astro build",
     "build:docker": "pnpm start:docker --build",
     "check": "astro check",
     "db:migrate": "drizzle-kit generate && drizzle-kit migrate",
