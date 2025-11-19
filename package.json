@@ -137,6 +137,11 @@
     "vite": "^7.1.2",
     "vitest": "^3.2.4"
   },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "pnpm lint:fix",
