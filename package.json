@@ -23,8 +23,7 @@
     "start:docker": "docker compose up -d --remove-orphans",
     "stop": "docker compose down --remove-orphans",
     "studio": "drizzle-kit studio --verbose",
-    "studio:docker": "DB_REMOTE=http://localhost:8888 drizzle-kit studio --verbose",
-    "studio:prod": "DB_REMOTE=https://db.sss-vpn.com drizzle-kit studio --verbose",
+    "studio:remote": "DB_REMOTE=http://localhost:8888 drizzle-kit studio --verbose",
     "test": "vitest run --changed",
     "test:all": "vitest run --typecheck --reporter verbose"
   },

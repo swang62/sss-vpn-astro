@@ -128,7 +128,7 @@ function AccountDetails() {
           </div>
         ))}
       </CardContent>
-      <CardFooter className="bg-muted justify-end gap-4 border-t py-4">
+      <CardFooter>
         {!profile ? (
           <Skeleton className="h-10 w-56" />
         ) : endDate ? (

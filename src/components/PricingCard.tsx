@@ -127,7 +127,7 @@ function PricingCard({
         </CardContent>
       </div>
       {user && (
-        <CardFooter className="flex justify-center pb-6">
+        <CardFooter className="flex justify-center">
           {isCurrentPlan ? (
             <div className="flex gap-2">
               <Button
