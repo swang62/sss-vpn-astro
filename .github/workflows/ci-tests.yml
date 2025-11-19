@@ -19,9 +19,9 @@ jobs:
           cache: "pnpm"
       - name: Install packages
         run: pnpm install --frozen-lock
+      - name: Format & Lint
+        run: pnpm check && pnpm lint
       - name: Build
         run: pnpm build
-      - name: Format & Lint
-        run: pnpm lint
       - name: Test
         run: pnpm test:all
