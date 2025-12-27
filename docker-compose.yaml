@@ -87,6 +87,8 @@ services:
       test: "curl -fs -o /dev/null http://localhost:4321"
       timeout: 5s
     image: swang62/sssvpn
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
     ports:
       - 4321:4321
     restart: unless-stopped
