@@ -10,6 +10,7 @@ declare namespace App {
 interface ImportMetaEnv {
   readonly PUBLIC_GTM_ID: string;
   readonly PUBLIC_SENTRY_DSN: string;
+  readonly PUBLIC_TURNSTILE_SITEKEY: string;
 }
 
 interface ImportMeta {

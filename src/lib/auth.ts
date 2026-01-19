@@ -1,10 +1,10 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { admin } from "better-auth/plugins";
+import { admin, captcha } from "better-auth/plugins";
 
 import { SITE_URL } from "@/config/client";
 import { SITE_EMAIL } from "@/config/constants";
-import { LOG_LEVEL } from "@/config/server";
+import { LOG_LEVEL, TURNSTILE_SECRET_KEY } from "@/config/server";
 import db from "@/db";
 import { postmarkClient } from "@/lib/email";
 import { redis } from "@/lib/redis";
@@ -62,7 +62,13 @@ export const auth = betterAuth({
     },
   },
   logger: { level },
-  plugins: [admin()],
+  plugins: [
+    admin(),
+    captcha({
+      provider: "cloudflare-turnstile",
+      secretKey: TURNSTILE_SECRET_KEY,
+    }),
+  ],
   rateLimit: { enabled: true },
   secondaryStorage: client
     ? {
@@ -77,7 +83,13 @@ export const auth = betterAuth({
     : undefined,
   session: { storeSessionInDatabase: true },
   telemetry: { enabled: false },
-  trustedOrigins: ["localhost", "127.0.0.1", "192.168.8.129"],
+  trustedOrigins: [
+    "dazzling-breeze-21743.pktriot.net",
+    "localhost",
+    "127.0.0.1",
+    "192.168.8.129",
+    "sssvpn.macsteve.lan",
+  ],
   user: {
     deleteUser: {
       enabled: true,

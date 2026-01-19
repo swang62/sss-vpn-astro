@@ -1,5 +1,8 @@
+import type { TurnstileInstance } from "@marsidev/react-turnstile";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { Turnstile } from "@marsidev/react-turnstile";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -27,6 +30,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { PUBLIC_TURNSTILE_SITEKEY } from "@/config/client";
 import { MAX_NAME_LENGTH, MIN_WAIT_TIME } from "@/config/constants";
 import { sendVerificationEmail, signUp } from "@/lib/auth-clients";
 import { minutesPassedSince } from "@/lib/utils";
@@ -48,6 +52,8 @@ const formSchema = z
 function SignUpForm() {
   const [loading, setLoading] = useState(false);
   const [sentEmail, setSentEmail] = useState("");
+  const [token, setToken] = useState<string>("");
+  const turnstileRef = useRef<TurnstileInstance | null>(null);
 
   // Form hook
   const form = useForm<z.infer<typeof formSchema>>({
@@ -65,8 +71,12 @@ function SignUpForm() {
     values: z.infer<typeof formSchema>,
     event?: React.BaseSyntheticEvent
   ) {
+    // Prevent redirecting to /dashboard (since auto-login is enabled)
     event?.preventDefault();
 
+    const { email, name, password } = values;
+
+    // Rate-limit login attempts
     const minutesSince = minutesPassedSince(sentEmail);
     if (minutesSince < MIN_WAIT_TIME) {
       toast.warning(
@@ -75,14 +85,25 @@ function SignUpForm() {
       return;
     }
 
-    const { email, name, password } = values;
+    // Captcha token
+    if (!token) {
+      form.setError("root", { message: "Please verify captcha." });
+      return;
+    }
+
     signUp.email(
       {
         email,
+        fetchOptions: {
+          headers: {
+            "x-captcha-response": token,
+          },
+        },
         name,
         password,
       },
       {
+        // @ts-expect-error typing error
         onError: (ctx) => {
           const status = ctx.error.status;
           if (status === 422) {
@@ -94,6 +115,8 @@ function SignUpForm() {
           } else if (status === 429) {
             toast.warning(ctx.error.message);
           }
+          turnstileRef.current?.reset();
+          setToken("");
           setLoading(false);
         },
         onRequest: () => {
@@ -119,7 +142,7 @@ function SignUpForm() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-xs flex-col">
+    <div className="mx-auto flex w-full max-w-[350px] flex-col">
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Create an account</CardTitle>
@@ -202,6 +225,17 @@ function SignUpForm() {
                   </FormItem>
                 )}
               />
+
+              <Turnstile
+                ref={turnstileRef}
+                className="my-2"
+                siteKey={PUBLIC_TURNSTILE_SITEKEY}
+                onSuccess={setToken}
+                onExpire={() => turnstileRef.current?.reset()}
+              />
+              <FormMessage className="text-center">
+                {form.formState.errors.root?.message}
+              </FormMessage>
 
               <Button
                 className="w-full"

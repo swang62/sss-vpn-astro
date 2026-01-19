@@ -66,7 +66,7 @@ function LoginForm() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-xs flex-col">
+    <div className="mx-auto flex w-full max-w-[350px] flex-col">
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Log in</CardTitle>

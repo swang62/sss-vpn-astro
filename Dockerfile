@@ -13,23 +13,24 @@ RUN npm -g install pnpm@${PNPM_VERSION}
 
 # Setup linux dependencies
 RUN --mount=type=cache,target=/var/cache/apk apk add --update-cache \
-      bash openssl wget curl ca-certificates
+  bash openssl wget curl ca-certificates
 
 FROM base AS prod-dependencies 
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-      pnpm install --prod --frozen-lock
+  pnpm install --prod --frozen-lock
 
 FROM prod-dependencies AS build
 
 # Need dev dependencies for build
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-      pnpm install --frozen-lock
+  pnpm install --frozen-lock
 
 # Monitoring/analytics
 ARG PUBLIC_GTM_ID
 ARG PUBLIC_SENTRY_DSN
+ARG PUBLIC_TURNSTILE_SITEKEY
 ARG SENTRY_ORG
 ARG SENTRY_PROJECT
 ARG SOURCE_COMMIT
@@ -41,8 +42,8 @@ RUN printenv
 
 COPY . .
 RUN --mount=type=secret,id=sentry_token,env=SENTRY_TOKEN \
-    --mount=type=secret,id=astro_key,env=ASTRO_KEY \
-    pnpm build
+  --mount=type=secret,id=astro_key,env=ASTRO_KEY \
+  pnpm build
 
 FROM prod-dependencies AS runtime
 

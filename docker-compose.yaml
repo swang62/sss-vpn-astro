@@ -52,6 +52,7 @@ services:
       args:
         - PUBLIC_GTM_ID
         - PUBLIC_SENTRY_DSN
+        - PUBLIC_TURNSTILE_SITEKEY
         - SENTRY_ORG
         - SENTRY_PROJECT
         - SOURCE_COMMIT
@@ -75,11 +76,13 @@ services:
       - LOG_LEVEL
       - POSTMARK_TOKEN
       - PUBLIC_SENTRY_DSN
+      - PUBLIC_TURNSTILE_SITEKEY
       - REDIS_URL=${REDIS_URL:-redis:6379}
       - REDIS_PASS=${REDIS_PASS:-default}
       - SITE_URL
       - STRIPE_SECRET_KEY
       - STRIPE_WEBHOOK_SECRET
+      - TURNSTILE_SECRET_KEY
     healthcheck:
       interval: 30s
       retries: 5
