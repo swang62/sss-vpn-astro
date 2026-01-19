@@ -65,6 +65,7 @@ export const auth = betterAuth({
   plugins: [
     admin(),
     captcha({
+      endpoints: ["/sign-up/email"],
       provider: "cloudflare-turnstile",
       secretKey: TURNSTILE_SECRET_KEY,
     }),
