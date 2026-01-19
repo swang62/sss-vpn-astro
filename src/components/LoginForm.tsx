@@ -44,9 +44,9 @@ function LoginForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     const { email, password } = values;
 
-    // Make sure captcha exists
+    // Captcha token
     if (!token) {
-      form.setError("root", { message: "Please verify captcha first." });
+      form.setError("root", { message: "Please verify captcha." });
       return;
     }
 
