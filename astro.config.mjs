@@ -91,6 +91,7 @@ export default defineConfig({
         "localhost",
         "127.0.0.1",
         "192.168.8.129",
+        "sssvpn.macsteve.lan",
       ],
     },
     sourcemap: true,

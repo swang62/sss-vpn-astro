@@ -36,6 +36,7 @@
     "@iconify-json/mdi": "^1.2.3",
     "@icons-pack/react-simple-icons": "^13.7.0",
     "@libsql/client": "^0.15.12",
+    "@marsidev/react-turnstile": "^1.4.1",
     "@microlink/react-json-view": "^1.27.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/react-accordion": "^1.2.11",

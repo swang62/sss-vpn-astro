@@ -14,6 +14,7 @@ const EnvSchema = z.object({
   REDIS_URL: z.string().optional(),
   STRIPE_SECRET_KEY: z.string().optional(),
   STRIPE_WEBHOOK_SECRET: z.string().optional(),
+  TURNSTILE_SECRET_KEY: z.string().default("default"),
 });
 
 const { data, error } = EnvSchema.safeParse({
@@ -42,6 +43,7 @@ export const REDIS_PASS = data.REDIS_PASS;
 export const REDIS_URL = data.REDIS_URL;
 export const STRIPE_SECRET_KEY = data.STRIPE_SECRET_KEY;
 export const STRIPE_WEBHOOK_SECRET = data.STRIPE_WEBHOOK_SECRET;
+export const TURNSTILE_SECRET_KEY = data.TURNSTILE_SECRET_KEY;
 
 //* Computed *//
 export const IS_PRODUCTION = NODE_ENV === "production";
