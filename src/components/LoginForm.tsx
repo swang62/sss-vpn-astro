@@ -1,8 +1,5 @@
-import type { TurnstileInstance } from "@marsidev/react-turnstile";
-
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Turnstile } from "@marsidev/react-turnstile";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -19,8 +16,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
-import { PUBLIC_TURNSTILE_SITEKEY } from "@/config/client";
 import { signIn } from "@/lib/auth-clients";
+
 const formSchema = z.object({
   email: z.email().toLowerCase(),
   password: z.string(),
@@ -28,8 +25,6 @@ const formSchema = z.object({
 
 function LoginForm() {
   const [loading, setLoading] = useState(false);
-  const [token, setToken] = useState<string>("");
-  const turnstileRef = useRef<TurnstileInstance | null>(null);
 
   // Form hook
   const form = useForm<z.infer<typeof formSchema>>({
@@ -43,26 +38,13 @@ function LoginForm() {
   // Submit handler
   function onSubmit(values: z.infer<typeof formSchema>) {
     const { email, password } = values;
-
-    // Captcha token
-    if (!token) {
-      form.setError("root", { message: "Please verify captcha." });
-      return;
-    }
-
     signIn.email(
       {
         callbackURL: "/dashboard",
         email,
-        fetchOptions: {
-          headers: {
-            "x-captcha-response": token,
-          },
-        },
         password,
       },
       {
-        // @ts-expect-error typing error
         onError: (ctx) => {
           const status = ctx.error.status;
           if (status === 401) {
@@ -74,8 +56,6 @@ function LoginForm() {
           } else if (status === 429) {
             toast.warning(ctx.error.message);
           }
-          turnstileRef.current?.reset();
-          setToken("");
           setLoading(false);
         },
         onRequest: () => {
@@ -125,22 +105,10 @@ function LoginForm() {
                     <FormControl>
                       <PasswordInput {...field} />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
-              <Turnstile
-                ref={turnstileRef}
-                className="my-2"
-                siteKey={PUBLIC_TURNSTILE_SITEKEY}
-                onSuccess={setToken}
-                onExpire={() => turnstileRef.current?.reset()}
-              />
-              <FormMessage className="text-center">
-                {form.formState.errors.root?.message}
-              </FormMessage>
 
               <Button
                 className="w-full"

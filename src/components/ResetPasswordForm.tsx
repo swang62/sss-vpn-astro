@@ -95,7 +95,7 @@ function ResetPasswordForm({ email, token }: Props) {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-xs flex-col">
+    <div className="mx-auto flex w-full max-w-[350px] flex-col">
       <Card className="">
         <CardHeader className="text-center">
           <CardTitle>Reset password</CardTitle>
