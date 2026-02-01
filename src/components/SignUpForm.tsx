@@ -147,7 +147,7 @@ function SignUpForm() {
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Create an account</CardTitle>
           <CardDescription>
-            Trial period will start after email verification. If in China, use
+            Trial period will start after email verification. I recommend using
             an unblocked email
             <Popover>
               <PopoverTrigger>
@@ -160,7 +160,6 @@ function SignUpForm() {
                 <hr className="my-3" />
                 <ul>
                   <li>qq.com</li>
-                  <li>163.com</li>
                   <li>icloud.com</li>
                   <li>live.com</li>
                   <li>outlook.com</li>
