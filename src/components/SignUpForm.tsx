@@ -147,12 +147,12 @@ function SignUpForm() {
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Create an account</CardTitle>
           <CardDescription>
-            Trial period will start after email verification. I recommend using
-            an unblocked email
+            Trial will start after email verification. I recommend an unblocked
+            email
             <Popover>
               <PopoverTrigger>
                 <span className="text-secondary-link ml-1 cursor-pointer underline">
-                  provider
+                  address
                 </span>
               </PopoverTrigger>
               <PopoverContent className="w-fit">
