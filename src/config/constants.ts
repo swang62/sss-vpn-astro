@@ -59,7 +59,7 @@ export const PLAN_LIMITS: Record<
 };
 
 export const FILE_DOWNLOAD_URL =
-  "https://seafile.mildlybrewed.com/d/f7cef31aca9f488c9ff8/files/?dl=1&p=%2F";
+  "https://seafile.stronglybrewed.dev/d/6d2ee2bc7a34472ca633/files/?dl=1&p=%2F";
 
 export const FILE_TYPES: Record<Platform, { fileType: string; icon: string }> =
   {
