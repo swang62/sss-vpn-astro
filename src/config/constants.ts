@@ -81,6 +81,9 @@ export const FILE_TYPES: Record<Platform, { fileType: string; icon: string }> =
     },
   };
 
+export const FILE_START_COMMAND = "start_vpn.command";
+export const FILE_CONFIG_JSON = "config.json";
+
 export const PRICING_PLANS: PricingPlan[] = [
   {
     description: "Should be enough data for most people",
