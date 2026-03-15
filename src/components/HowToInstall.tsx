@@ -1,6 +1,12 @@
 import type UAParser from "ua-parser-js";
 
-import { CogIcon, Copy, Download, Menu, PartyPopper } from "lucide-react";
+import {
+  Copy,
+  Download,
+  EllipsisVertical,
+  PartyPopper,
+  Settings,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
@@ -10,9 +16,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FILE_DOWNLOAD_URL, FILE_TYPES } from "@/config/constants";
-import { fetchUser } from "@/lib/api-clients";
-import { copyToClipboard, getHiddifyLinks } from "@/lib/utils";
+import {
+  FILE_CONFIG_JSON,
+  FILE_DOWNLOAD_URL,
+  FILE_START_COMMAND,
+  FILE_TYPES,
+} from "@/config/constants";
+import { axiosFetch, fetchUser } from "@/lib/api-clients";
+import { copyToClipboard, getHiddifyLinks, retryOnError } from "@/lib/utils";
 
 import type { StepProps } from "./Step";
 
@@ -21,7 +32,8 @@ import Step from "./Step";
 function getSteps(
   downloadFile: string,
   downloadIcon: string,
-  setupLink?: string
+  setupLink?: string,
+  config?: string
 ): StepProps[] {
   const isMacOS = downloadFile.includes(".dmg");
   const isWindows = downloadFile.includes(".exe");
@@ -119,8 +131,7 @@ function getSteps(
               </p>
               <p>
                 3) Install with a third-party app like FlexStore, AltStore,
-                eSign or Bullfrog Assistant. You may need to look up guides
-                online.
+                eSign or Bullfrog Assistant. You can look up guides online.
               </p>
             </div>
           )}
@@ -128,22 +139,23 @@ function getSteps(
             <div className="text-foreground">
               For macOS, you will need download an extra shortcut file{" "}
               <a
-                href={`${FILE_DOWNLOAD_URL}start_vpn.command`}
+                href={`${FILE_DOWNLOAD_URL}${FILE_START_COMMAND}`}
                 className="text-primary-link underline"
               >
                 here
               </a>
               . Save this file to your desktop and open up the Terminal app.
-              Type "sudo chmod +x ~/Desktop/start_vpn.command" into the terminal
-              and hit enter. Enter your password (it will be invisible) and hit
-              enter again. Then, close the terminal and use the desktop shortcut
-              to launch the app from now on.
+              Type "sudo chmod +x ~/Desktop/{FILE_START_COMMAND}" into the
+              terminal and hit enter. Enter your password (it will be invisible)
+              and hit enter again. Then, close the terminal and use the desktop
+              shortcut to launch the app from now on.
             </div>
           )}
           {isWindows && (
             <div className="text-foreground">
               If you get a warning during install, click on More Info &gt; Run
-              Anyways.
+              Anyways. It might give you an error after installation, that is
+              normal.
             </div>
           )}
         </>
@@ -159,12 +171,11 @@ function getSteps(
               administrator),
             </>
           ) : isMacOS ? (
-            <>Open up the app by clicking the .command file,</>
+            <>Open up the app by clicking the {FILE_START_COMMAND} file,</>
           ) : (
             <>Open up the app,</>
           )}{" "}
-          change the language to English and set the region to China, then click
-          start.
+          set the language to English and region to China/CN.
           <br />
           <br />
           <img
@@ -182,7 +193,7 @@ function getSteps(
     {
       content: (
         <>
-          <div>First, copy your unique profile link:</div>
+          <div>First, copy your unique profile link below:</div>
           <div className="flex items-center gap-2">
             <Input
               defaultValue={setupLink || "Loading..."}
@@ -233,56 +244,65 @@ function getSteps(
           <br />
           <div className="text-muted-foreground">
             Note: for monthly subscriptions, the days remaining will show
-            infinity, but will reset each month.
+            infinity. This is normal, it will self-reset each month.
           </div>
         </>
       ),
-      title: "Add your profile",
+      title: "Add profile",
     },
     {
       content: (
         <>
-          <div>
-            In the options panel
-            <Menu className="mx-1 inline-block" />
-            under Config Options
-            <CogIcon className="mx-1 inline-block" />, set IPv6 Route to{" "}
-            <b>Enable</b>, Remote DNS to <b>udp://1.1.1.1</b>, and Direct DNS to{" "}
-            <b>local</b>.
+          <div>Next, copy the settings below:</div>
+          <div className="flex items-center gap-2">
+            <Input
+              defaultValue={config || "Loading..."}
+              readOnly
+              className="bg-muted text-muted-foreground"
+            />
+            <Button size="sm" onClick={() => copyToClipboard(config || "")}>
+              <Copy className="size-4" />
+            </Button>
           </div>
+          <div>
+            Find and click the
+            <Badge
+              variant="outline"
+              className="text-muted-foreground bg-muted mx-1"
+            >
+              <Settings className="mr-1 inline-block" />
+              Settings
+            </Badge>
+            button, then click the{" "}
+            <Badge
+              variant="outline"
+              className="text-muted-foreground bg-muted mx-1"
+            >
+              <EllipsisVertical className="mx-1" />
+            </Badge>{" "}
+            at the top right. Select the option that says{" "}
+            <b>Import options from clipboard</b>.
+          </div>
+          <br />
           <img
-            src="/setup/dns-config.png"
-            alt="dns"
-            width={imageWidth / 1.5}
+            src="/setup/settings-config.png"
+            width={imageWidth}
+            alt="settings config import"
             className="self-center"
             loading="eager"
           />
-          {!isMobile && (
-            <>
-              <p>
-                Scroll down and make sure the service mode is set to <b>VPN</b>.
-              </p>
-              <img
-                src="/setup/service-mode.png"
-                alt="dns"
-                width={imageWidth / 1.5}
-                className="self-center"
-                loading="eager"
-              />
-            </>
-          )}
         </>
       ),
-      title: "Configuration",
+      title: "Configure settings",
     },
     {
       content: (
         <>
           <p>
-            Go back to the home screen and tap the giant button in the middle
-            and you should be all connected!{" "}
+            Go back to the home screen and tap the giant button and you should
+            be all connected!{" "}
             {isMobile && (
-              <>You should see a key or VPN icon in the top status bar.</>
+              <>You should see a key or VPN icon in your status bar.</>
             )}
           </p>
           <br />
@@ -306,8 +326,8 @@ function getSteps(
       content: (
         <>
           <div>
-            If all is working, feel free to upgrade your plan to a single month,
-            or a monthly subscription{" "}
+            Once your trial is over, upgrade your plan to a full month, or a
+            monthly subscription{" "}
             <a
               href="/dashboard/pricing"
               className="text-primary-link underline"
@@ -318,8 +338,7 @@ function getSteps(
             <a href="/dashboard/tips" className="text-primary-link underline">
               Tips & Tricks
             </a>{" "}
-            to learn more about optimizing your speeds and general
-            troubleshooting.
+            for increasing speeds and general troubleshooting.
           </div>
         </>
       ),
@@ -354,6 +373,8 @@ function getPlatform(props: Props): Platform {
 function HowToInstall(props: Props) {
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout>();
   const { data, mutate } = useSWR("fetchUser", fetchUser);
+  const [config, setConfig] = useState<string | undefined>();
+
   const user = data?.user;
   const profile = user?.profile;
   const setupLink = profile
@@ -378,6 +399,15 @@ function HowToInstall(props: Props) {
 
     return () => clearInterval(intervalId);
   }, [profile?.hiddifyId]);
+
+  useEffect(() => {
+    retryOnError(
+      async () =>
+        await axiosFetch
+          .get<object>(`${FILE_DOWNLOAD_URL}${FILE_CONFIG_JSON}`)
+          .then(({ data }) => setConfig(JSON.stringify(data, null, 0)))
+    );
+  }, []);
 
   return (
     <Tabs defaultValue={platform}>
@@ -427,31 +457,41 @@ function HowToInstall(props: Props) {
         {getSteps(
           FILE_TYPES.android.fileType,
           FILE_TYPES.android.icon,
-          setupLink
+          setupLink,
+          config
         ).map((step, idx) => (
           <Step key={idx} idx={idx} {...step} />
         ))}
       </TabsContent>
       <TabsContent value="pc">
-        {getSteps(FILE_TYPES.pc.fileType, FILE_TYPES.pc.icon, setupLink).map(
-          (step, idx) => (
-            <Step key={idx} idx={idx} {...step} />
-          )
-        )}
+        {getSteps(
+          FILE_TYPES.pc.fileType,
+          FILE_TYPES.pc.icon,
+          setupLink,
+          config
+        ).map((step, idx) => (
+          <Step key={idx} idx={idx} {...step} />
+        ))}
       </TabsContent>
       <TabsContent value="ios">
-        {getSteps(FILE_TYPES.ios.fileType, FILE_TYPES.ios.icon, setupLink).map(
-          (step, idx) => (
-            <Step key={idx} idx={idx} {...step} />
-          )
-        )}
+        {getSteps(
+          FILE_TYPES.ios.fileType,
+          FILE_TYPES.ios.icon,
+          setupLink,
+          config
+        ).map((step, idx) => (
+          <Step key={idx} idx={idx} {...step} />
+        ))}
       </TabsContent>
       <TabsContent value="mac">
-        {getSteps(FILE_TYPES.mac.fileType, FILE_TYPES.mac.icon, setupLink).map(
-          (step, idx) => (
-            <Step key={idx} idx={idx} {...step} />
-          )
-        )}
+        {getSteps(
+          FILE_TYPES.mac.fileType,
+          FILE_TYPES.mac.icon,
+          setupLink,
+          config
+        ).map((step, idx) => (
+          <Step key={idx} idx={idx} {...step} />
+        ))}
       </TabsContent>
     </Tabs>
   );

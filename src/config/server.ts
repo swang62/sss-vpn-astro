@@ -19,7 +19,7 @@ const EnvSchema = z.object({
 
 const { data, error } = EnvSchema.safeParse({
   ...(import.meta.env ?? {}),
-  ...(process.env ?? {}),
+  ...(process?.env ?? {}),
 });
 
 if (error) {

@@ -7,6 +7,8 @@ const headingStyle = "text-3xl py-4";
 const sectionStyle = "flex flex-col";
 const paragraphStyle = "mb-6";
 const imageWidth = 300;
+
+// MAKE SURE TO UPDATE TABLE OF CONTENTS if you change any titles
 ---
 
 <DashboardLayout title="Tips & Tricks">
@@ -44,14 +46,13 @@ const imageWidth = 300;
     <section id="proxies" class={sectionStyle}>
       <h1 class={headingStyle}>Selecting proxies</h1>
       <p class={paragraphStyle}>
-        By default, the app will automatically choose the proxy with the lowest
-        ping. However, if streaming/downloading feels slow, I recommend manually
+        By default, the app will automatically choose the best proxies for you.
+        However, if streaming/downloading feels slow, I recommend manually
         selecting proxies with <b>Vless</b> or
-        <b>Vmess</b>.
+        <b>Vmess</b> in their names.
         <br />
         <br />
-        Both of these, in my experience, have pretty fast download speeds. There
-        isn't much difference between tls and tls_h2.
+        Both of these, in my experience, have pretty fast download speeds.
       </p>
       <img
         src="/tips/proxy.png"
@@ -65,21 +66,30 @@ const imageWidth = 300;
     <hr />
 
     <section id="options" class={sectionStyle}>
-      <h1 class={headingStyle}>Config options</h1>
+      <h1 class={headingStyle}>DNS settings</h1>
       <p>
         <h1 class="mb-1">Remote DNS</h1>
         <ul class="mb-6 list-outside list-disc">
           <li class="ml-8">
-            udp://1.1.1.1 is pretty stable most of the time, but on mobile
-            networks like 4G/5G, you can try tcp://1.1.1.1 or 8.8.8.8.
+            <b>udp://1.1.1.1</b> is pretty stable most of the time, but on mobile
+            networks like 4G/5G, you might need to change it to <b
+              >tcp://1.1.1.1</b
+            > or <b>8.8.8.8</b>.
           </li>
         </ul>
-        <h1 class="mb-1">Direct DNS</h1>
+        <h1 class="mb-1">Outbound DNS (direct)</h1>
+        <ul class="mb-6 list-outside list-disc">
+          <li class="ml-8">
+            <b>local</b> is the correct option for most scenarios, but sometimes
+            on public WiFi, you might need to change to <b>udp://1.1.1.1</b> or
+            <b>tcp://1.1.1.1</b>.
+          </li>
+        </ul>
+        <h1 class="mb-1">Fake DNS</h1>
         <ul class="list-outside list-disc">
           <li class="ml-8">
-            local is the correct option for most scenarios, but when using WiFi,
-            especially in public areas (which are very restrictive), you can try
-            udp://1.1.1.1, tcp://1.1.1.1 or 8.8.8.8.
+            This usually can be enabled without problems, it may or may not make
+            any difference, you can give it a try.
           </li>
         </ul>
       </p>
@@ -90,11 +100,10 @@ const imageWidth = 300;
     <section id="updates" class={sectionStyle}>
       <h1 class={headingStyle}>App updates</h1>
       <p class={paragraphStyle}>
-        As a last resort, under the About section, you can update the app
-        itself. If you want to turn on auto-updates, you'll need to enable the
-        beta updates. It is extremely rare that the app will require an update,
-        99% of the time it's the server, or during a Chinese holiday/political
-        event.
+        As a last resort, under the About section, you can update the app. It
+        should auto-update by itself automatically, most of the time it's the
+        server, a global outage, or during a Chinese holiday/political event.
+        Email me if you are having issues for more than a day.
       </p>
       <img
         src="/tips/update.png"
@@ -110,7 +119,7 @@ const imageWidth = 300;
     <section id="mobile" class={sectionStyle}>
       <h1 class={headingStyle}>Mobile tips</h1>
       <p class={paragraphStyle}>
-        This feature is only available on mobile. Under Settings {">"} Advanced {
+        This feature is only available on mobile. Under Settings {">"} Routing {
           ">"
         } Per-App Proxy. If you have mainly Chinese apps, select 'Proxy only selected
         apps" and pick foreign apps like Google/Youtube.

@@ -20,7 +20,7 @@ function TableOfContents() {
         </TableOfContentsItem>
         <TableOfContentsItem>
           <TableOfContentsLink href="#options">
-            Config options
+            DNS settings
           </TableOfContentsLink>
         </TableOfContentsItem>
         <TableOfContentsItem>

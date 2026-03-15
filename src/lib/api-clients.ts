@@ -1,5 +1,6 @@
 import type { ClientRequestOptions, ClientResponse } from "hono/client";
 
+import axios from "axios";
 import { hc } from "hono/client";
 
 import type { App } from "@/server";
@@ -48,3 +49,12 @@ export async function fetchUsage() {
     return res.json();
   });
 }
+
+// Regular fetch
+export const axiosFetch = axios.create({
+  headers: {
+    accept: "application/json",
+    "content-type": "application/json",
+  },
+  timeout: 5000,
+});
