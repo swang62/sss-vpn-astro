@@ -47,11 +47,8 @@ export default defineConfig({
     robotsTxt({
       policy: [
         {
-          allow: "/",
           disallow: [
-            "/login",
-            "/signup",
-            "*password*",
+            "/_server-islands/*",
             "/api/*",
             "/dashboard",
             "/dashboard/*",
