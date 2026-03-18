@@ -147,19 +147,18 @@ function SignUpForm() {
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Create an account</CardTitle>
           <CardDescription>
-            Trial will start after email verification. I recommend an unblocked
+            Trial will start after email verification. Recommend an unblocked
             email
             <Popover>
               <PopoverTrigger>
                 <span className="text-secondary-link ml-1 cursor-pointer underline">
-                  address
+                  provider
                 </span>
               </PopoverTrigger>
               <PopoverContent className="w-fit">
-                <h1 className="font-2xl">Recommended</h1>
-                <hr className="my-3" />
                 <ul>
                   <li>qq.com</li>
+                  <li>163.com</li>
                   <li>icloud.com</li>
                   <li>live.com</li>
                   <li>outlook.com</li>
