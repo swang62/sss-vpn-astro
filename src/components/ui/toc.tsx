@@ -2,8 +2,7 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-interface TableOfContentsListProps
-  extends React.ComponentPropsWithoutRef<"ul"> {
+interface TableOfContentsListProps extends React.ComponentPropsWithoutRef<"ul"> {
   indent?: boolean;
 }
 
@@ -27,8 +26,7 @@ const TableOfContentsTitle = React.forwardRef<
 ));
 TableOfContentsTitle.displayName = "TableOfContentsTitle";
 
-interface TableOfContentsItemProps
-  extends React.ComponentPropsWithoutRef<"li"> {
+interface TableOfContentsItemProps extends React.ComponentPropsWithoutRef<"li"> {
   indent?: boolean;
 }
 
