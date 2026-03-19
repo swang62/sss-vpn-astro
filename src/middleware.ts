@@ -1,7 +1,6 @@
 import type { MiddlewareHandler } from "astro";
 
-import { When, whenAmI } from "@it-astro:when";
-
+// import { When, whenAmI } from "@it-astro:when";
 import { getUserById } from "@/db/queries";
 import { auth } from "@/lib/auth";
 
@@ -42,15 +41,14 @@ export const authenticate: MiddlewareHandler = async (ctx, next) => {
   return next();
 };
 
-type ValidContext = When.DevServer | When.Server;
+// type ValidContext = When.DevServer | When.Server;
 
-const middlewares: Record<ValidContext, MiddlewareHandler> = {
-  [When.DevServer]: (ctx, next) => {
-    return authenticate(ctx, next);
-  },
-  [When.Server]: (ctx, next) => {
-    return authenticate(ctx, next);
-  },
-};
+// const middlewares: Record<ValidContext, MiddlewareHandler> = {
+//   [When.DevServer]: (ctx, next) => authenticate(ctx, next),
+//   [When.Server]: (ctx, next) => authenticate(ctx, next),
+// };
 
-export const onRequest = middlewares[whenAmI as ValidContext];
+// export const onRequest = middlewares[whenAmI as ValidContext];
+
+export const onRequest: MiddlewareHandler = (ctx, next) =>
+  authenticate(ctx, next);
