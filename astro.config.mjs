@@ -1,7 +1,6 @@
 import node from "@astrojs/node";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
-import inoxToolswhen from "@inox-tools/astro-when";
 import sentry from "@sentry/astro";
 import spotlightjs from "@spotlightjs/astro";
 import tailwindcss from "@tailwindcss/vite";
@@ -27,7 +26,6 @@ export default defineConfig({
   },
   // ORDER MATTERS
   integrations: [
-    inoxToolswhen(),
     icon({
       include: {
         lucide: ["*"],
@@ -81,14 +79,12 @@ export default defineConfig({
         external: [/vitest.*/, /.*\.test\..*/],
       },
     },
+    optimizeDeps: {
+      include: ["astro/toolbar"],
+    },
     plugins: [tailwindcss({ nesting: true })],
     server: {
-      allowedHosts: [
-        "dazzling-breeze-21743.pktriot.net",
-        "localhost",
-        "127.0.0.1",
-        "192.168.8.129",
-      ],
+      allowedHosts: [".ngrok-free.dev", "192.168.8.129"],
     },
     sourcemap: true,
   },

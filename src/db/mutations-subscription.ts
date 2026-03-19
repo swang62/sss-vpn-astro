@@ -116,7 +116,7 @@ export async function handleItemPurchases(
   let purchasedDataPlan = false;
   let totalSpent = 0;
   for (const item of lineItems) {
-    const priceId = item.pricing?.price_details?.price;
+    const priceId = item.pricing?.price_details?.price as string;
     const product = await getProductByPriceId(priceId);
     if (product?.id === "router") {
       purchasedRouter = true;
@@ -136,9 +136,7 @@ export async function handleItemPurchases(
 
     await db
       .update(profileTable)
-      .set({
-        purchasedRouter: true,
-      })
+      .set({ purchasedRouter: true })
       .where(eq(profileTable.stripeCustomerId, stripeCustomerId));
 
     if (postmarkClient) {
