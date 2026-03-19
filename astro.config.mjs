@@ -81,9 +81,6 @@ export default defineConfig({
         external: [/vitest.*/, /.*\.test\..*/],
       },
     },
-    optimizeDeps: {
-      include: ["astro/toolbar"],
-    },
     plugins: [tailwindcss({ nesting: true })],
     server: {
       allowedHosts: [

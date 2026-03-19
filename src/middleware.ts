@@ -6,23 +6,25 @@ import { auth } from "@/lib/auth";
 
 // This file is automatically imported/bundled into SSR routes
 
-export const authenticate: MiddlewareHandler = async (ctx, next) => {
+export const onRequest: MiddlewareHandler = async (ctx, next) => {
   const { pathname } = ctx.url;
 
-  const needsAdmin = pathname.includes("debug");
-  const needsAuth = pathname.startsWith("/dashboard");
-  if (!needsAuth) return next();
+  const requireAuth = pathname.startsWith("/dashboard");
+  const requireAuthAdmin = pathname.includes("debug");
+
+  // Bypass unauthenticated routes
+  if (!requireAuth) return next();
 
   // Store session
   const session = await auth.api.getSession({
     headers: ctx.request.headers,
   });
 
-  if (needsAuth) {
+  if (requireAuth) {
     if (!session) {
       // Redirect for invalid sessions
       return ctx.redirect("/login");
-    } else if (needsAdmin && session.user.role !== "admin") {
+    } else if (requireAuthAdmin && session.user.role !== "admin") {
       // Redirect for unauthorized users
       return ctx.redirect("/dashboard");
     } else {
@@ -50,5 +52,5 @@ export const authenticate: MiddlewareHandler = async (ctx, next) => {
 
 // export const onRequest = middlewares[whenAmI as ValidContext];
 
-export const onRequest: MiddlewareHandler = (ctx, next) =>
-  authenticate(ctx, next);
+// export const onRequest: MiddlewareHandler = (ctx, next) =>
+//   authenticate(ctx, next);

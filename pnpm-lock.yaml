@@ -201,8 +201,8 @@ importers:
         specifier: ^2.0.7
         version: 2.0.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       stripe:
-        specifier: ^18.5.0
-        version: 18.5.0(@types/node@24.12.0)
+        specifier: ^20.4.1
+        version: 20.4.1(@types/node@24.12.0)
       swr:
         specifier: ^2.4.1
         version: 2.4.1(react@19.2.4)
@@ -234,9 +234,6 @@ importers:
       '@eslint/js':
         specifier: ^9.39.4
         version: 9.39.4
-      '@inox-tools/astro-when':
-        specifier: ^1.4.0
-        version: 1.4.0(astro@6.0.6(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.59.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))
       '@spotlightjs/astro':
         specifier: ^3.2.6
         version: 3.2.6(@sentry/astro@10.44.0(astro@6.0.6(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.59.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))(rollup@4.59.0))(astro@6.0.6(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.59.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))
@@ -1321,11 +1318,6 @@ packages:
     engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
     cpu: [x64]
     os: [win32]
-
-  '@inox-tools/astro-when@1.4.0':
-    resolution: {integrity: sha512-uKir+i1QU8+dsHSO3c7GQytubHA7d2/RsKCmKPEU6AQrWaWeN/ulRz31g/5k9LyvX+cmsVW5Ra6CBElMR58HWA==}
-    peerDependencies:
-      astro: ^5
 
   '@isaacs/fs-minipass@4.0.1':
     resolution: {integrity: sha512-wgm9Ehl2jpeqP3zw/7mo3kRHFp5MEDhqAdwy1fTGkHAwnkGOVsgpvQhL8B5n1qlb01jV3n/bI0ZfZp5lWA1k4w==}
@@ -3528,11 +3520,6 @@ packages:
   astro-icon@1.1.5:
     resolution: {integrity: sha512-CJYS5nWOw9jz4RpGWmzNQY7D0y2ZZacH7atL2K9DeJXJVaz7/5WrxeyIxO8KASk1jCM96Q4LjRx/F3R+InjJrw==}
 
-  astro-integration-kit@0.19.1:
-    resolution: {integrity: sha512-0MORMlwJXM3d2RlYoFMKpdBTEOqFEZ7rY5TnQssLsUTfaZgF4XkNJW0mNsDiOdM9LgDn9Px2dZtz8NbuUW75nw==}
-    peerDependencies:
-      astro: ^4.14.0 || ^5.0.0
-
   astro-robots-txt@1.0.0:
     resolution: {integrity: sha512-6JQSLid4gMhoWjOm85UHLkgrw0+hHIjnJVIUqxjU2D6feKlVyYukMNYjH44ZDZBK1P8hNxd33PgWlHzCASvedA==}
 
@@ -5698,9 +5685,6 @@ packages:
   path-to-regexp@8.3.0:
     resolution: {integrity: sha512-7jdwVIRtsP8MYpdXSwOS0YdD0Du+qOoF/AEPIt88PcCFrZCzx41oxku1jD88hZBwbNUIEfpqvuhjFaMAqMTWnA==}
 
-  pathe@1.1.2:
-    resolution: {integrity: sha512-whLdWMYL2TwI08hn8/ZqAbrVemu0LNaNNJZX73O6qaIdCTfXutsLhMkjdENX0qhsQ9uIimo4/aQOmXkoon2nDQ==}
-
   pathe@2.0.3:
     resolution: {integrity: sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==}
 
@@ -6409,11 +6393,11 @@ packages:
   strip-literal@3.1.0:
     resolution: {integrity: sha512-8r3mkIM/2+PpjHoOtiAW8Rg3jJLHaV7xPwG+YRGrv6FP0wwk/toTpATxWYOW0BKdWwl82VT2tFYi5DlROa0Mxg==}
 
-  stripe@18.5.0:
-    resolution: {integrity: sha512-Hp+wFiEQtCB0LlNgcFh5uVyKznpDjzyUZ+CNVEf+I3fhlYvh7rZruIg+jOwzJRCpy0ZTPMjlzm7J2/M2N6d+DA==}
-    engines: {node: '>=12.*'}
+  stripe@20.4.1:
+    resolution: {integrity: sha512-axCguHItc8Sxt0HC6aSkdVRPffjYPV7EQqZRb2GkIa8FzWDycE7nHJM19C6xAIynH1Qp1/BHiopSi96jGBxT0w==}
+    engines: {node: '>=16'}
     peerDependencies:
-      '@types/node': '>=12.x.x'
+      '@types/node': '>=16'
     peerDependenciesMeta:
       '@types/node':
         optional: true
@@ -8068,14 +8052,6 @@ snapshots:
 
   '@img/sharp-win32-x64@0.34.5':
     optional: true
-
-  '@inox-tools/astro-when@1.4.0(astro@6.0.6(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.59.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))':
-    dependencies:
-      astro: 6.0.6(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.59.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
-      astro-integration-kit: 0.19.1(astro@6.0.6(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.59.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))
-      debug: 4.4.3
-    transitivePeerDependencies:
-      - supports-color
 
   '@isaacs/fs-minipass@4.0.1':
     dependencies:
@@ -10594,11 +10570,6 @@ snapshots:
       '@iconify/utils': 2.3.0
     transitivePeerDependencies:
       - supports-color
-
-  astro-integration-kit@0.19.1(astro@6.0.6(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.59.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)):
-    dependencies:
-      astro: 6.0.6(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(rollup@4.59.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
-      pathe: 1.1.2
 
   astro-robots-txt@1.0.0:
     dependencies:
@@ -13137,8 +13108,6 @@ snapshots:
 
   path-to-regexp@8.3.0: {}
 
-  pathe@1.1.2: {}
-
   pathe@2.0.3: {}
 
   pathval@2.0.1: {}
@@ -13939,9 +13908,7 @@ snapshots:
     dependencies:
       js-tokens: 9.0.1
 
-  stripe@18.5.0(@types/node@24.12.0):
-    dependencies:
-      qs: 6.15.0
+  stripe@20.4.1(@types/node@24.12.0):
     optionalDependencies:
       '@types/node': 24.12.0
 
