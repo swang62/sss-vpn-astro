@@ -97,7 +97,7 @@ export function corsMiddleware(): MiddlewareHandler {
         exposeHeaders: ["*"],
         maxAge: 600,
         origin: (origin) =>
-          origin.includes("sss-vpn") || origin.includes("mildlybrewed")
+          origin.includes("sss-vpn") || origin.includes("stronglybrewed")
             ? origin
             : "localhost",
       });
@@ -129,11 +129,10 @@ export function limiter(): MiddlewareHandler {
   return rateLimiter({
     keyGenerator: (c) =>
       `${c.req.path}-${c.req.header("cf-connecting-ip") ?? ""}`,
-    limit: (c) => (c.req.header("host")?.includes("localhost") ? 1000 : 50),
+    limit: 50,
     message: {
       message: "Too many requests, try again later.",
     },
-    standardHeaders: "draft-6",
     // @ts-expect-error if undefined, automatically use in-memory storage.
     store: redis?.store,
     windowMs: 10 * 1000,

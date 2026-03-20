@@ -48,7 +48,7 @@ function getSteps(
       content: (
         <>
           <p>
-            Click the button below to download the app manually{" "}
+            Click the button below to download the app manually
             {isIOS && (
               <>
                 , or click
@@ -193,7 +193,7 @@ function getSteps(
     {
       content: (
         <>
-          <div>First, copy your unique profile link below:</div>
+          <div>First, copy your unique subscription link below:</div>
           <div className="flex items-center gap-2">
             <Input
               defaultValue={setupLink || "Loading..."}

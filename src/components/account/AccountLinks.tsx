@@ -42,7 +42,7 @@ function AccountLinks() {
       </CardHeader>
       <CardContent className="flex flex-col">
         <p>
-          This is your unique link used to{" "}
+          This is your unique subscription link to{" "}
           <a href="/dashboard/install" className="text-primary-link underline">
             setup
           </a>{" "}

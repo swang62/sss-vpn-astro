@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { MIN_WAIT_TIME } from "@/config/constants";
 import { api, parseApi } from "@/lib/api-clients";
-import { forgetPassword } from "@/lib/auth-clients";
+import { requestPasswordReset } from "@/lib/auth-clients";
 import { minutesPassedSince } from "@/lib/utils";
 
 const formSchema = z.object({
@@ -59,7 +59,7 @@ function ForgotPasswordForm() {
       return;
     }
 
-    await forgetPassword(
+    await requestPasswordReset(
       {
         email,
         redirectTo: "/reset-password",

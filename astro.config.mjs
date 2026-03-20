@@ -1,7 +1,6 @@
 import node from "@astrojs/node";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
-import inoxToolswhen from "@inox-tools/astro-when";
 import sentry from "@sentry/astro";
 import spotlightjs from "@spotlightjs/astro";
 import tailwindcss from "@tailwindcss/vite";
@@ -27,7 +26,6 @@ export default defineConfig({
   },
   // ORDER MATTERS
   integrations: [
-    inoxToolswhen(),
     icon({
       include: {
         lucide: ["*"],
@@ -36,13 +34,11 @@ export default defineConfig({
     }),
     react(),
     sentry({
+      authToken: process.env.SENTRY_TOKEN,
       enabled: !!process.env.SENTRY_TOKEN,
-      sourceMapsUploadOptions: {
-        authToken: process.env.SENTRY_TOKEN,
-        org: process.env.SENTRY_ORG,
-        project: process.env.SENTRY_PROJECT,
-        telemetry: false,
-      },
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+      silent: true,
     }),
     robotsTxt({
       policy: [
@@ -86,12 +82,7 @@ export default defineConfig({
     },
     plugins: [tailwindcss({ nesting: true })],
     server: {
-      allowedHosts: [
-        "dazzling-breeze-21743.pktriot.net",
-        "localhost",
-        "127.0.0.1",
-        "192.168.8.129",
-      ],
+      allowedHosts: [".ngrok-free.dev", "192.168.8.129"],
     },
     sourcemap: true,
   },

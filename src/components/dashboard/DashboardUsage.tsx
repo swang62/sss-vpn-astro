@@ -45,7 +45,7 @@ function DashboardOverview() {
 
   const resetMode =
     usage?.mode === "monthly"
-      ? "data resets"
+      ? "plan resets"
       : currentPlan === "trial"
         ? "trial ends"
         : "plan ends";
@@ -65,7 +65,7 @@ function DashboardOverview() {
   // Markup
   const details = [
     {
-      title: "Total data used",
+      title: "Total used",
       value: `${currentUsed.toFixed(2)} GB of ${totalAllowed} GB`,
     },
     {
@@ -84,12 +84,8 @@ function DashboardOverview() {
 
   return (
     <Card x-chunk="Dashboard usage">
-      <CardHeader className="flex flex-row content-center items-center justify-between gap-2 align-middle">
+      <CardHeader>
         <CardTitle>Data usage</CardTitle>
-        <Button variant="link" onClick={onClickRefresh} className="px-0">
-          <RefreshCcw />
-          <span>Refresh</span>
-        </Button>
       </CardHeader>
       <CardContent>
         <Progress
@@ -114,7 +110,11 @@ function DashboardOverview() {
           ))}
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex flex-row flex-wrap justify-end gap-2">
+        <Button variant="link" onClick={onClickRefresh} className="px-0">
+          <RefreshCcw />
+          <span>Refresh</span>
+        </Button>
         <a href="/dashboard/account">
           <Button variant="outline">
             <Edit />

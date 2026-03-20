@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 const EnvSchema = z.object({
-  BETTER_AUTH_SECRET: z.string().default("default"),
   DB_AUTH_TOKEN: z.string().default("default"),
   DB_REMOTE: z.string().optional(),
   HIDDIFY_API_KEY: z.string().optional(),

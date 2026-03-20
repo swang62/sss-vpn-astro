@@ -8,7 +8,7 @@ import { SITE_URL } from "@/config/client";
 export const {
   $Infer,
   admin,
-  forgetPassword,
+  requestPasswordReset,
   resetPassword,
   sendVerificationEmail,
   signIn,

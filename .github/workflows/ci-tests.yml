@@ -2,12 +2,15 @@ name: Build & Test & Lint
 
 on: [push]
 
+env:
+  BETTER_AUTH_SECRET: 1234567890
+
 jobs:
   main:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -15,7 +18,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: "pnpm"
       - name: Install packages
         run: pnpm install --frozen-lock
