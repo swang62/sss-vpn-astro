@@ -52,17 +52,7 @@ function AccountDetails() {
     );
   const planDetails = [
     {
-      title: (
-        <div className="flex items-center justify-between">
-          <span>Plan</span>
-          <a href="/dashboard/pricing">
-            <Button variant="outline" className="flex flex-nowrap px-3">
-              <Rocket className="text-orange-400" />
-              <span>Upgrade</span>
-            </Button>
-          </a>
-        </div>
-      ),
+      title: <div>Plan</div>,
       value: capitalize(subscriptionType) + description,
     },
     {
@@ -128,7 +118,13 @@ function AccountDetails() {
           </div>
         ))}
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex flex-row flex-wrap items-center justify-end gap-2">
+        <a href="/dashboard/pricing">
+          <Button variant="outline" className="px-0">
+            <Rocket className="text-orange-400" />
+            <span className="text-foreground">Upgrade</span>
+          </Button>
+        </a>
         {!profile ? (
           <Skeleton className="h-10 w-56" />
         ) : endDate ? (

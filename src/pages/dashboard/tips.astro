@@ -32,13 +32,6 @@ const imageWidth = 300;
         class="self-center"
         loading="lazy"
       />
-      <img
-        src="/tips/proxy-config.png"
-        alt="proxy"
-        width={imageWidth / 1.5}
-        class="self-center"
-        loading="lazy"
-      />
     </section>
 
     <hr />
@@ -46,13 +39,10 @@ const imageWidth = 300;
     <section id="proxies" class={sectionStyle}>
       <h1 class={headingStyle}>Selecting proxies</h1>
       <p class={paragraphStyle}>
-        By default, the app will automatically choose the best proxies for you.
-        However, if streaming/downloading feels slow, I recommend manually
-        selecting proxies with <b>Vless</b> or
-        <b>Vmess</b> in their names.
-        <br />
-        <br />
-        Both of these, in my experience, have pretty fast download speeds.
+        By default, the app will automatically balance proxies for you. However,
+        if everything feels slow, I recommend choosing the <b>lowest</b>
+        balancer option, or manually selecting <b>Vless</b> or
+        <b>Vmess</b>. Shadowsocks is pretty reliable too.
       </p>
       <img
         src="/tips/proxy.png"
