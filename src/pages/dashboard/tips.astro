@@ -4,7 +4,7 @@ import DashboardLayout from "@/layouts/DashboardLayout.astro";
 import Header from "@/layouts/Header.astro";
 
 const headingStyle = "text-3xl py-4";
-const sectionStyle = "flex flex-col";
+const sectionStyle = "flex flex-col pb-4";
 const paragraphStyle = "mb-6";
 const imageWidth = 300;
 
@@ -12,37 +12,21 @@ const imageWidth = 300;
 ---
 
 <DashboardLayout title="Tips & Tricks">
-  <div class="container mx-auto flex w-full max-w-2xl flex-col gap-6 py-4">
+  <div class="container mx-auto flex w-full max-w-2xl flex-col gap-6 py-6">
     <Header title="Tips & Tricks" />
 
     <hr />
     <TableOfContents />
     <hr class="lg:hidden" />
 
-    <section id="configuration" class={sectionStyle}>
-      <h1 class={headingStyle}>Overview</h1>
-      <p class={paragraphStyle}>
-        There are various option menus in Hiddify, I'll be covering the most
-        important ones here.
-      </p>
-      <img
-        src="/tips/config.png"
-        alt="Configuration"
-        width={imageWidth / 1.5}
-        class="self-center"
-        loading="lazy"
-      />
-    </section>
-
-    <hr />
-
     <section id="proxies" class={sectionStyle}>
       <h1 class={headingStyle}>Selecting proxies</h1>
       <p class={paragraphStyle}>
         By default, the app will automatically balance proxies for you. However,
-        if everything feels slow, I recommend choosing the <b>lowest</b>
-        balancer option, or manually selecting <b>Vless</b> or
-        <b>Vmess</b>. Shadowsocks is pretty reliable too.
+        if things feel slow, I recommend choosing the <b>lowest</b>
+        balancer option, or manually selecting <b>Vless</b>, <b>Vmess</b>, or <b
+          >Trojan</b
+        >. Shadowsocks is pretty reliable too but a little bit slower.
       </p>
       <img
         src="/tips/proxy.png"
@@ -61,25 +45,24 @@ const imageWidth = 300;
         <h1 class="mb-1">Remote DNS</h1>
         <ul class="mb-6 list-outside list-disc">
           <li class="ml-8">
-            <b>udp://1.1.1.1</b> is pretty stable most of the time, but on mobile
-            networks like 4G/5G, you might need to change it to <b
-              >tcp://1.1.1.1</b
-            > or <b>8.8.8.8</b>.
+            By default this is set to <b>'local'</b>. This rarely needs to be
+            changed, but occasionally on public WiFi or Mobile 4G/5G, you can
+            try <b>tcp://1.1.1.1</b> or <b>tcp://8.8.8.8</b>.
           </li>
         </ul>
         <h1 class="mb-1">Outbound DNS (direct)</h1>
         <ul class="mb-6 list-outside list-disc">
           <li class="ml-8">
-            <b>local</b> is the correct option for most scenarios, but sometimes on
-            public WiFi, you might need to change to <b>udp://1.1.1.1</b> or
-            <b>tcp://1.1.1.1</b>.
+            <b>'local'</b> should always be selected for most scenarios, I've never
+            needed to change this, maybe once on a windows computer with extremely
+            broken settings. You can try matching this to Remote DNS if all else fails.
           </li>
         </ul>
         <h1 class="mb-1">Fake DNS</h1>
         <ul class="list-outside list-disc">
           <li class="ml-8">
-            This usually can be enabled without problems, it may or may not make
-            any difference, you can give it a try.
+            This can be enabled without problems, but you can try turning it off
+            if you are having issues.
           </li>
         </ul>
       </p>

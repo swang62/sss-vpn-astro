@@ -200,8 +200,9 @@ function getSteps(
               readOnly
               className="bg-muted text-muted-foreground"
             />
-            <Button size="sm" onClick={() => copyToClipboard(setupLink || "")}>
+            <Button onClick={() => copyToClipboard(setupLink || "")}>
               <Copy className="size-4" />
+              Copy
             </Button>
           </div>
           <div>
@@ -260,8 +261,9 @@ function getSteps(
               readOnly
               className="bg-muted text-muted-foreground"
             />
-            <Button size="sm" onClick={() => copyToClipboard(config || "")}>
+            <Button onClick={() => copyToClipboard(config || "")}>
               <Copy className="size-4" />
+              Copy
             </Button>
           </div>
           <div>

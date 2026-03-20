@@ -9,11 +9,6 @@ function TableOfContents() {
     <div className="mx-auto text-center lg:fixed lg:top-24 lg:left-12 lg:mx-0 lg:text-right xl:left-32 2xl:left-64">
       <TableOfContentsList>
         <TableOfContentsItem>
-          <TableOfContentsLink href="#configuration">
-            Overview
-          </TableOfContentsLink>
-        </TableOfContentsItem>
-        <TableOfContentsItem>
           <TableOfContentsLink href="#proxies">
             Selecting proxies
           </TableOfContentsLink>
