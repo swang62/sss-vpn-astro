@@ -34,13 +34,11 @@ export default defineConfig({
     }),
     react(),
     sentry({
+      authToken: process.env.SENTRY_TOKEN,
       enabled: !!process.env.SENTRY_TOKEN,
-      sourceMapsUploadOptions: {
-        authToken: process.env.SENTRY_TOKEN,
-        org: process.env.SENTRY_ORG,
-        project: process.env.SENTRY_PROJECT,
-        telemetry: false,
-      },
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+      silent: true,
     }),
     robotsTxt({
       policy: [
