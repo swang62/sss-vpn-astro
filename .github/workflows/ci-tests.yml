@@ -2,6 +2,9 @@ name: Build & Test & Lint
 
 on: [push]
 
+env:
+  BETTER_AUTH_SECRET: 1234567890
+
 jobs:
   main:
     runs-on: ubuntu-latest
