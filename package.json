@@ -144,8 +144,8 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "pnpm lint:fix",
-      "pnpm styles:fix"
+      "pnpm styles:fix",
+      "pnpm lint:fix"
     ]
   },
   "volta": {
