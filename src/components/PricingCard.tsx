@@ -134,6 +134,7 @@ function PricingCard({
                 loading={loading}
                 disabled={loading}
                 onClick={onClickAddData}
+                data-umami-event="add-data-plan"
               >
                 + Add data
               </Button>

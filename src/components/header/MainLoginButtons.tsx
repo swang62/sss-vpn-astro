@@ -13,10 +13,8 @@ function MainLoginButtons() {
       >
         Log in
       </a>
-      <a href="/signup">
-        <Button className="rounded-full" data-umami-event="get-started">
-          Get started
-        </Button>
+      <a href="/signup" data-umami-event="get-started">
+        <Button className="rounded-full">Get started</Button>
       </a>
     </span>
   );
