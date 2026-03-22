@@ -83,6 +83,7 @@ function getSteps(
           <a
             href={`${FILE_DOWNLOAD_URL}${downloadFile}`}
             className="self-center pr-8"
+            data-umami-event="download-app"
           >
             <Button>
               <Download />
@@ -147,15 +148,15 @@ function getSteps(
               . Save this file to your desktop and open up the Terminal app.
               Type "sudo chmod +x ~/Desktop/{FILE_START_COMMAND}" into the
               terminal and hit enter. Enter your password (it will be invisible)
-              and hit enter again. Then, close the terminal and use the desktop
-              shortcut to launch the app from now on.
+              and hit enter. From now on, only use the desktop shortcut to
+              launch the app.
             </div>
           )}
           {isWindows && (
             <div className="text-foreground">
               If you get a warning during install, click on More Info &gt; Run
-              Anyways. It might give you an error after installation, that is
-              normal.
+              Anyways. It might give you an error after finishing installation,
+              that's expected.
             </div>
           )}
         </>
