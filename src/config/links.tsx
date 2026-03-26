@@ -34,7 +34,7 @@ export const DASHBOARD_LINKS: MenuLink[] = [
   {
     href: "/dashboard/install",
     icon: <Download />,
-    label: "Install VPN",
+    label: "Installation",
   },
   {
     href: "/dashboard/tips",
