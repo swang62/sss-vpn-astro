@@ -9,13 +9,11 @@ function RedirectCheck() {
   // Hooks
   const { data, error, isLoading } = useSWR("fetchSession", fetchSession, {
     revalidateIfStale: false,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
   });
   if (error || isLoading) return null;
 
   if (data?.session) {
-    toast.success("Already logged in. Redirecting...");
+    toast.success("Already logged in. Redirecting...", { duration: 1500 });
     sleep(1000).then(() => navigate("/dashboard"));
   }
 

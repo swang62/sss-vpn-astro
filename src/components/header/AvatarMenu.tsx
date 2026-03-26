@@ -6,9 +6,9 @@ import {
   Home,
   LogOut,
   Mail,
+  RotateCcw,
   User as UserIcon,
   Wrench,
-  RotateCcw,
 } from "lucide-react";
 import { useEffect } from "react";
 import { toast } from "sonner";
@@ -24,8 +24,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SITE_EMAIL } from "@/config/constants";
 import { fetchUser, type User } from "@/lib/api-clients";
-import { signOut, type Session, type UserSession } from "@/lib/auth-clients";
-import { admin } from "@/lib/auth-clients";
+import {
+  admin,
+  revokeSession,
+  signOut,
+  type Session,
+  type UserSession,
+} from "@/lib/auth-clients";
 import { cn } from "@/lib/utils";
 
 interface AvatarProps {
@@ -48,6 +53,9 @@ function AvatarMenu({ session, user }: AvatarProps) {
   // Handlers
   const logout = async () => {
     await signOut();
+    if (session?.token) {
+      await revokeSession({ token: session.token });
+    }
     navigate("/");
   };
 

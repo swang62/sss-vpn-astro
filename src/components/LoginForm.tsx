@@ -116,6 +116,7 @@ function LoginForm() {
                 loading={loading}
                 disabled={loading}
                 data-umami-event="login"
+                data-astro-reload
               >
                 Log in
               </Button>

@@ -1,13 +1,11 @@
 ---
 import "sonner/dist/styles.css";
-import { ClientRouter } from "astro:transitions";
 
 import ThemeToggle from "@/components/astro/theme-toggle.astro";
 import DashboardVerify from "@/components/dashboard/DashboardVerify";
 import AvatarMenu from "@/components/header/AvatarMenu";
 import DashboardDesktopMenu from "@/components/header/DashboardDesktopMenu";
 import DashboardMobileMenu from "@/components/header/DashboardMobileMenu";
-import { Toaster } from "@/components/ui/sonner";
 import { setupNewUser, updateIpAddress } from "@/db/mutations-user";
 import Base from "@/layouts/Base.astro";
 import Navbar from "@/layouts/Navbar.astro";
@@ -41,15 +39,6 @@ if (isVerified) {
 ---
 
 <Base title={title}>
-  <ClientRouter slot="transition" fallback="swap" />
-  <Toaster
-    position="top-center"
-    richColors
-    client:load
-    transition:persist
-    transition:persist-props
-  />
-
   <Navbar>
     <DashboardMobileMenu pathname={pathname} slot="mobile" client:visible />
 
