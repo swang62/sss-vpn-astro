@@ -1,3 +1,2 @@
 pnpm lint-staged
 pnpm test
-pnpm check

@@ -83,9 +83,8 @@ function getSteps(
           <a
             href={`${FILE_DOWNLOAD_URL}${downloadFile}`}
             className="self-center pr-8"
-            data-umami-event="download-app"
           >
-            <Button>
+            <Button data-umami-event="download-app">
               <Download />
               Download for
               <img

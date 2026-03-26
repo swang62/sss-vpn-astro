@@ -134,13 +134,16 @@ function PricingCard({
                 loading={loading}
                 disabled={loading}
                 onClick={onClickAddData}
-                data-umami-event="add-data-plan"
+                data-umami-event="add-data"
               >
                 + Add data
               </Button>
-              <a href="/dashboard/account">
-                <Button variant="outline">Manage</Button>
-              </a>
+              <Button
+                onClick={() => navigate("/dashboard/account")}
+                variant="outline"
+              >
+                Manage
+              </Button>
             </div>
           ) : (
             <Button
