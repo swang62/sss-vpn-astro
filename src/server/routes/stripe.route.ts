@@ -75,7 +75,7 @@ const route = createBaseRouter()
             },
             key: "auto_renew",
             label: {
-              custom: "Auto-renewal",
+              custom: "Auto-renew",
               type: "custom",
             },
             type: "dropdown",

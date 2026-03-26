@@ -1,5 +1,5 @@
 import { navigate } from "astro:transitions/client";
-import { BadgeCheck } from "lucide-react";
+import { BadgeCheck, Edit, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -136,12 +136,14 @@ function PricingCard({
                 onClick={onClickAddData}
                 data-umami-event="add-data"
               >
-                + Add data
+                <PlusCircle />
+                Add data
               </Button>
               <Button
                 onClick={() => navigate("/dashboard/account")}
                 variant="outline"
               >
+                <Edit />
                 Manage
               </Button>
             </div>

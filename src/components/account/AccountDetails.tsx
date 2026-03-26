@@ -64,7 +64,7 @@ function AccountDetails() {
           : `N/A`,
     },
     {
-      title: "Auto-renewal",
+      title: "Auto-renew",
       value: autoRenew,
     },
   ];
@@ -134,7 +134,7 @@ function AccountDetails() {
             variant="secondary"
             onClick={() => renewPlan(true)}
           >
-            <span>Enable auto-renewal</span>
+            Enable auto-renew
           </Button>
         ) : (
           <Button
@@ -143,7 +143,7 @@ function AccountDetails() {
             variant="destructive"
             onClick={() => renewPlan(false)}
           >
-            <span>Cancel subscription</span>
+            Cancel subscription
           </Button>
         )}
       </CardFooter>

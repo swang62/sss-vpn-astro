@@ -34,7 +34,7 @@ function PricingPlans() {
       <div className="mb-4 flex flex-col items-center gap-6 text-center">
         <p className="max-w-md leading-normal sm:text-lg sm:leading-7">
           You have a choice between a single month or a monthly subscription
-          (auto-renewal)
+          (auto-renew)
         </p>
         <div className="flex items-center justify-center gap-4 text-xl">
           <span className={cn({ "text-muted-foreground/60": monthly })}>

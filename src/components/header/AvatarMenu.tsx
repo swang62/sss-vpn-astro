@@ -96,7 +96,7 @@ function AvatarMenu({ session, user }: AvatarProps) {
           <a href="/dashboard" className="w-full">
             <Button variant="ghost" className={buttonStyle}>
               <Home />
-              <span>Dashboard</span>
+              Dashboard
             </Button>
           </a>
         </DropdownMenuItem>
@@ -104,7 +104,7 @@ function AvatarMenu({ session, user }: AvatarProps) {
           <a href="/dashboard/account" className="w-full">
             <Button variant="ghost" className={buttonStyle}>
               <Edit />
-              <span>Manage account</span>
+              My account
             </Button>
           </a>
         </DropdownMenuItem>
@@ -117,7 +117,7 @@ function AvatarMenu({ session, user }: AvatarProps) {
           >
             <Button variant="ghost" className={buttonStyle}>
               <Mail />
-              <span>Contact me</span>
+              Contact me
             </Button>
           </a>
         </DropdownMenuItem>
@@ -125,7 +125,7 @@ function AvatarMenu({ session, user }: AvatarProps) {
           <a href="/dashboard/settings" className="w-full">
             <Button variant="ghost" className={buttonStyle}>
               <Cog />
-              <span>Settings</span>
+              Settings
             </Button>
           </a>
         </DropdownMenuItem>

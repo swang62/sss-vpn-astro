@@ -1,4 +1,5 @@
 import { navigate } from "astro:transitions/client";
+import { ExternalLink } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -34,7 +35,8 @@ function AccountPortal() {
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
         <p>
-          Manage your plan, update your payment details, or view past invoices.
+          Manage your plan, update your payment details, or view past invoices
+          on Stripe.
         </p>
       </CardContent>
       <CardFooter>
@@ -43,7 +45,8 @@ function AccountPortal() {
           loading={loading}
           onClick={redirectCustomerPortal}
         >
-          <span>Visit portal</span>
+          <ExternalLink />
+          Visit portal
         </Button>
       </CardFooter>
     </Card>

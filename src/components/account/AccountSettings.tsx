@@ -89,7 +89,7 @@ function AccountSettings({ user }: Props) {
               Feel free to call yourself whatever you like :)
             </span>
             <Button disabled={loading} loading={loading} type="submit">
-              <span>Save</span>
+              Save
             </Button>
           </CardFooter>
         </form>

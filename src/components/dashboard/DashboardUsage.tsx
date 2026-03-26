@@ -113,12 +113,12 @@ function DashboardOverview() {
       <CardFooter className="flex flex-row flex-wrap justify-end gap-2">
         <Button variant="link" onClick={onClickRefresh} className="px-0">
           <RefreshCcw />
-          <span>Refresh</span>
+          Refresh
         </Button>
         <a href="/dashboard/account">
           <Button variant="outline">
             <Edit />
-            <span>Manage account</span>
+            Manage
           </Button>
         </a>
       </CardFooter>
