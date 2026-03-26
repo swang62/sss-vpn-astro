@@ -33,17 +33,14 @@ function DashboardVerify({ user }: Props) {
   };
 
   return (
-    <div className="container mx-auto flex w-full max-w-xl flex-col items-center justify-center gap-6">
+    <div className="container mx-auto flex w-full max-w-xl flex-col items-center justify-center gap-4 text-center">
       <div>Please verify your email address first.</div>
-      <div className="max-w-96 text-center">
-        <span className="text-muted-foreground text-sm">
-          Sometimes the email can be delayed by a couple minutes or sent to your
-          spam folder
-        </span>
+      <div className="text-muted-foreground text-sm">
+        Sometimes the email can be delayed or sent to your spam folder
       </div>
 
       <Button onClick={onClickVerify} data-umami-event="verify-email">
-        Click to resend
+        Resend email
       </Button>
     </div>
   );

@@ -73,10 +73,7 @@ function ForgotPasswordForm() {
           setLoading(true);
         },
         onSuccess: () => {
-          toast.success("Email sent! Check your inbox.", {
-            closeButton: true,
-            duration: 30000,
-          });
+          toast.success("Email sent! Check your inbox.");
           form.reset();
           setSentEmail(new Date().toISOString());
           setLoading(false);

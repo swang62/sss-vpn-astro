@@ -10,6 +10,7 @@ export const {
   admin,
   requestPasswordReset,
   resetPassword,
+  revokeSession,
   sendVerificationEmail,
   signIn,
   signOut,

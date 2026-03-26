@@ -128,10 +128,7 @@ function SignUpForm() {
             email,
           });
 
-          toast.success("Email sent! Check your inbox.", {
-            closeButton: true,
-            duration: 30000,
-          });
+          toast.success("Email sent! Check your inbox.");
           form.resetField("password");
           form.resetField("passwordConfirm");
           setSentEmail(new Date().toISOString());
