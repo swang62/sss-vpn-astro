@@ -8,6 +8,7 @@ function MainLoginButtons() {
     <span className="flex items-center gap-x-4">
       <a
         href="/login"
+        data-astro-reload
         className={navigationMenuTriggerStyle({
           className:
             "hover:text-muted-foreground bg-transparent pr-2 pl-2 hover:bg-transparent focus:bg-transparent",
