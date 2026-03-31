@@ -111,7 +111,7 @@ function getSteps(
           </div>
           {isIOS && (
             <div className="flex flex-col gap-4">
-              <p>There are 3 options to install from easiest to hardest:</p>
+              <p>There are a couple options to install on iOS:</p>
               <p>
                 1) Visit this
                 <a
@@ -122,16 +122,19 @@ function getSteps(
                 >
                   link
                 </a>
-                and upload the {downloadFile} file. You can now visit the
-                generated link on your iPhone to install it through Safari.
+                and upload your {downloadFile} file. Visit the generated link
+                using Safari and install it from there.
               </p>
               <p>
-                2) Install iTunes on your computer, connect your phone, and drag
-                the {downloadFile} file to your phone to install.
-              </p>
-              <p>
-                3) Install with a third-party app like FlexStore, AltStore,
-                eSign or Bullfrog Assistant. You can look up guides online.
+                2) If method one fails, try one of following tutorials on this
+                <a
+                  href="https://tms-outsource.com/blog/posts/how-to-install-ipa-on-iphone/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-primary-link px-1 underline"
+                >
+                  site
+                </a>
               </p>
             </div>
           )}
@@ -328,8 +331,8 @@ function getSteps(
       content: (
         <>
           <div>
-            Once your trial is over, upgrade your plan to a full month, or a
-            monthly subscription{" "}
+            Once your trial is over, you can upgrade your plan to a single
+            month, or a monthly subscription{" "}
             <a
               href="/dashboard/pricing"
               className="text-primary-link underline"
