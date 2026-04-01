@@ -1,0 +1,188 @@
+---
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { FILE_DOWNLOAD_URL, FILE_TYPES } from "@/config/constants";
+import DashboardLayout from "@/layouts/DashboardLayout.astro";
+import Header from "@/layouts/Header.astro";
+---
+
+<DashboardLayout title="Install .ipa files">
+  <div class="mx-auto flex w-full max-w-2xl flex-col gap-6 py-6 lg:gap-8">
+    <Header title="Installing an .ipa on iPhone/iOS" />
+    <p>
+      Before taking any steps, first download the .ipa file below. Open up
+      Finder and locate the file (usually in your Downloads folder). Keep Finder
+      open in the background for future steps so you can drag and drop the file
+      easily.
+      <br />
+    </p>
+    <a href={`${FILE_DOWNLOAD_URL}Hiddify.ipa`} class="self-center">
+      <Button data-umami-event="download-app">
+        Download .ipa
+        <img
+          width="20"
+          height="20"
+          src={FILE_TYPES.ios.icon}
+          alt="Download icon"
+          loading="eager"
+        />
+      </Button>
+    </a>
+    <br />
+    <h1 class="text-center text-2xl font-semibold underline">Option 1</h1>
+    <p>
+      1) This option requires a relatively new Macbook or MacOS device like a
+      Mac Mini/Pro. You can download and install Apple Configurator from MacOS
+      App Store
+      <a
+        class="text-primary-link underline"
+        href="https://support.apple.com/apple-configurator"
+        target="_blank"
+        rel="noopener noreferrer nofollow">here</a
+      >. If you can't open the link, open up your App Store and search for it
+      manually.
+    </p>
+    <p>
+      2) After installation, open up the application and connect your iPhone/iOS
+      device to your Mac with a lightning or USB-C cable. Should be the same
+      cable you use to charge it. You might get an alert, just click `Trust
+      device` or `Accept`.
+    </p>
+    <img
+      src="/iOS/img01.png"
+      alt="connect device"
+      class="self-center"
+      loading="eager"
+    />
+    <p>
+      3) Select your device from the list or click the center phone. Then click
+      the <Badge
+        variant="outline"
+        className="text-muted-foreground bg-muted mx-1"
+      >
+        Add
+      </Badge> button from the menu bar and select Apps.
+    </p>
+    <img
+      src="/iOS/img02.png"
+      alt="select device"
+      class="self-center"
+      loading="eager"
+    />
+    <p>
+      4) You will get a dropdown with multiple options. Click `Choose from my
+      Mac` and Finder will pop up. Navigate to where you downloaded the .ipa
+      file and select it.
+    </p>
+    <img
+      src="/iOS/img03.png"
+      alt="choose device"
+      class="self-center"
+      loading="eager"
+    />
+    <p>5) Apple Configurator will now install the app to your device.</p>
+    <img
+      src="/iOS/img04.png"
+      alt="choose device"
+      class="self-center"
+      loading="eager"
+    />
+    <br />
+    <br />
+    <h1 class="text-center text-2xl font-semibold underline">Option 2</h1>
+    <p>
+      1) This method is a little more complicated and has a much larger
+      download. If you already have Xcode installed, you can skip this step.
+      Visit this
+      <a
+        class="text-primary-link underline"
+        href="https://developer.apple.com/xcode/"
+        target="_blank"
+        rel="noopener noreferrer nofollow">link</a
+      > to download and install Xcode to your Mac. If you can't open the link, open
+      up your App Store and search for 'Apple Developer' manually.
+    </p>
+
+    <p>
+      2) If you haven't done so already, connect your iOS device to your Mac
+      with a lightning/USB-C cable. You might get an alert, click accept/trust
+      device to connect.
+    </p>
+
+    <p>
+      3) Open Xcode - In the top menu bar, select Window {">"} Devices and Simulators.
+      Select Devices and your device should be in the left pane. Open it.
+    </p>
+    <p>
+      4) Drag and drop the .ipa file you downloaded earlier to the 'INSTALLED
+      APPS' section. Xcode will now install the app to your device.
+    </p>
+
+    <br />
+    <br />
+    <h1 class="text-center text-2xl font-semibold underline">
+      Option 3 (Legacy/Windows)
+    </h1>
+    <p>
+      <b>Windows/PC</b> - If you have a PC/Windows computer, download iTunes using
+      this <a
+        class="text-primary-link underline"
+        href="http://www.itunes.com/download"
+        target="_blank"
+        rel="noopener noreferrer nofollow">link</a
+      >. Find the right installer for your computer (most newer PCs are 64-bit).
+
+      <br />
+      <br />
+      <b>Legacy MacOS</b> - If you have a older Macbook that cannot install either
+      Apple Configurator or Xcode from options 1 & 2, then install iTunes using the
+      following button below:
+    </p>
+    <a href={`${FILE_DOWNLOAD_URL}iTunes.dmg`} class="self-center">
+      <Button data-umami-event="download-app">
+        Download iTunes for MacOS
+        <img
+          width="20"
+          height="20"
+          src={FILE_TYPES.mac.icon}
+          alt="Download icon"
+          loading="eager"
+        />
+      </Button>
+    </a>
+
+    <p>1) After installing iTunes, open it up from your Applications menu.</p>
+
+    <p>
+      2) Connect your iPhone/iOS device to your computer with a lightning/USB-C
+      cable. You might get an alert on both your phone and computer, click
+      accept/trust on both devices if prompted.
+    </p>
+
+    <p>
+      3) Select the App Library in iTunes. Find the .ipa file you downloaded
+      from earlier, and drag it into your App Library. If you don't see the App
+      Library, you can also drag the .ipa file directly to the Apps section
+      under your device name.
+    </p>
+    <p>
+      4) Under your device, go to the Apps section where the Hiddify app should
+      be showing. If you see an <Badge
+        variant="outline"
+        className="text-muted-foreground bg-muted mx-1"
+      >
+        Install
+      </Badge> button, click it first. Otherwise, just click the <Badge
+        variant="outline"
+        className="text-muted-foreground bg-muted mx-1"
+      >
+        Sync
+      </Badge> button in iTunes to transfer the app to your iOS device.
+    </p>
+    <p>
+      5) The syncing process could take a few minutes, do not disconnect your
+      iPhone until iTunes says the sync is complete. You should see the Hiddify
+      app show up on your phone.
+    </p>
+  </div>
+</DashboardLayout>

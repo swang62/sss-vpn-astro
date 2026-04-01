@@ -1,12 +1,6 @@
 import type UAParser from "ua-parser-js";
 
-import {
-  Copy,
-  Download,
-  EllipsisVertical,
-  PartyPopper,
-  Settings,
-} from "lucide-react";
+import { Copy, EllipsisVertical, PartyPopper, Settings } from "lucide-react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
@@ -48,20 +42,43 @@ function getSteps(
       content: (
         <>
           <p>
-            Click the button below to download the app manually
+            {!isIOS && "Click the button below to download the app manually"}
             {isIOS && (
               <>
-                , or click
+                Click this
                 <a
                   href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532"
                   target="_blank"
                   rel="noreferrer"
                   className="text-primary-link px-1 underline"
                 >
+                  link
+                </a>
+                to directly install from the US App store. If you have a Chinese
+                Apple account, you will need to first change your country/region
+                to the United States, see the instructions{" "}
+                <a
+                  href="https://support.apple.com/zh-cn/118283"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-primary-link underline"
+                >
                   here
                 </a>
-                to directly install from the App store. If successfully
-                installed (may not work in China), skip directly to Step 3.
+                . For the address, you can use any US address.
+                <br />
+                <br />
+                <p>
+                  If you are unable to install it through the App Store, then
+                  re-open this website on your Macbook/PC and proceed to this{" "}
+                  <a
+                    href="/dashboard/ios"
+                    className="text-primary-link underline"
+                  >
+                    installation guide
+                  </a>
+                  .
+                </p>
               </>
             )}
             {isAndroid && (
@@ -80,22 +97,23 @@ function getSteps(
               </>
             )}
           </p>
-          <a
-            href={`${FILE_DOWNLOAD_URL}${downloadFile}`}
-            className="self-center pr-8"
-          >
-            <Button data-umami-event="download-app">
-              <Download />
-              Download for
-              <img
-                width="20"
-                height="20"
-                src={downloadIcon}
-                alt="Download icon"
-                loading="eager"
-              />
-            </Button>
-          </a>
+          {!isIOS && (
+            <a
+              href={`${FILE_DOWNLOAD_URL}${downloadFile}`}
+              className="self-center pr-8"
+            >
+              <Button data-umami-event="download-app">
+                Download for
+                <img
+                  width="20"
+                  height="20"
+                  src={downloadIcon}
+                  alt="Download icon"
+                  loading="eager"
+                />
+              </Button>
+            </a>
+          )}
         </>
       ),
       title: "Download",
@@ -109,35 +127,7 @@ function getSteps(
             {isMobile &&
               " Allow unknown sources and accept all permissions during installation."}
           </div>
-          {isIOS && (
-            <div className="flex flex-col gap-4">
-              <p>There are a couple options to install on iOS:</p>
-              <p>
-                1) Visit this
-                <a
-                  href="https://www.installonair.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-primary-link px-1 underline"
-                >
-                  link
-                </a>
-                and upload your {downloadFile} file. Visit the generated link
-                using Safari and install it from there.
-              </p>
-              <p>
-                2) If method one fails, try one of following tutorials on this
-                <a
-                  href="https://tms-outsource.com/blog/posts/how-to-install-ipa-on-iphone/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-primary-link px-1 underline"
-                >
-                  site
-                </a>
-              </p>
-            </div>
-          )}
+
           {isMacOS && (
             <div className="text-foreground">
               For macOS, you will need download an extra shortcut file{" "}
@@ -163,6 +153,7 @@ function getSteps(
           )}
         </>
       ),
+      skip: isIOS,
       title: "Install",
     },
     {
@@ -484,9 +475,11 @@ function HowToInstall(props: Props) {
           FILE_TYPES.ios.icon,
           setupLink,
           config
-        ).map((step, idx) => (
-          <Step key={idx} idx={idx} {...step} />
-        ))}
+        )
+          .filter((step) => !step.skip)
+          .map((step, idx) => (
+            <Step key={idx} idx={idx} {...step} />
+          ))}
       </TabsContent>
       <TabsContent value="mac">
         {getSteps(

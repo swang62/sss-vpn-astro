@@ -3,6 +3,7 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 
 export interface StepProps {
   idx?: number;
+  skip?: boolean;
   title: React.JSX.Element | string;
   content: React.JSX.Element | string;
 }
