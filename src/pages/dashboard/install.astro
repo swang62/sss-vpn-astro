@@ -3,11 +3,20 @@ import { UAParser } from "ua-parser-js";
 
 import ScrollProgress from "@/components/astro/scroll.astro";
 import HowToInstall from "@/components/HowToInstall";
+import { FILE_CONFIG_JSON, FILE_DOWNLOAD_URL } from "@/config/constants";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
 import Header from "@/layouts/Header.astro";
+import { axiosFetch } from "@/lib/axios";
+import { getPlatform } from "@/lib/utils";
 
 const { session } = Astro.locals;
 const { device, os } = UAParser(session?.userAgent || "");
+const platform = getPlatform(device, os);
+
+const { data } = await axiosFetch.get<object>(
+  `${FILE_DOWNLOAD_URL}${FILE_CONFIG_JSON}`
+);
+const config = JSON.stringify(data, null, 0);
 ---
 
 <DashboardLayout title="Installation">
@@ -17,6 +26,6 @@ const { device, os } = UAParser(session?.userAgent || "");
     <h1 class="text-foreground px-1 text-center text-xl font-semibold">
       Choose your platform
     </h1>
-    <HowToInstall device={device.type} os={os.name} client:load />
+    <HowToInstall platform={platform} config={config} client:load />
   </div>
 </DashboardLayout>
