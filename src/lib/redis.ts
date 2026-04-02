@@ -32,9 +32,8 @@ export const redis = REDIS_URL ? await getRedisStore() : undefined;
 export const storage = REDIS_URL
   ? createStorage<string>({
       driver: redisDriver({
-        base: "unstorage",
-        host: REDIS_URL,
         password: REDIS_PASS,
+        url: `redis://${REDIS_URL}`,
       }),
     })
   : createStorage<string>({
