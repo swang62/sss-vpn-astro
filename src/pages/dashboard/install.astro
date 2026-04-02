@@ -1,13 +1,42 @@
 ---
+import { captureException } from "@sentry/astro";
 import { UAParser } from "ua-parser-js";
 
 import ScrollProgress from "@/components/astro/scroll.astro";
 import HowToInstall from "@/components/HowToInstall";
+import {
+  FILE_CONFIG_JSON,
+  FILE_CONFIG_KEY,
+  FILE_DOWNLOAD_URL,
+} from "@/config/constants";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
 import Header from "@/layouts/Header.astro";
+import { axiosFetch } from "@/lib/axios";
+import { storage } from "@/lib/redis";
+import { getPlatform } from "@/lib/utils";
 
 const { session } = Astro.locals;
 const { device, os } = UAParser(session?.userAgent || "");
+const platform = getPlatform(device, os);
+
+// Get the config from cache (24hr TTL)
+let config: string | null = await storage.getItemRaw(FILE_CONFIG_KEY);
+if (!config) {
+  console.debug(FILE_CONFIG_KEY, "cache-miss");
+  try {
+    const { data } = await axiosFetch.get(
+      `${FILE_DOWNLOAD_URL}${FILE_CONFIG_JSON}`
+    );
+    config = JSON.stringify(data, null, 0);
+    await storage.set(FILE_CONFIG_KEY, config, { ttl: 60 * 60 * 24 });
+  } catch (e) {
+    captureException(e);
+  }
+}
+
+if (!config) {
+  config = "Unknown error, please refresh page...";
+}
 ---
 
 <DashboardLayout title="Installation">
@@ -17,6 +46,6 @@ const { device, os } = UAParser(session?.userAgent || "");
     <h1 class="text-foreground px-1 text-center text-xl font-semibold">
       Choose your platform
     </h1>
-    <HowToInstall device={device.type} os={os.name} client:load />
+    <HowToInstall platform={platform} config={config} client:load />
   </div>
 </DashboardLayout>

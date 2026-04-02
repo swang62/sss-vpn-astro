@@ -1,5 +1,3 @@
-import type UAParser from "ua-parser-js";
-
 import { Copy, EllipsisVertical, PartyPopper, Settings } from "lucide-react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -11,13 +9,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  FILE_CONFIG_JSON,
   FILE_DOWNLOAD_URL,
   FILE_START_COMMAND,
   FILE_TYPES,
 } from "@/config/constants";
-import { axiosFetch, fetchUser } from "@/lib/api-clients";
-import { copyToClipboard, getHiddifyLinks, retryOnError } from "@/lib/utils";
+import { fetchUser } from "@/lib/api-clients";
+import { copyToClipboard, getHiddifyLinks } from "@/lib/utils";
 
 import type { StepProps } from "./Step";
 
@@ -26,8 +23,8 @@ import Step from "./Step";
 function getSteps(
   downloadFile: string,
   downloadIcon: string,
-  setupLink?: string,
-  config?: string
+  config: string,
+  setupLink?: string
 ): StepProps[] {
   const isMacOS = downloadFile.includes(".dmg");
   const isWindows = downloadFile.includes(".exe");
@@ -251,11 +248,11 @@ function getSteps(
           <div>Next, copy the settings below:</div>
           <div className="flex items-center gap-2">
             <Input
-              defaultValue={config || "Loading..."}
+              defaultValue={config}
               readOnly
               className="bg-muted text-muted-foreground"
             />
-            <Button onClick={() => copyToClipboard(config || "")}>
+            <Button onClick={() => copyToClipboard(config)}>
               <Copy className="size-4" />
               Copy
             </Button>
@@ -344,39 +341,19 @@ function getSteps(
 }
 
 interface Props {
-  device: UAParser.IDevice["type"];
-  os?: string;
+  platform: Platform;
+  config: string;
 }
 
-function getPlatform(props: Props): Platform {
-  if (!props.device) {
-    // Is desktop
-    if (props.os === "macOS") {
-      return "mac";
-    } else {
-      return "pc";
-    }
-  } else {
-    // Is mobile
-    if (props.os === "iOS") {
-      return "ios";
-    } else {
-      return "android";
-    }
-  }
-}
-
-function HowToInstall(props: Props) {
+function HowToInstall({ config, platform }: Props) {
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout>();
   const { data, mutate } = useSWR("fetchUser", fetchUser);
-  const [config, setConfig] = useState<string | undefined>();
 
   const user = data?.user;
   const profile = user?.profile;
   const setupLink = profile
     ? getHiddifyLinks(user.email, profile.hiddifyId, profile.hiddifyServerId)
     : undefined;
-  const platform = getPlatform(props);
 
   // Poll for hiddify profile creation
   useEffect(() => {
@@ -395,15 +372,6 @@ function HowToInstall(props: Props) {
 
     return () => clearInterval(intervalId);
   }, [profile?.hiddifyId]);
-
-  useEffect(() => {
-    retryOnError(
-      async () =>
-        await axiosFetch
-          .get<object>(`${FILE_DOWNLOAD_URL}${FILE_CONFIG_JSON}`)
-          .then(({ data }) => setConfig(JSON.stringify(data, null, 0)))
-    );
-  }, []);
 
   return (
     <Tabs defaultValue={platform}>
@@ -453,8 +421,8 @@ function HowToInstall(props: Props) {
         {getSteps(
           FILE_TYPES.android.fileType,
           FILE_TYPES.android.icon,
-          setupLink,
-          config
+          config,
+          setupLink
         ).map((step, idx) => (
           <Step key={idx} idx={idx} {...step} />
         ))}
@@ -463,8 +431,8 @@ function HowToInstall(props: Props) {
         {getSteps(
           FILE_TYPES.pc.fileType,
           FILE_TYPES.pc.icon,
-          setupLink,
-          config
+          config,
+          setupLink
         ).map((step, idx) => (
           <Step key={idx} idx={idx} {...step} />
         ))}
@@ -473,8 +441,8 @@ function HowToInstall(props: Props) {
         {getSteps(
           FILE_TYPES.ios.fileType,
           FILE_TYPES.ios.icon,
-          setupLink,
-          config
+          config,
+          setupLink
         )
           .filter((step) => !step.skip)
           .map((step, idx) => (
@@ -485,8 +453,8 @@ function HowToInstall(props: Props) {
         {getSteps(
           FILE_TYPES.mac.fileType,
           FILE_TYPES.mac.icon,
-          setupLink,
-          config
+          config,
+          setupLink
         ).map((step, idx) => (
           <Step key={idx} idx={idx} {...step} />
         ))}

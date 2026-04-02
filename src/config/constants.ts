@@ -83,6 +83,7 @@ export const FILE_TYPES: Record<Platform, { fileType: string; icon: string }> =
 
 export const FILE_START_COMMAND = "start_vpn.command";
 export const FILE_CONFIG_JSON = "config.json";
+export const FILE_CONFIG_KEY = "hiddify-config";
 
 export const PRICING_PLANS: PricingPlan[] = [
   {

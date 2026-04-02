@@ -4,7 +4,7 @@ import { clsx } from "clsx";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
-import type { HiddifyServerId } from "@/config/types";
+import type { HiddifyServerId, Platform } from "@/config/types";
 
 import { HIDDIFY_SERVERS } from "@/config/constants";
 
@@ -134,6 +134,27 @@ export async function copyToClipboard(text: string) {
       console.error(err);
     } finally {
       textarea.remove();
+    }
+  }
+}
+
+export function getPlatform(
+  device: UAParser.IDevice,
+  os: UAParser.IOS
+): Platform {
+  if (!device.type) {
+    // Is desktop
+    if (os.name === "macOS") {
+      return "mac";
+    } else {
+      return "pc";
+    }
+  } else {
+    // Is mobile
+    if (os.name === "iOS") {
+      return "ios";
+    } else {
+      return "android";
     }
   }
 }
