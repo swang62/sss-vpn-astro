@@ -18,5 +18,5 @@ export const axiosFetch = axios.create({
     accept: "application/json",
     "content-type": "application/json",
   },
-  timeout: 5000,
+  timeout: 10000,
 });

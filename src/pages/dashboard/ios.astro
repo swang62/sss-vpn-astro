@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FILE_DOWNLOAD_URL, FILE_TYPES } from "@/config/constants";
@@ -7,7 +9,14 @@ import Header from "@/layouts/Header.astro";
 ---
 
 <DashboardLayout title="Install .ipa files">
-  <div class="mx-auto flex w-full max-w-2xl flex-col gap-6 py-6 lg:gap-8">
+  <div class="mx-auto mb-8 flex w-full max-w-2xl flex-col gap-6 py-6 lg:gap-8">
+    <a
+      href="/dashboard/install"
+      class="flex cursor-pointer flex-nowrap items-center opacity-100 transition-opacity hover:opacity-70"
+    >
+      <Icon name="lucide:chevron-left" class="size-5" />
+      Back
+    </a>
     <Header title="Installing an .ipa on iPhone/iOS" />
     <p>
       Before taking any steps, first download the .ipa file below. Open up
@@ -173,7 +182,7 @@ import Header from "@/layouts/Header.astro";
       </div>
     </div>
 
-    <hr class="w-3/4 self-center" />
+    <hr class="w-1/2 self-center" />
 
     <p>1) After installing iTunes, open it up from your Applications menu.</p>
 
@@ -208,5 +217,14 @@ import Header from "@/layouts/Header.astro";
       iPhone until iTunes says the sync is complete. You should see the Hiddify
       app show up on your phone.
     </p>
+    <hr class="w-1/2 self-center" />
+
+    <h1 class="text-center text-2xl font-semibold underline">Final steps</h1>
+
+    <div>
+      Assuming you managed to install Hiddify on your iOS device, close this
+      website and go back to your phone and continue following the installation
+      there.
+    </div>
   </div>
 </DashboardLayout>

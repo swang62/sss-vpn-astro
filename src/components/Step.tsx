@@ -12,6 +12,7 @@ function Step({ content, idx = 0, title }: StepProps) {
   return (
     <Card
       x-chunk="Step"
+      id={`${idx}`}
       className="dark:border-l-border relative mb-6 ml-4 rounded-lg border-l border-transparent pb-4"
     >
       <Badge variant="secondary" className="absolute top-5 -left-4 size-8">

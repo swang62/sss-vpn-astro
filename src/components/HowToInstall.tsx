@@ -67,7 +67,7 @@ function getSteps(
                 <br />
                 <p>
                   If you are unable to install it through the App Store, then
-                  re-open this website on your Macbook/PC and proceed to this{" "}
+                  re-open up this site on your Macbook or PC and proceed to this{" "}
                   <a
                     href="/dashboard/ios"
                     className="text-primary-link underline"
