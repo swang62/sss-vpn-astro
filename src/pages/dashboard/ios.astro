@@ -28,7 +28,9 @@ import Header from "@/layouts/Header.astro";
         />
       </Button>
     </a>
-    <br />
+
+    <hr class="w-1/2 self-center" />
+
     <h1 class="text-center text-2xl font-semibold underline">Option 1</h1>
     <p>
       1) This option requires a relatively new Macbook or MacOS device like a
@@ -121,35 +123,59 @@ import Header from "@/layouts/Header.astro";
     <br />
     <br />
     <h1 class="text-center text-2xl font-semibold underline">
-      Option 3 (Legacy/Windows)
+      Option 3 (Legacy MacOS/Windows)
     </h1>
-    <p>
-      <b>Windows/PC</b> - If you have a PC/Windows computer, download iTunes using
-      this <a
-        class="text-primary-link underline"
-        href="http://www.itunes.com/download"
-        target="_blank"
-        rel="noopener noreferrer nofollow">link</a
-      >. Find the right installer for your computer (most newer PCs are 64-bit).
+    <div
+      class="flex flex-col gap-6 p-4 text-center md:flex-row md:justify-between"
+    >
+      <div class="md:w-1/2">
+        <p class="pb-4">
+          <b>Legacy MacOS</b> - If you have a older Macbook that cannot install either
+          Apple Configurator or Xcode, then download and install iTunes with the link
+          below:
+        </p>
+        <a href={`${FILE_DOWNLOAD_URL}iTunes.dmg`} class="self-center">
+          <Button data-umami-event="download-app">
+            MacOS iTunes
+            <img
+              width="20"
+              height="20"
+              src={FILE_TYPES.mac.icon}
+              alt="Download icon"
+              loading="eager"
+            />
+          </Button>
+        </a>
+      </div>
 
-      <br />
-      <br />
-      <b>Legacy MacOS</b> - If you have a older Macbook that cannot install either
-      Apple Configurator or Xcode from options 1 & 2, then install iTunes using the
-      following button below:
-    </p>
-    <a href={`${FILE_DOWNLOAD_URL}iTunes.dmg`} class="self-center">
-      <Button data-umami-event="download-app">
-        Download iTunes for MacOS
-        <img
-          width="20"
-          height="20"
-          src={FILE_TYPES.mac.icon}
-          alt="Download icon"
-          loading="eager"
-        />
-      </Button>
-    </a>
+      <div class="md:w-1/2">
+        <p class="pb-4">
+          <b>Windows/PC</b> - If you have a Windows computer 64-bit, download and
+          install iTunes with the link below. For 32-bit, use this
+          <a
+            class="text-primary-link underline"
+            href={`${FILE_DOWNLOAD_URL}iTunes32.exe`}
+            target="_blank"
+            rel="noopener noreferrer nofollow">link</a
+          >
+          instead
+        </p>
+        <a href={`${FILE_DOWNLOAD_URL}iTunes64.exe`} class="self-center">
+          <Button data-umami-event="download-app">
+            Windows iTunes
+            <img
+              width="20"
+              height="20"
+              src={FILE_TYPES.pc.icon}
+              alt="Download icon"
+              loading="eager"
+            />
+          </Button>
+        </a>
+      </div>
+    </div>
+
+    <hr class="w-3/4 self-center" />
 
     <p>1) After installing iTunes, open it up from your Applications menu.</p>
 
