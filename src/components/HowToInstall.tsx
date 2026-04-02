@@ -23,8 +23,8 @@ import Step from "./Step";
 function getSteps(
   downloadFile: string,
   downloadIcon: string,
-  setupLink?: string,
-  config?: string
+  config: string,
+  setupLink?: string
 ): StepProps[] {
   const isMacOS = downloadFile.includes(".dmg");
   const isWindows = downloadFile.includes(".exe");
@@ -248,11 +248,11 @@ function getSteps(
           <div>Next, copy the settings below:</div>
           <div className="flex items-center gap-2">
             <Input
-              defaultValue={config || "Loading..."}
+              defaultValue={config}
               readOnly
               className="bg-muted text-muted-foreground"
             />
-            <Button onClick={() => copyToClipboard(config || "")}>
+            <Button onClick={() => copyToClipboard(config)}>
               <Copy className="size-4" />
               Copy
             </Button>
@@ -342,7 +342,7 @@ function getSteps(
 
 interface Props {
   platform: Platform;
-  config?: string;
+  config: string;
 }
 
 function HowToInstall({ config, platform }: Props) {
@@ -421,8 +421,8 @@ function HowToInstall({ config, platform }: Props) {
         {getSteps(
           FILE_TYPES.android.fileType,
           FILE_TYPES.android.icon,
-          setupLink,
-          config
+          config,
+          setupLink
         ).map((step, idx) => (
           <Step key={idx} idx={idx} {...step} />
         ))}
@@ -431,8 +431,8 @@ function HowToInstall({ config, platform }: Props) {
         {getSteps(
           FILE_TYPES.pc.fileType,
           FILE_TYPES.pc.icon,
-          setupLink,
-          config
+          config,
+          setupLink
         ).map((step, idx) => (
           <Step key={idx} idx={idx} {...step} />
         ))}
@@ -441,8 +441,8 @@ function HowToInstall({ config, platform }: Props) {
         {getSteps(
           FILE_TYPES.ios.fileType,
           FILE_TYPES.ios.icon,
-          setupLink,
-          config
+          config,
+          setupLink
         )
           .filter((step) => !step.skip)
           .map((step, idx) => (
@@ -453,8 +453,8 @@ function HowToInstall({ config, platform }: Props) {
         {getSteps(
           FILE_TYPES.mac.fileType,
           FILE_TYPES.mac.icon,
-          setupLink,
-          config
+          config,
+          setupLink
         ).map((step, idx) => (
           <Step key={idx} idx={idx} {...step} />
         ))}

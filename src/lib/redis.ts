@@ -1,5 +1,8 @@
 import { RedisStore } from "rate-limit-redis";
 import { createClient } from "redis";
+import { createStorage } from "unstorage";
+import memoryDriver from "unstorage/drivers/memory";
+import redisDriver from "unstorage/drivers/redis";
 
 import { REDIS_PASS, REDIS_URL } from "@/config/server";
 
@@ -25,3 +28,15 @@ async function getRedisStore() {
 }
 
 export const redis = REDIS_URL ? await getRedisStore() : undefined;
+
+export const storage = REDIS_URL
+  ? createStorage<string>({
+      driver: redisDriver({
+        base: "unstorage",
+        host: REDIS_URL,
+        password: REDIS_PASS,
+      }),
+    })
+  : createStorage<string>({
+      driver: memoryDriver(),
+    });
