@@ -14,7 +14,7 @@
     "styles": "prettier --check .",
     "styles:fix": "prettier --write .",
     "logs": "docker compose logs -f",
-    "prepare": "husky || true",
+    "prepare": "husky",
     "preview": "dotenv -- astro preview",
     "preview:build": "pnpm build && pnpm preview",
     "seed": "dotenv -- tsx ./src/db/scripts/seed.ts",
@@ -149,9 +149,5 @@
       "pnpm styles:fix",
       "pnpm lint:fix"
     ]
-  },
-  "volta": {
-    "node": "24.13.0",
-    "pnpm": "10.14.0"
   }
 }
