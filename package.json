@@ -14,7 +14,7 @@
     "styles": "prettier --check .",
     "styles:fix": "prettier --write .",
     "logs": "docker compose logs -f",
-    "prepare": "husky",
+    "prepare": "husky || true",
     "preview": "dotenv -- astro preview",
     "preview:build": "pnpm build && pnpm preview",
     "seed": "dotenv -- tsx ./src/db/scripts/seed.ts",
