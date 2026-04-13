@@ -7,7 +7,9 @@ import db, { product as productTable } from "@/db";
 import { stripe } from "@/lib/stripe";
 
 export async function updateProduct(product: Stripe.Product) {
-  const priceId = product.default_price as string;
+  const priceId = product.default_price as string | null;
+  if (!priceId) return;
+
   const price = await stripe.prices.retrieve(priceId);
 
   // Don't update products without lookup keys or have been deleted

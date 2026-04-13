@@ -5,7 +5,7 @@ import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { PRICING_PLANS } from "@/config/constants";
+import { PLAN_LIMITS, PRICING_PLANS } from "@/config/constants";
 import { api, fetchUser, parseApi } from "@/lib/api-clients";
 import { cn } from "@/lib/utils";
 
@@ -62,10 +62,11 @@ function PricingPlans() {
           );
         })}
       </div>
-      <div className="flex flex-col justify-center gap-8 sm:flex-row sm:flex-wrap">
+      <div className="flex max-w-xl flex-col justify-center gap-8 sm:flex-row sm:flex-wrap">
         {data?.user && !purchasedRouter && isActive && (
-          <div className="text-muted-foreground mt-8 px-8 text-center">
-            Still want to purchase the router? Buy it separately
+          <div className="text-muted-foreground mt-8 px-2 text-center">
+            Still want to purchase the router? ${PLAN_LIMITS.router.price} for a
+            full configured Wifi6 router. Buy it
             <Button
               loading={loading}
               disabled={loading}

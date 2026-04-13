@@ -112,7 +112,7 @@ function PricingCard({
             )}
           </div>
           <CardDescription className="min-h-12 pt-1.5">
-            {plan === "premium" && (hasPurchasedRouter || isActive)
+            {plan === "premium" && isActive
               ? "Give me all the data!"
               : description}
           </CardDescription>
