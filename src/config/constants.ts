@@ -50,7 +50,7 @@ export const PLAN_LIMITS: Record<
   },
   router: {
     data: 0,
-    price: 60,
+    price: 30,
   },
   trial: {
     data: 3,
