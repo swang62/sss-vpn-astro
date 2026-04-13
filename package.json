@@ -28,8 +28,8 @@
     "test:all": "vitest run --typecheck --reporter verbose"
   },
   "dependencies": {
-    "@astrojs/node": "^10.0.3",
-    "@astrojs/react": "^5.0.1",
+    "@astrojs/node": "^10.0.4",
+    "@astrojs/react": "^5.0.3",
     "@hono/zod-validator": "^0.7.6",
     "@hookform/resolvers": "^5.2.2",
     "@iconify-json/lucide": "^1.2.98",
@@ -65,7 +65,7 @@
     "@radix-ui/react-toggle-group": "^1.1.11",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@sentry/astro": "^10.45.0",
-    "astro": "^6.0.7",
+    "astro": "^6.1.5",
     "astro-icon": "^1.1.5",
     "astro-seo": "^1.1.0",
     "axios": "^1.13.6",
@@ -103,7 +103,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
-    "@astrojs/sitemap": "^3.7.1",
+    "@astrojs/sitemap": "^3.7.2",
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "@eslint/js": "^10.0.1",
