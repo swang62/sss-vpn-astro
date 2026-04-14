@@ -1,4 +1,10 @@
-import { Copy, EllipsisVertical, PartyPopper, Settings } from "lucide-react";
+import {
+  Copy,
+  EllipsisVertical,
+  ExternalLink,
+  PartyPopper,
+  Settings,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
@@ -42,18 +48,10 @@ function getSteps(
             {!isIOS && "Click the button below to download the app manually"}
             {isIOS && (
               <>
-                Click this
-                <a
-                  href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-primary-link px-1 underline"
-                >
-                  link
-                </a>
-                to directly install from the US App store. If you have a Chinese
-                Apple account, you will need to first change your country/region
-                to the United States, see the instructions{" "}
+                There are 2 ways to install on iOS. The simplest version is to
+                install directly from the US App store. This will only work if
+                your phone's country/region is set to the US (the instructions
+                to change your region are{" "}
                 <a
                   href="https://support.apple.com/zh-cn/118283"
                   target="_blank"
@@ -62,19 +60,35 @@ function getSteps(
                 >
                   here
                 </a>
-                . For the address, you can use any US address.
-                <br />
-                <br />
+                , you can use any US address)
+                <a
+                  href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Button className="mx-auto mt-4 mb-6 flex self-center">
+                    US App Store
+                    <img
+                      width="20"
+                      height="20"
+                      src={downloadIcon}
+                      alt="Download icon"
+                      loading="eager"
+                    />
+                  </Button>
+                </a>
                 <p>
-                  If you are unable to install it through the App Store, then
-                  re-open up this site on your Macbook or PC and proceed to this{" "}
-                  <a
-                    href="/dashboard/ios"
-                    className="text-primary-link underline"
-                  >
-                    installation guide
+                  <b>**MANUAL INSTALLATION**</b> The much harder way, if you
+                  cannot change your region, or are unable to install it
+                  directly through the App Store. You'll need a Macbook or PC,
+                  re-open this website on your computer, then use the guide
+                  below:
+                  <a href="/dashboard/ios" target="_blank" rel="noreferrer">
+                    <Button className="mx-auto mt-4 flex self-center">
+                      Manual installation
+                      <ExternalLink size={5} />
+                    </Button>
                   </a>
-                  .
                 </p>
               </>
             )}

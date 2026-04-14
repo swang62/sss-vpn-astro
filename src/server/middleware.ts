@@ -135,6 +135,6 @@ export function limiter(): MiddlewareHandler {
     },
     // @ts-expect-error if undefined, automatically use in-memory storage.
     store: redis?.store,
-    windowMs: 10 * 1000,
+    windowMs: 30 * 1000,
   });
 }
