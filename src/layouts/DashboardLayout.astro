@@ -54,11 +54,11 @@ if (isVerified) {
     {isVerified ? <slot /> : <DashboardVerify client:load user={user} />}
   </main>
 
-  <script is:inline>
+  <!-- <script is:inline>
     document.addEventListener("astro:page-load", () => {
       if (window?.$chatwoot) {
         window.$chatwoot.toggleBubbleVisibility("hide");
       }
     });
-  </script>
+  </script> -->
 </Base>
