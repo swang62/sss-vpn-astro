@@ -60,7 +60,8 @@ function getSteps(
                 >
                   here
                 </a>
-                , you can use any US address)
+                , you can use any US address). You can change it back to China
+                afterwards.
                 <a
                   href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532"
                   target="_blank"
@@ -157,9 +158,11 @@ function getSteps(
           )}
           {isWindows && (
             <div className="text-foreground">
-              If you get a warning during install, click on More Info &gt; Run
-              Anyways. It might give you an error after finishing installation,
-              that's expected.
+              If you get a warning when opening, click on More Info &gt; Run
+              Anyways. It also might give you an error after finishing
+              installation, that's expected. Sometimes, windows defender will
+              flag the installation as a virus, this is a false positive. You'll
+              need to add an exception.
             </div>
           )}
         </>
