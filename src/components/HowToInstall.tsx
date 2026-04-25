@@ -48,10 +48,10 @@ function getSteps(
             {!isIOS && "Click the button below to download the app manually"}
             {isIOS && (
               <>
-                There are 2 ways to install on iOS. The simplest version is to
-                install directly from the US App store. This will only work if
-                your phone's country/region is set to the US (the instructions
-                to change your region are{" "}
+                There are a couple different ways to install on iOS. The
+                simplest version is to install directly from the US App store.
+                This will only work if your phone's country/region is set to the
+                US (the instructions to change your region are{" "}
                 <a
                   href="https://support.apple.com/zh-cn/118283"
                   target="_blank"
@@ -85,9 +85,32 @@ function getSteps(
                   re-open this website on your computer, then use the guide
                   below:
                   <a href="/dashboard/ios" target="_blank" rel="noreferrer">
-                    <Button className="mx-auto mt-4 flex self-center">
+                    <Button className="mx-auto my-6 flex self-center">
                       Manual installation
                       <ExternalLink size={5} />
+                    </Button>
+                  </a>
+                </p>
+                <p>
+                  As a last resort, if all else fails, use the Shadowrocket app
+                  instead of Hiddify. It is available in all regions, I've
+                  provided the link to the chinese version below. Only downside
+                  is that you will need to configure everything yourself. Make
+                  sure to import the alternate subscription URL in step 3.
+                  <a
+                    href="https://apps.apple.com/cn/app/shadowrocket-%E5%B0%8F%E7%81%AB%E7%AE%ADvpn%E5%AE%89%E5%85%A8%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E5%99%A8/id6742070311"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Button className="mx-auto mt-6 mb-6 flex self-center">
+                      Shadowrocket
+                      <img
+                        width="20"
+                        height="20"
+                        src={"/setup/shadowrocket.webp"}
+                        alt="Download icon"
+                        loading="eager"
+                      />
                     </Button>
                   </a>
                 </p>
@@ -213,7 +236,28 @@ function getSteps(
               Copy
             </Button>
           </div>
-          <div>
+          <div className="text-sm italic">
+            <span className="align-top">*</span>If you are using Shadowrocket,
+            or another custom VPN/V2Ray/Xray app, use the following link
+            instead:
+          </div>
+          <div className="flex items-center gap-2">
+            <Input
+              defaultValue={setupLink?.replace("/#", "/sub/#") || "Loading..."}
+              readOnly
+              className="bg-muted text-muted-foreground"
+            />
+            <Button
+              variant={"outline"}
+              onClick={() =>
+                copyToClipboard(setupLink?.replace("/#", "/sub/#") || "")
+              }
+            >
+              <Copy className="size-4" />
+              Copy
+            </Button>
+          </div>
+          <div className="mt-4">
             Go back to the app and click on the
             <Badge
               variant="outline"
@@ -298,6 +342,17 @@ function getSteps(
             src="/setup/settings-config.png"
             width={imageWidth}
             alt="settings config import"
+            className="self-center"
+            loading="eager"
+          />
+          <div>
+            Finally, due to a bug in the program, click on DNS, and make sure
+            fake DNS is activated.
+          </div>
+          <img
+            src="/setup/fake-dns.png"
+            width={imageWidth}
+            alt="dns config import"
             className="self-center"
             loading="eager"
           />

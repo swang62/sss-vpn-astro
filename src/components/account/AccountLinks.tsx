@@ -46,7 +46,7 @@ function AccountLinks() {
           <a href="/dashboard/install" className="text-primary-link underline">
             setup
           </a>{" "}
-          new devices.
+          new devices in Hiddify.
         </p>
         <div className="flex items-center gap-2 py-4">
           <Input
@@ -68,6 +68,25 @@ function AccountLinks() {
           className="self-center"
           loading="lazy"
         />
+        <div className="my-4">
+          <span className="align-top">*</span>If you are using Shadowrocket, or
+          another custom VPN/V2Ray/Xray app, use the following subscription link
+          instead.
+        </div>
+        <div className="flex items-center gap-2">
+          <Input
+            defaultValue={url.replace("/#", "/sub/#")}
+            readOnly
+            className="bg-muted text-muted-foreground"
+          />
+          <Button
+            variant={"outline"}
+            onClick={() => copyToClipboard(url.replace("/#", "/sub/#"))}
+          >
+            <Copy className="size-4" />
+            Copy
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
