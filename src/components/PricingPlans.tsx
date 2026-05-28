@@ -66,7 +66,7 @@ function PricingPlans() {
         {data?.user && !purchasedRouter && isActive && (
           <div className="text-muted-foreground mt-8 px-2 text-center">
             Still want to purchase the router? ${PLAN_LIMITS.router.price} for a
-            full configured Wifi6 router. Buy it
+            fully configured Wifi6 router. Buy it
             <Button
               loading={loading}
               disabled={loading}

@@ -2,6 +2,7 @@
   "name": "sssvpn",
   "type": "module",
   "version": "1.0.5",
+  "packageManager": "pnpm@11.4.0",
   "scripts": {
     "build": "astro build",
     "build:docker": "pnpm start:docker --build --force-recreate",
