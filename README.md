@@ -27,16 +27,16 @@ Visit the dev server at `http://localhost:4321`. HMR is built-in so all local ch
 
 ## Commands
 
-| Command | Description |
-|---|---|
-| `pnpm dev` | Start dev server |
-| `pnpm build` | Production build |
-| `pnpm check` | Typecheck Astro files |
-| `pnpm lint` | Run ESLint |
-| `pnpm test` | Run changed tests |
-| `pnpm db:migrate` | Generate & apply DB migrations |
-| `pnpm seed` | Seed dev database |
-| `pnpm start:docker` | Start via Docker compose |
+| Command             | Description                    |
+| ------------------- | ------------------------------ |
+| `pnpm dev`          | Start dev server               |
+| `pnpm build`        | Production build               |
+| `pnpm check`        | Typecheck Astro files          |
+| `pnpm lint`         | Run ESLint                     |
+| `pnpm test`         | Run changed tests              |
+| `pnpm db:migrate`   | Generate & apply DB migrations |
+| `pnpm seed`         | Seed dev database              |
+| `pnpm start:docker` | Start via Docker compose       |
 
 ## Acknowledgements
 
