@@ -54,7 +54,7 @@ All services run in Docker. The Astro SSR app serves both the frontend (React) a
 
 ---
 
-## Quick Start
+## Quick Start for Local Development
 
 You'll need a Stripe sandbox account with test subscriptions tagged `basic`, `pro`, `premium`, and a one-time price tagged `router`. For Stripe webhook testing, use a local tunnel (ngrok, bore, etc.).
 
@@ -84,25 +84,19 @@ Environment variables are loaded from your `.env` file at runtime. See [Environm
 
 ---
 
-## Environment Variables
+## Required Environment Variables
 
 | Variable | Required | Description |
 |---|---|---|
 | `BETTER_AUTH_SECRET` | Yes | Auth token signing key |
-| `DB_AUTH_TOKEN` | Yes | Basic auth for libSQL (format: `user:pass`) |
+| `DB_AUTH_TOKEN` | Yes | Basic auth for libSQL |
 | `SITE_URL` | Yes | Public URL of the deployment |
-| `STRIPE_SECRET_KEY` | For payments | Stripe API key |
-| `STRIPE_WEBHOOK_SECRET` | For payments | Stripe webhook signing secret |
+| `STRIPE_SECRET_KEY` | Yes | Stripe API key |
+| `STRIPE_WEBHOOK_SECRET` | Yes | Stripe webhook secret |
 | `HIDDIFY_API_KEY` | Yes | Hiddify admin API key |
 | `TURNSTILE_SECRET_KEY` | Yes | Cloudflare Turnstile secret |
-| `POSTMARK_TOKEN` | For emails | Postmark server token |
 | `PUBLIC_TURNSTILE_SITEKEY` | Yes | Turnstile site key (public) |
-| `PUBLIC_SENTRY_DSN` | Optional | Sentry DSN for error tracking |
-| `SENTRY_TOKEN` | Optional | Sentry auth token (build-time) |
-| `REDIS_URL` | Optional | Redis connection (defaults to internal) |
-| `REDIS_PASS` | Optional | Redis password |
 
-A full template is available in `.env.test`.
 
 ---
 
@@ -129,31 +123,31 @@ A full template is available in `.env.test`.
 
 | Measure | How |
 |---|---|
-| **Git history** | Confirmed clean via Gitleaks across all 150 commits |
 | **Input validation** | Zod schemas on every API endpoint |
 | **Stripe webhooks** | Signature-verified with webhook secret |
-| **Bot protection** | Turnstile captcha on signup |
+| **Bot protection** | Turnstile captcha on signup, Cloudflare protection |
 | **Rate limiting** | Redis-backed, per-path per-IP with Cloudflare fallback |
-| **Security headers** | HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy |
+| **Security headers** | CORS, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy |
 | **SQL injection** | Not possible — Drizzle ORM parameterized queries |
 
 ---
 
 ## Contributing
 
-PRs are welcome. The pre-commit hook runs lint-staged, tests, and a Gitleaks secret scan. Make sure all three pass before opening a PR.
+PRs are welcome, just message me first if you want to work on a feature. Please run the following commands before submitting a PR:
 
 ```bash
 pnpm lint       # check formatting + lint rules
 pnpm test:all   # full test suite
 pnpm gitleaks   # verify no secrets leaked
+pnpm check      # typecheck all files
 ```
 
 ---
 
 ## Acknowledgements
 
-- **[Hiddify Manager](https://github.com/hiddify/hiddify-manager)** — The VPN management panel that powers the backend infrastructure.
+- **[Hiddify Manager](https://github.com/hiddify/hiddify-manager)** — The VPN that powers everything.
 
 ---
 
