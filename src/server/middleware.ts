@@ -17,6 +17,7 @@ import pretty from "pino-pretty";
 import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
 import { getUserById } from "@/db/queries";
 import { auth } from "@/lib/auth";
+import { setHeaders } from "@/lib/headers";
 import { redis } from "@/lib/redis";
 
 import type { Bindings } from "./app";
@@ -103,6 +104,13 @@ export function corsMiddleware(): MiddlewareHandler {
       });
 }
 
+export function securityHeaders(): MiddlewareHandler {
+  return createMiddleware(async (c, next) => {
+    await next();
+    setHeaders(c.res.headers);
+  });
+}
+
 export function pinoLogger(): MiddlewareHandler {
   return logger({
     http: {
@@ -127,8 +135,14 @@ export function pinoLogger(): MiddlewareHandler {
 
 export function limiter(): MiddlewareHandler {
   return rateLimiter({
-    keyGenerator: (c) =>
-      `${c.req.path}-${c.req.header("cf-connecting-ip") ?? ""}`,
+    keyGenerator: (c) => {
+      const ip =
+        c.req.header("cf-connecting-ip") ||
+        c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ||
+        c.req.header("x-real-ip") ||
+        "unknown";
+      return `${c.req.path}-${ip}`;
+    },
     limit: 50,
     message: {
       message: "Too many requests, try again later.",

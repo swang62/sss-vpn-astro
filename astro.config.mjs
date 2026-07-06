@@ -84,6 +84,6 @@ export default defineConfig({
     server: {
       allowedHosts: [".ngrok-free.dev", "192.168.8.129"],
     },
-    sourcemap: true,
+    sourcemap: process.env.NODE_ENV !== "production",
   },
 });

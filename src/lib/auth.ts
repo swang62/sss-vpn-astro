@@ -85,7 +85,6 @@ export const auth = betterAuth({
   session: { storeSessionInDatabase: true },
   telemetry: { enabled: false },
   trustedOrigins: [
-    "dazzling-breeze-21743.pktriot.net",
     "localhost",
     "127.0.0.1",
     "192.168.8.129",

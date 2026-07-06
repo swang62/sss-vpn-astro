@@ -13,6 +13,7 @@ import {
   notFound,
   onError,
   pinoLogger,
+  securityHeaders,
 } from "./middleware";
 
 export const ALLOWED_METHODS = [
@@ -43,6 +44,7 @@ export default function createApp() {
   app.use(authMiddleware);
   app.use(pinoLogger());
   app.use(corsMiddleware());
+  app.use(securityHeaders());
   app.use(limiter());
   app.notFound(notFound);
   app.onError(onError);

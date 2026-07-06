@@ -44,4 +44,4 @@ Visit the dev server at `http://localhost:4321`. HMR is built-in so all local ch
 
 ## License
 
-[AGPLv3](LICENSE)
+[GNU General Public License v3.0](LICENSE)

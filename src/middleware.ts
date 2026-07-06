@@ -1,10 +1,8 @@
 import type { MiddlewareHandler } from "astro";
 
-// import { When, whenAmI } from "@it-astro:when";
 import { getUserById } from "@/db/queries";
 import { auth } from "@/lib/auth";
-
-// This file is automatically imported/bundled into SSR routes
+import { setHeaders } from "@/lib/headers";
 
 export const onRequest: MiddlewareHandler = async (ctx, next) => {
   const { pathname } = ctx.url;
@@ -13,34 +11,44 @@ export const onRequest: MiddlewareHandler = async (ctx, next) => {
   const requireAuthAdmin = pathname.includes("debug");
 
   // Bypass unauthenticated routes
-  if (!requireAuth) return next();
+  if (!requireAuth) {
+    const response = await next();
+    setHeaders(response.headers);
+    return response;
+  }
 
   // Store session
   const session = await auth.api.getSession({
     headers: ctx.request.headers,
   });
 
-  if (requireAuth) {
-    if (!session) {
-      // Redirect for invalid sessions
-      return ctx.redirect("/login");
-    } else if (requireAuthAdmin && session.user.role !== "admin") {
-      // Redirect for unauthorized users
-      return ctx.redirect("/dashboard");
-    } else {
-      // Store in Astro.locals
-      const user = await getUserById(session.user.id);
-      if (user) {
-        ctx.locals.session = session.session;
-        ctx.locals.userSession = session.user;
-        ctx.locals.user = user;
-      } else {
-        return ctx.redirect("/login");
-      }
-    }
+  if (!session) {
+    const response = ctx.redirect("/login");
+    setHeaders(response.headers);
+    return response;
   }
 
-  return next();
+  if (requireAuthAdmin && session.user.role !== "admin") {
+    const response = ctx.redirect("/dashboard");
+    setHeaders(response.headers);
+    return response;
+  }
+
+  // Store in Astro.locals
+  const user = await getUserById(session.user.id);
+  if (!user) {
+    const response = ctx.redirect("/login");
+    setHeaders(response.headers);
+    return response;
+  }
+
+  ctx.locals.session = session.session;
+  ctx.locals.userSession = session.user;
+  ctx.locals.user = user;
+
+  const response = await next();
+  setHeaders(response.headers);
+  return response;
 };
 
 // type ValidContext = When.DevServer | When.Server;

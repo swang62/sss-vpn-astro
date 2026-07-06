@@ -27,10 +27,6 @@ if (error) {
   process?.exit(1);
 }
 
-if (data.LOG_LEVEL !== "silent") {
-  console.debug("SERVER_ENV", data);
-}
-
 //* Constants *//
 export const DB_AUTH_TOKEN = data.DB_AUTH_TOKEN;
 export const DB_REMOTE = data.DB_REMOTE;
@@ -47,6 +43,17 @@ export const TURNSTILE_SECRET_KEY = data.TURNSTILE_SECRET_KEY;
 //* Computed *//
 export const IS_PRODUCTION = NODE_ENV === "production";
 export const IS_TESTING = NODE_ENV === "test";
+
+if (!IS_PRODUCTION && LOG_LEVEL !== "silent") {
+  console.debug("SERVER_ENV", {
+    ...data,
+    DB_AUTH_TOKEN: "***",
+    HIDDIFY_API_KEY: "***",
+    POSTMARK_TOKEN: "***",
+    STRIPE_SECRET_KEY: "***",
+    STRIPE_WEBHOOK_SECRET: "***",
+  });
+}
 
 //* DB access and seeding *//
 export const DB_LOCAL_URL = IS_TESTING ? "file:test.db" : "file:local.db";
