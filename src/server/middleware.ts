@@ -132,7 +132,7 @@ export function pinoLogger(): MiddlewareHandler {
   });
 }
 
-export function limiter(): MiddlewareHandler {
+export function limiter(limit = 50): MiddlewareHandler {
   return rateLimiter({
     keyGenerator: (c) => {
       const ip =
@@ -142,7 +142,7 @@ export function limiter(): MiddlewareHandler {
         "unknown";
       return `${c.req.path}-${ip}`;
     },
-    limit: 50,
+    limit,
     message: {
       message: "Too many requests, try again later.",
     },
