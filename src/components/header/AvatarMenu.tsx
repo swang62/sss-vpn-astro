@@ -1,5 +1,5 @@
-import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
 import { navigate } from "astro:transitions/client";
+import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
 import {
   Cog,
   Edit,
@@ -27,8 +27,8 @@ import { fetchUser, type User } from "@/lib/api-clients";
 import {
   admin,
   revokeSession,
-  signOut,
   type Session,
+  signOut,
   type UserSession,
 } from "@/lib/auth-clients";
 import { cn } from "@/lib/utils";
@@ -72,10 +72,10 @@ function AvatarMenu({ session, user }: AvatarProps) {
   useEffect(() => {
     if (!reset) return;
     reset();
-  }, [user?.name, session?.userId]);
+  }, [reset]);
 
   // Styles
-  const buttonStyle = cn("py-0 px-2 h-8 w-full m-0 justify-start");
+  const buttonStyle = cn("m-0 h-8 w-full justify-start px-2 py-0");
   const menuStyle = "px-0 py-1";
 
   return (
@@ -87,7 +87,7 @@ function AvatarMenu({ session, user }: AvatarProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel className="text-muted-foreground flex flex-col p-2 text-sm">
+        <DropdownMenuLabel className="flex flex-col p-2 text-muted-foreground text-sm">
           <span className="text-foreground">{user?.name}</span>
           <span>{user?.email}</span>
         </DropdownMenuLabel>

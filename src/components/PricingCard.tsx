@@ -2,10 +2,6 @@ import { navigate } from "astro:transitions/client";
 import { BadgeCheck, Edit, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-
-import type { PricingPlan } from "@/config/types";
-import type { User } from "@/lib/api-clients";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,6 +12,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { PLAN_LIMITS } from "@/config/constants";
+import type { PricingPlan } from "@/config/types";
+import type { User } from "@/lib/api-clients";
 import { api, parseApi } from "@/lib/api-clients";
 import { capitalize, cn } from "@/lib/utils";
 
@@ -66,7 +64,7 @@ function PricingCard({
   return (
     <Card
       className={cn(
-        `bg-background text-foreground mx-auto flex max-w-80 flex-col justify-between pt-2 sm:mx-0`,
+        `mx-auto flex max-w-80 flex-col justify-between bg-background pt-2 text-foreground sm:mx-0`,
         user && isCurrentPlan && "border-rose-400"
       )}
     >
@@ -97,15 +95,15 @@ function PricingCard({
           </div>
           <div className="flex flex-wrap gap-0.5">
             <span className="inline-flex">
-              <h3 className="text-3xl font-semibold">{`$${price}`}</h3>
+              <h3 className="font-semibold text-3xl">{`$${price}`}</h3>
               {monthly && (
                 <span className="mb-1 flex items-end text-sm">/month</span>
               )}
             </span>
             {plan === "premium" && !hasPurchasedRouter && !isActive && (
               <span className="inline-flex">
-                <h3 className="text-3xl font-semibold">
-                  +${PLAN_LIMITS["router"].price}
+                <h3 className="font-semibold text-3xl">
+                  +${PLAN_LIMITS.router.price}
                 </h3>
                 <span className="mb-1 flex items-end text-sm">router</span>
               </span>

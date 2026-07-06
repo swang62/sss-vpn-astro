@@ -1,10 +1,8 @@
 import type { ClientRequestOptions, ClientResponse } from "hono/client";
 
 import { hc } from "hono/client";
-
-import type { App } from "@/server";
-
 import { SITE_URL } from "@/config/client";
+import type { App } from "@/server";
 
 //*  Should only contain client-side calls/actions
 

@@ -17,7 +17,7 @@ function MainDesktopMenu() {
               href={link.href}
               className={navigationMenuTriggerStyle({
                 className:
-                  "hover:text-muted-foreground bg-transparent hover:bg-transparent focus:bg-transparent",
+                  "bg-transparent hover:bg-transparent hover:text-muted-foreground focus:bg-transparent",
               })}
             >
               {link.label}

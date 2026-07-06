@@ -1,7 +1,6 @@
+import { eq } from "drizzle-orm";
 import type { PinoLogger } from "hono-pino";
 import type Stripe from "stripe";
-
-import { eq } from "drizzle-orm";
 
 import {
   DATA_PACKAGE_PRICE,
@@ -58,7 +57,7 @@ export async function updateSubscription(subscription: Stripe.Subscription) {
 
   if (status === "active") {
     const profile = await getProfileByStripeId(stripeCustomerId);
-    if (!profile || !profile.hiddifyId) {
+    if (!profile?.hiddifyId) {
       throw new Error(`Subscription update failed for ${stripeCustomerId}`);
     }
 
@@ -87,7 +86,7 @@ export async function cancelSubscription(subscription: Stripe.Subscription) {
   const stripeCustomerId = subscription.customer as string;
   const status = subscription.status;
   const profile = await getProfileByStripeId(stripeCustomerId);
-  if (!profile || !profile.hiddifyId)
+  if (!profile?.hiddifyId)
     throw new Error(`Subscription cancellation failed for ${stripeCustomerId}`);
 
   if (status === "canceled" && profile.subscriptionId === subscriptionId) {

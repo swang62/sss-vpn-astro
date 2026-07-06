@@ -97,7 +97,7 @@ function LoginForm() {
                       <FormLabel>Password</FormLabel>
                       <a
                         href="/forgot-password"
-                        className="text-muted-foreground ml-auto inline-block text-right text-sm"
+                        className="ml-auto inline-block text-right text-muted-foreground text-sm"
                       >
                         Forgot password?
                       </a>
@@ -126,7 +126,7 @@ function LoginForm() {
       </Card>
       <div className="mt-4 text-center text-sm">
         Don't have an account?
-        <a href="/signup" className="text-primary-link ml-2 underline">
+        <a href="/signup" className="ml-2 text-primary-link underline">
           Sign up
         </a>
       </div>

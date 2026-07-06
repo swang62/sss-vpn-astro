@@ -90,7 +90,7 @@ function DashboardOverview() {
       <CardContent>
         <Progress
           value={percentUsed}
-          className="border-border border bg-transparent"
+          className="border border-border bg-transparent"
         />
         <div className="flex flex-row content-center items-center justify-between py-1 pb-2 align-middle">
           <span className="text-muted-foreground text-sm">0</span>
@@ -102,7 +102,7 @@ function DashboardOverview() {
         <div className="flex flex-col gap-6 pt-6">
           {details.map(({ title, value }, index) => (
             <div className="flex flex-col justify-start gap-1" key={index}>
-              <h1 className="text-lg font-semibold">{title}</h1>
+              <h1 className="font-semibold text-lg">{title}</h1>
               <span className="text-muted-foreground">
                 {user ? value : <Skeleton className="h-6 w-56" />}
               </span>

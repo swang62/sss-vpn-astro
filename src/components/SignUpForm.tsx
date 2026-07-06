@@ -1,6 +1,5 @@
-import type { TurnstileInstance } from "@marsidev/react-turnstile";
-
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { TurnstileInstance } from "@marsidev/react-turnstile";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -148,7 +147,7 @@ function SignUpForm() {
             email
             <Popover>
               <PopoverTrigger>
-                <span className="text-secondary-link ml-1 cursor-pointer underline">
+                <span className="ml-1 cursor-pointer text-secondary-link underline">
                   provider
                 </span>
               </PopoverTrigger>
@@ -243,7 +242,7 @@ function SignUpForm() {
               </Button>
             </form>
           </Form>
-          <p className="text-muted-foreground pt-4 text-center text-xs">
+          <p className="pt-4 text-center text-muted-foreground text-xs">
             <a
               className="px-1"
               href="/privacy"
@@ -258,7 +257,7 @@ function SignUpForm() {
 
       <div className="mt-4 text-center text-sm">
         Already have an account?
-        <a href="/login" className="text-primary-link ml-2 underline">
+        <a href="/login" className="ml-2 text-primary-link underline">
           Log in
         </a>
       </div>

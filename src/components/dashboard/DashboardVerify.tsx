@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { toast } from "sonner";
-
-import type { UserDB } from "@/db/queries";
-
 import { Button } from "@/components/ui/button";
 import { MIN_WAIT_TIME } from "@/config/constants";
+import type { UserDB } from "@/db/queries";
 import { sendVerificationEmail } from "@/lib/auth-clients";
 import { minutesPassedSince } from "@/lib/utils";
 

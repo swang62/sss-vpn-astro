@@ -122,7 +122,7 @@ function ForgotPasswordForm() {
       <div className="mt-4 text-center text-sm">
         <a
           href="/login"
-          className="text-foreground mr-4 flex items-center justify-center text-center hover:underline"
+          className="mr-4 flex items-center justify-center text-center text-foreground hover:underline"
         >
           <ChevronLeft className="h-4" />
           Back to login

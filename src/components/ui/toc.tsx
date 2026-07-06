@@ -2,7 +2,8 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-interface TableOfContentsListProps extends React.ComponentPropsWithoutRef<"ul"> {
+interface TableOfContentsListProps
+  extends React.ComponentPropsWithoutRef<"ul"> {
   indent?: boolean;
 }
 
@@ -26,7 +27,8 @@ const TableOfContentsTitle = React.forwardRef<
 ));
 TableOfContentsTitle.displayName = "TableOfContentsTitle";
 
-interface TableOfContentsItemProps extends React.ComponentPropsWithoutRef<"li"> {
+interface TableOfContentsItemProps
+  extends React.ComponentPropsWithoutRef<"li"> {
   indent?: boolean;
 }
 
@@ -53,8 +55,8 @@ const TableOfContentsLink = React.forwardRef<
   <a
     ref={ref}
     className={cn(
-      "text-foreground hover:text-primary font-medium transition-colors",
-      isActive ? "text-foreground font-medium" : "text-muted-foreground",
+      "font-medium text-foreground transition-colors hover:text-primary",
+      isActive ? "font-medium text-foreground" : "text-muted-foreground",
       className
     )}
     {...props}

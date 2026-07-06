@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 
-import { config } from "dotenv";
 import path from "node:path";
+import { config } from "dotenv";
 import { defineConfig, loadEnv } from "vite";
 
 process.env = {

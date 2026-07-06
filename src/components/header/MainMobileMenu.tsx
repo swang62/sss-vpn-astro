@@ -27,7 +27,7 @@ function MainMobileMenu() {
       <SheetContent side="left" className="pr-0 text-xl">
         <SheetHeader className="pt-4 pl-4">
           <a href="/#top" onClick={() => setOpen(false)}>
-            <SheetTitle className="flex flex-nowrap items-center gap-2 text-left text-3xl font-semibold">
+            <SheetTitle className="flex flex-nowrap items-center gap-2 text-left font-semibold text-3xl">
               <img src="/favicon.ico" alt="logo" width={36} height={36} />
               <span>{SITE_NAME}</span>
             </SheetTitle>

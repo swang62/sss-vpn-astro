@@ -4,10 +4,10 @@ import sitemap from "@astrojs/sitemap";
 import sentry from "@sentry/astro";
 import spotlightjs from "@spotlightjs/astro";
 import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "astro/config";
 import compressor from "astro-compressor";
 import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
-import { defineConfig } from "astro/config";
 import sonda from "sonda/astro";
 import { loadEnv } from "vite";
 

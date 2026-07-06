@@ -7,9 +7,6 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-
-import type { Platform } from "@/config/types";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,6 +16,7 @@ import {
   FILE_START_COMMAND,
   FILE_TYPES,
 } from "@/config/constants";
+import type { Platform } from "@/config/types";
 import { fetchUser } from "@/lib/api-clients";
 import { copyToClipboard, getHiddifyLinks } from "@/lib/utils";
 
@@ -123,7 +121,7 @@ function getSteps(
                   href="https://play.google.com/store/apps/details?id=app.hiddify.com&hl=en-us"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-primary-link px-1 underline"
+                  className="px-1 text-primary-link underline"
                 >
                   here
                 </a>
@@ -261,7 +259,7 @@ function getSteps(
             Go back to the app and click on the
             <Badge
               variant="outline"
-              className="text-muted-foreground bg-muted mx-1"
+              className="mx-1 bg-muted text-muted-foreground"
             >
               + New Profile
             </Badge>
@@ -280,7 +278,7 @@ function getSteps(
             Click
             <Badge
               variant="outline"
-              className="text-muted-foreground bg-muted mx-1"
+              className="mx-1 bg-muted text-muted-foreground"
             >
               Add from clipboard
             </Badge>
@@ -322,7 +320,7 @@ function getSteps(
             Find and click the
             <Badge
               variant="outline"
-              className="text-muted-foreground bg-muted mx-1"
+              className="mx-1 bg-muted text-muted-foreground"
             >
               <Settings className="mr-1 inline-block" />
               Settings
@@ -330,7 +328,7 @@ function getSteps(
             button, then click the{" "}
             <Badge
               variant="outline"
-              className="text-muted-foreground bg-muted mx-1"
+              className="mx-1 bg-muted text-muted-foreground"
             >
               <EllipsisVertical className="mx-1" />
             </Badge>{" "}
@@ -443,7 +441,7 @@ function HowToInstall({ config, platform }: Props) {
     }
 
     return () => clearInterval(intervalId);
-  }, [profile?.hiddifyId]);
+  }, [profile?.hiddifyId, mutate, intervalId]);
 
   return (
     <Tabs defaultValue={platform}>

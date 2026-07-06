@@ -1,16 +1,15 @@
+import { captureException } from "@sentry/astro";
 import type {
   Context,
   ErrorHandler,
   MiddlewareHandler,
   NotFoundHandler,
 } from "hono";
-import type { ContentfulStatusCode } from "hono/utils/http-status";
-
-import { captureException } from "@sentry/astro";
-import { pinoLogger as logger } from "hono-pino";
-import { rateLimiter } from "hono-rate-limiter";
 import { cors } from "hono/cors";
 import { createMiddleware } from "hono/factory";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
+import { pinoLogger as logger } from "hono-pino";
+import { rateLimiter } from "hono-rate-limiter";
 import pino from "pino";
 import pretty from "pino-pretty";
 

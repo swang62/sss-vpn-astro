@@ -13,13 +13,13 @@ function Step({ content, idx = 0, title }: StepProps) {
     <Card
       x-chunk="Step"
       id={`${idx}`}
-      className="dark:border-l-border relative mb-6 ml-4 rounded-lg border-l border-transparent pb-4"
+      className="relative mb-6 ml-4 rounded-lg border-transparent border-l pb-4 dark:border-l-border"
     >
       <Badge variant="secondary" className="absolute top-5 -left-4 size-8">
         <span className="absolute left-2.5 text-lg">{idx + 1}</span>
       </Badge>
       <CardTitle className="ml-8">{title}</CardTitle>
-      <CardContent className="flex flex-col gap-4 px-8 text-wrap whitespace-break-spaces">
+      <CardContent className="flex flex-col gap-4 whitespace-break-spaces text-wrap px-8">
         {content}
       </CardContent>
     </Card>

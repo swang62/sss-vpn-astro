@@ -2,9 +2,6 @@
 
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 import * as React from "react";
-
-import type { Option } from "@/config/types";
-
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -19,6 +16,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import type { Option } from "@/config/types";
 import { cn } from "@/lib/utils";
 
 interface Props {
