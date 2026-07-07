@@ -85,7 +85,7 @@ function AccountDetails() {
     }
 
     return () => clearInterval(intervalId);
-  }, [profile?.hiddifyId]);
+  }, [profile?.hiddifyId, intervalId, mutate]);
 
   // Poll for stripe subscription renewal
   useEffect(() => {
@@ -104,14 +104,14 @@ function AccountDetails() {
     }
 
     return () => clearInterval(intervalId);
-  }, [loading]);
+  }, [loading, profile?.updatedAt, mutate, intervalId]);
 
   return (
     <Card x-chunk="Plan details">
       <CardContent className="flex flex-col gap-6">
         {planDetails.map(({ title, value }, index) => (
           <div key={index}>
-            <h1 className="mb-1 h-8 text-xl font-semibold">{title}</h1>
+            <h1 className="mb-1 h-8 font-semibold text-xl">{title}</h1>
             <div className="text-muted-foreground">
               {profile ? value : <Skeleton className="h-6 w-56" />}
             </div>

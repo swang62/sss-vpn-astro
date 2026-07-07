@@ -4,7 +4,7 @@ interface Props {
 
 function WelcomeMsg({ name }: Props) {
   return (
-    <p className="bg-muted w-full rounded-lg px-4 py-3">
+    <p className="w-full rounded-lg bg-muted px-4 py-3">
       Welcome
       {name ? ` ${name}` : ""}! Looks like it's your first time here. The main
       dashboard page contains important information about your current plan like

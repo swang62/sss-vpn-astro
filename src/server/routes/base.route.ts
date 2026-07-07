@@ -5,6 +5,7 @@ import { z } from "zod";
 import { IS_PRODUCTION } from "@/config/server";
 import { getUserByEmail } from "@/db/queries";
 import { createBaseRouter } from "@/server/app";
+import { limiter } from "@/server/middleware";
 
 //* Unauthenticated routes
 
@@ -19,12 +20,13 @@ const route = createBaseRouter()
       _requested_at: new Date(),
       endpoint: c.req.path,
       production: IS_PRODUCTION,
-      request: c.req.header(),
+      request: IS_PRODUCTION ? {} : c.req.header(),
       response,
     });
   })
   .get(
     "/search-email",
+    limiter(10),
     zValidator(
       "query",
       z.object({

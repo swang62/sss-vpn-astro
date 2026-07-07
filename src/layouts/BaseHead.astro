@@ -2,7 +2,7 @@
 import { SEO } from "astro-seo";
 
 import { SITE_URL } from "@/config/client";
-import { SITE_NAME, SITE_DESCRIPTION, SITE_IMAGE } from "@/config/constants";
+import { SITE_DESCRIPTION, SITE_IMAGE, SITE_NAME } from "@/config/constants";
 import "@/styles/globals.css";
 
 interface Props {
@@ -22,7 +22,7 @@ const { title } = Astro.props;
 
 <!-- Global assets -->
 <link rel="sitemap" href="/sitemap-index.xml" />
-<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/png" href="/favicon.png" sizes="100x100" />
 <link rel="shortcut icon" href="/favicon.ico" />
 <link rel="manifest" href="/site.webmanifest" />
 

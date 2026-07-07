@@ -1,10 +1,7 @@
-import type { PinoLogger } from "hono-pino";
-
 import { Hono } from "hono";
-
-import type { Session, UserSession } from "@/lib/auth-clients";
-
+import type { PinoLogger } from "hono-pino";
 import { auth } from "@/lib/auth";
+import type { Session, UserSession } from "@/lib/auth-clients";
 
 import {
   authMiddleware,
@@ -13,6 +10,7 @@ import {
   notFound,
   onError,
   pinoLogger,
+  securityHeaders,
 } from "./middleware";
 
 export const ALLOWED_METHODS = [
@@ -43,6 +41,7 @@ export default function createApp() {
   app.use(authMiddleware);
   app.use(pinoLogger());
   app.use(corsMiddleware());
+  app.use(securityHeaders());
   app.use(limiter());
   app.notFound(notFound);
   app.onError(onError);

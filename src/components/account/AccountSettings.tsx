@@ -4,9 +4,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 import { z } from "zod";
-
-import type { UserDB } from "@/db/queries";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -24,6 +21,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { MAX_NAME_LENGTH } from "@/config/constants";
+import type { UserDB } from "@/db/queries";
 import { api, parseApi } from "@/lib/api-clients";
 
 const formSchema = z.object({
@@ -67,7 +65,7 @@ function AccountSettings({ user }: Props) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <CardHeader>
-            <h1 className="text-2xl font-semibold">Personal Info</h1>
+            <h1 className="font-semibold text-2xl">Personal Info</h1>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
             <FormField
@@ -85,7 +83,7 @@ function AccountSettings({ user }: Props) {
             />
           </CardContent>
           <CardFooter>
-            <span className="text-muted-foreground flex">
+            <span className="flex text-muted-foreground">
               Feel free to call yourself whatever you like :)
             </span>
             <Button disabled={loading} loading={loading} type="submit">

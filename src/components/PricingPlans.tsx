@@ -64,7 +64,7 @@ function PricingPlans() {
       </div>
       <div className="flex max-w-xl flex-col justify-center gap-8 sm:flex-row sm:flex-wrap">
         {data?.user && !purchasedRouter && isActive && (
-          <div className="text-muted-foreground mt-8 px-2 text-center">
+          <div className="mt-8 px-2 text-center text-muted-foreground">
             Still want to purchase the router? ${PLAN_LIMITS.router.price} for a
             fully configured Wifi6 router. Buy it
             <Button

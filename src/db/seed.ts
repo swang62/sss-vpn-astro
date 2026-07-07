@@ -1,6 +1,6 @@
-import { hashPassword } from "better-auth/crypto";
 import { execSync } from "node:child_process";
 import fs from "node:fs";
+import { hashPassword } from "better-auth/crypto";
 
 import { PAID_PLANS, type PaidPlan } from "@/config/types";
 import { capitalize } from "@/lib/utils";

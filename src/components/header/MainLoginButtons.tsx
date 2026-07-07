@@ -11,7 +11,7 @@ function MainLoginButtons() {
         data-astro-reload
         className={navigationMenuTriggerStyle({
           className:
-            "hover:text-muted-foreground bg-transparent pr-2 pl-2 hover:bg-transparent focus:bg-transparent",
+            "bg-transparent pr-2 pl-2 hover:bg-transparent hover:text-muted-foreground focus:bg-transparent",
         })}
       >
         Log in

@@ -1,3 +1,4 @@
+import { SITE_URL } from "./client";
 import type {
   HiddifyServer,
   HiddifyServerId,
@@ -5,8 +6,6 @@ import type {
   PricingPlan,
   SubscriptionType,
 } from "./types";
-
-import { SITE_URL } from "./client";
 
 export const SITE_NAME = "SSS-VPN";
 export const SITE_EMAIL = "hello@sss-vpn.com";

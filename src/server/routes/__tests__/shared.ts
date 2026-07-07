@@ -1,8 +1,6 @@
 import { createMiddleware } from "hono/factory";
-
-import type { Bindings } from "@/server/app";
-
 import { adminUser, testUser } from "@/db/seed";
+import type { Bindings } from "@/server/app";
 
 // Seeds in the admin user session for testing purposes only
 export const testAdminMiddleware = createMiddleware<Bindings>(

@@ -1,22 +1,22 @@
+import { captureException } from "@sentry/astro";
 import type {
   Context,
   ErrorHandler,
   MiddlewareHandler,
   NotFoundHandler,
 } from "hono";
-import type { ContentfulStatusCode } from "hono/utils/http-status";
-
-import { captureException } from "@sentry/astro";
-import { pinoLogger as logger } from "hono-pino";
-import { rateLimiter } from "hono-rate-limiter";
 import { cors } from "hono/cors";
 import { createMiddleware } from "hono/factory";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
+import { pinoLogger as logger } from "hono-pino";
+import { rateLimiter } from "hono-rate-limiter";
 import pino from "pino";
 import pretty from "pino-pretty";
 
 import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
 import { getUserById } from "@/db/queries";
 import { auth } from "@/lib/auth";
+import { setHeaders } from "@/lib/headers";
 import { redis } from "@/lib/redis";
 
 import type { Bindings } from "./app";
@@ -103,6 +103,13 @@ export function corsMiddleware(): MiddlewareHandler {
       });
 }
 
+export function securityHeaders(): MiddlewareHandler {
+  return createMiddleware(async (c, next) => {
+    await next();
+    setHeaders(c.res.headers);
+  });
+}
+
 export function pinoLogger(): MiddlewareHandler {
   return logger({
     http: {
@@ -125,11 +132,17 @@ export function pinoLogger(): MiddlewareHandler {
   });
 }
 
-export function limiter(): MiddlewareHandler {
+export function limiter(limit = 50): MiddlewareHandler {
   return rateLimiter({
-    keyGenerator: (c) =>
-      `${c.req.path}-${c.req.header("cf-connecting-ip") ?? ""}`,
-    limit: 50,
+    keyGenerator: (c) => {
+      const ip =
+        c.req.header("cf-connecting-ip") ||
+        c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ||
+        c.req.header("x-real-ip") ||
+        "unknown";
+      return `${c.req.path}-${ip}`;
+    },
+    limit,
     message: {
       message: "Too many requests, try again later.",
     },

@@ -1,15 +1,11 @@
 import { eq } from "drizzle-orm";
-
+import { MAX_NAME_LENGTH, TRIAL_TIME } from "@/config/constants";
 import type { HiddifyServerId } from "@/config/types";
 import type { ProfileInsert } from "@/db";
-
-import { MAX_NAME_LENGTH, TRIAL_TIME } from "@/config/constants";
 import db, { profile as profileTable, user as userTable } from "@/db";
 import { stripe } from "@/lib/stripe";
-
-import type { UserDB } from "./queries";
-
 import { createHiddifyUser } from "./mutations-hiddify";
+import type { UserDB } from "./queries";
 import { getProductByPriceId, searchForHiddifyEmail } from "./queries";
 
 export async function updateIpAddress(user: UserDB, ip: string) {

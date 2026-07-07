@@ -1,11 +1,7 @@
-import ReactJsonView from "@microlink/react-json-view";
 import { navigate } from "astro:transitions/client";
+import ReactJsonView from "@microlink/react-json-view";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-
-import type { Option } from "@/config/types";
-import type { HonoClient, UserFull } from "@/lib/api-clients";
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,7 +15,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
+import type { Option } from "@/config/types";
 import { useMounted } from "@/hooks/use-mounted";
+import type { HonoClient, UserFull } from "@/lib/api-clients";
 import { api, parseApi } from "@/lib/api-clients";
 import { admin } from "@/lib/auth-clients";
 
@@ -191,7 +189,7 @@ function ApiStatus({ device, origin }: Props) {
   // Lifecycle
   useEffect(() => {
     getAllUsers();
-  }, []);
+  }, [getAllUsers]);
 
   useEffect(() => {
     setUserActive(null);
@@ -283,7 +281,7 @@ function ApiStatus({ device, origin }: Props) {
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction
-                className="bg-destructive hover:bg-destructive/80 cursor-pointer"
+                className="cursor-pointer bg-destructive hover:bg-destructive/80"
                 onClick={deleteUser}
               >
                 Delete

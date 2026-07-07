@@ -1,8 +1,6 @@
 import type Stripe from "stripe";
-
-import type { ProductInsert } from "@/db";
-
 import { PAID_PLANS, type PaidPlan } from "@/config/types";
+import type { ProductInsert } from "@/db";
 import db, { product as productTable } from "@/db";
 import { stripe } from "@/lib/stripe";
 

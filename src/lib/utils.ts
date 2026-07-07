@@ -1,12 +1,9 @@
 import type { ClassValue } from "clsx";
-
 import { clsx } from "clsx";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
-
-import type { HiddifyServerId, Platform } from "@/config/types";
-
 import { HIDDIFY_SERVERS } from "@/config/constants";
+import type { HiddifyServerId, Platform } from "@/config/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -38,7 +35,7 @@ export function capitalize(str = "") {
 }
 
 export function minutesPassedSince(lastModified: string) {
-  const now = new Date().getTime();
+  const now = Date.now();
   const compare = new Date(lastModified || 0).getTime();
 
   return Math.floor((now - compare) / (60 * 1000));
@@ -116,26 +113,8 @@ export function getHiddifyLinks(
 }
 
 export async function copyToClipboard(text: string) {
-  if (navigator.clipboard && window.isSecureContext) {
-    await navigator.clipboard.writeText(text);
-    toast.success("Copied to clipboard!");
-  } else {
-    const textarea = document.createElement("textarea");
-    textarea.value = text;
-    textarea.style.position = "absolute";
-    textarea.style.left = "-99999999px";
-    document.body.prepend(textarea);
-    textarea.select();
-    try {
-      // @ts-nocheck
-      document.execCommand("copy");
-      toast.success("Copied to clipboard!");
-    } catch (err) {
-      console.error(err);
-    } finally {
-      textarea.remove();
-    }
-  }
+  await navigator?.clipboard.writeText(text);
+  toast.success("Copied to clipboard!");
 }
 
 export function getPlatform(
