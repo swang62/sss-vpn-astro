@@ -48,7 +48,10 @@ function ResetPasswordForm({ email, token }: Props) {
   // Validate token/email
   if (!email || !token) {
     toast.error("Invalid token! Redirecting...");
-    sleep(1000).then(() => navigate("/forgot-password"));
+    sleep(1000).then(() => {
+      if (typeof window !== "undefined")
+        window.location.href = "/forgot-password";
+    });
     return;
   }
 

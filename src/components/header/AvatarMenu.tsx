@@ -72,7 +72,7 @@ function AvatarMenu({ session, user }: AvatarProps) {
   useEffect(() => {
     if (!reset) return;
     reset();
-  }, [reset]);
+  }, [user?.name, session?.userId]);
 
   // Styles
   const buttonStyle = cn("m-0 h-8 w-full justify-start px-2 py-0");
@@ -82,7 +82,7 @@ function AvatarMenu({ session, user }: AvatarProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button size="icon" className="h-8 w-8 rounded-full">
-          {nameLetter || <UserIcon />}
+          {nameLetter || <UserIcon suppressHydrationWarning />}
           <span className="sr-only">Toggle user menu</span>
         </Button>
       </DropdownMenuTrigger>
@@ -117,7 +117,7 @@ function AvatarMenu({ session, user }: AvatarProps) {
           >
             <Button variant="ghost" className={buttonStyle}>
               <Mail />
-              Contact me
+              Support
             </Button>
           </a>
         </DropdownMenuItem>

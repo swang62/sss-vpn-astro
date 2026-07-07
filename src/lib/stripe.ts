@@ -2,7 +2,7 @@ import { Stripe } from "stripe";
 
 import { STRIPE_SECRET_KEY } from "../config/server";
 
-const STRIPE_API_VERSION = "2026-02-25.clover";
+const STRIPE_API_VERSION = "2026-06-24.dahlia" as const;
 
 // Stripe
 export const stripe = new Stripe(STRIPE_SECRET_KEY || "default", {

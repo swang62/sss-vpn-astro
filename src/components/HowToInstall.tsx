@@ -441,7 +441,7 @@ function HowToInstall({ config, platform }: Props) {
     }
 
     return () => clearInterval(intervalId);
-  }, [profile?.hiddifyId, mutate, intervalId]);
+  }, [profile?.hiddifyId]);
 
   return (
     <Tabs defaultValue={platform}>
