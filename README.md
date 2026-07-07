@@ -1,11 +1,10 @@
 # SSS-VPN
 
-> Personal VPN SaaS for users in high-censorship regions (China, Iran, Russia).
+![banner](/public/banner.png)
 
-[![Build & Test](https://github.com/swang62/sss-vpn-astro/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/swang62/sss-vpn-astro/actions/workflows/ci-tests.yml)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
-
-Fully self-contained stack — no external dependencies means I can pack up and move IPs in minutes when the GFW comes knocking. Only external dependencies are Cloudflare and Stripe, so if those are blocked, then there are much bigger problems to be worried about.
+> Personal VPN SaaS for users in high-censorship regions (China, Iran, Russia)
+>
+> Fully self-contained — minimal external dependencies means I can pack up and move IPs in minutes when the GFW comes knocking. Only external dependencies are Cloudflare,Stripe and SMTP, so if those are blocked, then there are much bigger problems to be worried about.
 
 ---
 
@@ -13,8 +12,8 @@ Fully self-contained stack — no external dependencies means I can pack up and 
 
 ### Signup & Accounts
 
-- Free 3 day trial — sign up, verify your email, connect in under a minute
-- 3 subscription tiers (Basic 100GB / Pro 300GB / Premium 600GB)
+- Free trial — sign up, verify your email, connect in under a minute
+- 3 tiers (Basic 100GB / Pro 300GB / Premium 600GB)
 - Data add-ons — buy extra GB without changing your plan
 - No contracts — cancel anytime, one-time or monthly billing
 

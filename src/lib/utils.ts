@@ -1,5 +1,4 @@
 import type { ClassValue } from "clsx";
-
 import { clsx } from "clsx";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
@@ -114,7 +113,7 @@ export function getHiddifyLinks(
 }
 
 export async function copyToClipboard(text: string) {
-  await navigator.clipboard.writeText(text);
+  await navigator?.clipboard.writeText(text);
   toast.success("Copied to clipboard!");
 }
 
