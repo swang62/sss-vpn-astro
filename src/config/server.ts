@@ -45,14 +45,7 @@ export const IS_PRODUCTION = NODE_ENV === "production";
 export const IS_TESTING = NODE_ENV === "test";
 
 if (!IS_PRODUCTION && LOG_LEVEL !== "silent") {
-  console.debug("SERVER_ENV", {
-    ...data,
-    DB_AUTH_TOKEN: "***",
-    HIDDIFY_API_KEY: "***",
-    POSTMARK_TOKEN: "***",
-    STRIPE_SECRET_KEY: "***",
-    STRIPE_WEBHOOK_SECRET: "***",
-  });
+  console.debug("SERVER_ENV", data);
 }
 
 //* DB access and seeding *//
