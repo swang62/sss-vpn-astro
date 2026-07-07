@@ -2,6 +2,7 @@ import { navigate } from "astro:transitions/client";
 import ReactJsonView from "@microlink/react-json-view";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import type UAParser from "ua-parser-js";
 import {
   AlertDialog,
   AlertDialogAction,

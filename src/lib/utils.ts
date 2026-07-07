@@ -2,6 +2,7 @@ import type { ClassValue } from "clsx";
 import { clsx } from "clsx";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
+import type UAParser from "ua-parser-js";
 import { HIDDIFY_SERVERS } from "@/config/constants";
 import type { HiddifyServerId, Platform } from "@/config/types";
 
