@@ -1,4 +1,3 @@
-import { navigate } from "astro:transitions/client";
 import { toast } from "sonner";
 import useSWR from "swr";
 
@@ -14,7 +13,9 @@ function RedirectCheck() {
 
   if (data?.session) {
     toast.success("Already logged in. Redirecting...", { duration: 1500 });
-    sleep(1000).then(() => navigate("/dashboard"));
+    sleep(1000).then(() => {
+      if (typeof window !== "undefined") window.location.href = "/dashboard";
+    });
   }
 
   return null;

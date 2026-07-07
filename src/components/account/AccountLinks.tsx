@@ -33,7 +33,7 @@ function AccountLinks() {
         captureException(error);
         setQrcode("");
       });
-  }, [profile?.hiddifyId, user, profile?.hiddifyServerId, profile]);
+  }, [profile?.hiddifyId, profile?.hiddifyServerId]);
 
   return (
     <Card x-chunk="Plan links">

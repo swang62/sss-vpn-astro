@@ -1,12 +1,12 @@
 {
   "name": "SSS-VPN",
   "short_name": "SSS-VPN",
+  "start_url": "/",
   "icons": [
     {
       "src": "/favicon.png",
       "sizes": "100x100",
-      "type": "image/png",
-      "purpose": "maskable"
+      "type": "image/png"
     }
   ],
   "theme_color": "#ffffff",

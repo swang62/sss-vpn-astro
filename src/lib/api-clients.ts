@@ -13,14 +13,21 @@ export type HonoClient = (
   options?: ClientRequestOptions
 ) => Promise<ClientResponse<object>>;
 
-export async function parseApi<T>(request: Promise<ClientResponse<T>>) {
+export type ApiResult = {
+  data: any;
+  error: string | undefined;
+  statusCode: number;
+};
+
+export async function parseApi(request: Promise<Response>): Promise<ApiResult> {
   const response = await request;
+  const statusCode = response.status;
   if (!response.ok) {
     const error = await response.text();
-    return { error, statusCode: response.status };
+    return { data: undefined, error, statusCode };
   }
-  const data = (await response.json()) as T;
-  return { data, statusCode: response.status };
+  const data = await response.json();
+  return { data, error: undefined, statusCode };
 }
 
 // React/SWR (client-side)

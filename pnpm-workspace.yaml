@@ -6,3 +6,5 @@ onlyBuiltDependencies:
   - "@sentry/cli"
   - esbuild
   - sharp
+minimumReleaseAgeExclude:
+  - "@radix-ui/*"

@@ -85,7 +85,7 @@ function AccountDetails() {
     }
 
     return () => clearInterval(intervalId);
-  }, [profile?.hiddifyId, intervalId, mutate]);
+  }, [profile?.hiddifyId]);
 
   // Poll for stripe subscription renewal
   useEffect(() => {
@@ -104,7 +104,7 @@ function AccountDetails() {
     }
 
     return () => clearInterval(intervalId);
-  }, [loading, profile?.updatedAt, mutate, intervalId]);
+  }, [loading, profile?.updatedAt]);
 
   return (
     <Card x-chunk="Plan details">

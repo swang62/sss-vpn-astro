@@ -147,7 +147,10 @@ function ApiStatus({ device, origin }: Props) {
       return;
     }
     const userOptions = data.users.map(
-      (user): Option => ({ label: user.email, value: user.id })
+      (user): Option => ({
+        label: user.email,
+        value: user.id,
+      })
     );
     setUsers(userOptions);
     setLoadingText("Select a user...");
@@ -189,7 +192,7 @@ function ApiStatus({ device, origin }: Props) {
   // Lifecycle
   useEffect(() => {
     getAllUsers();
-  }, [getAllUsers]);
+  }, []);
 
   useEffect(() => {
     setUserActive(null);

@@ -84,7 +84,7 @@ function AccountSettings({ user }: Props) {
           </CardContent>
           <CardFooter>
             <span className="flex text-muted-foreground">
-              Feel free to call yourself whatever you like :)
+              Call yourself whatever you like!
             </span>
             <Button disabled={loading} loading={loading} type="submit">
               Save
