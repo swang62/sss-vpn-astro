@@ -19,9 +19,9 @@ function AccountPortal() {
   // Handlers
   const redirectCustomerPortal = async () => {
     setLoading(true);
-    const { data } = await parseApi(api.stripe["customer-portal"].$post());
-    if (data?.url) {
-      navigate(data.url);
+    const result = await parseApi(api.stripe["customer-portal"].$post);
+    if (result.ok && result.data?.url) {
+      navigate(result.data.url);
     } else {
       toast.error("Unknown error, please try again later.");
       setLoading(false);

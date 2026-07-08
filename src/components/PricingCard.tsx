@@ -39,11 +39,11 @@ function PricingCard({
 
   const onClickCheckout = async () => {
     setLoading(true);
-    const { data } = isActive
-      ? await parseApi(api.stripe["customer-portal"].$post({ json: { plan } }))
-      : await parseApi(api.stripe.checkout.$post({ json: { monthly, plan } }));
-    if (data?.url) {
-      navigate(data.url);
+    const result = isActive
+      ? await parseApi(api.stripe["customer-portal"].$post, { json: { plan } })
+      : await parseApi(api.stripe.checkout.$post, { json: { monthly, plan } });
+    if (result.ok && result.data?.url) {
+      navigate(result.data.url);
     } else {
       toast.error("Unknown error, please try again later.");
       setLoading(false);
@@ -52,9 +52,9 @@ function PricingCard({
 
   const onClickAddData = async () => {
     setLoading(true);
-    const { data } = await parseApi(api.stripe["add-data"].$post());
-    if (data?.url) {
-      navigate(data.url);
+    const result = await parseApi(api.stripe["add-data"].$post);
+    if (result.ok && result.data?.url) {
+      navigate(result.data.url);
     } else {
       toast.error("Unknown error, please try again later.");
       setLoading(false);

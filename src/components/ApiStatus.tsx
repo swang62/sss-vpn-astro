@@ -105,17 +105,17 @@ function ApiStatus({ device, origin }: Props) {
     }
 
     if (client) {
-      const { data, error } = await parseApi(client());
-      if (!data || error) {
-        toast.error(error);
-        if (error?.includes("path")) {
+      const result = await parseApi(client);
+      if (!result.ok) {
+        toast.error(result.error);
+        if (result.error?.includes("path")) {
           setLoading(false);
           throw new Error("Manually triggered client-side error");
         }
         setLoading(false);
         return;
       }
-      setCode(data);
+      setCode(result.data);
     }
     setLoading(false);
   };
@@ -123,16 +123,16 @@ function ApiStatus({ device, origin }: Props) {
   const getUser = async () => {
     setLoading(true);
 
-    const { data, error } = await parseApi(
-      api.user[":id"].$get({ param: { id: userIdSelected } })
-    );
-    if (!data || error) {
-      toast.error(error);
+    const result = await parseApi(api.user[":id"].$get, {
+      param: { id: userIdSelected },
+    });
+    if (!result.ok) {
+      toast.error(result.error);
       setLoading(false);
       return;
     }
-    setUserActive(data._user);
-    setCode(data);
+    setUserActive(result.data._user);
+    setCode(result.data);
     setLoading(false);
   };
 
@@ -171,15 +171,15 @@ function ApiStatus({ device, origin }: Props) {
   const deleteUser = async () => {
     setLoading(true);
 
-    const { data, error } = await parseApi(
-      api.user[":id"].$delete({ param: { id: userIdSelected } })
-    );
-    if (!data || error) {
-      toast.error(error);
+    const result = await parseApi(api.user[":id"].$delete, {
+      param: { id: userIdSelected },
+    });
+    if (!result.ok) {
+      toast.error(result.error);
       setLoading(false);
       return;
     }
-    setCode(data);
+    setCode(result.data);
     setLoading(false);
   };
 

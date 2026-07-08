@@ -47,11 +47,11 @@ function AccountSettings({ user }: Props) {
   // Submit handler
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
-    const { error } = await parseApi(
-      api.user.$patch({ json: { name: values.name } })
-    );
+    const result = await parseApi(api.user.$patch, {
+      json: { name: values.name },
+    });
 
-    if (!error) {
+    if (result.ok) {
       mutate("fetchUser");
       toast.success("Info updated.");
     } else {

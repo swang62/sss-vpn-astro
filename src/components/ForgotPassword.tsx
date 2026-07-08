@@ -46,11 +46,11 @@ function ForgotPasswordForm() {
     }
 
     const { email } = values;
-    const { data } = await parseApi(
-      api["search-email"].$get({ query: { email } })
-    );
+    const result = await parseApi(api["search-email"].$get, {
+      query: { email },
+    });
 
-    if (!data?.exists) {
+    if (!result.ok || !result.data?.exists) {
       form.setError(
         "email",
         { message: "Email does not exist." },
@@ -83,7 +83,7 @@ function ForgotPasswordForm() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-[350px] flex-col">
+    <div className="mx-auto flex w-full max-w-87.5 flex-col">
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Forgot password?</CardTitle>

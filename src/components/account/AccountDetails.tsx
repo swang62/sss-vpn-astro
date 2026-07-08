@@ -21,10 +21,11 @@ function AccountDetails() {
   // Handlers
   const renewPlan = async (renew: boolean) => {
     setLoading(true);
-    const { error } = await parseApi(
-      api.stripe["renew-plan"].$post({ json: { renew } })
-    );
-    if (error) {
+    const result = await parseApi(api.stripe["renew-plan"].$post, {
+      json: { renew },
+    });
+
+    if (!result.ok) {
       toast.error("Failed to update subscription, please try again later.");
       setLoading(false);
     }
