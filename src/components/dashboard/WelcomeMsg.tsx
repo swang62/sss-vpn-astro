@@ -11,8 +11,8 @@ function WelcomeMsg({ name }: Props) {
       data usage and subscription status. To get started, click{" "}
       <a href="/dashboard/install" className="text-secondary-link underline">
         here
-      </a>{" "}
-      to begin the installation process.
+      </a>
+      .
     </p>
   );
 }
