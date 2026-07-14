@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -29,19 +28,15 @@ function ForgotPasswordForm() {
   const [loading, setLoading] = useState(false);
   const [sentEmail, setSentEmail] = useState("");
 
-  // Form hook
   const form = useForm<z.infer<typeof formSchema>>({
-    defaultValues: {
-      email: "",
-    },
+    defaultValues: { email: "" },
     resolver: zodResolver(formSchema),
   });
 
-  // Submit handler
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const minutesSince = minutesPassedSince(sentEmail);
     if (minutesSince < MIN_WAIT_TIME) {
-      toast.warning(`Please wait a minute before trying again.`);
+      toast.warning("Please wait a minute before trying again.");
       return;
     }
 
@@ -60,18 +55,13 @@ function ForgotPasswordForm() {
     }
 
     await requestPasswordReset(
-      {
-        email,
-        redirectTo: "/reset-password",
-      },
+      { email, redirectTo: "/reset-password" },
       {
         onError: (ctx) => {
           toast.warning(ctx.error.message);
           setLoading(false);
         },
-        onRequest: () => {
-          setLoading(true);
-        },
+        onRequest: () => setLoading(true),
         onSuccess: () => {
           toast.success("Email sent! Check your inbox.");
           form.reset();
@@ -83,52 +73,46 @@ function ForgotPasswordForm() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-87.5 flex-col">
-      <Card>
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Forgot password?</CardTitle>
-        </CardHeader>
-
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email address</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <Button
-                className="w-full"
-                type="submit"
-                loading={loading}
-                disabled={loading}
-                data-umami-event="password-reset"
-              >
-                Send reset link
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-      <div className="mt-4 text-center text-sm">
-        <a
-          href="/login"
-          className="mr-4 flex items-center justify-center text-center text-foreground hover:underline"
-        >
-          <ChevronLeft className="h-4" />
-          Back to login
-        </a>
-      </div>
-    </div>
+    <>
+      <h2 className="mb-6 text-center font-heading text-2xl">
+        Forgot password?
+      </h2>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-mono text-xs tracking-widest">
+                  Email address
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button
+            className="w-full font-mono tracking-widest"
+            type="submit"
+            loading={loading}
+            disabled={loading}
+            data-umami-event="password-reset"
+          >
+            Send reset link
+          </Button>
+        </form>
+      </Form>
+      <a
+        href="/login"
+        className="flex items-center justify-center gap-1 pt-6 font-mono text-muted-foreground text-xs tracking-wider transition-colors hover:text-foreground"
+      >
+        <ChevronLeft className="size-3" />
+        Back to login
+      </a>
+    </>
   );
 }
 

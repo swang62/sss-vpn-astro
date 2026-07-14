@@ -1,16 +1,12 @@
 {
-  "format_on_save": "on",
-  "code_actions_on_format": {
-    "source.organizeImports": true
-  },
   "languages": {
     "CSS": {
       "language_servers": [
         "tailwindcss-intellisense-css",
         "!vscode-css-language-server",
-        "..."
-      ]
-    }
+        "...",
+      ],
+    },
   },
   "lsp": {
     "typescript-language-server": {
@@ -18,10 +14,10 @@
         "plugins": [
           {
             "name": "@astrojs/ts-plugin",
-            "location": "node_modules/@astrojs/ts-plugin"
-          }
-        ]
-      }
-    }
-  }
+            "location": "node_modules/@astrojs/ts-plugin",
+          },
+        ],
+      },
+    },
+  },
 }

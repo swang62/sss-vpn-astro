@@ -44,6 +44,6 @@ export const DASHBOARD_LINKS: MenuLink[] = [
   {
     href: "/dashboard/pricing",
     icon: <Rocket />,
-    label: "Upgrade",
+    label: "Upgrade Plan",
   },
 ];

@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -26,24 +25,15 @@ const formSchema = z.object({
 function LoginForm() {
   const [loading, setLoading] = useState(false);
 
-  // Form hook
   const form = useForm<z.infer<typeof formSchema>>({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    defaultValues: { email: "", password: "" },
     resolver: zodResolver(formSchema),
   });
 
-  // Submit handler
   function onSubmit(values: z.infer<typeof formSchema>) {
     const { email, password } = values;
     signIn.email(
-      {
-        callbackURL: "/dashboard",
-        email,
-        password,
-      },
+      { callbackURL: "/dashboard", email, password },
       {
         onError: (ctx) => {
           const status = ctx.error.status;
@@ -58,79 +48,76 @@ function LoginForm() {
           }
           setLoading(false);
         },
-        onRequest: () => {
-          setLoading(true);
-        },
+        onRequest: () => setLoading(true),
       }
     );
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-[350px] flex-col">
-      <Card>
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Log in</CardTitle>
-        </CardHeader>
-
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex items-center">
-                      <FormLabel>Password</FormLabel>
-                      <a
-                        href="/forgot-password"
-                        className="ml-auto inline-block text-right text-muted-foreground text-sm"
-                      >
-                        Forgot password?
-                      </a>
-                    </div>
-                    <FormControl>
-                      <PasswordInput {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <Button
-                className="w-full"
-                type="submit"
-                loading={loading}
-                disabled={loading}
-                data-umami-event="login"
-                data-astro-reload
-              >
-                Log in
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-      <div className="mt-4 text-center text-sm">
-        Don't have an account?
-        <a href="/signup" className="ml-2 text-primary-link underline">
+    <>
+      <h2 className="mb-6 text-center font-heading text-2xl">Log in</h2>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-mono text-xs tracking-widest">
+                  Email
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex items-center justify-between">
+                  <FormLabel className="font-mono text-xs tracking-widest">
+                    Password
+                  </FormLabel>
+                  <a
+                    href="/forgot-password"
+                    className="font-mono text-[11px] text-primary tracking-wider transition-colors hover:text-primary-link"
+                  >
+                    Forgot?
+                  </a>
+                </div>
+                <FormControl>
+                  <PasswordInput {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button
+            className="w-full font-mono tracking-widest"
+            type="submit"
+            loading={loading}
+            disabled={loading}
+            data-umami-event="login"
+            data-astro-reload
+          >
+            Log in
+          </Button>
+        </form>
+      </Form>
+      <p className="pt-6 text-center font-mono text-muted-foreground text-xs tracking-wider">
+        Need an account?{" "}
+        <a
+          href="/signup"
+          className="font-semibold text-secondary-link transition-colors hover:text-secondary"
+        >
           Sign up
         </a>
-      </div>
-    </div>
+      </p>
+    </>
   );
 }
 
