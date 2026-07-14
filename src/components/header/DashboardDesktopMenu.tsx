@@ -15,16 +15,16 @@ function DashboardDesktopMenu({ pathname }: Props) {
   return (
     <NavigationMenu>
       <NavigationMenuList>
-        <NavigationMenuItem className="flex gap-2">
+        <NavigationMenuItem className="flex gap-1">
           {DASHBOARD_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
               className={navigationMenuTriggerStyle({
                 className: cn(
-                  "bg-transparent text-foreground/70 hover:bg-transparent hover:text-foreground focus:bg-transparent",
+                  "bg-transparent text-foreground/60 hover:bg-transparent hover:text-foreground focus:bg-transparent",
                   link.href === pathname
-                    ? "text-foreground underline underline-offset-8"
+                    ? "text-foreground underline decoration-primary underline-offset-8"
                     : null
                 ),
               })}

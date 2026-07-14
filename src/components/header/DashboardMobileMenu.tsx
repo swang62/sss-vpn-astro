@@ -32,7 +32,7 @@ function DashboardMobileMenu({ pathname }: Props) {
       <SheetContent side="left" className="pr-0">
         <SheetHeader className="py-4 pl-4">
           <a href="/#top" onClick={() => setOpen(false)}>
-            <SheetTitle className="flex flex-nowrap items-center gap-2 text-left font-semibold text-3xl">
+            <SheetTitle className="flex flex-nowrap items-center gap-2 text-left font-heading text-3xl">
               <img src="/favicon.ico" alt="logo" width={36} height={36} />
               <span>{SITE_NAME}</span>
             </SheetTitle>
@@ -41,7 +41,7 @@ function DashboardMobileMenu({ pathname }: Props) {
         </SheetHeader>
 
         <div className="my-2 h-[calc(100vh-8rem)] w-full py-2">
-          <div className="flex flex-col space-y-2">
+          <div className="flex flex-col gap-1 px-3">
             {DASHBOARD_LINKS.map(
               (link) =>
                 link.href && (
@@ -51,12 +51,17 @@ function DashboardMobileMenu({ pathname }: Props) {
                     onClick={() => setOpen(false)}
                   >
                     <Button
-                      variant={link.href === pathname ? "outline" : "ghost"}
+                      variant={link.href === pathname ? "secondary" : "ghost"}
                       className={cn(
-                        "ml-3 flex h-6 w-11/12 justify-start gap-4 py-6 text-xl"
+                        "flex w-full justify-start gap-3",
+                        link.href === pathname && "bg-primary/10"
                       )}
                     >
-                      <span>{link.icon}</span>
+                      <span
+                        className={cn(link.href === pathname && "text-primary")}
+                      >
+                        {link.icon}
+                      </span>
                       <span>{link.label}</span>
                     </Button>
                   </a>

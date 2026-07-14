@@ -234,26 +234,31 @@ function getSteps(
               Copy
             </Button>
           </div>
-          <div className="text-sm italic">
-            <span className="align-top">*</span>If you are using Shadowrocket,
-            or another custom VPN/V2Ray/Xray app, use the following link
-            instead:
-          </div>
-          <div className="flex items-center gap-2">
-            <Input
-              defaultValue={setupLink?.replace("/#", "/sub/#") || "Loading..."}
-              readOnly
-              className="bg-muted text-muted-foreground"
-            />
-            <Button
-              variant={"outline"}
-              onClick={() =>
-                copyToClipboard(setupLink?.replace("/#", "/sub/#") || "")
-              }
-            >
-              <Copy className="size-4" />
-              Copy
-            </Button>
+          <div className="rounded-lg border border-border/50 bg-muted/30 p-3">
+            <p className="font-mono text-[11px] text-muted-foreground leading-relaxed tracking-wider">
+              For Shadowrocket, V2Ray, or Xray clients, use this alternate
+              subscription link instead:
+            </p>
+            <div className="mt-2 flex items-center gap-2">
+              <Input
+                defaultValue={
+                  setupLink?.replace("/#", "/sub/#") || "Loading..."
+                }
+                readOnly
+                className="bg-muted/40 font-mono text-muted-foreground text-xs"
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  copyToClipboard(setupLink?.replace("/#", "/sub/#") || "")
+                }
+                className="shrink-0 gap-1.5"
+              >
+                <Copy className="size-3.5" />
+                Copy
+              </Button>
+            </div>
           </div>
           <div className="mt-4">
             Go back to the app and click on the
@@ -445,7 +450,7 @@ function HowToInstall({ config, platform }: Props) {
 
   return (
     <Tabs defaultValue={platform}>
-      <TabsList className="mb-8 grid h-10 w-full grid-cols-4 bg-slate-400 dark:bg-slate-800">
+      <TabsList className="mb-8 grid h-10 w-full grid-cols-4">
         <TabsTrigger value="android">
           <img
             width="20"

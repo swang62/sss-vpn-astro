@@ -1,5 +1,5 @@
 import { captureException } from "@sentry/astro";
-import { Copy } from "lucide-react";
+import { Copy, Link2 } from "lucide-react";
 import QRCode from "qrcode";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -35,57 +35,82 @@ function AccountLinks() {
       });
   }, [profile?.hiddifyId, profile?.hiddifyServerId]);
 
+  const altUrl = url.replace("/#", "/sub/#");
+
   return (
     <Card x-chunk="Plan links">
       <CardHeader>
-        <CardTitle>Useful Links</CardTitle>
+        <div className="flex items-center gap-2">
+          <Link2 className="size-5 text-primary" />
+          <CardTitle className="translate-y-px font-heading">
+            Useful links
+          </CardTitle>
+        </div>
       </CardHeader>
-      <CardContent className="flex flex-col">
-        <p>
-          This is your unique subscription link to{" "}
-          <a href="/dashboard/install" className="text-primary-link underline">
-            setup
-          </a>{" "}
-          new devices in Hiddify.
+      <CardContent className="flex flex-col gap-4">
+        <p className="text-muted-foreground text-sm leading-relaxed">
+          Your unique subscription link for setting up new devices in{" "}
+          <a
+            href="/dashboard/install"
+            className="font-medium text-primary-link underline underline-offset-2"
+          >
+            Hiddify
+          </a>
+          .
         </p>
-        <div className="flex items-center gap-2 py-4">
+
+        <div className="flex items-center gap-2">
           <Input
             defaultValue={url}
             readOnly
-            className="bg-muted/40 text-muted-foreground"
+            className="bg-muted/40 font-mono text-muted-foreground text-xs"
           />
-          <Button onClick={() => copyToClipboard(url)}>
-            <Copy className="size-4" />
+          <Button
+            size="sm"
+            onClick={() => copyToClipboard(url)}
+            className="shrink-0 gap-1.5"
+          >
+            <Copy className="size-3.5" />
             Copy
           </Button>
         </div>
 
-        <img
-          src={qrcode}
-          width={200}
-          height={200}
-          alt="QR Code"
-          className="self-center"
-          loading="lazy"
-        />
-        <div className="my-4">
-          <span className="align-top">*</span>If you are using Shadowrocket, or
-          another custom VPN/V2Ray/Xray app, use the following subscription link
-          instead.
+        <div className="flex justify-center py-2">
+          {qrcode ? (
+            <img
+              src={qrcode}
+              width={160}
+              height={160}
+              alt="QR Code"
+              className="rounded-lg border border-border"
+              loading="lazy"
+            />
+          ) : (
+            <div className="h-40 w-40 animate-pulse rounded-lg bg-muted" />
+          )}
         </div>
-        <div className="flex items-center gap-2">
-          <Input
-            defaultValue={url.replace("/#", "/sub/#")}
-            readOnly
-            className="bg-muted text-muted-foreground"
-          />
-          <Button
-            variant={"outline"}
-            onClick={() => copyToClipboard(url.replace("/#", "/sub/#"))}
-          >
-            <Copy className="size-4" />
-            Copy
-          </Button>
+
+        <div className="rounded-lg border border-border/50 bg-muted/30 p-3">
+          <p className="font-mono text-[11px] text-muted-foreground leading-relaxed tracking-wider">
+            For Shadowrocket, V2Ray, or Xray clients, use this alternate
+            subscription link instead:
+          </p>
+          <div className="mt-2 flex items-center gap-2">
+            <Input
+              defaultValue={altUrl}
+              readOnly
+              className="bg-muted/40 font-mono text-muted-foreground text-xs"
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => copyToClipboard(altUrl)}
+              className="shrink-0 gap-1.5"
+            >
+              <Copy className="size-3.5" />
+              Copy
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>

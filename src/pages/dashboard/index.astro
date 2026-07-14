@@ -28,7 +28,7 @@ if (!previouslyShowedWelcome) {
 ---
 
 <DashboardLayout title="Dashboard">
-  <div class="mx-auto flex w-full max-w-xl flex-col gap-6 py-4">
+  <div class="mx-auto flex w-full max-w-xl flex-col gap-5 py-6">
     <Header title="Overview" />
     {showWelcomeMsg && <ShowWelcome client:load name={user.name} />}
     <DashboardUsage client:load />

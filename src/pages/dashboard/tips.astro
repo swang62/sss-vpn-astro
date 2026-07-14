@@ -12,12 +12,12 @@ const imageWidth = 300;
 ---
 
 <DashboardLayout title="Tips & Tricks">
-  <div class="container mx-auto flex w-full max-w-2xl flex-col gap-6 py-6">
+  <div class="container mx-auto flex w-full max-w-2xl flex-col gap-5 py-6">
     <Header title="Tips & Tricks" />
 
-    <hr />
+    <div class="border-t border-border/50"></div>
     <TableOfContents />
-    <hr class="lg:hidden" />
+    <div class="border-t border-border/50 lg:hidden"></div>
 
     <section id="proxies" class={sectionStyle}>
       <h1 class={headingStyle}>Selecting proxies</h1>
@@ -37,7 +37,7 @@ const imageWidth = 300;
       />
     </section>
 
-    <hr />
+    <div class="border-t border-border/40"></div>
 
     <section id="options" class={sectionStyle}>
       <h1 class={headingStyle}>DNS settings</h1>
@@ -70,7 +70,7 @@ const imageWidth = 300;
       </p>
     </section>
 
-    <hr />
+    <div class="border-t border-border/40"></div>
 
     <section id="updates" class={sectionStyle}>
       <h1 class={headingStyle}>App updates</h1>
@@ -89,7 +89,7 @@ const imageWidth = 300;
       />
     </section>
 
-    <hr />
+    <div class="border-t border-border/40"></div>
 
     <section id="mobile" class={sectionStyle}>
       <h1 class={headingStyle}>Mobile tips</h1>

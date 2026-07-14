@@ -41,11 +41,13 @@ if (!config) {
 
 <DashboardLayout title="Installation">
   <ScrollProgress />
-  <div class="mx-auto flex w-full max-w-2xl flex-col gap-6 py-4">
+  <div class="mx-auto flex w-full max-w-2xl flex-col gap-5 py-6">
     <Header title="Installation" />
-    <h1 class="text-foreground px-1 text-center text-xl font-semibold">
-      Choose your platform
-    </h1>
+    <p
+      class="font-mono text-muted-foreground text-center text-xs tracking-wider uppercase"
+    >
+      Select your platform below
+    </p>
     <HowToInstall platform={platform} config={config} client:load />
   </div>
 </DashboardLayout>

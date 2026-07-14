@@ -1,4 +1,4 @@
-import { Edit, RefreshCcw } from "lucide-react";
+import { Edit, Gauge, RefreshCcw } from "lucide-react";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
@@ -51,30 +51,31 @@ function DashboardOverview() {
         : "plan ends";
   const serviceStatus =
     usage?.enable && daysLeft > 0 ? (
-      <span className="text-green-500">Active</span>
+      <span className="font-mono font-semibold text-green-500 text-xs uppercase tracking-wider">
+        Active
+      </span>
     ) : (
-      <span className="text-red-500">Inactive</span>
+      <span className="font-mono font-semibold text-red-500 text-xs uppercase tracking-wider">
+        Inactive
+      </span>
     );
 
-  // Handlers
   const onClickRefresh = () => {
-    // @ts-expect-error force swr to recheck
-    mutate(null);
+    mutate(undefined, { revalidate: true });
   };
 
-  // Markup
   const details = [
     {
       title: "Total used",
-      value: `${currentUsed.toFixed(2)} GB of ${totalAllowed} GB`,
+      value: `${currentUsed.toFixed(1)} GB of ${totalAllowed} GB`,
+    },
+    {
+      title: "Last connected",
+      value: lastConnected,
     },
     {
       title: "Current cycle",
       value: `${daysLeft} days left until ${resetMode}`,
-    },
-    {
-      title: "Last connected to VPN",
-      value: lastConnected,
     },
     {
       title: "Account status",
@@ -85,25 +86,29 @@ function DashboardOverview() {
   return (
     <Card x-chunk="Dashboard usage">
       <CardHeader>
-        <CardTitle>Data usage</CardTitle>
+        <div className="flex items-center gap-2">
+          <Gauge className="size-5 text-primary" />
+          <CardTitle className="translate-y-px font-heading">
+            Data usage
+          </CardTitle>
+        </div>
       </CardHeader>
       <CardContent>
         <Progress
           value={percentUsed}
-          className="border border-border bg-transparent"
+          className="border border-border bg-transparent [&>div]:bg-linear-to-r [&>div]:from-primary/80 [&>div]:to-secondary/60"
         />
-        <div className="flex flex-row content-center items-center justify-between py-1 pb-2 align-middle">
-          <span className="text-muted-foreground text-sm">0</span>
-          <span className="text-muted-foreground text-sm">
+        <div className="flex items-center justify-end py-1 pb-2">
+          <span className="text-muted-foreground text-xs">
             {totalAllowed} GB
           </span>
         </div>
 
-        <div className="flex flex-col gap-6 pt-6">
+        <div className="flex flex-col gap-6 pt-8">
           {details.map(({ title, value }, index) => (
-            <div className="flex flex-col justify-start gap-1" key={index}>
-              <h1 className="font-semibold text-lg">{title}</h1>
-              <span className="text-muted-foreground">
+            <div className="flex flex-col gap-1.5" key={index}>
+              <span className="text-muted-foreground text-sm">{title}</span>
+              <span className="text-foreground">
                 {user ? value : <Skeleton className="h-6 w-56" />}
               </span>
             </div>
@@ -111,14 +116,19 @@ function DashboardOverview() {
         </div>
       </CardContent>
       <CardFooter className="flex flex-row flex-wrap justify-end gap-2">
-        <Button variant="link" onClick={onClickRefresh} className="px-0">
-          <RefreshCcw />
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onClickRefresh}
+          className="gap-1.5"
+        >
+          <RefreshCcw className="size-3.5" />
           Refresh
         </Button>
         <a href="/dashboard/account">
-          <Button variant="outline">
-            <Edit />
-            Manage
+          <Button variant="outline" size="sm" className="gap-1.5">
+            <Edit className="size-3.5" />
+            Manage Account
           </Button>
         </a>
       </CardFooter>
