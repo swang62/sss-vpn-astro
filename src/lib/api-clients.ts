@@ -59,6 +59,10 @@ export async function parseApi<T extends (...args: any[]) => Promise<any>>(
 }
 
 // React/SWR (client-side)
+export async function fetchLocation() {
+  return api.location.$get().then((res) => res.json());
+}
+
 export async function fetchUser() {
   return api.user.$get().then((res) => res.json());
 }

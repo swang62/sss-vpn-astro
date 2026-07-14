@@ -20,3 +20,5 @@ docker-build.log
 
 # macOS-specific files
 .DS_Store
+templates/
+.codegraph/

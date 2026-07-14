@@ -1,7 +1,6 @@
-import { navigate } from "astro:transitions/client";
-
-import { Button } from "@/components/ui/button";
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+
+import GetStarted from "./GetStarted";
 
 function MainLoginButtons() {
   return (
@@ -17,13 +16,7 @@ function MainLoginButtons() {
         Log in
       </a>
 
-      <Button
-        onClick={() => navigate("/signup")}
-        data-umami-event="get-started"
-        className="rounded-full"
-      >
-        Get started
-      </Button>
+      <GetStarted />
     </span>
   );
 }

@@ -20,11 +20,11 @@ const info = [
 ];
 ---
 
-<section id="about" class="py-8 sm:py-16">
+<section id="about" class="py-section-gap-lg">
   {
     info.map((data) => (
-      <div class="container py-8">
-        <div class="mx-auto grid max-w-7xl gap-10 px-0 sm:gap-16 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-4">
+      <div class="container">
+        <div class="mx-auto grid max-w-6xl gap-10 sm:gap-16 lg:grid-cols-2 lg:items-center lg:px-4">
           <div class={cn(data.reverse ? "lg:order-2" : "lg:order-1")}>
             <h2 class="font-heading text-foreground text-3xl md:text-4xl lg:text-[40px]">
               {data.title}
@@ -36,13 +36,13 @@ const info = [
           </div>
           <div
             class={cn(
-              "overflow-hidden rounded-xl border",
+              "overflow-hidden rounded-xl border border-border",
               data.reverse ? "order-1" : "order-2",
             )}
           >
             <div class="relative aspect-video">
               <Image
-                class="size-full object-fill"
+                class="size-full object-cover"
                 src={data.image}
                 alt={data.title}
                 width={558}

@@ -4,8 +4,8 @@ import PricingCard from "@/components/PricingCard";
 import { PRICING_PLANS } from "@/config/constants";
 ---
 
-<section id="pricing" class="container py-8 sm:py-16">
-  <div class="py-8">
+<section id="pricing" class="py-section-gap-lg">
+  <div class="container">
     <div
       class="mx-auto flex flex-col items-center justify-center gap-4 pb-3 text-center"
     >
@@ -25,12 +25,10 @@ import { PRICING_PLANS } from "@/config/constants";
       {PRICING_PLANS.map((plan) => <PricingCard {...plan} />)}
     </div>
 
-    <div class="mt-10 flex flex-col items-center justify-center gap-4">
-      <div
-        class="text-muted-foreground text-center leading-normal sm:text-lg sm:leading-7"
-      >
-        Try it out first before picking a plan
-      </div>
+    <div class="mt-12 flex flex-col items-center justify-center gap-3">
+      <p class="text-muted-foreground text-center sm:text-lg">
+        Try it out first before picking a plan {">"}
+      </p>
       <GetStarted client:load />
     </div>
   </div>

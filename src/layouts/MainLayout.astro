@@ -29,28 +29,9 @@ const { title } = Astro.props;
     </div>
   </Navbar>
 
-  <main class="container mx-auto grow gap-4 md:gap-8">
+  <main class="grow">
     <slot />
   </main>
 
-  <!-- <script is:inline defer async data-astro-rerun>
-    (function (d, t) {
-      const BASE_URL = "https://chatwoot.stronglybrewed.dev";
-      const g = d.createElement(t),
-        s = d.getElementsByTagName(t)[0];
-      g.src = BASE_URL + "/packs/js/sdk.js";
-      g.async = true;
-      s.parentNode.insertBefore(g, s);
-      g.onload = function () {
-        window.chatwootSettings = {
-          darkMode: "auto",
-        };
-        window.chatwootSDK.run({
-          baseUrl: BASE_URL,
-          websiteToken: "yUi3b2qGBec28Q5RkANetFEM",
-        });
-      };
-    })(document, "script");
-  </script> -->
   <Footer />
 </Base>

@@ -132,14 +132,19 @@ export function pinoLogger(): MiddlewareHandler {
   });
 }
 
+export function getRealIP(c: Context): string {
+  return (
+    c.req.header("cf-connecting-ip") ||
+    c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ||
+    c.req.header("x-real-ip") ||
+    "0.0.0.0"
+  );
+}
+
 export function limiter(limit = 50): MiddlewareHandler {
   return rateLimiter({
     keyGenerator: (c) => {
-      const ip =
-        c.req.header("cf-connecting-ip") ||
-        c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ||
-        c.req.header("x-real-ip") ||
-        "unknown";
+      const ip = getRealIP(c);
       return `${c.req.path}-${ip}`;
     },
     limit,

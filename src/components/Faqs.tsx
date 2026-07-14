@@ -38,7 +38,10 @@ function Faqs() {
       <div className="py-8">
         <h1 className="text-balance font-heading text-4xl sm:text-5xl md:text-6xl">
           Frequently Asked
-          <span className="font-extrabold text-gradient"> Questions</span>
+          <span className="animated-gradient-text font-extrabold">
+            {" "}
+            Questions
+          </span>
         </h1>
 
         <Accordion type="single" collapsible className="w-full py-4">
