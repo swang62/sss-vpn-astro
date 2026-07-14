@@ -107,7 +107,7 @@ export const PRICING_PLANS: PricingPlan[] = [
   },
   {
     description:
-      "One device to connect multiple people or all your gadgets at once",
+      "One device to connect multiple people and all your gadgets at once",
     features: [
       `${PLAN_LIMITS.premium.data}GB data/month`,
       "Fully pre-configured WiFi6 router",
