@@ -11,12 +11,3 @@ export const axiosHiddify = axios.create({
   },
   timeout: 5000,
 });
-
-// Regular fetch
-export const axiosFetch = axios.create({
-  headers: {
-    accept: "application/json",
-    "content-type": "application/json",
-  },
-  timeout: 10000,
-});

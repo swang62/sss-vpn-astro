@@ -118,7 +118,7 @@ function DashboardOverview() {
               Last connected
             </span>
             {loading ? (
-              <Skeleton className="h-5 w-28" />
+              <Skeleton className="h-5 w-20" />
             ) : (
               <span className="font-medium text-sm leading-tight">
                 {lastConnected}
@@ -129,7 +129,7 @@ function DashboardOverview() {
       </CardContent>
       <CardFooter className="flex flex-wrap items-center justify-around gap-3 md:justify-between">
         {loading ? (
-          <Skeleton className="h-4 w-32" />
+          <Skeleton className="h-4 w-20" />
         ) : (
           <span className="flex items-center gap-1.5">
             {isOnline ? (

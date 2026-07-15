@@ -2,6 +2,7 @@
 import crypto from "node:crypto";
 
 import DashboardUsage from "@/components/dashboard/DashboardUsage";
+import ServerStatus from "@/components/dashboard/ServerStatus";
 import ShowWelcome from "@/components/dashboard/WelcomeMsg";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
 import Header from "@/layouts/Header.astro";
@@ -23,17 +24,6 @@ if (!previouslyShowedWelcome) {
     sameSite: "lax",
   });
 }
-
-let serverOnline = false;
-try {
-  const res = await fetch(
-    "https://uptime.stronglybrewed.dev/api/badge/8/status?upColor=%23008866&downColor=%23dc2626&style=flat-square",
-  );
-  const svg = await res.text();
-  serverOnline = svg.includes(">Up<");
-} catch {
-  serverOnline = false;
-}
 ---
 
 <DashboardLayout title="Dashboard">
@@ -50,17 +40,7 @@ try {
       <span class="font-mono text-muted-foreground text-[11px] tracking-wider"
         >SERVER STATUS</span
       >
-      <span
-        class="flex items-center gap-1.5 rounded-full border border-border/40 bg-muted/30 px-2.5 py-0.5"
-      >
-        <span
-          class={`h-1.5 w-1.5 rounded-full ${serverOnline ? "animate-pulse bg-green-500" : "bg-red-500"}`}
-        ></span>
-        <span
-          class="font-mono text-muted-foreground text-[11px] font-medium tracking-wider"
-          >{serverOnline ? "ONLINE" : "OFFLINE"}</span
-        >
-      </span>
+      <ServerStatus client:load />
     </a>
   </div>
 </DashboardLayout>
