@@ -1,6 +1,5 @@
 import { eq } from "drizzle-orm";
 import { MAX_NAME_LENGTH, TRIAL_TIME } from "@/config/constants";
-import type { HiddifyServerId } from "@/config/types";
 import type { ProfileInsert } from "@/db";
 import db, { profile as profileTable, user as userTable } from "@/db";
 import { stripe } from "@/lib/stripe";
@@ -35,7 +34,6 @@ async function updateProfile(
   user: UserDB,
   stripeCustomerId: string,
   hiddifyId: string,
-  hiddifyServerId: HiddifyServerId,
   ip: string
 ) {
   const userId = user.id;
@@ -54,7 +52,6 @@ async function updateProfile(
   const data: ProfileInsert = subscription
     ? {
         hiddifyId,
-        hiddifyServerId,
         stripeCustomerId,
         subscriptionEndAt: isAutoRenew
           ? null
@@ -68,7 +65,6 @@ async function updateProfile(
       }
     : {
         hiddifyId,
-        hiddifyServerId,
         stripeCustomerId,
         subscriptionType: "none",
       };
@@ -88,7 +84,6 @@ async function startFreeTrial(
   user: UserDB,
   email: string,
   hiddifyId: string,
-  hiddifyServerId: HiddifyServerId,
   ip: string
 ) {
   const userId = user.id;
@@ -104,7 +99,6 @@ async function startFreeTrial(
 
   const data: ProfileInsert = {
     hiddifyId,
-    hiddifyServerId,
     stripeCustomerId: customer.id,
     subscriptionEndAt: endDate,
     subscriptionId: null,
@@ -138,18 +132,15 @@ export async function setupNewUser(user: UserDB, ip: string) {
 
   // Validate hiddify account
   let hiddifyId = user.profile?.hiddifyId;
-  let hiddifyServerId = user.profile?.hiddifyServerId;
-  if (!hiddifyId || !hiddifyServerId) {
+  if (!hiddifyId) {
     let data = await searchForHiddifyEmail(email);
     if (!data) data = await createHiddifyUser(email);
-
     hiddifyId = data.hiddifyId;
-    hiddifyServerId = data.hiddifyServerId;
   }
 
   if (stripeCustomerId) {
-    await updateProfile(user, stripeCustomerId, hiddifyId, hiddifyServerId, ip);
+    await updateProfile(user, stripeCustomerId, hiddifyId, ip);
   } else {
-    await startFreeTrial(user, email, hiddifyId, hiddifyServerId, ip);
+    await startFreeTrial(user, email, hiddifyId, ip);
   }
 }

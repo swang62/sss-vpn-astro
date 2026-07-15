@@ -20,11 +20,7 @@ function AccountLinks() {
   useEffect(() => {
     if (!user || !profile) return;
 
-    const setupLink = getHiddifyLinks(
-      user.email,
-      profile.hiddifyId,
-      profile.hiddifyServerId
-    );
+    const setupLink = getHiddifyLinks(user.email, profile.hiddifyId);
 
     setUrl(setupLink);
     QRCode.toDataURL(setupLink)
@@ -33,7 +29,7 @@ function AccountLinks() {
         captureException(error);
         setQrcode("");
       });
-  }, [profile?.hiddifyId, profile?.hiddifyServerId]);
+  }, [profile?.hiddifyId]);
 
   const altUrl = url.replace("/#", "/sub/#");
 

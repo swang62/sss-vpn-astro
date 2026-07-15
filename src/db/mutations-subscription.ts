@@ -63,7 +63,6 @@ export async function updateSubscription(subscription: Stripe.Subscription) {
 
     await updateHiddifyUser(
       profile.hiddifyId,
-      profile.hiddifyServerId,
       subscriptionStartAt,
       subscriptionType,
       isAutoRenew
@@ -90,7 +89,7 @@ export async function cancelSubscription(subscription: Stripe.Subscription) {
     throw new Error(`Subscription cancellation failed for ${stripeCustomerId}`);
 
   if (status === "canceled" && profile.subscriptionId === subscriptionId) {
-    await cancelHiddifyPlan(profile.hiddifyId, profile.hiddifyServerId);
+    await cancelHiddifyPlan(profile.hiddifyId);
     await db
       .update(profileTable)
       .set({
@@ -161,18 +160,11 @@ export async function handleItemPurchases(
       PLAN_LIMITS[currentPlan].data / PLAN_LIMITS[currentPlan].price;
     const dataPurchased = totalSpent * GBPerDollar;
 
-    const usage = await getHiddifyUserById(
-      profile.hiddifyId,
-      profile.hiddifyServerId
-    );
+    const usage = await getHiddifyUserById(profile.hiddifyId);
     const currentLimit = usage?.usage_limit_GB ?? PLAN_LIMITS[currentPlan].data;
     const newLimit = currentLimit + dataPurchased;
 
-    await increaseUsageLimit(
-      profile.hiddifyId,
-      profile.hiddifyServerId,
-      newLimit
-    );
+    await increaseUsageLimit(profile.hiddifyId, newLimit);
     logger.debug(
       `Increased usage limit from ${currentLimit} to ${newLimit} for ${profile.user.email}`
     );

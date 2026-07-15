@@ -1,5 +1,3 @@
-import type { HiddifyServerId } from "@/config/types";
-
 import {
   capitalize,
   cn,
@@ -128,8 +126,7 @@ describe("capitalize", () => {
 
 describe("getHiddifyLinks", () => {
   it("hiddify-1 sublink", () => {
-    const serverId: HiddifyServerId = "1";
-    const link = getHiddifyLinks("fake@email.com", "foo", serverId);
+    const link = getHiddifyLinks("fake@email.com", "foo");
 
     expect(link).toEqual(expect.stringMatching(/link.sss-vpn.com/));
     expect(link).toEqual(expect.stringMatching(/foo\/#fake@email.com$/));

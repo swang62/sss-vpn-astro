@@ -12,15 +12,12 @@ import { pinoLogger as logger } from "hono-pino";
 import { rateLimiter } from "hono-rate-limiter";
 import pino from "pino";
 import pretty from "pino-pretty";
-
 import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
 import { getUserById } from "@/db/queries";
 import { auth } from "@/lib/auth";
 import { setHeaders } from "@/lib/headers";
 import { redis } from "@/lib/redis";
-
 import type { Bindings } from "./app";
-
 import { ALLOWED_METHODS } from "./app";
 
 // Admin-only routes
@@ -75,12 +72,12 @@ export const notFound: NotFoundHandler = (c) => {
 export const onError: ErrorHandler = (error, c) => {
   captureException(error);
 
-  const currentStatus =
-    "status" in error ? error.status : c.newResponse(null).status;
   const statusCode =
-    currentStatus !== 200 ? (currentStatus as ContentfulStatusCode) : 500;
+    "getResponse" in error
+      ? (error.getResponse().status as ContentfulStatusCode)
+      : 500;
   const errorMessage = {
-    message: statusCode === 401 ? "Unauthorized" : error.message,
+    message: IS_PRODUCTION ? undefined : error.message,
     stack: IS_PRODUCTION ? undefined : error.stack,
   };
 

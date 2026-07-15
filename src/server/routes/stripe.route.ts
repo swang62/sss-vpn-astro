@@ -247,7 +247,6 @@ const route = createBaseRouter()
         } else if (reason === "subscription_cycle") {
           await resetUsageLimit(
             profile.hiddifyId,
-            profile.hiddifyServerId,
             profile.subscriptionType,
             c.var.logger
           );

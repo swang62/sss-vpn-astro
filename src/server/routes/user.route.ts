@@ -33,10 +33,7 @@ const route = createBaseRouter()
     let hiddify = null;
     let stripe_account = null;
     if (user.profile?.hiddifyId) {
-      hiddify = await getHiddifyUserById(
-        user.profile.hiddifyId,
-        user.profile.hiddifyServerId
-      );
+      hiddify = await getHiddifyUserById(user.profile.hiddifyId);
     }
     if (user.profile?.stripeCustomerId) {
       stripe_account = await stripe.customers.retrieve(
@@ -58,10 +55,7 @@ const route = createBaseRouter()
 
     if (user.profile?.hiddifyId) {
       // delete hiddify account if exists
-      await deleteHiddifyUser(
-        user.profile.hiddifyId,
-        user.profile.hiddifyServerId
-      );
+      await deleteHiddifyUser(user.profile.hiddifyId);
     }
     if (user.profile?.stripeCustomerId) {
       // delete stripe customer if exists

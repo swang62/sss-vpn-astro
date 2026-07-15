@@ -404,7 +404,7 @@ function HowToInstall({ config, platform }: Props) {
   const user = data?.user;
   const profile = user?.profile;
   const setupLink = profile
-    ? getHiddifyLinks(user.email, profile.hiddifyId, profile.hiddifyServerId)
+    ? getHiddifyLinks(user.email, profile.hiddifyId)
     : undefined;
 
   // Poll for hiddify profile creation

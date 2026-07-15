@@ -1,7 +1,6 @@
 import { SITE_URL } from "./client";
 import type {
   HiddifyServer,
-  HiddifyServerId,
   Platform,
   PricingPlan,
   SubscriptionType,
@@ -29,11 +28,10 @@ export const FILE_START_COMMAND = "start_vpn.command";
 export const FILE_DOWNLOAD_URL =
   "https://seafile.stronglybrewed.dev/d/6d2ee2bc7a34472ca633/files/?dl=1&p=%2F";
 
-export const HIDDIFY_SERVERS: Record<HiddifyServerId, HiddifyServer> = {
-  1: {
-    baseUrl: "https://link.sss-vpn.com/QwId8HABKn9c6GYrnRNcxMj/api/v2",
-    setupLink: "https://link.sss-vpn.com/rjsn7TPtBHgNGA1KBI3mfP2aNaLG",
-  },
+export const HIDDIFY_SERVER_ID = "1" as const;
+export const HIDDIFY_SERVERS: HiddifyServer = {
+  baseUrl: "https://link.sss-vpn.com/QwId8HABKn9c6GYrnRNcxMj/api/v2",
+  setupLink: "https://link.sss-vpn.com/rjsn7TPtBHgNGA1KBI3mfP2aNaLG",
 };
 
 //! Update stripe prices, add new prices, archive/delete old keys

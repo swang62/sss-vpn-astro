@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 import type UAParser from "ua-parser-js";
 import { HIDDIFY_SERVERS } from "@/config/constants";
-import type { HiddifyServerId, Platform } from "@/config/types";
+import type { Platform } from "@/config/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -102,15 +102,8 @@ export function getDaysLeft(
   return { daysLeft, endDate };
 }
 
-export function getHiddifyLinks(
-  email: string,
-  id: string,
-  serverId: HiddifyServerId
-) {
-  const setupLink = HIDDIFY_SERVERS[serverId].setupLink;
-  const url = `${setupLink}/${id}/#${email}`;
-
-  return url;
+export function getHiddifyLinks(email: string, id: string) {
+  return `${HIDDIFY_SERVERS.setupLink}/${id}/#${email}`;
 }
 
 export async function copyToClipboard(text: string) {

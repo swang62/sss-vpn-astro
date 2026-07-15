@@ -6,6 +6,7 @@ import { SITE_URL } from "@/config/client";
 import { SITE_EMAIL } from "@/config/constants";
 import { LOG_LEVEL, TURNSTILE_SECRET_KEY } from "@/config/server";
 import db from "@/db";
+import { getUserByEmail } from "@/db/queries";
 import { postmarkClient } from "@/lib/email";
 import { redis } from "@/lib/redis";
 
@@ -19,6 +20,11 @@ export const auth = betterAuth({
     autoSignIn: true,
     enabled: true,
     sendResetPassword: async ({ url, user }) => {
+      const actualUser = await getUserByEmail(user.email);
+      if (!actualUser) {
+        throw new Error("Email does not exist.");
+      }
+
       if (!postmarkClient) {
         console.debug("RESET PASSWORD --", url);
         return;
