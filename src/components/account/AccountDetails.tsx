@@ -20,13 +20,14 @@ import { capitalize, dateToString } from "@/lib/utils";
 function AccountDetails() {
   const [loading, setLoading] = useState(false);
   const { data, mutate } = useSWR("fetchUser", fetchUser, {
-    refreshInterval: (data) => (!data?.user?.profile?.hiddifyId ? 5000 : 10000),
+    refreshInterval: () => (loading ? 2000 : 10000),
   });
   const user = data?.user;
   const profile = user?.profile;
 
   const renewPlan = async (renew: boolean) => {
     setLoading(true);
+    const before = profile?.updatedAt;
     const result = await parseApi(api.stripe["renew-plan"].$post, {
       json: { renew },
     });
@@ -38,7 +39,13 @@ function AccountDetails() {
     }
 
     await mutate();
-    setLoading(false);
+    const id = setInterval(async () => {
+      const d = await mutate();
+      if (d?.user?.profile?.updatedAt !== before) {
+        clearInterval(id);
+        setLoading(false);
+      }
+    }, 2000);
   };
 
   const endDate = profile?.subscriptionEndAt
