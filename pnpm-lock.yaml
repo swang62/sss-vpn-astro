@@ -137,9 +137,6 @@ importers:
       qrcode:
         specifier: ^1.5.4
         version: 1.5.4
-      rate-limit-redis:
-        specifier: ^5.0.0
-        version: 5.0.0(express-rate-limit@8.5.2(express@5.2.1))
       react:
         specifier: ^19.2.7
         version: 19.2.7
@@ -173,9 +170,6 @@ importers:
       ua-parser-js:
         specifier: ^2.0.10
         version: 2.0.10
-      unstorage:
-        specifier: ^1.17.5
-        version: 1.17.5(ioredis@5.11.1)
       zod:
         specifier: ^4.4.3
         version: 4.4.3
@@ -4789,12 +4783,6 @@ packages:
   range-parser@1.3.0:
     resolution: {integrity: sha512-hek2mFQpPuI4E1BBKrSto+BU3e3x4xuarsbiwr3+lf7p44juvFMV0XFWQAP3xUyqXA4RrXLIoaSUGbSt056ZMw==}
     engines: {node: '>= 0.6'}
-
-  rate-limit-redis@5.0.0:
-    resolution: {integrity: sha512-+M9el8KZjZ2HXM6/E38jFGmozBbN4C200iLE8+80TgS+8PzSfAAvD1zkx2oWu6YEgSrdiJJNrd4LCFm5vjVJkg==}
-    engines: {node: '>= 16'}
-    peerDependencies:
-      express-rate-limit: '>= 8.5.0'
 
   raw-body@3.0.2:
     resolution: {integrity: sha512-K5zQjDllxWkf7Z5xJdV0/B0WTNqx6vxG70zJE4N0kBs4LovmEYWJzQGxC9bS9RAKu3bgM40lrd5zoLJ12MQ5BA==}
@@ -10255,10 +10243,6 @@ snapshots:
   radix3@1.1.2: {}
 
   range-parser@1.3.0: {}
-
-  rate-limit-redis@5.0.0(express-rate-limit@8.5.2(express@5.2.1)):
-    dependencies:
-      express-rate-limit: 8.5.2(express@5.2.1)
 
   raw-body@3.0.2:
     dependencies:

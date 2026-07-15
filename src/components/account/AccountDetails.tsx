@@ -20,7 +20,7 @@ import { capitalize, dateToString } from "@/lib/utils";
 function AccountDetails() {
   const [loading, setLoading] = useState(false);
   const { data, mutate } = useSWR("fetchUser", fetchUser, {
-    refreshInterval: () => (loading ? 2000 : 10000),
+    refreshInterval: () => (loading ? 2000 : 0),
   });
   const user = data?.user;
   const profile = user?.profile;
