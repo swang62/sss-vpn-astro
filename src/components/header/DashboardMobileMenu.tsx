@@ -32,9 +32,17 @@ function DashboardMobileMenu({ pathname }: Props) {
       <SheetContent side="left" className="pr-0">
         <SheetHeader className="py-4 pl-4">
           <a href="/#top" onClick={() => setOpen(false)}>
-            <SheetTitle className="flex flex-nowrap items-center gap-2 text-left font-heading text-3xl">
-              <img src="/favicon.ico" alt="logo" width={36} height={36} />
-              <span>{SITE_NAME}</span>
+            <SheetTitle className="flex flex-nowrap items-center gap-2 text-left">
+              <img
+                src="/favicon.ico"
+                alt="logo"
+                width={36}
+                height={36}
+                className="shrink-0"
+              />
+              <span className="translate-y-px font-heading text-3xl leading-none">
+                {SITE_NAME}
+              </span>
             </SheetTitle>
           </a>
           <SheetDescription className="sr-only">Main menu</SheetDescription>
@@ -52,16 +60,9 @@ function DashboardMobileMenu({ pathname }: Props) {
                   >
                     <Button
                       variant={link.href === pathname ? "secondary" : "ghost"}
-                      className={cn(
-                        "flex w-full justify-start gap-3",
-                        link.href === pathname && "bg-primary/10"
-                      )}
+                      className={cn("flex w-full justify-start gap-3")}
                     >
-                      <span
-                        className={cn(link.href === pathname && "text-primary")}
-                      >
-                        {link.icon}
-                      </span>
+                      <span>{link.icon}</span>
                       <span>{link.label}</span>
                     </Button>
                   </a>

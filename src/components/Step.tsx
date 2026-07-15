@@ -13,7 +13,7 @@ function Step({ content, idx = 0, title }: StepProps) {
     <Card
       x-chunk="Step"
       id={`${idx}`}
-      className="relative mb-6 ml-4 rounded-lg border-transparent border-l-2 border-l-primary/30 pb-4"
+      className="relative mb-6 ml-4 rounded-lg border-transparent border-l-primary/30 pb-4 dark:border-l-2"
     >
       <Badge className="absolute top-5 -left-4 flex size-8 items-center justify-center border-secondary/30 bg-secondary">
         <span className="font-bold font-mono text-xs">{idx + 1}</span>

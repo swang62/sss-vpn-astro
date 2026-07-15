@@ -1,10 +1,4 @@
-import {
-  Copy,
-  EllipsisVertical,
-  ExternalLink,
-  PartyPopper,
-  Settings,
-} from "lucide-react";
+import { Copy, EllipsisVertical, PartyPopper, Settings } from "lucide-react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { Badge } from "@/components/ui/badge";
@@ -43,23 +37,21 @@ function getSteps(
       content: (
         <>
           <p>
-            {!isIOS && "Click the button below to download the app manually"}
+            {!isIOS && "Click the button below to download the app"}
             {isIOS && (
               <>
                 There are a couple different ways to install on iOS. The
                 simplest version is to install directly from the US App store.
-                This will only work if your phone's country/region is set to the
-                US (the instructions to change your region are{" "}
+                Make sure your phone's region is set to US,
                 <a
                   href="https://support.apple.com/zh-cn/118283"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-primary-link underline"
+                  className="ml-1 text-primary-link underline"
                 >
-                  here
+                  instructions here
                 </a>
-                , you can use any US address). You can change it back to China
-                afterwards.
+                , use any US address. You can change it back to China later.
                 <a
                   href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532"
                   target="_blank"
@@ -78,23 +70,20 @@ function getSteps(
                 </a>
                 <p>
                   <b>**MANUAL INSTALLATION**</b> The much harder way, if you
-                  cannot change your region, or are unable to install it
-                  directly through the App Store. You'll need a Macbook or PC,
-                  re-open this website on your computer, then use the guide
-                  below:
-                  <a href="/dashboard/ios" target="_blank" rel="noreferrer">
+                  cannot change your region or cannot install through the App
+                  Store. Use the following guide on your desktop
+                  computer/laptop:
+                  <a href="/dashboard/ios">
                     <Button className="mx-auto my-6 flex self-center">
-                      Manual installation
-                      <ExternalLink size={5} />
+                      Manual Install Guide
                     </Button>
                   </a>
                 </p>
                 <p>
-                  As a last resort, if all else fails, use the Shadowrocket app
-                  instead of Hiddify. It is available in all regions, I've
-                  provided the link to the chinese version below. Only downside
-                  is that you will need to configure everything yourself. Make
-                  sure to import the alternate subscription URL in step 3.
+                  As a last resort, if all else fails, use the Shadowrocket app.
+                  Only downside is that you will need to configure everything
+                  yourself. Make sure to import the alternate subscription URL
+                  in step 3.
                   <a
                     href="https://apps.apple.com/cn/app/shadowrocket-%E5%B0%8F%E7%81%AB%E7%AE%ADvpn%E5%AE%89%E5%85%A8%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E5%99%A8/id6742070311"
                     target="_blank"
@@ -126,7 +115,7 @@ function getSteps(
                   here
                 </a>
                 to directly install from the Play store. If successfully
-                installed (may not work in China), skip directly to Step 3.
+                installed through the store, skip directly to Step 3.
               </>
             )}
           </p>
@@ -236,8 +225,7 @@ function getSteps(
           </div>
           <div className="rounded-lg border border-border/50 bg-muted/30 p-3">
             <p className="font-mono text-[11px] text-muted-foreground leading-relaxed tracking-wider">
-              For Shadowrocket, V2Ray, or Xray clients, use this alternate
-              subscription link instead:
+              For Shadowrocket, V2Ray, or Xray clients, use this link instead:
             </p>
             <div className="mt-2 flex items-center gap-2">
               <Input

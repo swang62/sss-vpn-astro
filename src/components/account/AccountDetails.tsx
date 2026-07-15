@@ -64,7 +64,8 @@ function AccountDetails() {
   const planDetails = [
     {
       label: "Plan",
-      value: `${capitalize(subscriptionType)} · ${description.trim()}`,
+      value:
+        `${capitalize(subscriptionType)} ${description && `· ${description}`}`.trim(),
     },
     {
       label: "Billing cycle",
@@ -72,7 +73,7 @@ function AccountDetails() {
         ? `Ends on ${endDate}`
         : billingCycle && subscriptionType !== "none"
           ? `Renews monthly on the ${billingCycle}`
-          : "N/A",
+          : "-",
     },
     {
       label: "Auto-renew",
@@ -82,31 +83,37 @@ function AccountDetails() {
 
   useEffect(() => {
     if (!profile?.hiddifyId) {
-      const id = setInterval(async () => {
-        const d = await mutate();
-        if (d?.user?.profile?.hiddifyId) {
-          clearInterval(id);
-        }
-      }, 2000);
-      setIntervalId(id);
-      return () => clearInterval(id);
+      setIntervalId(
+        setInterval(async () => {
+          const d = await mutate();
+          if (d?.user?.profile?.hiddifyId) {
+            clearInterval(intervalId);
+          }
+        }, 2000)
+      );
+    } else {
+      clearInterval(intervalId);
     }
-    return () => {};
+
+    return () => clearInterval(intervalId);
   }, [profile?.hiddifyId]);
 
   useEffect(() => {
     if (loading) {
-      const id = setInterval(async () => {
-        const d = await mutate();
-        if (d?.user?.profile?.updatedAt !== profile?.updatedAt) {
-          setLoading(false);
-          clearInterval(id);
-        }
-      }, 2000);
-      setIntervalId(id);
-      return () => clearInterval(id);
+      setIntervalId(
+        setInterval(async () => {
+          const d = await mutate();
+          if (d?.user?.profile?.updatedAt !== profile?.updatedAt) {
+            setLoading(false);
+            clearInterval(intervalId);
+          }
+        }, 2000)
+      );
+    } else {
+      clearInterval(intervalId);
     }
-    return () => {};
+
+    return () => clearInterval(intervalId);
   }, [loading, profile?.updatedAt]);
 
   return (
@@ -138,11 +145,9 @@ function AccountDetails() {
             <span>Upgrade Plan</span>
           </Button>
         </a>
-        {!profile ? (
-          <Skeleton className="h-9 w-44" />
-        ) : endDate ? (
+        {endDate ? (
           <Button
-            disabled={loading || isDisqualified}
+            disabled={!profile || loading || isDisqualified}
             loading={loading}
             variant="secondary"
             size="sm"
@@ -152,7 +157,7 @@ function AccountDetails() {
           </Button>
         ) : (
           <Button
-            disabled={loading || isDisqualified}
+            disabled={!profile || loading || isDisqualified}
             loading={loading}
             variant="destructive"
             size="sm"

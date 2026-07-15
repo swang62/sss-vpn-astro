@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { fetchUsage } from "@/lib/api-clients";
 import { getDaysLeft } from "@/lib/utils";
@@ -25,7 +24,7 @@ function DashboardOverview() {
   const currentPlan = user?.profile?.subscriptionType;
   const currentUsed = usage?.current_usage_GB ?? 0;
   const totalAllowed = usage?.usage_limit_GB ?? 0;
-  const percentUsed = (currentUsed / totalAllowed) * 100;
+  const percentUsed = totalAllowed > 0 ? (currentUsed / totalAllowed) * 100 : 0;
   const date =
     usage?.last_online &&
     new Date(usage.last_online).toLocaleDateString("us", {
@@ -49,39 +48,13 @@ function DashboardOverview() {
       : currentPlan === "trial"
         ? "trial ends"
         : "plan ends";
-  const serviceStatus =
-    usage?.enable && daysLeft > 0 ? (
-      <span className="font-mono font-semibold text-green-500 text-xs uppercase tracking-wider">
-        Active
-      </span>
-    ) : (
-      <span className="font-mono font-semibold text-red-500 text-xs uppercase tracking-wider">
-        Inactive
-      </span>
-    );
+  const isOnline = usage?.enable && daysLeft > 0;
 
   const onClickRefresh = () => {
     mutate(undefined, { revalidate: true });
   };
 
-  const details = [
-    {
-      title: "Total used",
-      value: `${currentUsed.toFixed(1)} GB of ${totalAllowed} GB`,
-    },
-    {
-      title: "Last connected",
-      value: lastConnected,
-    },
-    {
-      title: "Current cycle",
-      value: `${daysLeft} days left until ${resetMode}`,
-    },
-    {
-      title: "Account status",
-      value: serviceStatus,
-    },
-  ];
+  const loading = !user;
 
   return (
     <Card x-chunk="Dashboard usage">
@@ -91,40 +64,97 @@ function DashboardOverview() {
           <CardTitle className="translate-y-px font-heading">
             Data usage
           </CardTitle>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onClickRefresh}
+            className="ml-auto size-7 text-primary/60 hover:text-primary"
+          >
+            <RefreshCcw className="size-3.5" />
+            <span className="sr-only">Refresh</span>
+          </Button>
         </div>
       </CardHeader>
-      <CardContent>
-        <Progress
-          value={percentUsed}
-          className="border border-border bg-transparent [&>div]:bg-linear-to-r [&>div]:from-primary/80 [&>div]:to-secondary/60"
-        />
-        <div className="flex items-center justify-end py-1 pb-2">
-          <span className="text-muted-foreground text-xs">
-            {totalAllowed} GB
-          </span>
+      <CardContent className="flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
+          {loading ? (
+            <Skeleton className="h-6 w-full rounded-full" />
+          ) : (
+            <div className="relative h-5 w-full overflow-hidden rounded-full border border-border/60 bg-muted/50 shadow-xs">
+              <div
+                className="h-full rounded-full bg-linear-to-r from-primary/90 to-secondary/70 transition-all duration-700 ease-out"
+                style={{ width: `${Math.min(percentUsed, 100)}%` }}
+              />
+            </div>
+          )}
+          <div className="flex items-center justify-end">
+            {loading ? (
+              <Skeleton className="h-5 w-20" />
+            ) : (
+              <span className="font-mono font-semibold text-base text-foreground tabular-nums tracking-tight">
+                {currentUsed.toFixed(1)}
+                <span className="font-normal text-muted-foreground text-xs">
+                  {" / "}
+                  {totalAllowed} GB
+                </span>
+              </span>
+            )}
+          </div>
         </div>
 
-        <div className="flex flex-col gap-6 pt-8">
-          {details.map(({ title, value }, index) => (
-            <div className="flex flex-col gap-1.5" key={index}>
-              <span className="text-muted-foreground text-sm">{title}</span>
-              <span className="text-foreground">
-                {user ? value : <Skeleton className="h-6 w-56" />}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="flex flex-col gap-1 rounded-lg border border-border/40 bg-muted/20 p-3">
+            <span className="text-muted-foreground text-xs">Billing cycle</span>
+            {loading ? (
+              <Skeleton className="h-5 w-20" />
+            ) : (
+              <span className="font-medium text-sm leading-tight">
+                {daysLeft} days until {resetMode}
               </span>
-            </div>
-          ))}
+            )}
+          </div>
+          <div className="flex flex-col gap-1 rounded-lg border border-border/40 bg-muted/20 p-3">
+            <span className="text-muted-foreground text-xs">
+              Last connected
+            </span>
+            {loading ? (
+              <Skeleton className="h-5 w-28" />
+            ) : (
+              <span className="font-medium text-sm leading-tight">
+                {lastConnected}
+              </span>
+            )}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 rounded-lg border border-border/40 bg-muted/20 p-3">
+          {loading ? (
+            <>
+              <Skeleton className="h-2.5 w-2.5 shrink-0 rounded-full" />
+              <Skeleton className="h-4 w-32" />
+            </>
+          ) : (
+            <>
+              <div
+                className={`h-2.5 w-2.5 shrink-0 rounded-full ${isOnline ? "bg-green-500" : "bg-red-500"}`}
+              />
+              <div className="flex flex-1 items-center justify-between">
+                <span className="text-muted-foreground text-xs">
+                  Account status
+                </span>
+                <span className="font-mono font-semibold text-xs uppercase tracking-wider">
+                  {isOnline ? (
+                    <span className="text-green-500">Active</span>
+                  ) : (
+                    <span className="text-red-500">Inactive</span>
+                  )}
+                </span>
+              </div>
+            </>
+          )}
         </div>
       </CardContent>
-      <CardFooter className="flex flex-row flex-wrap justify-end gap-2">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onClickRefresh}
-          className="gap-1.5"
-        >
-          <RefreshCcw className="size-3.5" />
-          Refresh
-        </Button>
+      <CardFooter className="flex justify-end">
         <a href="/dashboard/account">
           <Button variant="outline" size="sm" className="gap-1.5">
             <Edit className="size-3.5" />
