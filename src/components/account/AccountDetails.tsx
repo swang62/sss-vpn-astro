@@ -1,5 +1,5 @@
 import { Ban, Rocket, RotateCcw } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
@@ -19,8 +19,9 @@ import { capitalize, dateToString } from "@/lib/utils";
 
 function AccountDetails() {
   const [loading, setLoading] = useState(false);
-  const [intervalId, setIntervalId] = useState<NodeJS.Timeout>();
-  const { data, mutate } = useSWR("fetchUser", fetchUser);
+  const { data, mutate } = useSWR("fetchUser", fetchUser, {
+    refreshInterval: (data) => (!data?.user?.profile?.hiddifyId ? 5000 : 10000),
+  });
   const user = data?.user;
   const profile = user?.profile;
 
@@ -33,7 +34,11 @@ function AccountDetails() {
     if (!result.ok) {
       toast.error("Failed to update subscription, please try again later.");
       setLoading(false);
+      return;
     }
+
+    await mutate();
+    setLoading(false);
   };
 
   const endDate = profile?.subscriptionEndAt
@@ -52,41 +57,6 @@ function AccountDetails() {
   const isDisqualified =
     !!subscriptionType && FREE_PLANS.includes(subscriptionType as FreePlan);
   const autoRenewOn = !isDisqualified && !endDate;
-
-  useEffect(() => {
-    if (!profile?.hiddifyId) {
-      setIntervalId(
-        setInterval(async () => {
-          const d = await mutate();
-          if (d?.user?.profile?.hiddifyId) {
-            clearInterval(intervalId);
-          }
-        }, 2000)
-      );
-    } else {
-      clearInterval(intervalId);
-    }
-
-    return () => clearInterval(intervalId);
-  }, [profile?.hiddifyId]);
-
-  useEffect(() => {
-    if (loading) {
-      setIntervalId(
-        setInterval(async () => {
-          const d = await mutate();
-          if (d?.user?.profile?.updatedAt !== profile?.updatedAt) {
-            setLoading(false);
-            clearInterval(intervalId);
-          }
-        }, 2000)
-      );
-    } else {
-      clearInterval(intervalId);
-    }
-
-    return () => clearInterval(intervalId);
-  }, [loading, profile?.updatedAt]);
 
   return (
     <Card x-chunk="Plan details">
