@@ -1,4 +1,4 @@
-import { CreditCard, Rocket } from "lucide-react";
+import { Ban, CreditCard, Rocket, RotateCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
@@ -92,7 +92,7 @@ function AccountDetails() {
     <Card x-chunk="Plan details">
       <CardHeader>
         <div className="flex items-center gap-2">
-          <CreditCard className="size-5 text-primary" />
+          {/*<CreditCard className="size-5 text-primary" />*/}
           <CardTitle className="translate-y-px font-heading">
             Plan details
           </CardTitle>
@@ -148,7 +148,7 @@ function AccountDetails() {
         <a href="/dashboard/pricing">
           <Button variant="outline" size="sm" className="gap-1.5">
             <Rocket className="size-3.5 text-primary" />
-            <span>Upgrade Plan</span>
+            <span>Upgrade</span>
           </Button>
         </a>
         {endDate ? (
@@ -157,8 +157,10 @@ function AccountDetails() {
             loading={loading}
             variant="secondary"
             size="sm"
+            className="gap-1.5"
             onClick={() => renewPlan(true)}
           >
+            <RotateCcw className="size-3.5" />
             Enable auto-renew
           </Button>
         ) : (
@@ -167,8 +169,10 @@ function AccountDetails() {
             loading={loading}
             variant="destructive"
             size="sm"
+            className="gap-1.5"
             onClick={() => renewPlan(false)}
           >
+            <Ban className="size-3.5" />
             Cancel subscription
           </Button>
         )}

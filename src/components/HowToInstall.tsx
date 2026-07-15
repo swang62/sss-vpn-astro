@@ -64,7 +64,7 @@ function getSteps(
                       height="20"
                       src={downloadIcon}
                       alt="Download icon"
-                      loading="eager"
+                      loading="lazy"
                     />
                   </Button>
                 </a>
@@ -96,7 +96,7 @@ function getSteps(
                         height="20"
                         src={"/setup/shadowrocket.webp"}
                         alt="Download icon"
-                        loading="eager"
+                        loading="lazy"
                       />
                     </Button>
                   </a>
@@ -200,8 +200,8 @@ function getSteps(
             src="/setup/welcome-screen.png"
             width={imageWidth}
             alt="welcome screen"
-            className="self-center"
-            loading="eager"
+            className="self-center rounded-lg"
+            loading="lazy"
           />
           <br />
         </>
@@ -263,8 +263,8 @@ function getSteps(
             src="/setup/add-profile.png"
             width={imageWidth}
             alt="add profile screen"
-            className="self-center"
-            loading="eager"
+            className="self-center rounded-lg"
+            loading="lazy"
           />
           <br />
           <div>
@@ -282,8 +282,8 @@ function getSteps(
             src="/setup/start-screen.png"
             width={imageWidth}
             alt="start screen"
-            className="self-center"
-            loading="eager"
+            className="self-center rounded-lg"
+            loading="lazy"
           />
           <br />
           <div className="text-muted-foreground">
@@ -333,19 +333,8 @@ function getSteps(
             src="/setup/settings-config.png"
             width={imageWidth}
             alt="settings config import"
-            className="self-center"
-            loading="eager"
-          />
-          <div>
-            Finally, due to a bug in the program, click on DNS, and make sure
-            fake DNS is activated.
-          </div>
-          <img
-            src="/setup/fake-dns.png"
-            width={imageWidth}
-            alt="dns config import"
-            className="self-center"
-            loading="eager"
+            className="self-center rounded-lg"
+            loading="lazy"
           />
         </>
       ),
@@ -366,8 +355,8 @@ function getSteps(
             src="/setup/connected.png"
             width={imageWidth}
             alt="connected"
-            className="self-center"
-            loading="eager"
+            className="self-center rounded-lg"
+            loading="lazy"
           />
         </>
       ),

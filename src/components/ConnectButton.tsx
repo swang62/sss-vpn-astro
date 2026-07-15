@@ -22,7 +22,7 @@ function ConnectButton() {
           type="button"
           onClick={handleClick}
           disabled={connecting}
-          className="relative z-10 flex size-48 cursor-pointer flex-col items-center justify-center rounded-full border border-primary/20 bg-card shadow-2xl transition-all duration-500 hover:scale-105 active:scale-95 disabled:cursor-wait"
+          className="relative z-10 flex size-48 cursor-pointer flex-col items-center justify-center rounded-full border border-primary/20 bg-card shadow-2xl transition-all duration-500 hover:scale-105 hover:border-secondary/60 active:scale-95 disabled:cursor-wait"
         >
           <div className="connect-ring-spin" />
           {connecting ? (

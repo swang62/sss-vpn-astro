@@ -60,7 +60,7 @@ function DashboardOverview() {
     <Card x-chunk="Dashboard usage">
       <CardHeader>
         <div className="flex items-center gap-2">
-          <Gauge className="size-5 text-primary" />
+          {/*<Gauge className="size-5 text-primary" />*/}
           <CardTitle className="translate-y-px font-heading">
             Data usage
           </CardTitle>
@@ -147,9 +147,9 @@ function DashboardOverview() {
           </span>
         )}
         <a href="/dashboard/account">
-          <Button variant="outline" size="sm" className="gap-1.5">
+          <Button variant="default" size="sm" className="gap-1.5">
             <Edit className="size-3.5" />
-            Manage Account
+            Manage account
           </Button>
         </a>
       </CardFooter>

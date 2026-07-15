@@ -19,7 +19,7 @@ function MainMobileMenu() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="secondary" className="mr-2 h-8 w-8 px-1.5">
+        <Button variant="outline" className="mr-2 h-8 w-8 px-1.5">
           <Menu />
           <span className="sr-only">Toggle Menu</span>
         </Button>

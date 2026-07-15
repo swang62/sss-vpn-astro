@@ -41,7 +41,7 @@ function AccountLinks() {
     <Card x-chunk="Plan links">
       <CardHeader>
         <div className="flex items-center gap-2">
-          <Link2 className="size-5 text-primary" />
+          {/*<Link2 className="size-5 text-primary" />*/}
           <CardTitle className="translate-y-px font-heading">
             Useful links
           </CardTitle>

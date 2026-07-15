@@ -3,112 +3,127 @@ import TableOfContents from "@/components/TableOfContents";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
 import Header from "@/layouts/Header.astro";
 
-const headingStyle = "text-3xl py-4";
-const sectionStyle = "flex flex-col pb-4";
-const paragraphStyle = "mb-6";
-const imageWidth = 300;
-
-// MAKE SURE TO UPDATE TABLE OF CONTENTS if you change any titles
+const imageWidth = 400;
+const sectionClass = "flex scroll-mt-4 flex-col gap-4";
+const textClass = "text-foreground/80 leading-relaxed";
+const imgClass = "self-center rounded-lg";
+const codeClass = "rounded-md bg-muted px-2 py-0.5 font-mono text-xs";
+const h3Class = "font-medium text-lg";
+const dividerClass = "border-t border-border/40";
 ---
 
 <DashboardLayout title="Tips & Tricks">
-  <div class="container mx-auto flex w-full max-w-2xl flex-col gap-5 py-6">
+  <div
+    class="container relative mx-auto flex w-full max-w-2xl flex-col gap-8 py-6"
+  >
     <Header title="Tips & Tricks" />
 
     <div class="border-t border-border/50"></div>
     <TableOfContents />
     <div class="border-t border-border/50 lg:hidden"></div>
 
-    <section id="proxies" class={sectionStyle}>
-      <h1 class={headingStyle}>Selecting proxies</h1>
-      <p class={paragraphStyle}>
+    <section id="proxies" class={sectionClass}>
+      <h2 class="font-heading text-2xl">Selecting proxies</h2>
+      <p class={textClass}>
         By default, the app will automatically balance proxies for you. However,
-        if things feel slow, I recommend choosing the <b>lowest</b>
-        balancer option, or manually selecting <b>Vless</b>, <b>Vmess</b>, or <b
-          >Trojan</b
-        >. Shadowsocks is pretty reliable too but a little bit slower.
+        if things feel slow, I recommend choosing the <code class={codeClass}
+          >lowest</code
+        > balancer option, or manually selecting VLESS or VMESS. Shadowsocks is pretty
+        reliable too for tricky sites, but a little bit slower.
       </p>
       <img
         src="/tips/proxy.png"
         alt="proxy"
         width={imageWidth}
-        class="self-center"
+        class={imgClass}
         loading="lazy"
       />
     </section>
 
-    <div class="border-t border-border/40"></div>
+    <div class={dividerClass}></div>
 
-    <section id="options" class={sectionStyle}>
-      <h1 class={headingStyle}>DNS settings</h1>
-      <p>
-        <h1 class="mb-1">Remote DNS</h1>
-        <ul class="mb-6 list-outside list-disc">
-          <li class="ml-8">
-            By default this is set to 'local'. This rarely needs to be changed,
-            but occasionally on public WiFi or Mobile 4G/5G, you can try <b
-              >tcp://1.1.1.1</b
-            > or <b>tcp://8.8.8.8</b>.
-          </li>
-        </ul>
-        <h1 class="mb-1">Outbound DNS (direct)</h1>
-        <ul class="mb-6 list-outside list-disc">
-          <li class="ml-8">
-            'local' should always be selected for most scenarios, I've never
-            needed to change this, maybe once on a windows computer with
-            extremely broken settings. You can try matching this to Remote DNS
-            if all else fails.
-          </li>
-        </ul>
-        <h1 class="mb-1">Fake DNS</h1>
-        <ul class="list-outside list-disc">
-          <li class="ml-8">
-            This can be enabled without problems, I find it more reliable with
-            it turned on. You can try turning it off if you are having issues.
-          </li>
-        </ul>
-      </p>
+    <section id="options" class={sectionClass}>
+      <h2 class="font-heading text-2xl">DNS settings</h2>
+
+      <div class="flex flex-col gap-2">
+        <h3 class={h3Class}>Remote DNS</h3>
+        <p class={textClass}>
+          By default this is set to <code class={codeClass}>local</code>. This
+          rarely needs to be changed, but occasionally on public WiFi or 4G/5G
+          networks, you can try <code class={codeClass}>tcp://1.1.1.1</code> or <code
+            class={codeClass}>tcp://8.8.8.8</code
+          >.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h3 class={h3Class}>Outbound/Direct DNS</h3>
+        <p class={textClass}>
+          <code class={codeClass}>local</code> should always be selected for most
+          scenarios. You can try matching this to Remote DNS if all else fails.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h3 class={h3Class}>Fake DNS</h3>
+        <p class={textClass}>
+          This can be enabled without problems. I find it more reliable with it
+          turned on. You can try turning it off if you are having issues.
+        </p>
+      </div>
+      <img
+        src="/setup/fake-dns.png"
+        width={imageWidth}
+        alt="dns config import"
+        class={imgClass}
+        loading="lazy"
+      />
     </section>
 
-    <div class="border-t border-border/40"></div>
+    <div class={dividerClass}></div>
 
-    <section id="updates" class={sectionStyle}>
-      <h1 class={headingStyle}>App updates</h1>
-      <p class={paragraphStyle}>
+    <section id="updates" class={sectionClass}>
+      <h2 class="font-heading text-2xl">App updates</h2>
+      <p class={textClass}>
         As a last resort, under the About section, you can update the app. It
-        should auto-update by itself automatically, most of the time it's the
-        server, a global outage, or during a Chinese holiday/political event.
+        should auto-update by itself automatically. Most of the time it's the
+        server, a global outage, or during a Chinese holiday or political event.
         Email me if you are having issues for more than a day.
       </p>
       <img
         src="/tips/update.png"
         alt="update"
         width={imageWidth}
-        class="mb-4 self-center"
+        class={imgClass}
         loading="lazy"
       />
     </section>
 
-    <div class="border-t border-border/40"></div>
+    <div class={dividerClass}></div>
 
-    <section id="mobile" class={sectionStyle}>
-      <h1 class={headingStyle}>Mobile tips</h1>
-      <p class={paragraphStyle}>
-        This feature is only available on mobile. Under Settings {">"} Routing {
-          ">"
-        } Per-App Proxy. If you have mainly Chinese apps, select 'Proxy only selected
-        apps" and pick foreign apps like Google/Youtube.
-        <br />
-        <br />
-        However, if you mainly have US/international apps, choose "Do not proxy selected
-        apps" and pick Chinese apps like Alipay/WeChat. This way you can avoid constantly
-        turning the VPN on/off.
+    <section id="mobile" class={sectionClass}>
+      <h2 class="font-heading text-2xl">Mobile tips</h2>
+      <p class={textClass}>
+        This feature is only available on mobile. Under <strong>Settings</strong
+        >
+        {" → "}
+        <strong>Routing</strong>
+        {" → "}
+        <strong>Per-App Proxy</strong>. If you have mainly Chinese apps, select <strong
+          >Proxy only selected apps</strong
+        > and pick foreign apps like Google/Youtube.
+      </p>
+      <p class={textClass}>
+        However, if you mainly have US/international apps, choose <strong
+          >Do not proxy selected apps</strong
+        > and pick Chinese apps like Alipay/WeChat. This way you can avoid constantly
+        turning the VPN on and off.
       </p>
       <img
         src="/tips/per-app.png"
-        alt="pre-app"
+        alt="per-app proxy"
         width={imageWidth}
-        class="self-center"
+        class={imgClass}
         loading="lazy"
       />
     </section>

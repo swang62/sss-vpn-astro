@@ -26,7 +26,7 @@ const data = [
   },
   {
     answer:
-      "No shady practices here, just click on Manage Account and cancel your subscription with one button press, EZPZ.",
+      "No shady practices here, just click on My Account and cancel your subscription with one button press, EZPZ.",
     id: "4",
     question: "How do I unsubscribe?",
   },

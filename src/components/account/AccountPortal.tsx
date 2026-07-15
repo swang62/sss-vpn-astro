@@ -31,9 +31,9 @@ function AccountPortal() {
     <Card x-chunk="Subscription plan details">
       <CardHeader>
         <div className="flex items-center gap-2">
-          <Receipt className="size-5 text-primary" />
+          {/*<Receipt className="size-5 text-primary" />*/}
           <CardTitle className="translate-y-px font-heading">
-            Billing & invoices
+            Billing & Invoices
           </CardTitle>
         </div>
       </CardHeader>
