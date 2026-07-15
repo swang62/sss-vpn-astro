@@ -1,6 +1,6 @@
 import { Sidebar } from "lucide-react";
 import { useState } from "react";
-
+import logoSrc from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -34,7 +34,7 @@ function DashboardMobileMenu({ pathname }: Props) {
           <a href="/#top" onClick={() => setOpen(false)}>
             <SheetTitle className="flex flex-nowrap items-center gap-2 text-left">
               <img
-                src="/favicon.ico"
+                src={logoSrc.src}
                 alt="logo"
                 width={36}
                 height={36}

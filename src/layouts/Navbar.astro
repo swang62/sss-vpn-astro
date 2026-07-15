@@ -1,6 +1,8 @@
 ---
+import { Image } from "astro:assets";
 import { SITE_NAME } from "@/config/constants";
 import { cn } from "@/lib/utils";
+import logoSrc from "@/assets/logo.png";
 ---
 
 <header
@@ -17,8 +19,8 @@ import { cn } from "@/lib/utils";
     <!-- slot:left (logo) -->
     <div class="hidden md:flex flex-1 items-center">
       <a href="/#top" class="flex items-center gap-2">
-        <img
-          src="/favicon.ico"
+        <Image
+          src={logoSrc}
           alt="logo"
           width={32}
           height={32}
