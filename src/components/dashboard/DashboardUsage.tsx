@@ -1,4 +1,4 @@
-import { Edit, Gauge, RefreshCcw } from "lucide-react";
+import { Edit, Gauge, RefreshCcw, ShieldCheck, ShieldOff } from "lucide-react";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
@@ -126,35 +126,26 @@ function DashboardOverview() {
             )}
           </div>
         </div>
-
-        <div className="flex items-center gap-3 rounded-lg border border-border/40 bg-muted/20 p-3">
-          {loading ? (
-            <>
-              <Skeleton className="h-2.5 w-2.5 shrink-0 rounded-full" />
-              <Skeleton className="h-4 w-32" />
-            </>
-          ) : (
-            <>
-              <div
-                className={`h-2.5 w-2.5 shrink-0 rounded-full ${isOnline ? "animate-pulse bg-green-500" : "bg-red-500"}`}
-              />
-              <div className="flex flex-1 items-center justify-between">
-                <span className="text-muted-foreground text-xs">
-                  Account status
-                </span>
-                <span className="font-mono font-semibold text-xs uppercase tracking-wider">
-                  {isOnline ? (
-                    <span className="text-green-500">Active</span>
-                  ) : (
-                    <span className="text-red-500">Inactive</span>
-                  )}
-                </span>
-              </div>
-            </>
-          )}
-        </div>
       </CardContent>
-      <CardFooter className="flex justify-end">
+      <CardFooter className="flex flex-wrap items-center justify-around gap-3 md:justify-between">
+        {loading ? (
+          <Skeleton className="h-4 w-32" />
+        ) : (
+          <span className="flex items-center gap-1.5">
+            {isOnline ? (
+              <ShieldCheck className="size-4 shrink-0 text-green-500" />
+            ) : (
+              <ShieldOff className="size-4 shrink-0 text-red-500" />
+            )}
+            <span className="font-mono font-semibold text-xs uppercase tracking-wider">
+              {isOnline ? (
+                <span className="text-green-500">Active</span>
+              ) : (
+                <span className="text-red-500">Inactive</span>
+              )}
+            </span>
+          </span>
+        )}
         <a href="/dashboard/account">
           <Button variant="outline" size="sm" className="gap-1.5">
             <Edit className="size-3.5" />

@@ -47,6 +47,7 @@ function AccountDetails() {
   const subscriptionType = profile?.subscriptionType;
   const plan = PRICING_PLANS.find((plan) => plan.plan === subscriptionType);
   const description = plan ? plan.features[0] : "";
+  const planTier = subscriptionType === "none" ? "-" : subscriptionType;
 
   const isDisqualified =
     !!subscriptionType && FREE_PLANS.includes(subscriptionType as FreePlan);
@@ -102,7 +103,7 @@ function AccountDetails() {
           <span className="text-muted-foreground text-xs">Tier</span>
           {profile ? (
             <span className="flex items-center gap-2 font-heading font-semibold text-xl">
-              {capitalize(subscriptionType)}
+              {capitalize(planTier)}
               {description && (
                 <span className="rounded-full bg-primary/10 px-2.5 py-0.5 font-medium font-mono text-[11px] text-primary tracking-wider">
                   {description}

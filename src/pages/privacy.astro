@@ -1,32 +1,53 @@
 ---
-import Header from "@/layouts/Header.astro";
 import MainLayout from "@/layouts/MainLayout.astro";
 
 export const prerender = true;
 ---
 
 <MainLayout title="Privacy">
-  <div class="container flex max-w-xl flex-col gap-4 py-4">
-    <Header title="Privacy Policy" />
-    <hr />
-    <p class="pb-12">
-      Nothing fancy here, I won't sell or distribute any of your data. I don't
-      store logs or payment details. Cookies are only for tracking your account
-      login and troubleshooting. All financial data is handled by
-      <a
-        href="https://stripe.com/"
-        target="_blank"
-        class="text-primary-link underline ml-1">Stripe</a
-      >.
-    </p>
+  <div class="container flex max-w-2xl flex-col items-center gap-8 py-12">
+    <div class="flex flex-col items-center gap-2 text-center">
+      <h1 class="font-heading text-4xl">Privacy Policy</h1>
+      <div
+        class="h-0.5 w-16 rounded-full bg-linear-to-r from-primary/60 to-secondary/60"
+      >
+      </div>
+    </div>
 
-    <Header title="Terms and Conditions" />
-    <hr />
-    <p class="pb-12">
-      The only thing I ask is, please
-      <span class="text-destructive"> do not torrent </span>
-      anything illegal. Otherwise, I'll have to shut everything down and then everyone
-      will be sad. Thanks.
-    </p>
+    <div
+      class="w-full space-y-6 rounded-xl border border-border/40 bg-card p-8 backdrop-blur-md"
+    >
+      <p class="text-foreground/80 leading-relaxed">
+        Nothing fancy, I don't sell or distribute any of your data. I don't
+        store logs or payment details. Cookies are for tracking logins and basic
+        troubleshooting. All financial data is handled by off-site by
+        <a
+          href="https://stripe.com/"
+          target="_blank"
+          class="ml-1 font-medium text-primary-link underline decoration-primary/30 underline-offset-2 transition-colors hover:decoration-primary"
+          >Stripe</a
+        >.
+      </p>
+    </div>
+
+    <div class="flex flex-col items-center gap-2 text-center">
+      <h1 class="font-heading text-4xl">Terms &amp; Conditions</h1>
+      <div
+        class="h-0.5 w-16 rounded-full bg-linear-to-r from-primary/60 to-secondary/60"
+      >
+      </div>
+    </div>
+
+    <div
+      class="w-full rounded-xl border border-border/40 bg-card p-8 backdrop-blur-md"
+    >
+      <p class="text-foreground/80 leading-relaxed">
+        The only thing I ask, please
+        <span class="font-semibold text-destructive ml-1"
+          >do not torrent anything illegal</span
+        >. Otherwise, I'll have to shut everything down and everyone will be
+        sad, thanks.
+      </p>
+    </div>
   </div>
 </MainLayout>

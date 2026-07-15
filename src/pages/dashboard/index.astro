@@ -10,7 +10,6 @@ const { user } = Astro.locals;
 
 let showWelcomeMsg = false;
 
-// Only show welcome if the cookie didn't exist already
 const uniqueLoginCookie = crypto
   .createHash("md5")
   .update(user.email)
@@ -18,17 +17,27 @@ const uniqueLoginCookie = crypto
 const previouslyShowedWelcome = Astro.cookies.has(uniqueLoginCookie);
 if (!previouslyShowedWelcome) {
   showWelcomeMsg = true;
-
   Astro.cookies.set(uniqueLoginCookie, "true", {
     maxAge: 2147483647,
     path: "/dashboard",
     sameSite: "lax",
   });
 }
+
+let serverOnline = false;
+try {
+  const res = await fetch(
+    "https://uptime.stronglybrewed.dev/api/badge/8/status?upColor=%23008866&downColor=%23dc2626&style=flat-square",
+  );
+  const svg = await res.text();
+  serverOnline = svg.includes(">Up<");
+} catch {
+  serverOnline = false;
+}
 ---
 
 <DashboardLayout title="Dashboard">
-  <div class="mx-auto flex w-full max-w-xl flex-col gap-6 py-6">
+  <div class="mx-auto flex w-full max-w-xl flex-col gap-5 py-6">
     <Header title="Dashboard" />
     {showWelcomeMsg && <ShowWelcome client:load name={user.name} />}
     <DashboardUsage client:load />
@@ -41,13 +50,17 @@ if (!previouslyShowedWelcome) {
       <span class="font-mono text-muted-foreground text-[11px] tracking-wider"
         >SERVER STATUS</span
       >
-      <img
-        src="https://uptime.stronglybrewed.dev/api/badge/8/status?upColor=%23008866&downColor=%23dc2626&style=plastic"
-        alt="Server status"
-        width={72}
-        height={10}
-        loading="lazy"
-      />
+      <span
+        class="flex items-center gap-1.5 rounded-full border border-border/40 bg-muted/30 px-2.5 py-0.5"
+      >
+        <span
+          class={`h-1.5 w-1.5 rounded-full ${serverOnline ? "animate-pulse bg-green-500" : "bg-red-500"}`}
+        ></span>
+        <span
+          class="font-mono text-muted-foreground text-[11px] font-medium tracking-wider"
+          >{serverOnline ? "ONLINE" : "OFFLINE"}</span
+        >
+      </span>
     </a>
   </div>
 </DashboardLayout>
