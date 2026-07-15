@@ -35,11 +35,11 @@ export function capitalize(str = "") {
   return str ? str[0].toUpperCase() + str.slice(1).toLowerCase() : str;
 }
 
-export function minutesPassedSince(lastModified: string) {
+export function secondsSince(lastModified: string) {
   const now = Date.now();
   const compare = new Date(lastModified || 0).getTime();
 
-  return Math.floor((now - compare) / (60 * 1000));
+  return Math.floor((now - compare) / 1000);
 }
 
 export function dateToString(date: number) {

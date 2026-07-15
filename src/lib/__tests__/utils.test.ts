@@ -4,7 +4,7 @@ import {
   dateToString,
   getDaysLeft,
   getHiddifyLinks,
-  minutesPassedSince,
+  secondsSince,
 } from "../utils";
 
 describe("getDaysLeft", () => {
@@ -67,7 +67,7 @@ describe("getDaysLeft", () => {
   });
 });
 
-describe("minutesPassedSince", () => {
+describe("secondsPassedSince", () => {
   beforeEach(() => {
     vi.useFakeTimers();
   });
@@ -77,17 +77,10 @@ describe("minutesPassedSince", () => {
   });
 
   it("track less than 1min passed, round down", () => {
-    const now = new Date("2024-07-12T00:00:59.000Z");
-    vi.setSystemTime(now);
-
-    expect(minutesPassedSince("2024-07-12T00:00:00.000Z")).toBe(0);
-  });
-
-  it("track 1min passed", () => {
     const now = new Date("2024-07-12T00:01:00.000Z");
     vi.setSystemTime(now);
 
-    expect(minutesPassedSince("2024-07-12T00:00:00.000Z")).toBe(1);
+    expect(secondsSince("2024-07-12T00:00:30.000Z")).toBe(30);
   });
 });
 

@@ -21,7 +21,7 @@ export const DEFAULT_PASSWORD = "password";
 export const DATA_PACKAGE_PRICE = 2; // dollars
 export const MAX_NAME_LENGTH = 20; // characters
 export const MAX_BANDWIDTH = 6000; // GB
-export const MIN_WAIT_TIME = 1; // minutes
+export const MIN_WAIT_TIME = 10; // seconds
 export const TRIAL_TIME = 3; // days
 
 export const FILE_START_COMMAND = "start_vpn.command";

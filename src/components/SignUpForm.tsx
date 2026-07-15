@@ -26,7 +26,7 @@ import {
 import { PUBLIC_TURNSTILE_SITEKEY } from "@/config/client";
 import { MAX_NAME_LENGTH, MIN_WAIT_TIME } from "@/config/constants";
 import { sendVerificationEmail, signUp } from "@/lib/auth-clients";
-import { minutesPassedSince } from "@/lib/utils";
+import { secondsSince } from "@/lib/utils";
 
 const formSchema = z
   .object({
@@ -72,10 +72,10 @@ function SignUpForm() {
       return;
     }
 
-    const minutesSince = minutesPassedSince(sentEmail);
-    if (minutesSince < MIN_WAIT_TIME) {
+    const waitTime = secondsSince(sentEmail);
+    if (waitTime < MIN_WAIT_TIME) {
       toast.warning(
-        "Too many signup attempts, please wait and try again later."
+        "Too many signup attempts, please wait a sec before trying again."
       );
       return;
     }

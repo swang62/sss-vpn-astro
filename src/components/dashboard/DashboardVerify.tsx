@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { MIN_WAIT_TIME } from "@/config/constants";
 import type { UserDB } from "@/db/queries";
 import { sendVerificationEmail } from "@/lib/auth-clients";
-import { minutesPassedSince } from "@/lib/utils";
+import { secondsSince } from "@/lib/utils";
 
 interface Props {
   user: UserDB;
@@ -16,9 +16,9 @@ function DashboardVerify({ user }: Props) {
 
   // Handlers
   const onClickVerify = () => {
-    const minutesSince = minutesPassedSince(sentEmail);
-    if (minutesSince < MIN_WAIT_TIME) {
-      toast.warning("Please wait a minute before trying again.");
+    const waitTime = secondsSince(sentEmail);
+    if (waitTime < MIN_WAIT_TIME) {
+      toast.warning("Please wait a sec before trying again.");
       return;
     }
 
