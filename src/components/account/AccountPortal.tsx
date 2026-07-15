@@ -1,5 +1,5 @@
 import { navigate } from "astro:transitions/client";
-import { ExternalLink, Receipt } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 

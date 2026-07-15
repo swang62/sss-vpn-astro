@@ -1,4 +1,4 @@
-import { Edit, Gauge, RefreshCcw, ShieldCheck, ShieldOff } from "lucide-react";
+import { Edit, RefreshCcw, ShieldCheck, ShieldOff } from "lucide-react";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";

@@ -1,5 +1,5 @@
 import { captureException } from "@sentry/astro";
-import { Copy, Link2 } from "lucide-react";
+import { Copy } from "lucide-react";
 import QRCode from "qrcode";
 import { useEffect, useState } from "react";
 import useSWR from "swr";

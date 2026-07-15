@@ -1,4 +1,4 @@
-import { Ban, CreditCard, Rocket, RotateCcw } from "lucide-react";
+import { Ban, Rocket, RotateCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
