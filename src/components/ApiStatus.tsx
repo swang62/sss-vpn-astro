@@ -2,6 +2,7 @@ import { navigate } from "astro:transitions/client";
 import ReactJsonView from "@microlink/react-json-view";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useSWRConfig } from "swr";
 import type UAParser from "ua-parser-js";
 import {
   AlertDialog,
@@ -67,6 +68,7 @@ interface Props {
 }
 
 function ApiStatus({ device, origin }: Props) {
+  const { mutate } = useSWRConfig();
   const defaultCode = { device, origin };
   const mounted = useMounted();
   const [code, setCode] = useState<object>(defaultCode);
@@ -165,6 +167,7 @@ function ApiStatus({ device, origin }: Props) {
       toast.error(error?.message);
       return;
     }
+    await mutate("fetchUser");
     navigate("/dashboard");
   };
 
@@ -195,17 +198,16 @@ function ApiStatus({ device, origin }: Props) {
     getAllUsers();
   }, []);
 
-  useEffect(() => {
-    setUserActive(null);
-  }, [endpoint, userIdSelected]);
-
   return (
     <div className="mx-auto flex w-full flex-col gap-2 pb-0 md:pt-6">
       <div className="flex flex-row gap-2">
         <Combobox
           options={options}
           value={endpoint}
-          setValue={setEndpoint}
+          setValue={(v) => {
+            setEndpoint(v);
+            setUserActive(null);
+          }}
           defaultValue="API endpoint..."
         />
         <Button
@@ -221,7 +223,10 @@ function ApiStatus({ device, origin }: Props) {
         <Combobox
           options={users}
           value={userIdSelected}
-          setValue={setUserSelected}
+          setValue={(v) => {
+            setUserSelected(v);
+            setUserActive(null);
+          }}
           defaultValue={loadingText}
         />
         <Button

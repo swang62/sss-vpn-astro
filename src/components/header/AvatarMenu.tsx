@@ -10,9 +10,8 @@ import {
   User as UserIcon,
   Wrench,
 } from "lucide-react";
-import { useEffect } from "react";
 import { toast } from "sonner";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -23,28 +22,23 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SITE_EMAIL } from "@/config/constants";
-import { fetchUser, type User } from "@/lib/api-clients";
+import { fetchUser } from "@/lib/api-clients";
 import {
   admin,
   revokeSession,
   type Session,
   signOut,
-  type UserSession,
 } from "@/lib/auth-clients";
 import { cn } from "@/lib/utils";
 
 interface AvatarProps {
   session: Session;
-  user?: User | UserSession;
 }
 
-function AvatarMenu({ session, user }: AvatarProps) {
-  let reset = null;
-  if (!user) {
-    const { data, mutate } = useSWR("fetchUser", fetchUser);
-    user = data?.user;
-    reset = mutate;
-  }
+function AvatarMenu({ session }: AvatarProps) {
+  const { mutate } = useSWRConfig();
+  const { data } = useSWR(session ? "fetchUser" : null, fetchUser);
+  const user = data?.user;
 
   const nameLetter = user?.name?.length && user.name[0].toUpperCase();
   const isAdmin = user?.role === "admin" || false;
@@ -65,14 +59,9 @@ function AvatarMenu({ session, user }: AvatarProps) {
       toast.error(error?.message);
       return;
     }
+    await mutate("fetchUser");
     navigate("/dashboard/debug");
   };
-
-  // Lifecycle
-  useEffect(() => {
-    if (!reset) return;
-    reset();
-  }, [user?.name, session?.userId]);
 
   // Styles
   const buttonStyle = cn("m-0 h-8 w-full justify-start px-2 py-0");
