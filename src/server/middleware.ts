@@ -16,7 +16,7 @@ import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
 import { getUserById } from "@/db/queries";
 import { auth } from "@/lib/auth";
 import { setHeaders } from "@/lib/headers";
-import { redis } from "@/lib/redis";
+import { getRedis } from "@/lib/redis";
 import type { Bindings } from "./app";
 import { ALLOWED_METHODS } from "./app";
 
@@ -148,8 +148,8 @@ export function limiter(limit = 50): MiddlewareHandler {
     message: {
       message: "Too many requests, try again later.",
     },
-    // @ts-expect-error if undefined, automatically use in-memory storage.
-    store: redis?.store,
+    // @ts-expect-error store is undefined until Redis connects; rate limiter falls back to in-memory
+    store: getRedis()?.store,
     windowMs: 30 * 1000,
   });
 }

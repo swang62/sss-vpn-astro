@@ -8,9 +8,9 @@ import { LOG_LEVEL, TURNSTILE_SECRET_KEY } from "@/config/server";
 import db from "@/db";
 import { getUserByEmail } from "@/db/queries";
 import { postmarkClient } from "@/lib/email";
-import { redis } from "@/lib/redis";
+import { getRedis } from "@/lib/redis";
 
-const client = redis ? redis.client : null;
+const client = getRedis()?.client ?? null;
 const level = LOG_LEVEL === "silent" ? undefined : LOG_LEVEL;
 
 export const auth = betterAuth({

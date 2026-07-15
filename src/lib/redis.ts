@@ -1,25 +1,21 @@
 import { RedisStore } from "rate-limit-redis";
 import { createClient } from "redis";
-import { createStorage } from "unstorage";
-import memoryDriver from "unstorage/drivers/memory";
-import redisDriver from "unstorage/drivers/redis";
 
 import { REDIS_PASS, REDIS_URL } from "@/config/server";
 
-// Redis
-async function getRedisStore() {
-  if (!REDIS_URL || !REDIS_PASS) return;
+let _redis: { client: any; store: RedisStore } | undefined;
 
-  console.debug("Connecting to redis:", REDIS_URL);
+async function init() {
+  if (!REDIS_URL || !REDIS_PASS) return;
 
   const client = await createClient({
     password: REDIS_PASS,
     url: `redis://${REDIS_URL}`,
   })
-    .on("error", (error) => console.error("Failed to connect to redis", error))
+    .on("error", (error) => console.error("Redis error:", error))
     .connect();
 
-  return {
+  _redis = {
     client,
     store: new RedisStore({
       sendCommand: async (...args: string[]) => client.sendCommand(args),
@@ -27,15 +23,8 @@ async function getRedisStore() {
   };
 }
 
-export const redis = REDIS_URL ? await getRedisStore() : undefined;
+init().catch((e) => console.error("Redis connection failed:", e));
 
-export const storage = REDIS_URL
-  ? createStorage<string>({
-      driver: redisDriver({
-        password: REDIS_PASS,
-        url: `redis://${REDIS_URL}`,
-      }),
-    })
-  : createStorage<string>({
-      driver: memoryDriver(),
-    });
+export function getRedis() {
+  return _redis;
+}
