@@ -1,10 +1,10 @@
 import { navigate } from "astro:transitions/client";
+import { Calendar, Repeat } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { PRICING_PLANS } from "@/config/constants";
 import { api, fetchUser, parseApi } from "@/lib/api-clients";
 import { cn } from "@/lib/utils";
@@ -14,7 +14,7 @@ import PricingCard from "./PricingCard";
 function PricingPlans() {
   const [loading, setLoading] = useState(false);
   const { data } = useSWR("fetchUser", fetchUser);
-  const [monthly, setMonthly] = useState(true);
+  const [monthly, setMonthly] = useState(false);
   const isActive = !!data?.user?.profile?.subscriptionId;
   const purchasedRouter = data?.user?.profile?.purchasedRouter;
 
@@ -35,17 +35,38 @@ function PricingPlans() {
         <p className="max-w-md leading-normal sm:text-lg sm:leading-7">
           You have a choice between a single month or a monthly subscription
         </p>
-        <div className="flex items-center justify-center gap-4 text-xl">
-          <span className={cn({ "text-muted-foreground/60": monthly })}>
-            1 Month
-          </span>
-          <Switch
-            checked={monthly}
-            onCheckedChange={() => setMonthly(!monthly)}
+        <div className="relative flex rounded-full border border-border/60 bg-muted p-0.5">
+          <div
+            className="toggle-slider"
+            style={{
+              transform: monthly ? "translateX(100%)" : "translateX(0)",
+            }}
           />
-          <span className={cn({ "text-muted-foreground/60": !monthly })}>
+          <button
+            type="button"
+            onClick={() => setMonthly(false)}
+            className={cn(
+              "relative z-10 flex w-32.5 cursor-pointer items-center justify-center gap-2 rounded-full px-5 py-2 font-medium text-sm transition-colors",
+              !monthly
+                ? "text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            <Calendar className="size-4" />1 Month
+          </button>
+          <button
+            type="button"
+            onClick={() => setMonthly(true)}
+            className={cn(
+              "relative z-10 flex w-32.5 cursor-pointer items-center justify-center gap-2 rounded-full px-5 py-2 font-medium text-sm transition-colors",
+              monthly
+                ? "text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            <Repeat className="size-4" />
             Subscription
-          </span>
+          </button>
         </div>
       </div>
       <div className="mt-4 flex flex-col justify-center gap-8 sm:flex-row sm:flex-wrap">

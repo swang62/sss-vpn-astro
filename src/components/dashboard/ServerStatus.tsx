@@ -9,7 +9,7 @@ function ServerStatus() {
       .get("https://uptime.stronglybrewed.dev/api/badge/8/status", {
         responseType: "text",
       })
-      .then((r) => setOnline(r.data.includes(">Up<")))
+      .then((r) => setOnline(r.data.includes("Up")))
       .catch(() => setOnline(false));
   }, []);
 

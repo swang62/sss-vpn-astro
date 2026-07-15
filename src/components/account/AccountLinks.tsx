@@ -56,7 +56,7 @@ function AccountLinks() {
           >
             Hiddify
           </a>
-          .
+          . You can also scan the QR code on mobile devices.
         </p>
 
         <div className="flex items-center gap-2">
@@ -74,7 +74,20 @@ function AccountLinks() {
             Copy
           </Button>
         </div>
-
+        <div className="flex justify-center">
+          {qrcode ? (
+            <img
+              src={qrcode}
+              width={160}
+              height={160}
+              alt="QR Code"
+              className="rounded-lg border border-border"
+              loading="lazy"
+            />
+          ) : (
+            <div className="h-40 w-40 animate-pulse rounded-lg bg-muted" />
+          )}
+        </div>
         <div className="rounded-lg border border-border/50 bg-muted/30 p-3">
           <p className="font-mono text-[11px] text-muted-foreground leading-relaxed tracking-wider">
             For Shadowrocket, V2Ray, or Xray clients, use this link instead:
@@ -95,21 +108,6 @@ function AccountLinks() {
               Copy
             </Button>
           </div>
-        </div>
-
-        <div className="flex justify-center pb-4">
-          {qrcode ? (
-            <img
-              src={qrcode}
-              width={160}
-              height={160}
-              alt="QR Code"
-              className="rounded-lg border border-border"
-              loading="lazy"
-            />
-          ) : (
-            <div className="h-40 w-40 animate-pulse rounded-lg bg-muted" />
-          )}
         </div>
       </CardContent>
     </Card>

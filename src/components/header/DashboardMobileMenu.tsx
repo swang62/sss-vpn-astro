@@ -24,7 +24,7 @@ function DashboardMobileMenu({ pathname }: Props) {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon" className="shrink-0 gap-0 p-0">
+        <Button variant="secondary" size="icon" className="shrink-0 gap-0 p-0">
           <Sidebar />
           <span className="sr-only">Toggle navigation menu</span>
         </Button>

@@ -9,8 +9,8 @@ import Header from "@/layouts/Header.astro";
 <DashboardLayout title="Account">
   <div class="mx-auto flex w-full max-w-xl flex-col gap-5 py-6">
     <Header title="My account" />
-    <AccountDetails client:load transition:persist />
-    <AccountPortal client:load transition:persist />
-    <AccountLinks client:load transition:persist />
+    <AccountDetails client:load />
+    <AccountPortal client:load />
+    <AccountLinks client:load />
   </div>
 </DashboardLayout>
