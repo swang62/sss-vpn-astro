@@ -11,20 +11,21 @@ import { fetchUser } from "@/lib/api-clients";
 import { copyToClipboard, getHiddifyLinks } from "@/lib/utils";
 
 function AccountLinks() {
-  const [url, setUrl] = useState("Loading...");
   const [qrcode, setQrcode] = useState<string>();
-  const { data } = useSWR("fetchUser", fetchUser);
+  const { data } = useSWR("fetchUser", fetchUser, {
+    refreshInterval: (data) => (!data?.user?.profile?.hiddifyId ? 2000 : 0),
+  });
   const user = data?.user;
   const profile = user?.profile;
+  const url = profile
+    ? getHiddifyLinks(user.email, profile.hiddifyId)
+    : "Loading...";
 
   useEffect(() => {
-    if (!user || !profile) return;
+    if (!profile) return;
 
-    const setupLink = getHiddifyLinks(user.email, profile.hiddifyId);
-
-    setUrl(setupLink);
-    QRCode.toDataURL(setupLink)
-      .then((qrcode) => setQrcode(qrcode))
+    QRCode.toDataURL(url)
+      .then(setQrcode)
       .catch((error) => {
         captureException(error);
         setQrcode("");
@@ -59,7 +60,7 @@ function AccountLinks() {
           <Input
             defaultValue={url}
             readOnly
-            className="bg-muted/40 font-mono text-muted-foreground text-xs"
+            className="bg-muted/40 text-muted-foreground text-xs opacity-80"
           />
           <Button
             size="sm"
@@ -92,7 +93,7 @@ function AccountLinks() {
             <Input
               defaultValue={altUrl}
               readOnly
-              className="bg-muted/40 font-mono text-muted-foreground text-xs"
+              className="bg-muted/40 text-muted-foreground text-xs opacity-80"
             />
             <Button
               variant="outline"

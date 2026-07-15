@@ -1,5 +1,4 @@
 import { Copy, EllipsisVertical, PartyPopper, Settings } from "lucide-react";
-import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -216,7 +215,7 @@ function getSteps(
             <Input
               defaultValue={setupLink || "Loading..."}
               readOnly
-              className="bg-muted text-muted-foreground"
+              className="bg-muted text-muted-foreground opacity-80"
             />
             <Button onClick={() => copyToClipboard(setupLink || "")}>
               <Copy className="size-4" />
@@ -233,7 +232,7 @@ function getSteps(
                   setupLink?.replace("/#", "/sub/#") || "Loading..."
                 }
                 readOnly
-                className="bg-muted/40 font-mono text-muted-foreground text-xs"
+                className="bg-muted/40 text-muted-foreground text-xs opacity-80"
               />
               <Button
                 variant="outline"
@@ -302,7 +301,7 @@ function getSteps(
             <Input
               defaultValue={config}
               readOnly
-              className="bg-muted text-muted-foreground"
+              className="bg-muted text-muted-foreground opacity-80"
             />
             <Button onClick={() => copyToClipboard(config)}>
               <Copy className="size-4" />
@@ -398,32 +397,15 @@ interface Props {
 }
 
 function HowToInstall({ config, platform }: Props) {
-  const [intervalId, setIntervalId] = useState<NodeJS.Timeout>();
-  const { data, mutate } = useSWR("fetchUser", fetchUser);
+  const { data } = useSWR("fetchUser", fetchUser, {
+    refreshInterval: (data) => (!data?.user?.profile?.hiddifyId ? 2000 : 0),
+  });
 
   const user = data?.user;
   const profile = user?.profile;
   const setupLink = profile
     ? getHiddifyLinks(user.email, profile.hiddifyId)
     : undefined;
-
-  // Poll for hiddify profile creation
-  useEffect(() => {
-    if (!profile?.hiddifyId) {
-      setIntervalId(
-        setInterval(async () => {
-          const data = await mutate();
-          if (data?.user?.profile?.hiddifyId) {
-            clearInterval(intervalId);
-          }
-        }, 2000)
-      );
-    } else {
-      clearInterval(intervalId);
-    }
-
-    return () => clearInterval(intervalId);
-  }, [profile?.hiddifyId]);
 
   return (
     <Tabs defaultValue={platform}>
