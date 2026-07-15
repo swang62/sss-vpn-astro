@@ -29,7 +29,7 @@ export const DASHBOARD_LINKS: MenuLink[] = [
   {
     href: "/dashboard",
     icon: <Home />,
-    label: "Overview",
+    label: "Dashboard",
   },
   {
     href: "/dashboard/install",
@@ -44,6 +44,6 @@ export const DASHBOARD_LINKS: MenuLink[] = [
   {
     href: "/dashboard/pricing",
     icon: <Rocket />,
-    label: "Upgrade",
+    label: "Upgrade Plan",
   },
 ];

@@ -1,6 +1,6 @@
 import { Menu } from "lucide-react";
 import { useState } from "react";
-
+import logoSrc from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -19,7 +19,7 @@ function MainMobileMenu() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="secondary" className="mr-2 h-8 w-8 px-1.5">
+        <Button variant="outline" className="mr-2 h-8 w-8 px-1.5">
           <Menu />
           <span className="sr-only">Toggle Menu</span>
         </Button>
@@ -28,7 +28,7 @@ function MainMobileMenu() {
         <SheetHeader className="pt-4 pl-4">
           <a href="/#top" onClick={() => setOpen(false)}>
             <SheetTitle className="flex flex-nowrap items-center gap-2 text-left font-semibold text-3xl">
-              <img src="/favicon.ico" alt="logo" width={36} height={36} />
+              <img src={logoSrc.src} alt="logo" width={36} height={36} />
               <span>{SITE_NAME}</span>
             </SheetTitle>
           </a>

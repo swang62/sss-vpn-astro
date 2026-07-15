@@ -2,59 +2,71 @@
 import { Image } from "astro:assets";
 
 import { SITE_NAME } from "@/config/constants";
-import laptop from "@/images/laptop-internet.jpeg";
-import { cn } from "@/lib/utils";
-
-const info = [
-  {
-    description: `When I first arrived in China for remote work,
-    I knew my biggest hurdle would be overcoming the <span class='font-semibold text-primary-link'>great firewall.</span>
-    Not just to watch youtube videos but I needed 24/7 access
-    to critical cloud services required for my job. After 4 years of countless trial and error, I finally created
-    the ultimate setup to bypass censorship, and thus, <span class='font-semibold text-secondary-link'>${SITE_NAME}</span> was born.
-    `,
-    image: laptop,
-    reverse: false,
-    title: "Why I created this site",
-  },
-];
+import serverRoom from "@/images/server-room.jpg";
 ---
 
-<section id="about" class="py-8 sm:py-16">
-  {
-    info.map((data) => (
-      <div class="container py-8">
-        <div class="mx-auto grid max-w-7xl gap-10 px-0 sm:gap-16 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-4">
-          <div class={cn(data.reverse ? "lg:order-2" : "lg:order-1")}>
-            <h2 class="font-heading text-foreground text-3xl md:text-4xl lg:text-[40px]">
-              {data.title}
-            </h2>
-            <p
-              class="text-muted-foreground mt-6 text-lg"
-              set:html={data.description}
-            />
-          </div>
-          <div
-            class={cn(
-              "overflow-hidden rounded-xl border",
-              data.reverse ? "order-1" : "order-2",
-            )}
-          >
-            <div class="relative aspect-video">
-              <Image
-                class="size-full object-fill"
-                src={data.image}
-                alt={data.title}
-                width={558}
-                height={314}
-                loading="eager"
-                layout="constrained"
-                fetchpriority="high"
-              />
-            </div>
-          </div>
+<section id="about" class="relative overflow-hidden">
+  <div class="absolute inset-0">
+    <Image
+      src={serverRoom}
+      alt="server room"
+      class="size-full scale-x-[-1] object-cover"
+      width={1200}
+      height={675}
+      loading="eager"
+    />
+    <div
+      aria-hidden="true"
+      class="absolute inset-0 bg-linear-to-r from-background/95 via-background/85 to-background/70"
+    >
+    </div>
+    <div
+      aria-hidden="true"
+      class="absolute top-0 left-0 right-0 h-32 bg-linear-to-b from-background to-transparent"
+    >
+    </div>
+    <div
+      aria-hidden="true"
+      class="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-background to-transparent"
+    >
+    </div>
+  </div>
+
+  <div class="relative py-section-gap-lg">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="max-w-xl">
+        <p class="font-mono text-xs tracking-widest text-muted-foreground mb-6">
+          THE STORY
+        </p>
+        <h2
+          class="font-heading text-4xl leading-tight md:text-5xl lg:text-[56px] text-foreground"
+        >
+          Why I built this site
+        </h2>
+        <div
+          class="mt-8 space-y-5 text-base leading-relaxed text-foreground md:text-lg md:leading-relaxed"
+        >
+          <p>
+            When I first arrived in China for remote work, I knew my biggest
+            hurdle would be overcoming the{" "}
+            <span class="font-semibold text-primary-link">great firewall.</span>
+          </p>
+          <p>
+            Not only to watch YouTube videos — I needed 24/7 access to critical
+            services for my job. After 5 years of trial and error, I finally
+            perfected the setup, and
+            <span class="font-semibold text-secondary-link mx-1"
+              >{SITE_NAME}</span
+            >
+            was born.
+          </p>
+        </div>
+        <div
+          class="mt-10 h-px w-24"
+          style="background: linear-gradient(90deg, var(--primary), transparent)"
+        >
         </div>
       </div>
-    ))
-  }
+    </div>
+  </div>
 </section>

@@ -1,30 +1,59 @@
 ---
 import { Icon } from "astro-icon/components";
-
-import GetStarted from "@/components/header/GetStarted";
+import ConnectButton from "@/components/ConnectButton";
+import StatusBadge from "@/components/StatusBadge";
 ---
 
-<section id="top" class="py-16 md:py-24">
-  <div class="container flex max-w-5xl flex-col items-center gap-6 text-center">
-    <h1
-      class="font-heading text-4xl text-balance sm:text-5xl md:text-6xl lg:text-[66px]"
+<section
+  id="top"
+  class="relative min-h-[90vh] flex items-center justify-center overflow-hidden"
+>
+  <div
+    class="absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 opacity-60 dark:opacity-50"
+  >
+    <div class="size-125 animate-float rounded-full bg-primary/8 blur-[100px]">
+    </div>
+  </div>
+  <div class="absolute right-1/4 top-[35%] opacity-60 dark:opacity-50">
+    <div
+      class="size-125 animate-float rounded-full bg-secondary/8 blur-[100px]"
+      style="animation-delay: -4s"
     >
-      Welcome to Steve's {" "}
-      <span class="text-gradient font-extrabold"> Super Secret VPN </span>
+    </div>
+  </div>
+  <div class="absolute left-1/4 bottom-[20%] opacity-60 dark:opacity-50">
+    <div
+      class="size-125 animate-float rounded-full bg-primary/6 blur-[80px]"
+      style="animation-delay: -8s"
+    >
+    </div>
+  </div>
+
+  <div
+    class="relative z-10 flex flex-col items-center gap-6 px-4 text-center max-w-5xl"
+  >
+    <StatusBadge client:load />
+    <h1
+      class="font-heading text-4xl text-balance sm:text-5xl md:text-6xl lg:text-[66px] leading-tight"
+    >
+      Welcome to Steve's{" "}
+      <span class="animated-gradient-text font-extrabold">
+        {" "}
+        Super Secret VPN{" "}
+      </span>
     </h1>
 
     <p
-      class="text-muted-foreground max-w-xl leading-normal text-balance sm:text-xl sm:leading-8"
+      class="text-muted-foreground max-w-xl leading-normal pb-4 text-balance sm:text-xl sm:leading-8"
     >
       Creative name I know... but if you're here, then you already know what's
-      up <Icon
+      up
+      <Icon
         name="mdi:face-cool"
-        class="text-primary mb-1 inline-block size-6"
+        class="text-primary mb-1 ml-1 inline-block size-6"
       />
     </p>
 
-    <div class="flex justify-center">
-      <GetStarted client:load />
-    </div>
+    <ConnectButton client:load />
   </div>
 </section>

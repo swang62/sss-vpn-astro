@@ -1,5 +1,5 @@
 import { navigate } from "astro:transitions/client";
-import { BadgeCheck, Edit, PlusCircle } from "lucide-react";
+import { BadgeCheck, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -36,6 +36,8 @@ function PricingCard({
   const title = capitalize(plan);
   const isCurrentPlan = isActive && user?.profile?.subscriptionType === plan;
   const hasPurchasedRouter = user?.profile?.purchasedRouter;
+  const tailwindBadge =
+    "absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-linear-to-r from-orange-300 to-rose-400 px-4 py-0.5 font-mono font-semibold text-[11px] text-black uppercase tracking-wider";
 
   const onClickCheckout = async () => {
     setLoading(true);
@@ -64,35 +66,21 @@ function PricingCard({
   return (
     <Card
       className={cn(
-        `mx-auto flex max-w-80 flex-col justify-between bg-background pt-2 text-foreground sm:mx-0`,
-        user && isCurrentPlan && "border-rose-400"
+        `relative mx-auto max-w-80 justify-between bg-background pt-2 text-foreground sm:mx-0`,
+        user &&
+          (isCurrentPlan || (plan === "basic" && !isActive)) &&
+          "border-rose-400"
       )}
     >
+      {user && plan === "basic" && !isActive && (
+        <span className={tailwindBadge}>Recommended</span>
+      )}
+      {user && isCurrentPlan && (
+        <span className={tailwindBadge}>Current plan</span>
+      )}
       <div>
         <CardHeader className="pt-4 pb-6">
-          <div className="flex justify-between">
-            <CardTitle>{title}</CardTitle>
-            {user && plan === "basic" && !isActive && (
-              <div
-                className={cn(
-                  "h-fit rounded-xl px-2.5 py-1 text-sm",
-                  "bg-linear-to-r from-orange-300 to-rose-400 dark:text-black"
-                )}
-              >
-                Recommended
-              </div>
-            )}
-            {user && isCurrentPlan && (
-              <div
-                className={cn(
-                  "h-fit rounded-xl px-2.5 py-1 text-sm",
-                  "bg-linear-to-r from-orange-300 to-rose-300 dark:text-black"
-                )}
-              >
-                Current plan
-              </div>
-            )}
-          </div>
+          <CardTitle>{title}</CardTitle>
           <div className="flex flex-wrap gap-0.5">
             <span className="inline-flex">
               <h3 className="font-semibold text-3xl">{`$${price}`}</h3>
@@ -136,13 +124,6 @@ function PricingCard({
               >
                 <PlusCircle />
                 Add data
-              </Button>
-              <Button
-                onClick={() => navigate("/dashboard/account")}
-                variant="outline"
-              >
-                <Edit />
-                Manage
               </Button>
             </div>
           ) : (

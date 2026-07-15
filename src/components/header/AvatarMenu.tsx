@@ -95,7 +95,7 @@ function AvatarMenu({ session, user }: AvatarProps) {
         <DropdownMenuItem className={menuStyle}>
           <a href="/dashboard" className="w-full">
             <Button variant="ghost" className={buttonStyle}>
-              <Home />
+              <Home className="size-4" />
               Dashboard
             </Button>
           </a>
@@ -103,7 +103,7 @@ function AvatarMenu({ session, user }: AvatarProps) {
         <DropdownMenuItem className={menuStyle}>
           <a href="/dashboard/account" className="w-full">
             <Button variant="ghost" className={buttonStyle}>
-              <Edit />
+              <Edit className="size-4" />
               My account
             </Button>
           </a>
@@ -116,15 +116,15 @@ function AvatarMenu({ session, user }: AvatarProps) {
             className="w-full"
           >
             <Button variant="ghost" className={buttonStyle}>
-              <Mail />
-              Support
+              <Mail className="size-4" />
+              Contact me
             </Button>
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem className={menuStyle}>
           <a href="/dashboard/settings" className="w-full">
             <Button variant="ghost" className={buttonStyle}>
-              <Cog />
+              <Cog className="size-4" />
               Settings
             </Button>
           </a>
@@ -138,8 +138,8 @@ function AvatarMenu({ session, user }: AvatarProps) {
               className={buttonStyle}
               onClick={stopImpersonating}
             >
-              <RotateCcw className="text-destructive" />
-              <span>Stop Impersonating</span>
+              <RotateCcw className="size-4 text-destructive" />
+              Stop impersonating
             </Button>
           </DropdownMenuItem>
         )}
@@ -148,16 +148,16 @@ function AvatarMenu({ session, user }: AvatarProps) {
           <DropdownMenuItem className={menuStyle}>
             <a href="/dashboard/debug" className="w-full">
               <Button variant="ghost" className={buttonStyle}>
-                <Wrench className="text-secondary" />
-                <span>Admin API</span>
+                <Wrench className="size-4 text-secondary" />
+                Admin API
               </Button>
             </a>
           </DropdownMenuItem>
         )}
         <DropdownMenuItem className={menuStyle}>
           <Button variant="ghost" className={buttonStyle} onClick={logout}>
-            <LogOut />
-            <span>Log out</span>
+            <LogOut className="size-4" />
+            Log out
           </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>

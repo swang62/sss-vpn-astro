@@ -16,7 +16,6 @@ import { api, parseApi } from "@/lib/api-clients";
 function AccountPortal() {
   const [loading, setLoading] = useState(false);
 
-  // Handlers
   const redirectCustomerPortal = async () => {
     setLoading(true);
     const result = await parseApi(api.stripe["customer-portal"].$post);
@@ -31,21 +30,28 @@ function AccountPortal() {
   return (
     <Card x-chunk="Subscription plan details">
       <CardHeader>
-        <CardTitle>Billing & Invoices</CardTitle>
+        <div className="flex items-center gap-2">
+          {/*<Receipt className="size-5 text-primary" />*/}
+          <CardTitle className="translate-y-px font-heading">
+            Billing & Invoices
+          </CardTitle>
+        </div>
       </CardHeader>
-      <CardContent className="flex flex-col gap-6">
-        <p>
-          Manage your plan, update your payment details, or view past invoices
-          on Stripe.
+      <CardContent>
+        <p className="text-muted-foreground text-sm leading-relaxed">
+          Manage your plan, update payment details, or view past invoices
+          through the Stripe customer portal.
         </p>
       </CardContent>
       <CardFooter>
         <Button
           disabled={loading}
           loading={loading}
+          size="sm"
           onClick={redirectCustomerPortal}
+          className="gap-1.5"
         >
-          <ExternalLink />
+          <ExternalLink className="size-3.5" />
           Visit portal
         </Button>
       </CardFooter>

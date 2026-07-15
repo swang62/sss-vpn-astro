@@ -2,6 +2,7 @@
 import crypto from "node:crypto";
 
 import DashboardUsage from "@/components/dashboard/DashboardUsage";
+import ServerStatus from "@/components/dashboard/ServerStatus";
 import ShowWelcome from "@/components/dashboard/WelcomeMsg";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
 import Header from "@/layouts/Header.astro";
@@ -10,7 +11,6 @@ const { user } = Astro.locals;
 
 let showWelcomeMsg = false;
 
-// Only show welcome if the cookie didn't exist already
 const uniqueLoginCookie = crypto
   .createHash("md5")
   .update(user.email)
@@ -18,7 +18,6 @@ const uniqueLoginCookie = crypto
 const previouslyShowedWelcome = Astro.cookies.has(uniqueLoginCookie);
 if (!previouslyShowedWelcome) {
   showWelcomeMsg = true;
-
   Astro.cookies.set(uniqueLoginCookie, "true", {
     maxAge: 2147483647,
     path: "/dashboard",
@@ -28,9 +27,20 @@ if (!previouslyShowedWelcome) {
 ---
 
 <DashboardLayout title="Dashboard">
-  <div class="mx-auto flex w-full max-w-2xl flex-col gap-6 py-4">
-    <Header title="Overview" />
+  <div class="mx-auto flex w-full max-w-xl flex-col gap-5 py-6">
+    <Header title="Dashboard" />
     {showWelcomeMsg && <ShowWelcome client:load name={user.name} />}
     <DashboardUsage client:load />
+    <a
+      href="https://uptime.stronglybrewed.dev/status/sssvpn"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center justify-center gap-2 self-center opacity-80 transition-opacity hover:opacity-100"
+    >
+      <span class="font-mono text-muted-foreground text-[11px] tracking-wider"
+        >SERVER STATUS</span
+      >
+      <ServerStatus client:load />
+    </a>
   </div>
 </DashboardLayout>

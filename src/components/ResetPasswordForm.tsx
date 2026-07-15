@@ -7,13 +7,6 @@ import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Form,
   FormControl,
   FormField,
@@ -45,7 +38,6 @@ interface Props {
 function ResetPasswordForm({ email, token }: Props) {
   const [loading, setLoading] = useState(false);
 
-  // Validate token/email
   if (!email || !token) {
     toast.error("Invalid token! Redirecting...");
     sleep(1000).then(() => {
@@ -55,16 +47,11 @@ function ResetPasswordForm({ email, token }: Props) {
     return;
   }
 
-  // Form hook
   const form = useForm<z.infer<typeof formSchema>>({
-    defaultValues: {
-      password: "",
-      passwordConfirm: "",
-    },
+    defaultValues: { password: "", passwordConfirm: "" },
     resolver: zodResolver(formSchema),
   });
 
-  // Submit handler
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (!email) return;
     const { password } = values;
@@ -76,19 +63,13 @@ function ResetPasswordForm({ email, token }: Props) {
           toast.warning(ctx.error.message);
           setLoading(false);
         },
-        onRequest: () => {
-          setLoading(true);
-        },
+        onRequest: () => setLoading(true),
         onSuccess: () => {
           toast.success("Password reset. Redirecting...");
           form.reset();
           sleep(1000).then(() =>
             signIn.email(
-              {
-                callbackURL: "/dashboard",
-                email,
-                password,
-              },
+              { callbackURL: "/dashboard", email, password },
               { onError: () => navigate("/login") }
             )
           );
@@ -98,56 +79,54 @@ function ResetPasswordForm({ email, token }: Props) {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-[350px] flex-col">
-      <Card className="">
-        <CardHeader className="text-center">
-          <CardTitle>Reset password</CardTitle>
-          <CardDescription>Enter a new password below.</CardDescription>
-        </CardHeader>
-
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <PasswordInput {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="passwordConfirm"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
-                    <FormControl>
-                      <PasswordInput {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <Button
-                className="w-full"
-                type="submit"
-                loading={loading}
-                disabled={loading}
-              >
-                Reset
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-    </div>
+    <>
+      <h2 className="mb-1 text-center font-heading text-2xl">Reset password</h2>
+      <p className="mb-6 text-center font-mono text-muted-foreground text-xs tracking-wider">
+        Enter a new password below.
+      </p>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-mono text-xs tracking-widest">
+                  Password
+                </FormLabel>
+                <FormControl>
+                  <PasswordInput {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="passwordConfirm"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-mono text-xs tracking-widest">
+                  Confirm Password
+                </FormLabel>
+                <FormControl>
+                  <PasswordInput {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button
+            className="w-full font-mono tracking-widest"
+            type="submit"
+            loading={loading}
+            disabled={loading}
+          >
+            Reset
+          </Button>
+        </form>
+      </Form>
+    </>
   );
 }
 

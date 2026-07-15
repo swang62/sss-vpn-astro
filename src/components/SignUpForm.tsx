@@ -1,19 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { TurnstileInstance } from "@marsidev/react-turnstile";
 import { Turnstile } from "@marsidev/react-turnstile";
+import { ShieldCheck } from "lucide-react";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -52,9 +46,9 @@ function SignUpForm() {
   const [loading, setLoading] = useState(false);
   const [sentEmail, setSentEmail] = useState("");
   const [token, setToken] = useState<string>("");
-  const turnstileRef = useRef<TurnstileInstance | null>(null);
+  const turnstileRef = useRef<TurnstileInstance>(null);
+  const [captchaVerifying, setCaptchaVerifying] = useState(true);
 
-  // Form hook
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       email: "",
@@ -65,17 +59,19 @@ function SignUpForm() {
     resolver: zodResolver(formSchema),
   });
 
-  // Submit handler
   function onSubmit(
     values: z.infer<typeof formSchema>,
     event?: React.BaseSyntheticEvent
   ) {
-    // Prevent redirecting to /dashboard (since auto-login is enabled)
     event?.preventDefault();
 
     const { email, name, password } = values;
 
-    // Rate-limit login attempts
+    if (!token) {
+      form.setError("root", { message: "Please verify captcha." });
+      return;
+    }
+
     const minutesSince = minutesPassedSince(sentEmail);
     if (minutesSince < MIN_WAIT_TIME) {
       toast.warning(
@@ -84,19 +80,11 @@ function SignUpForm() {
       return;
     }
 
-    // Captcha token
-    if (!token) {
-      form.setError("root", { message: "Please verify captcha." });
-      return;
-    }
-
     signUp.email(
       {
         email,
         fetchOptions: {
-          headers: {
-            "x-captcha-response": token,
-          },
+          headers: { "x-captcha-response": token },
         },
         name,
         password,
@@ -114,19 +102,12 @@ function SignUpForm() {
           } else if (status === 429) {
             toast.warning(ctx.error.message);
           }
-          turnstileRef.current?.reset();
           setToken("");
           setLoading(false);
         },
-        onRequest: () => {
-          setLoading(true);
-        },
+        onRequest: () => setLoading(true),
         onSuccess: () => {
-          sendVerificationEmail({
-            callbackURL: "/dashboard",
-            email,
-          });
-
+          sendVerificationEmail({ callbackURL: "/dashboard", email });
           toast.success("Email sent! Check your inbox.");
           form.resetField("password");
           form.resetField("passwordConfirm");
@@ -138,129 +119,157 @@ function SignUpForm() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-[350px] flex-col">
-      <Card>
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Create an account</CardTitle>
-          <CardDescription>
-            Trial will start after email verification. Use an unblocked email
-            <Popover>
-              <PopoverTrigger>
-                <span className="ml-1 cursor-pointer text-secondary-link underline">
-                  provider
+    <>
+      <h2 className="mb-2 text-center font-heading text-2xl">
+        Create an account
+      </h2>
+      <p className="mx-4 mt-2 mb-6 text-center font-mono text-muted-foreground text-xs tracking-wider">
+        Trial starts after email verification. Use an unblocked email{" "}
+        <Popover>
+          <PopoverTrigger className="cursor-pointer text-secondary-link underline">
+            provider
+          </PopoverTrigger>
+          <PopoverContent className="w-fit">
+            <ul>
+              <li>qq.com</li>
+              <li>163.com</li>
+              <li>icloud.com</li>
+              <li>live.com</li>
+              <li>outlook.com</li>
+            </ul>
+          </PopoverContent>
+        </Popover>
+      </p>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-mono text-xs tracking-widest">
+                  Email
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-mono text-xs tracking-widest">
+                  Nickname
+                </FormLabel>
+                <FormControl>
+                  <Input placeholder="(optional)" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-mono text-xs tracking-widest">
+                  Password
+                </FormLabel>
+                <FormControl>
+                  <PasswordInput {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="passwordConfirm"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-mono text-xs tracking-widest">
+                  Confirm Password
+                </FormLabel>
+                <FormControl>
+                  <PasswordInput {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="rounded-lg border border-border bg-card px-4 py-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <ShieldCheck
+                  className={`size-5 transition-all duration-700 ${
+                    token
+                      ? "text-secondary"
+                      : captchaVerifying
+                        ? "animate-pulse text-primary"
+                        : "text-muted-foreground"
+                  }`}
+                />
+                <span className="font-mono text-muted-foreground text-xs tracking-wider">
+                  {token
+                    ? "Verified"
+                    : captchaVerifying
+                      ? "Verifying..."
+                      : "Security check"}
                 </span>
-              </PopoverTrigger>
-              <PopoverContent className="w-fit">
-                <ul>
-                  <li>qq.com</li>
-                  <li>163.com</li>
-                  <li>icloud.com</li>
-                  <li>live.com</li>
-                  <li>outlook.com</li>
-                </ul>
-              </PopoverContent>
-            </Popover>
-          </CardDescription>
-        </CardHeader>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="font-mono text-[9px] text-muted-foreground tracking-widest">
+                  CAPTCHA
+                </span>
+              </div>
+            </div>
 
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nickname</FormLabel>
-                    <FormControl>
-                      <Input placeholder="(optional)" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <PasswordInput {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="passwordConfirm"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
-                    <FormControl>
-                      <PasswordInput {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <Turnstile
+              ref={turnstileRef}
+              siteKey={PUBLIC_TURNSTILE_SITEKEY}
+              options={{
+                appearance: "interaction-only",
+                size: "flexible",
+              }}
+              onSuccess={(t) => {
+                setToken(t);
+                setCaptchaVerifying(false);
+              }}
+              onExpire={() => setToken("")}
+              onBeforeInteractive={() => setCaptchaVerifying(false)}
+            />
+          </div>
+          <FormMessage className="text-center">
+            {form.formState.errors.root?.message}
+          </FormMessage>
 
-              <Turnstile
-                ref={turnstileRef}
-                className="my-2"
-                siteKey={PUBLIC_TURNSTILE_SITEKEY}
-                onSuccess={setToken}
-                onExpire={() => turnstileRef.current?.reset()}
-              />
-              <FormMessage className="text-center">
-                {form.formState.errors.root?.message}
-              </FormMessage>
-
-              <Button
-                className="w-full"
-                type="submit"
-                loading={loading}
-                disabled={loading}
-                data-umami-event="signup"
-              >
-                Create account
-              </Button>
-            </form>
-          </Form>
-          <p className="pt-4 text-center text-muted-foreground text-xs">
-            <a
-              className="px-1"
-              href="/privacy"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Terms and conditions
-            </a>
-          </p>
-        </CardContent>
-      </Card>
-
-      <div className="mt-4 text-center text-sm">
-        Already have an account?
-        <a href="/login" className="ml-2 text-primary-link underline">
+          <Button
+            className="w-full font-mono tracking-widest"
+            type="submit"
+            loading={loading}
+            disabled={loading || (captchaVerifying && !token)}
+            data-umami-event="signup"
+          >
+            Create account
+          </Button>
+        </form>
+      </Form>
+      <p className="pt-6 text-center font-mono text-muted-foreground text-xs tracking-wider">
+        Already have an account?{" "}
+        <a
+          href="/login"
+          className="font-semibold text-secondary-link transition-colors hover:text-secondary"
+        >
           Log in
         </a>
-      </div>
-    </div>
+      </p>
+    </>
   );
 }
 

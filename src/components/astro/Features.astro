@@ -1,71 +1,80 @@
 ---
 import { Icon } from "astro-icon/components";
+import { cn } from "@/lib/utils";
 
 const features = [
   {
     description:
-      "Almost all commercial VPN services are banned or extremely unreliable in high-censorship countries like China, Iran, Russia (despite their claims). The fact that this VPN actually works is its biggest feature.",
+      "Almost all commercial VPN services are banned or extremely unreliable in China despite their claims. The fact that this VPN actually works is its biggest feature.",
     icon: "lucide:biceps-flexed",
-    title: "It actually works",
+    title: "Actually works",
+    wide: true,
   },
   {
     description:
-      "Personal customer support from someone who is using the same VPN every day. Any downtime will be addressed immediately.",
+      "Tech support from someone who is using the same VPN as you every day. Any downtime is unacceptable.",
     icon: "lucide:heart-handshake",
-    title: "Unbeatable customer service",
+    title: "Unbeatable service",
+    wide: false,
   },
   {
     description:
-      "Everything is hosted on my own private cloud servers. If the server gets banned, I can spin up another one instantly.",
+      "Everything hosted on my own private servers. If the server gets banned, I can spin up another one in no time.",
     icon: "lucide:shield-check",
-    title: "Resilient against bans",
+    title: "Ban-proof",
+    wide: false,
   },
   {
     description:
-      "Supports all desktop and mobile platforms. Latest obfuscation protocols include X-ray, Vless, Vmess, Reality, Trojan, Hysteria, Shadowsocks, and more...",
+      "Supports all desktop and mobile platforms. Latest obfuscation protocols like X-ray, Vless, Vmess, Reality, Trojan, Hysteria, Shadowsocks, etc.",
     icon: "lucide:globe-lock",
-    title: "Technical details",
+    title: "Details",
+    wide: true,
   },
 ];
 ---
 
-<section id="features" class="py-8 sm:py-16">
-  <div class="py-8">
-    <div class="container max-w-6xl">
-      <div class="flex flex-col items-center text-center">
-        <div class="text-gradient mb-6 text-xl font-semibold md:text-2xl">
-          Features
-        </div>
-        <h2 class="font-heading text-3xl md:text-4xl lg:text-[40px]">
-          What makes this VPN unique?
-        </h2>
-      </div>
+<section id="features" class="py-section-gap-lg">
+  <div class="container max-w-6xl">
+    <div class="flex flex-col items-center text-center mb-16">
+      <h2 class="font-heading text-3xl text-balance md:text-4xl lg:text-[40px]">
+        What makes this VPN unique?
+      </h2>
+    </div>
 
-      <div class="mt-12 grid gap-4 sm:grid-cols-2">
-        {
-          features.map((feature) => (
-            <div class="group bg-background relative overflow-hidden rounded-2xl border p-5 md:p-8">
-              <div
-                aria-hidden="true"
-                class="from-primary/30 absolute inset-0 aspect-video -translate-y-1/2 rounded-full border bg-linear-to-b to-white opacity-25 blur-2xl duration-300 group-hover:-translate-y-1/4 dark:from-gray-300 dark:to-gray-600 dark:opacity-5 dark:group-hover:opacity-10"
-              />
-              <div class="relative" aria-label={feature.title}>
-                <div class="flex flex-row items-center gap-2">
-                  <div class="border-border relative mr-1 flex size-12 rounded-xl border shadow-sm *:relative *:m-auto *:size-6">
-                    {feature.icon && (
-                      <Icon name={feature.icon} class="size-4" />
-                    )}
-                  </div>
-                  <h1>{feature.title}</h1>
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+      {
+        features.map((f) => (
+          <div
+            class={cn(
+              "group relative overflow-hidden rounded-2xl border border-border bg-card p-8",
+              f.wide ? "md:col-span-7" : "md:col-span-5",
+            )}
+          >
+            <div
+              aria-hidden="true"
+              class={cn(
+                "absolute inset-0 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-linear-to-br",
+                f.wide ? "from-primary/10" : "from-secondary/10",
+              )}
+            />
+            <div class="relative">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="flex size-12 shrink-0 items-center justify-center rounded-xl border border-border bg-background">
+                  <Icon
+                    name={f.icon}
+                    class={`size-5 ${f.wide ? "text-primary" : "text-secondary"}`}
+                  />
                 </div>
-                <p class="text-muted-foreground mt-6 pb-6">
-                  {feature.description}
-                </p>
+                <h3 class="font-heading text-xl">{f.title}</h3>
               </div>
+              <p class="text-muted-foreground leading-relaxed">
+                {f.description}
+              </p>
             </div>
-          ))
-        }
-      </div>
+          </div>
+        ))
+      }
     </div>
   </div>
 </section>

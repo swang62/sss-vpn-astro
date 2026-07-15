@@ -4,24 +4,27 @@ const year = new Date().getFullYear();
 
 <footer class="bg-muted text-muted-foreground py-8">
   <div
-    class="container flex w-full items-center justify-start gap-2 md:px-8 xl:px-2"
+    class="container flex w-full flex-col items-center justify-center gap-4 md:flex-row md:justify-between"
   >
-    <p
-      class="text-muted-foreground text-center text-sm leading-loose md:text-left"
-    >
-      © {year} Built By
+    <p class="text-muted-foreground text-sm">
+      &copy; {year} Built By
       <a
         href="https://github.com/swang62"
         target="_blank"
         rel="noreferrer"
-        class="font-medium underline underline-offset-2 ml-1">Me</a
+        class="font-medium underline underline-offset-2 ml-1"
       >
+        Me
+      </a>
     </p>
-    |
-    <p
-      class="text-muted-foreground text-center text-sm leading-loose md:text-right"
-    >
-      <a href=`/privacy` class="hover:underline">Privacy Policy</a>
-    </p>
+
+    <div class="flex items-center gap-6">
+      <a
+        href="/privacy"
+        class="text-muted-foreground hover:text-foreground text-sm transition-colors"
+      >
+        Privacy Policy
+      </a>
+    </div>
   </div>
 </footer>

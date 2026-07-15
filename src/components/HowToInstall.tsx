@@ -1,10 +1,4 @@
-import {
-  Copy,
-  EllipsisVertical,
-  ExternalLink,
-  PartyPopper,
-  Settings,
-} from "lucide-react";
+import { Copy, EllipsisVertical, PartyPopper, Settings } from "lucide-react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { Badge } from "@/components/ui/badge";
@@ -43,23 +37,21 @@ function getSteps(
       content: (
         <>
           <p>
-            {!isIOS && "Click the button below to download the app manually"}
+            {!isIOS && "Click the button below to download the app"}
             {isIOS && (
               <>
                 There are a couple different ways to install on iOS. The
                 simplest version is to install directly from the US App store.
-                This will only work if your phone's country/region is set to the
-                US (the instructions to change your region are{" "}
+                Make sure your phone's region is set to US,
                 <a
                   href="https://support.apple.com/zh-cn/118283"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-primary-link underline"
+                  className="ml-1 text-primary-link underline"
                 >
-                  here
+                  instructions here
                 </a>
-                , you can use any US address). You can change it back to China
-                afterwards.
+                , use any US address. You can change it back to China later.
                 <a
                   href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532"
                   target="_blank"
@@ -72,29 +64,26 @@ function getSteps(
                       height="20"
                       src={downloadIcon}
                       alt="Download icon"
-                      loading="eager"
+                      loading="lazy"
                     />
                   </Button>
                 </a>
                 <p>
                   <b>**MANUAL INSTALLATION**</b> The much harder way, if you
-                  cannot change your region, or are unable to install it
-                  directly through the App Store. You'll need a Macbook or PC,
-                  re-open this website on your computer, then use the guide
-                  below:
-                  <a href="/dashboard/ios" target="_blank" rel="noreferrer">
+                  cannot change your region or cannot install through the App
+                  Store. Use the following guide on your desktop
+                  computer/laptop:
+                  <a href="/dashboard/ios">
                     <Button className="mx-auto my-6 flex self-center">
-                      Manual installation
-                      <ExternalLink size={5} />
+                      Manual Install Guide
                     </Button>
                   </a>
                 </p>
                 <p>
-                  As a last resort, if all else fails, use the Shadowrocket app
-                  instead of Hiddify. It is available in all regions, I've
-                  provided the link to the chinese version below. Only downside
-                  is that you will need to configure everything yourself. Make
-                  sure to import the alternate subscription URL in step 3.
+                  As a last resort, if all else fails, use the Shadowrocket app.
+                  Only downside is that you will need to configure everything
+                  yourself. Make sure to import the alternate subscription URL
+                  in step 3.
                   <a
                     href="https://apps.apple.com/cn/app/shadowrocket-%E5%B0%8F%E7%81%AB%E7%AE%ADvpn%E5%AE%89%E5%85%A8%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E5%99%A8/id6742070311"
                     target="_blank"
@@ -107,7 +96,7 @@ function getSteps(
                         height="20"
                         src={"/setup/shadowrocket.webp"}
                         alt="Download icon"
-                        loading="eager"
+                        loading="lazy"
                       />
                     </Button>
                   </a>
@@ -126,7 +115,7 @@ function getSteps(
                   here
                 </a>
                 to directly install from the Play store. If successfully
-                installed (may not work in China), skip directly to Step 3.
+                installed through the store, skip directly to Step 3.
               </>
             )}
           </p>
@@ -171,7 +160,7 @@ function getSteps(
                 here
               </a>
               . Save this file to your desktop and open up the Terminal app.
-              Type "sudo chmod +x ~/Desktop/{FILE_START_COMMAND}" into the
+              Type <b>sudo chmod +x ~/Desktop/{FILE_START_COMMAND}</b> into the
               terminal and hit enter. Enter your password (it will be invisible)
               and hit enter. From now on, only use the desktop shortcut to
               launch the app.
@@ -211,8 +200,8 @@ function getSteps(
             src="/setup/welcome-screen.png"
             width={imageWidth}
             alt="welcome screen"
-            className="self-center"
-            loading="eager"
+            className="self-center rounded-lg"
+            loading="lazy"
           />
           <br />
         </>
@@ -234,26 +223,30 @@ function getSteps(
               Copy
             </Button>
           </div>
-          <div className="text-sm italic">
-            <span className="align-top">*</span>If you are using Shadowrocket,
-            or another custom VPN/V2Ray/Xray app, use the following link
-            instead:
-          </div>
-          <div className="flex items-center gap-2">
-            <Input
-              defaultValue={setupLink?.replace("/#", "/sub/#") || "Loading..."}
-              readOnly
-              className="bg-muted text-muted-foreground"
-            />
-            <Button
-              variant={"outline"}
-              onClick={() =>
-                copyToClipboard(setupLink?.replace("/#", "/sub/#") || "")
-              }
-            >
-              <Copy className="size-4" />
-              Copy
-            </Button>
+          <div className="rounded-lg border border-border/50 bg-muted/30 p-3">
+            <p className="font-mono text-[11px] text-muted-foreground leading-relaxed tracking-wider">
+              For Shadowrocket, V2Ray, or Xray clients, use this link instead:
+            </p>
+            <div className="mt-2 flex items-center gap-2">
+              <Input
+                defaultValue={
+                  setupLink?.replace("/#", "/sub/#") || "Loading..."
+                }
+                readOnly
+                className="bg-muted/40 font-mono text-muted-foreground text-xs"
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  copyToClipboard(setupLink?.replace("/#", "/sub/#") || "")
+                }
+                className="shrink-0 gap-1.5"
+              >
+                <Copy className="size-3.5" />
+                Copy
+              </Button>
+            </div>
           </div>
           <div className="mt-4">
             Go back to the app and click on the
@@ -270,8 +263,8 @@ function getSteps(
             src="/setup/add-profile.png"
             width={imageWidth}
             alt="add profile screen"
-            className="self-center"
-            loading="eager"
+            className="self-center rounded-lg"
+            loading="lazy"
           />
           <br />
           <div>
@@ -289,8 +282,8 @@ function getSteps(
             src="/setup/start-screen.png"
             width={imageWidth}
             alt="start screen"
-            className="self-center"
-            loading="eager"
+            className="self-center rounded-lg"
+            loading="lazy"
           />
           <br />
           <div className="text-muted-foreground">
@@ -340,19 +333,8 @@ function getSteps(
             src="/setup/settings-config.png"
             width={imageWidth}
             alt="settings config import"
-            className="self-center"
-            loading="eager"
-          />
-          <div>
-            Finally, due to a bug in the program, click on DNS, and make sure
-            fake DNS is activated.
-          </div>
-          <img
-            src="/setup/fake-dns.png"
-            width={imageWidth}
-            alt="dns config import"
-            className="self-center"
-            loading="eager"
+            className="self-center rounded-lg"
+            loading="lazy"
           />
         </>
       ),
@@ -373,8 +355,8 @@ function getSteps(
             src="/setup/connected.png"
             width={imageWidth}
             alt="connected"
-            className="self-center"
-            loading="eager"
+            className="self-center rounded-lg"
+            loading="lazy"
           />
         </>
       ),
@@ -445,7 +427,7 @@ function HowToInstall({ config, platform }: Props) {
 
   return (
     <Tabs defaultValue={platform}>
-      <TabsList className="mb-8 grid h-10 w-full grid-cols-4 bg-slate-400 dark:bg-slate-800">
+      <TabsList className="mb-8 grid h-10 w-full grid-cols-4">
         <TabsTrigger value="android">
           <img
             width="20"

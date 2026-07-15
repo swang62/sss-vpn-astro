@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -10,6 +11,7 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import {
   Form,
@@ -36,7 +38,6 @@ function AccountSettings({ user }: Props) {
   const [loading, setLoading] = useState(false);
   const { mutate } = useSWRConfig();
 
-  // Handlers
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       name: user.name,
@@ -44,7 +45,6 @@ function AccountSettings({ user }: Props) {
     resolver: zodResolver(formSchema),
   });
 
-  // Submit handler
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     const result = await parseApi(api.user.$patch, {
@@ -63,17 +63,22 @@ function AccountSettings({ user }: Props) {
   return (
     <Card x-chunk="account settings">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardHeader>
-            <h1 className="font-semibold text-2xl">Personal Info</h1>
+            <div className="flex items-center gap-2">
+              <User className="size-5 text-primary" />
+              <CardTitle className="translate-y-px font-heading">
+                Personal info
+              </CardTitle>
+            </div>
           </CardHeader>
-          <CardContent className="flex flex-col gap-4">
+          <CardContent className="flex flex-col gap-4 pt-4">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-lg">Nickname</FormLabel>
+                  <FormLabel>Nickname</FormLabel>
                   <FormControl>
                     <Input autoComplete="off" className="max-w-64" {...field} />
                   </FormControl>
@@ -83,9 +88,6 @@ function AccountSettings({ user }: Props) {
             />
           </CardContent>
           <CardFooter>
-            <span className="flex text-muted-foreground">
-              Call yourself whatever you like!
-            </span>
             <Button disabled={loading} loading={loading} type="submit">
               Save
             </Button>

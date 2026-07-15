@@ -1,4 +1,4 @@
-import { Edit, RefreshCcw } from "lucide-react";
+import { Edit, RefreshCcw, ShieldCheck, ShieldOff } from "lucide-react";
 import useSWR from "swr";
 
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { fetchUsage } from "@/lib/api-clients";
 import { getDaysLeft } from "@/lib/utils";
@@ -25,7 +24,7 @@ function DashboardOverview() {
   const currentPlan = user?.profile?.subscriptionType;
   const currentUsed = usage?.current_usage_GB ?? 0;
   const totalAllowed = usage?.usage_limit_GB ?? 0;
-  const percentUsed = (currentUsed / totalAllowed) * 100;
+  const percentUsed = totalAllowed > 0 ? (currentUsed / totalAllowed) * 100 : 0;
   const date =
     usage?.last_online &&
     new Date(usage.last_online).toLocaleDateString("us", {
@@ -49,76 +48,108 @@ function DashboardOverview() {
       : currentPlan === "trial"
         ? "trial ends"
         : "plan ends";
-  const serviceStatus =
-    usage?.enable && daysLeft > 0 ? (
-      <span className="text-green-500">Active</span>
-    ) : (
-      <span className="text-red-500">Inactive</span>
-    );
+  const isOnline = usage?.enable && daysLeft > 0;
 
-  // Handlers
   const onClickRefresh = () => {
-    // @ts-expect-error force swr to recheck
-    mutate(null);
+    mutate(undefined, { revalidate: true });
   };
 
-  // Markup
-  const details = [
-    {
-      title: "Total used",
-      value: `${currentUsed.toFixed(2)} GB of ${totalAllowed} GB`,
-    },
-    {
-      title: "Current cycle",
-      value: `${daysLeft} days left until ${resetMode}`,
-    },
-    {
-      title: "Last connected to VPN",
-      value: lastConnected,
-    },
-    {
-      title: "Account status",
-      value: serviceStatus,
-    },
-  ];
+  const loading = !user;
 
   return (
     <Card x-chunk="Dashboard usage">
       <CardHeader>
-        <CardTitle>Data usage</CardTitle>
+        <div className="flex items-center gap-2">
+          {/*<Gauge className="size-5 text-primary" />*/}
+          <CardTitle className="translate-y-px font-heading">
+            Data usage
+          </CardTitle>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onClickRefresh}
+            className="ml-auto size-7 text-primary/80 hover:text-primary"
+          >
+            <RefreshCcw className="size-3.5" />
+            <span className="sr-only">Refresh</span>
+          </Button>
+        </div>
       </CardHeader>
-      <CardContent>
-        <Progress
-          value={percentUsed}
-          className="border border-border bg-transparent"
-        />
-        <div className="flex flex-row content-center items-center justify-between py-1 pb-2 align-middle">
-          <span className="text-muted-foreground text-sm">0</span>
-          <span className="text-muted-foreground text-sm">
-            {totalAllowed} GB
-          </span>
+      <CardContent className="flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
+          {loading ? (
+            <Skeleton className="h-6 w-full rounded-full" />
+          ) : (
+            <div className="relative h-5 w-full overflow-hidden rounded-full border border-border/60 bg-muted/50 shadow-xs">
+              <div
+                className="h-full rounded-full bg-linear-to-r from-primary/90 to-secondary/70 transition-all duration-700 ease-out"
+                style={{ width: `${Math.min(percentUsed, 100)}%` }}
+              />
+            </div>
+          )}
+          <div className="flex items-center justify-end">
+            {loading ? (
+              <Skeleton className="h-5 w-20" />
+            ) : (
+              <span className="font-mono font-semibold text-base text-foreground tabular-nums tracking-tight">
+                {currentUsed.toFixed(1)}
+                <span className="font-normal text-muted-foreground text-xs">
+                  {" / "}
+                  {totalAllowed} GB
+                </span>
+              </span>
+            )}
+          </div>
         </div>
 
-        <div className="flex flex-col gap-6 pt-6">
-          {details.map(({ title, value }, index) => (
-            <div className="flex flex-col justify-start gap-1" key={index}>
-              <h1 className="font-semibold text-lg">{title}</h1>
-              <span className="text-muted-foreground">
-                {user ? value : <Skeleton className="h-6 w-56" />}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="flex flex-col gap-1 rounded-lg border border-border/40 bg-muted/20 p-3">
+            <span className="text-muted-foreground text-xs">Billing cycle</span>
+            {loading ? (
+              <Skeleton className="h-5 w-20" />
+            ) : (
+              <span className="font-medium text-sm leading-tight">
+                {daysLeft} days until {resetMode}
               </span>
-            </div>
-          ))}
+            )}
+          </div>
+          <div className="flex flex-col gap-1 rounded-lg border border-border/40 bg-muted/20 p-3">
+            <span className="text-muted-foreground text-xs">
+              Last connected
+            </span>
+            {loading ? (
+              <Skeleton className="h-5 w-20" />
+            ) : (
+              <span className="font-medium text-sm leading-tight">
+                {lastConnected}
+              </span>
+            )}
+          </div>
         </div>
       </CardContent>
-      <CardFooter className="flex flex-row flex-wrap justify-end gap-2">
-        <Button variant="link" onClick={onClickRefresh} className="px-0">
-          <RefreshCcw />
-          Refresh
-        </Button>
+      <CardFooter className="flex flex-wrap items-center justify-around gap-3 md:justify-between">
+        {loading ? (
+          <Skeleton className="h-4 w-20" />
+        ) : (
+          <span className="flex items-center gap-1.5">
+            {isOnline ? (
+              <ShieldCheck className="size-4 shrink-0 text-green-500" />
+            ) : (
+              <ShieldOff className="size-4 shrink-0 text-red-500" />
+            )}
+            <span className="font-mono font-semibold text-xs uppercase tracking-wider">
+              {isOnline ? (
+                <span className="text-green-500">Active</span>
+              ) : (
+                <span className="text-red-500">Inactive</span>
+              )}
+            </span>
+          </span>
+        )}
         <a href="/dashboard/account">
-          <Button variant="outline">
-            <Edit />
-            Manage
+          <Button variant="default" size="sm" className="gap-1.5">
+            <Edit className="size-3.5" />
+            Manage account
           </Button>
         </a>
       </CardFooter>

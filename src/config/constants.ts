@@ -25,8 +25,19 @@ export const MAX_BANDWIDTH = 6000; // GB
 export const MIN_WAIT_TIME = 1; // minutes
 export const TRIAL_TIME = 3; // days
 
+export const FILE_START_COMMAND = "start_vpn.command";
+export const FILE_DOWNLOAD_URL =
+  "https://seafile.stronglybrewed.dev/d/6d2ee2bc7a34472ca633/files/?dl=1&p=%2F";
+
+export const HIDDIFY_SERVERS: Record<HiddifyServerId, HiddifyServer> = {
+  1: {
+    baseUrl: "https://link.sss-vpn.com/QwId8HABKn9c6GYrnRNcxMj/api/v2",
+    setupLink: "https://link.sss-vpn.com/rjsn7TPtBHgNGA1KBI3mfP2aNaLG",
+  },
+};
+
 //! Update stripe prices, add new prices, archive/delete old keys
-//! Update customer portal available subscriptions to switch to
+//! Update customer portal available subscriptions
 export const PLAN_LIMITS: Record<
   SubscriptionType,
   { data: number; price: number }
@@ -57,9 +68,6 @@ export const PLAN_LIMITS: Record<
   },
 };
 
-export const FILE_DOWNLOAD_URL =
-  "https://seafile.stronglybrewed.dev/d/6d2ee2bc7a34472ca633/files/?dl=1&p=%2F";
-
 export const FILE_TYPES: Record<Platform, { fileType: string; icon: string }> =
   {
     android: {
@@ -79,10 +87,6 @@ export const FILE_TYPES: Record<Platform, { fileType: string; icon: string }> =
       icon: "/setup/microsoft.png",
     },
   };
-
-export const FILE_START_COMMAND = "start_vpn.command";
-export const FILE_CONFIG_JSON = "config.json";
-export const FILE_CONFIG_KEY = "hiddify-config";
 
 export const PRICING_PLANS: PricingPlan[] = [
   {
@@ -107,7 +111,7 @@ export const PRICING_PLANS: PricingPlan[] = [
   },
   {
     description:
-      "One device to connect multiple people or all your gadgets at once",
+      "One device to connect multiple people and all your gadgets at once",
     features: [
       `${PLAN_LIMITS.premium.data}GB data/month`,
       "Fully pre-configured WiFi6 router",
@@ -117,10 +121,3 @@ export const PRICING_PLANS: PricingPlan[] = [
     price: PLAN_LIMITS.premium.price,
   },
 ];
-
-export const HIDDIFY_SERVERS: Record<HiddifyServerId, HiddifyServer> = {
-  1: {
-    baseUrl: "https://link.sss-vpn.com/QwId8HABKn9c6GYrnRNcxMj/api/v2",
-    setupLink: "https://link.sss-vpn.com/rjsn7TPtBHgNGA1KBI3mfP2aNaLG",
-  },
-};

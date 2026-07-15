@@ -5,7 +5,7 @@ import { z } from "zod";
 import { IS_PRODUCTION } from "@/config/server";
 import { getUserByEmail } from "@/db/queries";
 import { createBaseRouter } from "@/server/app";
-import { limiter } from "@/server/middleware";
+import { getRealIP, limiter } from "@/server/middleware";
 
 //* Unauthenticated routes
 
@@ -23,6 +23,10 @@ const route = createBaseRouter()
       request: IS_PRODUCTION ? {} : c.req.header(),
       response,
     });
+  })
+  .get("/location", (c) => {
+    const ip = getRealIP(c);
+    return c.json({ ip });
   })
   .get(
     "/search-email",
