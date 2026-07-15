@@ -127,7 +127,7 @@ function DashboardOverview() {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex flex-wrap items-center justify-around gap-3 md:justify-between">
+      <CardFooter className="flex flex-wrap items-center justify-between gap-3">
         {loading ? (
           <Skeleton className="h-4 w-20" />
         ) : (
