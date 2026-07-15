@@ -160,7 +160,7 @@ function getSteps(
                 here
               </a>
               . Save this file to your desktop and open up the Terminal app.
-              Type "sudo chmod +x ~/Desktop/{FILE_START_COMMAND}" into the
+              Type <b>sudo chmod +x ~/Desktop/{FILE_START_COMMAND}</b> into the
               terminal and hit enter. Enter your password (it will be invisible)
               and hit enter. From now on, only use the desktop shortcut to
               launch the app.

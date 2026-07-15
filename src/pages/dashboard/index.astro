@@ -28,9 +28,26 @@ if (!previouslyShowedWelcome) {
 ---
 
 <DashboardLayout title="Dashboard">
-  <div class="mx-auto flex w-full max-w-xl flex-col gap-5 py-6">
-    <Header title="Overview" />
+  <div class="mx-auto flex w-full max-w-xl flex-col gap-6 py-6">
+    <Header title="Dashboard" />
     {showWelcomeMsg && <ShowWelcome client:load name={user.name} />}
     <DashboardUsage client:load />
+    <a
+      href="https://uptime.stronglybrewed.dev/status/sssvpn"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center justify-center gap-2 self-center opacity-80 transition-opacity hover:opacity-100"
+    >
+      <span class="font-mono text-muted-foreground text-[11px] tracking-wider"
+        >SERVER STATUS</span
+      >
+      <img
+        src="https://uptime.stronglybrewed.dev/api/badge/8/status?upColor=%23008866&downColor=%23dc2626&style=plastic"
+        alt="Server status"
+        width={72}
+        height={10}
+        loading="lazy"
+      />
+    </a>
   </div>
 </DashboardLayout>

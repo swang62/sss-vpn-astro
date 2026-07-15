@@ -29,7 +29,7 @@ export const DASHBOARD_LINKS: MenuLink[] = [
   {
     href: "/dashboard",
     icon: <Home />,
-    label: "Overview",
+    label: "Dashboard",
   },
   {
     href: "/dashboard/install",

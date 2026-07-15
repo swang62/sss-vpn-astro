@@ -68,7 +68,7 @@ function DashboardOverview() {
             variant="ghost"
             size="icon"
             onClick={onClickRefresh}
-            className="ml-auto size-7 text-primary/60 hover:text-primary"
+            className="ml-auto size-7 text-primary/80 hover:text-primary"
           >
             <RefreshCcw className="size-3.5" />
             <span className="sr-only">Refresh</span>
@@ -136,7 +136,7 @@ function DashboardOverview() {
           ) : (
             <>
               <div
-                className={`h-2.5 w-2.5 shrink-0 rounded-full ${isOnline ? "bg-green-500" : "bg-red-500"}`}
+                className={`h-2.5 w-2.5 shrink-0 rounded-full ${isOnline ? "animate-pulse bg-green-500" : "bg-red-500"}`}
               />
               <div className="flex flex-1 items-center justify-between">
                 <span className="text-muted-foreground text-xs">

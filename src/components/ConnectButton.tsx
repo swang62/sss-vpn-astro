@@ -34,7 +34,7 @@ function ConnectButton() {
             </>
           ) : (
             <>
-              <Power className="mb-2 size-10 text-destructive" />
+              <Power className="mb-2 size-10 text-destructive transition-colors duration-300 group-hover:text-secondary" />
               <span className="font-mono text-foreground text-xs tracking-[0.2em]">
                 CONNECT
               </span>

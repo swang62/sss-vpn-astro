@@ -46,40 +46,11 @@ function AccountDetails() {
     : "";
   const subscriptionType = profile?.subscriptionType;
   const plan = PRICING_PLANS.find((plan) => plan.plan === subscriptionType);
-  const description = plan ? ` ${plan.features[0]}` : "";
+  const description = plan ? plan.features[0] : "";
 
   const isDisqualified =
     !!subscriptionType && FREE_PLANS.includes(subscriptionType as FreePlan);
-  const autoRenew =
-    isDisqualified || endDate ? (
-      <span className="font-mono font-semibold text-red-500 text-sm uppercase tracking-wider">
-        Off
-      </span>
-    ) : (
-      <span className="font-mono font-semibold text-green-500 text-sm uppercase tracking-wider">
-        On
-      </span>
-    );
-
-  const planDetails = [
-    {
-      label: "Plan",
-      value:
-        `${capitalize(subscriptionType)} ${description && `· ${description}`}`.trim(),
-    },
-    {
-      label: "Billing cycle",
-      value: endDate
-        ? `Ends on ${endDate}`
-        : billingCycle && subscriptionType !== "none"
-          ? `Renews monthly on the ${billingCycle}`
-          : "-",
-    },
-    {
-      label: "Auto-renew",
-      value: autoRenew,
-    },
-  ];
+  const autoRenewOn = !isDisqualified && !endDate;
 
   useEffect(() => {
     if (!profile?.hiddifyId) {
@@ -126,17 +97,51 @@ function AccountDetails() {
           </CardTitle>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-col gap-5">
-        {planDetails.map(({ label, value }, index) => (
-          <div key={index}>
-            <span className="font-medium text-muted-foreground text-sm">
-              {label}
+      <CardContent className="flex flex-col gap-6">
+        <div className="flex flex-col gap-1 rounded-lg border border-border/40 bg-muted/20 p-4">
+          <span className="text-muted-foreground text-xs">Tier</span>
+          {profile ? (
+            <span className="flex items-center gap-2 font-heading font-semibold text-xl">
+              {capitalize(subscriptionType)}
+              {description && (
+                <span className="rounded-full bg-primary/10 px-2.5 py-0.5 font-medium font-mono text-[11px] text-primary tracking-wider">
+                  {description}
+                </span>
+              )}
             </span>
-            <div className="mt-1 text-foreground">
-              {profile ? value : <Skeleton className="h-6 w-56" />}
-            </div>
+          ) : (
+            <Skeleton className="h-7 w-48" />
+          )}
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div className="flex flex-col gap-1 rounded-lg border border-border/40 bg-muted/20 p-3">
+            <span className="text-muted-foreground text-xs">Billing cycle</span>
+            {profile ? (
+              <span className="font-medium text-sm leading-tight">
+                {endDate
+                  ? `Ends on ${endDate}`
+                  : billingCycle && subscriptionType !== "none"
+                    ? `Renews on the ${billingCycle}`
+                    : "-"}
+              </span>
+            ) : (
+              <Skeleton className="h-5 w-28" />
+            )}
           </div>
-        ))}
+          <div className="flex flex-col gap-1 rounded-lg border border-border/40 bg-muted/20 p-3">
+            <span className="text-muted-foreground text-xs">Auto renew</span>
+            {profile ? (
+              <span
+                className={`font-mono font-semibold text-xs uppercase tracking-wider ${autoRenewOn ? "text-green-500" : "text-red-500"}`}
+              >
+                {autoRenewOn ? "On" : "Off"}
+              </span>
+            ) : (
+              <Skeleton className="h-4 w-8" />
+            )}
+          </div>
+        </div>
       </CardContent>
       <CardFooter className="flex flex-row flex-wrap items-center justify-end gap-2">
         <a href="/dashboard/pricing">
