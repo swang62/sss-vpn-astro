@@ -1,11 +1,12 @@
 import { eq } from "drizzle-orm";
 import { MAX_NAME_LENGTH, TRIAL_TIME } from "@/config/constants";
+import type { SubscriptionType } from "@/config/types";
 import type { ProfileInsert } from "@/db";
 import db, { profile as profileTable, user as userTable } from "@/db";
 import { stripe } from "@/lib/stripe";
 import { createHiddifyUser } from "./mutations-hiddify";
 import type { UserDB } from "./queries";
-import { getProductByPriceId, searchForHiddifyEmail } from "./queries";
+import { searchForHiddifyEmail } from "./queries";
 
 export async function updateIpAddress(user: UserDB, ip: string) {
   const userId = user.id;
@@ -45,8 +46,7 @@ async function updateProfile(
 
   const subscription = customer.subscriptions?.data[0];
   const itemId = subscription?.items.data[0]?.id;
-  const priceId = subscription?.items.data[0]?.price.id;
-  const product = await getProductByPriceId(priceId);
+  const lookupKey = subscription?.items.data[0]?.price.lookup_key;
   const isAutoRenew = !subscription?.cancel_at_period_end;
 
   const data: ProfileInsert = subscription
@@ -61,7 +61,7 @@ async function updateProfile(
         subscriptionStartAt: new Date(
           subscription.items.data[0].current_period_start * 1000
         ),
-        subscriptionType: product?.id,
+        subscriptionType: (lookupKey ?? "none") as SubscriptionType,
       }
     : {
         hiddifyId,

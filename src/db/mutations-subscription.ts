@@ -1,13 +1,13 @@
 import { eq } from "drizzle-orm";
 import type { PinoLogger } from "hono-pino";
 import type Stripe from "stripe";
-
 import {
   DATA_PACKAGE_PRICE,
   PLAN_LIMITS,
   SITE_ADMIN,
   SITE_EMAIL,
 } from "@/config/constants";
+import type { SubscriptionType } from "@/config/types";
 import db, { profile as profileTable } from "@/db";
 import { postmarkClient } from "@/lib/email";
 import { stripe } from "@/lib/stripe";
@@ -45,12 +45,10 @@ export async function updateSubscription(subscription: Stripe.Subscription) {
   const isAutoRenew = !subscription.cancel_at_period_end;
 
   let subscriptionItemId;
-  let subscriptionType;
+  let subscriptionType: SubscriptionType | undefined;
   for (const item of subscription.items.data) {
-    const priceId = item.price.id;
-    const product = await getProductByPriceId(priceId);
-    if (product) {
-      subscriptionType = product.id;
+    if (item.price.lookup_key) {
+      subscriptionType = item.price.lookup_key as SubscriptionType;
       subscriptionItemId = item.id;
     }
   }
