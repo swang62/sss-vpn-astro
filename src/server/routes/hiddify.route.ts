@@ -11,10 +11,7 @@ const route = createBaseRouter().get("/usage", async (c) => {
     return c.json({ usage: null, user: null }, 404);
   }
 
-  const usage = await getHiddifyUserById(
-    user.profile.hiddifyId,
-    user.profile.hiddifyServerId
-  );
+  const usage = await getHiddifyUserById(user.profile.hiddifyId);
   if (!usage) {
     return c.json({ usage: null, user: null }, 404);
   }

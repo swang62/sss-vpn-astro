@@ -1,10 +1,12 @@
+// !!! MUST USE relative imports and conditional imports !!!
+
 import type { ClassValue } from "clsx";
 import { clsx } from "clsx";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 import type UAParser from "ua-parser-js";
-import { HIDDIFY_SERVERS } from "@/config/constants";
-import type { HiddifyServerId, Platform } from "@/config/types";
+import { HIDDIFY_SERVERS } from "../config/constants";
+import type { Platform } from "../config/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -35,11 +37,11 @@ export function capitalize(str = "") {
   return str ? str[0].toUpperCase() + str.slice(1).toLowerCase() : str;
 }
 
-export function minutesPassedSince(lastModified: string) {
+export function secondsSince(lastModified: string) {
   const now = Date.now();
   const compare = new Date(lastModified || 0).getTime();
 
-  return Math.floor((now - compare) / (60 * 1000));
+  return Math.floor((now - compare) / 1000);
 }
 
 export function dateToString(date: number) {
@@ -97,20 +99,13 @@ export function getDaysLeft(
   const dayTotalMs = 24 * 60 * 60 * 1000;
   const days = Math.ceil((end.valueOf() - now.valueOf()) / dayTotalMs);
   const daysLeft = days > 0 ? days : 0;
-  const endDate = end.toLocaleDateString("us", { dateStyle: "medium" });
+  const endDate = end.toLocaleDateString("en-US", { dateStyle: "medium" });
 
   return { daysLeft, endDate };
 }
 
-export function getHiddifyLinks(
-  email: string,
-  id: string,
-  serverId: HiddifyServerId
-) {
-  const setupLink = HIDDIFY_SERVERS[serverId].setupLink;
-  const url = `${setupLink}/${id}/#${email}`;
-
-  return url;
+export function getHiddifyLinks(email: string, id: string) {
+  return `${HIDDIFY_SERVERS.setupLink}/${id}/#${email}`;
 }
 
 export async function copyToClipboard(text: string) {

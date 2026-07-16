@@ -14,7 +14,7 @@ const session = await auth.api.getSession({
     !session ? (
       <MainLoginButtons client:load />
     ) : (
-      <AvatarMenu session={session.session} user={session.user} client:load />
+      <AvatarMenu session={session.session} client:load />
     )
   }
 </>

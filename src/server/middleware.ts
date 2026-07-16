@@ -9,18 +9,21 @@ import { cors } from "hono/cors";
 import { createMiddleware } from "hono/factory";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { pinoLogger as logger } from "hono-pino";
-import { rateLimiter } from "hono-rate-limiter";
+import { rateLimiter, UnstorageStore } from "hono-rate-limiter";
 import pino from "pino";
 import pretty from "pino-pretty";
-
-import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
+import { createStorage } from "unstorage";
+import redisDriver from "unstorage/drivers/redis";
+import {
+  IS_PRODUCTION,
+  LOG_LEVEL,
+  REDIS_PASS,
+  REDIS_URL,
+} from "@/config/server";
 import { getUserById } from "@/db/queries";
 import { auth } from "@/lib/auth";
 import { setHeaders } from "@/lib/headers";
-import { redis } from "@/lib/redis";
-
 import type { Bindings } from "./app";
-
 import { ALLOWED_METHODS } from "./app";
 
 // Admin-only routes
@@ -75,12 +78,12 @@ export const notFound: NotFoundHandler = (c) => {
 export const onError: ErrorHandler = (error, c) => {
   captureException(error);
 
-  const currentStatus =
-    "status" in error ? error.status : c.newResponse(null).status;
   const statusCode =
-    currentStatus !== 200 ? (currentStatus as ContentfulStatusCode) : 500;
+    "getResponse" in error
+      ? (error.getResponse().status as ContentfulStatusCode)
+      : 500;
   const errorMessage = {
-    message: statusCode === 401 ? "Unauthorized" : error.message,
+    message: IS_PRODUCTION ? undefined : error.message,
     stack: IS_PRODUCTION ? undefined : error.stack,
   };
 
@@ -141,6 +144,16 @@ export function getRealIP(c: Context): string {
   );
 }
 
+const storage = REDIS_URL
+  ? createStorage({
+      driver: redisDriver({
+        url: `redis://${REDIS_URL}`,
+        password: REDIS_PASS,
+        preConnect: true,
+      }),
+    })
+  : createStorage();
+
 export function limiter(limit = 50): MiddlewareHandler {
   return rateLimiter({
     keyGenerator: (c) => {
@@ -151,8 +164,7 @@ export function limiter(limit = 50): MiddlewareHandler {
     message: {
       message: "Too many requests, try again later.",
     },
-    // @ts-expect-error if undefined, automatically use in-memory storage.
-    store: redis?.store,
+    store: new UnstorageStore({ storage }),
     windowMs: 30 * 1000,
   });
 }

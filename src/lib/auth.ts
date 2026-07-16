@@ -1,16 +1,25 @@
+import { redisStorage } from "@better-auth/redis-storage";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin, captcha } from "better-auth/plugins";
+import Redis from "ioredis";
 
 import { SITE_URL } from "@/config/client";
 import { SITE_EMAIL } from "@/config/constants";
-import { LOG_LEVEL, TURNSTILE_SECRET_KEY } from "@/config/server";
+import {
+  LOG_LEVEL,
+  REDIS_PASS,
+  REDIS_URL,
+  TURNSTILE_SECRET_KEY,
+} from "@/config/server";
 import db from "@/db";
+import { getUserByEmail } from "@/db/queries";
 import { postmarkClient } from "@/lib/email";
-import { redis } from "@/lib/redis";
 
-const client = redis ? redis.client : null;
 const level = LOG_LEVEL === "silent" ? undefined : LOG_LEVEL;
+const redis = REDIS_URL
+  ? new Redis(`redis://${REDIS_URL}`, { password: REDIS_PASS })
+  : undefined;
 
 export const auth = betterAuth({
   baseURL: SITE_URL,
@@ -19,6 +28,11 @@ export const auth = betterAuth({
     autoSignIn: true,
     enabled: true,
     sendResetPassword: async ({ url, user }) => {
+      const actualUser = await getUserByEmail(user.email);
+      if (!actualUser) {
+        throw new Error("Email does not exist.");
+      }
+
       if (!postmarkClient) {
         console.debug("RESET PASSWORD --", url);
         return;
@@ -70,17 +84,15 @@ export const auth = betterAuth({
       secretKey: TURNSTILE_SECRET_KEY,
     }),
   ],
+  advanced: {
+    ipAddress: {
+      ipAddressHeaders: ["cf-connecting-ip", "x-forwarded-for", "x-real-ip"],
+      trustedProxies: ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"],
+    },
+  },
   rateLimit: { enabled: true },
-  secondaryStorage: client
-    ? {
-        delete: async (key) => client.del(key).toString(),
-        get: async (key) => client.get(key),
-        set: async (key, value, ttl) => {
-          if (ttl)
-            client.set(key, value, { expiration: { type: "EX", value: ttl } });
-          else client.set(key, value);
-        },
-      }
+  secondaryStorage: redis
+    ? redisStorage({ client: redis, keyPrefix: "better-auth:" })
     : undefined,
   session: { storeSessionInDatabase: true },
   telemetry: { enabled: false },

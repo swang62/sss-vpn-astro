@@ -26,7 +26,7 @@ import {
 import { PUBLIC_TURNSTILE_SITEKEY } from "@/config/client";
 import { MAX_NAME_LENGTH, MIN_WAIT_TIME } from "@/config/constants";
 import { sendVerificationEmail, signUp } from "@/lib/auth-clients";
-import { minutesPassedSince } from "@/lib/utils";
+import { secondsSince } from "@/lib/utils";
 
 const formSchema = z
   .object({
@@ -72,10 +72,10 @@ function SignUpForm() {
       return;
     }
 
-    const minutesSince = minutesPassedSince(sentEmail);
-    if (minutesSince < MIN_WAIT_TIME) {
+    const waitTime = secondsSince(sentEmail);
+    if (waitTime < MIN_WAIT_TIME) {
       toast.warning(
-        "Too many signup attempts, please wait and try again later."
+        "Too many signup attempts, please wait a sec before trying again."
       );
       return;
     }
@@ -83,14 +83,14 @@ function SignUpForm() {
     signUp.email(
       {
         email,
+        name,
+        password,
         fetchOptions: {
           headers: { "x-captcha-response": token },
         },
-        name,
-        password,
       },
       {
-        // @ts-expect-error typing error
+        // @ts-expect-error bad typing from betterauth
         onError: (ctx) => {
           const status = ctx.error.status;
           if (status === 422) {
@@ -241,7 +241,10 @@ function SignUpForm() {
                 setToken(t);
                 setCaptchaVerifying(false);
               }}
-              onExpire={() => setToken("")}
+              onExpire={() => {
+                setToken("");
+                setCaptchaVerifying(true);
+              }}
               onBeforeInteractive={() => setCaptchaVerifying(false)}
             />
           </div>

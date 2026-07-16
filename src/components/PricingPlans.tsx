@@ -14,7 +14,7 @@ import PricingCard from "./PricingCard";
 function PricingPlans() {
   const [loading, setLoading] = useState(false);
   const { data } = useSWR("fetchUser", fetchUser);
-  const [monthly, setMonthly] = useState(false);
+  const [monthly, setMonthly] = useState(true);
   const isActive = !!data?.user?.profile?.subscriptionId;
   const purchasedRouter = data?.user?.profile?.purchasedRouter;
 
@@ -32,28 +32,16 @@ function PricingPlans() {
   return (
     <div className="mb-8 flex flex-col items-center py-4">
       <div className="mb-4 flex flex-col items-center gap-6 text-center">
-        <p className="max-w-md leading-normal sm:text-lg sm:leading-7">
-          You have a choice between a single month or a monthly subscription
+        <p className="max-w-sm leading-normal sm:text-lg sm:leading-7">
+          Choose between a monthly subscription or a single month
         </p>
         <div className="relative flex rounded-full border border-border/60 bg-muted p-0.5">
           <div
             className="toggle-slider"
             style={{
-              transform: monthly ? "translateX(100%)" : "translateX(0)",
+              transform: monthly ? "translateX(0)" : "translateX(100%)",
             }}
           />
-          <button
-            type="button"
-            onClick={() => setMonthly(false)}
-            className={cn(
-              "relative z-10 flex w-32.5 cursor-pointer items-center justify-center gap-2 rounded-full px-5 py-2 font-medium text-sm transition-colors",
-              !monthly
-                ? "text-primary-foreground"
-                : "text-muted-foreground hover:text-foreground"
-            )}
-          >
-            <Calendar className="size-4" />1 Month
-          </button>
           <button
             type="button"
             onClick={() => setMonthly(true)}
@@ -66,6 +54,18 @@ function PricingPlans() {
           >
             <Repeat className="size-4" />
             Subscription
+          </button>
+          <button
+            type="button"
+            onClick={() => setMonthly(false)}
+            className={cn(
+              "relative z-10 flex w-32.5 cursor-pointer items-center justify-center gap-2 rounded-full px-5 py-2 font-medium text-sm transition-colors",
+              !monthly
+                ? "text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            <Calendar className="size-4" />1 Month
           </button>
         </div>
       </div>

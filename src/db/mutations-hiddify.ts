@@ -1,19 +1,10 @@
 import type { PinoLogger } from "hono-pino";
 import { HIDDIFY_SERVERS, PLAN_LIMITS, TRIAL_TIME } from "@/config/constants";
-import type {
-  HiddifyServerId,
-  HiddifyUser,
-  SubscriptionType,
-} from "@/config/types";
+import type { HiddifyUser, SubscriptionType } from "@/config/types";
 import { axiosHiddify } from "@/lib/axios";
 import { retryOnError } from "@/lib/utils";
 
-import { findBestHiddifyServer } from "./queries";
-
 export async function createHiddifyUser(email: string) {
-  const serverId = await findBestHiddifyServer();
-  const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
-
   const body: Partial<HiddifyUser> = {
     enable: true,
     mode: "no_reset",
@@ -23,20 +14,21 @@ export async function createHiddifyUser(email: string) {
     usage_limit_GB: PLAN_LIMITS.trial.data,
   };
   const { data } = await retryOnError(async () => {
-    return await axiosHiddify.post<HiddifyUser>(`${baseUrl}/admin/user`, body);
+    return await axiosHiddify.post<HiddifyUser>(
+      `${HIDDIFY_SERVERS.baseUrl}/admin/user`,
+      body
+    );
   });
 
-  return { hiddifyId: data.uuid, hiddifyServerId: serverId };
+  return { hiddifyId: data.uuid };
 }
 
 export async function updateHiddifyUser(
   id: string,
-  serverId: HiddifyServerId,
   startAt: Date,
   plan: SubscriptionType = "none",
   isAutoRenew: boolean
 ) {
-  const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
   const mode = isAutoRenew ? "monthly" : "no_reset";
   const package_days = isAutoRenew ? 3650 : 30;
 
@@ -49,24 +41,27 @@ export async function updateHiddifyUser(
   };
   await retryOnError(
     async () =>
-      await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body)
+      await axiosHiddify.patch<HiddifyUser>(
+        `${HIDDIFY_SERVERS.baseUrl}/admin/user/${id}`,
+        body
+      )
   );
 }
 
 export async function resetUsageLimit(
   id: string,
-  serverId: HiddifyServerId,
   plan: SubscriptionType,
   logger: PinoLogger
 ) {
-  const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
-
   const body: Partial<HiddifyUser> = {
     usage_limit_GB: PLAN_LIMITS[plan].data,
   };
   await retryOnError(
     async () =>
-      await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body)
+      await axiosHiddify.patch<HiddifyUser>(
+        `${HIDDIFY_SERVERS.baseUrl}/admin/user/${id}`,
+        body
+      )
   );
 
   logger.debug(
@@ -74,25 +69,20 @@ export async function resetUsageLimit(
   );
 }
 
-export async function increaseUsageLimit(
-  id: string,
-  serverId: HiddifyServerId,
-  newLimit: number
-) {
-  const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
-
+export async function increaseUsageLimit(id: string, newLimit: number) {
   const body: Partial<HiddifyUser> = {
     usage_limit_GB: newLimit,
   };
   await retryOnError(
     async () =>
-      await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body)
+      await axiosHiddify.patch<HiddifyUser>(
+        `${HIDDIFY_SERVERS.baseUrl}/admin/user/${id}`,
+        body
+      )
   );
 }
 
-export async function cancelHiddifyPlan(id: string, serverId: HiddifyServerId) {
-  const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
-
+export async function cancelHiddifyPlan(id: string) {
   const body: Partial<HiddifyUser> = {
     current_usage_GB: 0, // Doesn't work reliably
     enable: false,
@@ -102,16 +92,17 @@ export async function cancelHiddifyPlan(id: string, serverId: HiddifyServerId) {
   };
   await retryOnError(
     async () =>
-      await axiosHiddify.patch<HiddifyUser>(`${baseUrl}/admin/user/${id}`, body)
+      await axiosHiddify.patch<HiddifyUser>(
+        `${HIDDIFY_SERVERS.baseUrl}/admin/user/${id}`,
+        body
+      )
   );
 }
 
-export async function deleteHiddifyUser(id: string, serverId: HiddifyServerId) {
-  const baseUrl = HIDDIFY_SERVERS[serverId].baseUrl;
-
+export async function deleteHiddifyUser(id: string) {
   const { data } = await retryOnError(async () => {
     return await axiosHiddify.delete<{ msg: string }>(
-      `${baseUrl}/admin/user/${id}`
+      `${HIDDIFY_SERVERS.baseUrl}/admin/user/${id}`
     );
   });
 

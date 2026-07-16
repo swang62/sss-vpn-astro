@@ -1,12 +1,12 @@
-import type { HiddifyServerId } from "@/config/types";
-
 import {
   capitalize,
   cn,
   dateToString,
   getDaysLeft,
   getHiddifyLinks,
-  minutesPassedSince,
+  getPlatform,
+  retryOnError,
+  secondsSince,
 } from "../utils";
 
 describe("getDaysLeft", () => {
@@ -69,7 +69,7 @@ describe("getDaysLeft", () => {
   });
 });
 
-describe("minutesPassedSince", () => {
+describe("secondsPassedSince", () => {
   beforeEach(() => {
     vi.useFakeTimers();
   });
@@ -79,17 +79,10 @@ describe("minutesPassedSince", () => {
   });
 
   it("track less than 1min passed, round down", () => {
-    const now = new Date("2024-07-12T00:00:59.000Z");
-    vi.setSystemTime(now);
-
-    expect(minutesPassedSince("2024-07-12T00:00:00.000Z")).toBe(0);
-  });
-
-  it("track 1min passed", () => {
     const now = new Date("2024-07-12T00:01:00.000Z");
     vi.setSystemTime(now);
 
-    expect(minutesPassedSince("2024-07-12T00:00:00.000Z")).toBe(1);
+    expect(secondsSince("2024-07-12T00:00:30.000Z")).toBe(30);
   });
 });
 
@@ -128,10 +121,63 @@ describe("capitalize", () => {
 
 describe("getHiddifyLinks", () => {
   it("hiddify-1 sublink", () => {
-    const serverId: HiddifyServerId = "1";
-    const link = getHiddifyLinks("fake@email.com", "foo", serverId);
+    const link = getHiddifyLinks("fake@email.com", "foo");
 
     expect(link).toEqual(expect.stringMatching(/link.sss-vpn.com/));
     expect(link).toEqual(expect.stringMatching(/foo\/#fake@email.com$/));
+  });
+});
+
+describe("retryOnError", () => {
+  it("succeeds on first try", async () => {
+    const result = await retryOnError(() => Promise.resolve("ok"));
+    expect(result).toBe("ok");
+  });
+
+  it("retries and succeeds", async () => {
+    let attempts = 0;
+    const result = await retryOnError(
+      async () => {
+        attempts++;
+        if (attempts < 3) throw new Error("fail");
+        return "ok";
+      },
+      3,
+      1
+    );
+    expect(result).toBe("ok");
+    expect(attempts).toBe(3);
+  });
+
+  it("throws after exhausting retries", async () => {
+    await expect(
+      retryOnError(() => Promise.reject(new Error("fail")), 2, 1)
+    ).rejects.toThrow("fail");
+  });
+});
+
+describe("getPlatform", () => {
+  it("detects macOS desktop", () => {
+    expect(
+      getPlatform({ type: undefined } as never, { name: "macOS" } as never)
+    ).toBe("mac");
+  });
+
+  it("detects Windows desktop", () => {
+    expect(
+      getPlatform({ type: undefined } as never, { name: "Windows" } as never)
+    ).toBe("pc");
+  });
+
+  it("detects iOS mobile", () => {
+    expect(
+      getPlatform({ type: "mobile" } as never, { name: "iOS" } as never)
+    ).toBe("ios");
+  });
+
+  it("detects Android mobile", () => {
+    expect(
+      getPlatform({ type: "mobile" } as never, { name: "Android" } as never)
+    ).toBe("android");
   });
 });

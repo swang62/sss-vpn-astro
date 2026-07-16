@@ -3,7 +3,12 @@ import { Icon } from "astro-icon/components";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { FILE_DOWNLOAD_URL, FILE_TYPES } from "@/config/constants";
+import {
+  APPLE_CONFIGURATOR_URL,
+  FILE_DOWNLOAD_URL,
+  FILE_TYPES,
+  XCODE_URL,
+} from "@/config/constants";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
 import Header from "@/layouts/Header.astro";
 ---
@@ -51,7 +56,7 @@ import Header from "@/layouts/Header.astro";
       App Store
       <a
         class="text-primary-link underline mx-1"
-        href="https://support.apple.com/apple-configurator"
+        href={APPLE_CONFIGURATOR_URL}
         target="_blank"
         rel="noopener noreferrer nofollow">here</a
       >. If you can't open the link, open up your App Store and search for it
@@ -114,7 +119,7 @@ import Header from "@/layouts/Header.astro";
       download. Visit this
       <a
         class="text-primary-link underline mx-1"
-        href="https://developer.apple.com/xcode/"
+        href={XCODE_URL}
         target="_blank"
         rel="noopener noreferrer nofollow">link</a
       >

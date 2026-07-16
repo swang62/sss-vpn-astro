@@ -1,5 +1,6 @@
 ---
 import TableOfContents from "@/components/TableOfContents";
+import { UPTIME_STATUS_URL } from "@/config/constants";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
 import Header from "@/layouts/Header.astro";
 
@@ -83,15 +84,24 @@ const dividerClass = "border-t border-border/40";
     <div class={dividerClass}></div>
 
     <section id="updates" class={sectionClass}>
-      <h2 class="font-heading text-2xl">App updates</h2>
+      <h2 class="font-heading text-2xl">Updates</h2>
       <p class={textClass}>
-        As a last resort, under the About section, you can update the app. It
-        should auto-update by itself automatically. Most of the time it's the
-        server, a global outage, or during a Chinese holiday or political event.
-        Email me if you are having issues for more than a day.
+        Make sure you update your profile. It should auto-update, but in rare
+        cases, you can update it again manually just in case. If you tried
+        everything above, you can check my server status
+        <a
+          href={UPTIME_STATUS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-primary underline ml-1"
+        >
+          here
+        </a>
+        . Most of the time it's just a global outage, or during a Chinese holiday
+        or political event.
       </p>
       <img
-        src="/tips/update.png"
+        src="/tips/update-profile.png"
         alt="update"
         width={imageWidth}
         class={imgClass}

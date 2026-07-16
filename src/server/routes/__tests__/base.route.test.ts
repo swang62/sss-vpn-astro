@@ -60,3 +60,19 @@ describe("/api/session", () => {
     expect(result.data?.session?.userId).toBe(testUser.id);
   });
 });
+
+describe("/api/location", () => {
+  it("returns IP address", async () => {
+    const result = await parseApi(apiNoAuth.location.$get);
+    expect(result.ok).toBe(true);
+    expect(result.data?.ip).toBeTruthy();
+  });
+});
+
+describe("/api/error", () => {
+  it("returns 500 with message", async () => {
+    const result = await parseApi(apiNoAuth.error.$put);
+    expect(result.ok).toBe(false);
+    expect(result.statusCode).toBe(500);
+  });
+});

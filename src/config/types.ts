@@ -16,9 +16,6 @@ export type PricingPlan = {
 
 export type Platform = "ios" | "android" | "mac" | "pc";
 
-export const HIDDIFY_SERVER_IDS = ["1"] as const;
-export type HiddifyServerId = (typeof HIDDIFY_SERVER_IDS)[number];
-
 export type HiddifyServer = {
   baseUrl: string;
   setupLink: string;

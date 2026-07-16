@@ -1,14 +1,17 @@
 import { Copy, EllipsisVertical, PartyPopper, Settings } from "lucide-react";
-import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
+  APP_STORE_HIDDIFY,
+  APP_STORE_SHADOWROCKET,
+  APPLE_SUPPORT_REGION,
   FILE_DOWNLOAD_URL,
   FILE_START_COMMAND,
   FILE_TYPES,
+  PLAY_STORE_HIDDIFY,
 } from "@/config/constants";
 import type { Platform } from "@/config/types";
 import { fetchUser } from "@/lib/api-clients";
@@ -44,7 +47,7 @@ function getSteps(
                 simplest version is to install directly from the US App store.
                 Make sure your phone's region is set to US,
                 <a
-                  href="https://support.apple.com/zh-cn/118283"
+                  href={APPLE_SUPPORT_REGION}
                   target="_blank"
                   rel="noreferrer"
                   className="ml-1 text-primary-link underline"
@@ -52,11 +55,7 @@ function getSteps(
                   instructions here
                 </a>
                 , use any US address. You can change it back to China later.
-                <a
-                  href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532"
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a href={APP_STORE_HIDDIFY} target="_blank" rel="noreferrer">
                   <Button className="mx-auto mt-4 mb-6 flex self-center">
                     US App Store
                     <img
@@ -85,7 +84,7 @@ function getSteps(
                   yourself. Make sure to import the alternate subscription URL
                   in step 3.
                   <a
-                    href="https://apps.apple.com/cn/app/shadowrocket-%E5%B0%8F%E7%81%AB%E7%AE%ADvpn%E5%AE%89%E5%85%A8%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E5%99%A8/id6742070311"
+                    href={APP_STORE_SHADOWROCKET}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -107,7 +106,7 @@ function getSteps(
               <>
                 , or click
                 <a
-                  href="https://play.google.com/store/apps/details?id=app.hiddify.com&hl=en-us"
+                  href={PLAY_STORE_HIDDIFY}
                   target="_blank"
                   rel="noreferrer"
                   className="px-1 text-primary-link underline"
@@ -216,7 +215,7 @@ function getSteps(
             <Input
               defaultValue={setupLink || "Loading..."}
               readOnly
-              className="bg-muted text-muted-foreground"
+              className="bg-muted text-muted-foreground opacity-80"
             />
             <Button onClick={() => copyToClipboard(setupLink || "")}>
               <Copy className="size-4" />
@@ -233,7 +232,7 @@ function getSteps(
                   setupLink?.replace("/#", "/sub/#") || "Loading..."
                 }
                 readOnly
-                className="bg-muted/40 font-mono text-muted-foreground text-xs"
+                className="bg-muted/40 text-muted-foreground text-xs opacity-80"
               />
               <Button
                 variant="outline"
@@ -302,7 +301,7 @@ function getSteps(
             <Input
               defaultValue={config}
               readOnly
-              className="bg-muted text-muted-foreground"
+              className="bg-muted text-muted-foreground opacity-80"
             />
             <Button onClick={() => copyToClipboard(config)}>
               <Copy className="size-4" />
@@ -398,32 +397,15 @@ interface Props {
 }
 
 function HowToInstall({ config, platform }: Props) {
-  const [intervalId, setIntervalId] = useState<NodeJS.Timeout>();
-  const { data, mutate } = useSWR("fetchUser", fetchUser);
+  const { data } = useSWR("fetchUser", fetchUser, {
+    refreshInterval: (data) => (!data?.user?.profile?.hiddifyId ? 2000 : 0),
+  });
 
   const user = data?.user;
   const profile = user?.profile;
   const setupLink = profile
-    ? getHiddifyLinks(user.email, profile.hiddifyId, profile.hiddifyServerId)
+    ? getHiddifyLinks(user.email, profile.hiddifyId)
     : undefined;
-
-  // Poll for hiddify profile creation
-  useEffect(() => {
-    if (!profile?.hiddifyId) {
-      setIntervalId(
-        setInterval(async () => {
-          const data = await mutate();
-          if (data?.user?.profile?.hiddifyId) {
-            clearInterval(intervalId);
-          }
-        }, 2000)
-      );
-    } else {
-      clearInterval(intervalId);
-    }
-
-    return () => clearInterval(intervalId);
-  }, [profile?.hiddifyId]);
 
   return (
     <Tabs defaultValue={platform}>
