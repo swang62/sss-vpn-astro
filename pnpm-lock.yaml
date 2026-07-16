@@ -170,6 +170,9 @@ importers:
       ua-parser-js:
         specifier: ^2.0.10
         version: 2.0.10
+      unstorage:
+        specifier: ^1.17.5
+        version: 1.17.5(ioredis@5.11.1)
       zod:
         specifier: ^4.4.3
         version: 4.4.3

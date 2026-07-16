@@ -9,14 +9,20 @@ import { cors } from "hono/cors";
 import { createMiddleware } from "hono/factory";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { pinoLogger as logger } from "hono-pino";
-import { RedisStore, rateLimiter } from "hono-rate-limiter";
+import { rateLimiter, UnstorageStore } from "hono-rate-limiter";
 import pino from "pino";
 import pretty from "pino-pretty";
-import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
+import { createStorage } from "unstorage";
+import redisDriver from "unstorage/drivers/redis";
+import {
+  IS_PRODUCTION,
+  LOG_LEVEL,
+  REDIS_PASS,
+  REDIS_URL,
+} from "@/config/server";
 import { getUserById } from "@/db/queries";
 import { auth } from "@/lib/auth";
 import { setHeaders } from "@/lib/headers";
-import { redis } from "@/lib/redis";
 import type { Bindings } from "./app";
 import { ALLOWED_METHODS } from "./app";
 
@@ -138,6 +144,16 @@ export function getRealIP(c: Context): string {
   );
 }
 
+const storage = REDIS_URL
+  ? createStorage({
+      driver: redisDriver({
+        url: `redis://${REDIS_URL}`,
+        password: REDIS_PASS,
+        preConnect: true,
+      }),
+    })
+  : createStorage();
+
 export function limiter(limit = 50): MiddlewareHandler {
   return rateLimiter({
     keyGenerator: (c) => {
@@ -148,7 +164,7 @@ export function limiter(limit = 50): MiddlewareHandler {
     message: {
       message: "Too many requests, try again later.",
     },
-    store: redis ? new RedisStore({ client: redis as any }) : undefined,
+    store: new UnstorageStore({ storage }),
     windowMs: 30 * 1000,
   });
 }

@@ -2,16 +2,24 @@ import { redisStorage } from "@better-auth/redis-storage";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin, captcha } from "better-auth/plugins";
+import Redis from "ioredis";
 
 import { SITE_URL } from "@/config/client";
 import { SITE_EMAIL } from "@/config/constants";
-import { LOG_LEVEL, TURNSTILE_SECRET_KEY } from "@/config/server";
+import {
+  LOG_LEVEL,
+  REDIS_PASS,
+  REDIS_URL,
+  TURNSTILE_SECRET_KEY,
+} from "@/config/server";
 import db from "@/db";
 import { getUserByEmail } from "@/db/queries";
 import { postmarkClient } from "@/lib/email";
-import { redis } from "@/lib/redis";
 
 const level = LOG_LEVEL === "silent" ? undefined : LOG_LEVEL;
+const redis = REDIS_URL
+  ? new Redis(`redis://${REDIS_URL}`, { password: REDIS_PASS })
+  : undefined;
 
 export const auth = betterAuth({
   baseURL: SITE_URL,
