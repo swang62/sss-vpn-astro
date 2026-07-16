@@ -97,7 +97,7 @@ export function getDaysLeft(
   const dayTotalMs = 24 * 60 * 60 * 1000;
   const days = Math.ceil((end.valueOf() - now.valueOf()) / dayTotalMs);
   const daysLeft = days > 0 ? days : 0;
-  const endDate = end.toLocaleDateString("us", { dateStyle: "medium" });
+  const endDate = end.toLocaleDateString("en-US", { dateStyle: "medium" });
 
   return { daysLeft, endDate };
 }

@@ -27,7 +27,7 @@ function DashboardOverview() {
   const percentUsed = totalAllowed > 0 ? (currentUsed / totalAllowed) * 100 : 0;
   const date =
     usage?.last_online &&
-    new Date(usage.last_online).toLocaleDateString("us", {
+    new Date(usage.last_online).toLocaleDateString("en-US", {
       dateStyle: "medium",
     });
   const time =
@@ -59,20 +59,39 @@ function DashboardOverview() {
   return (
     <Card x-chunk="Dashboard usage">
       <CardHeader>
-        <div className="flex items-center gap-2">
-          {/*<Gauge className="size-5 text-primary" />*/}
-          <CardTitle className="translate-y-px font-heading">
-            Data usage
-          </CardTitle>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClickRefresh}
-            className="ml-auto size-7 text-primary/80 hover:text-primary"
-          >
-            <RefreshCcw className="size-3.5" />
-            <span className="sr-only">Refresh</span>
-          </Button>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <CardTitle className="translate-y-px font-heading">
+              Data usage
+            </CardTitle>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClickRefresh}
+              className="size-7 text-primary/80 hover:text-primary"
+            >
+              <RefreshCcw className="size-3.5" />
+              <span className="sr-only">Refresh</span>
+            </Button>
+          </div>
+          {loading ? (
+            <Skeleton className="h-5 w-16" />
+          ) : (
+            <span className="flex items-center gap-1.5">
+              {isOnline ? (
+                <ShieldCheck className="size-4 shrink-0 text-green-500" />
+              ) : (
+                <ShieldOff className="size-4 shrink-0 text-red-500" />
+              )}
+              <span className="font-mono font-semibold text-xs uppercase tracking-wider">
+                {isOnline ? (
+                  <span className="text-green-500">Active</span>
+                ) : (
+                  <span className="text-red-500">Inactive</span>
+                )}
+              </span>
+            </span>
+          )}
         </div>
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
@@ -127,25 +146,7 @@ function DashboardOverview() {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex flex-wrap items-center justify-between gap-3">
-        {loading ? (
-          <Skeleton className="h-4 w-20" />
-        ) : (
-          <span className="flex items-center gap-1.5">
-            {isOnline ? (
-              <ShieldCheck className="size-4 shrink-0 text-green-500" />
-            ) : (
-              <ShieldOff className="size-4 shrink-0 text-red-500" />
-            )}
-            <span className="font-mono font-semibold text-xs uppercase tracking-wider">
-              {isOnline ? (
-                <span className="text-green-500">Active</span>
-              ) : (
-                <span className="text-red-500">Inactive</span>
-              )}
-            </span>
-          </span>
-        )}
+      <CardFooter className="flex justify-end">
         <a href="/dashboard/account">
           <Button variant="default" size="sm" className="gap-1.5">
             <Edit className="size-3.5" />

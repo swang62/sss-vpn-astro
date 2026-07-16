@@ -71,7 +71,7 @@ function AvatarMenu({ session }: AvatarProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button size="icon" className="h-8 w-8 rounded-full">
-          {nameLetter || <UserIcon suppressHydrationWarning />}
+          {nameLetter || <UserIcon />}
           <span className="sr-only">Toggle user menu</span>
         </Button>
       </DropdownMenuTrigger>

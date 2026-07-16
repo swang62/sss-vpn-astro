@@ -49,7 +49,7 @@ function AccountDetails() {
   };
 
   const endDate = profile?.subscriptionEndAt
-    ? new Date(profile?.subscriptionEndAt).toLocaleDateString("us", {
+    ? new Date(profile?.subscriptionEndAt).toLocaleDateString("en-US", {
         dateStyle: "medium",
       })
     : "";

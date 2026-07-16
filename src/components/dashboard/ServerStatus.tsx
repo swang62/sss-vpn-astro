@@ -7,12 +7,15 @@ function ServerStatus() {
   const [online, setOnline] = useState<boolean | null>(null);
 
   useEffect(() => {
+    const controller = new AbortController();
     axios
       .get(UPTIME_API_BADGE_URL, {
         responseType: "text",
+        signal: controller.signal,
       })
       .then((r) => setOnline(r.data.includes("Up")))
       .catch(() => setOnline(false));
+    return () => controller.abort();
   }, []);
 
   if (online === null) {
