@@ -25,7 +25,7 @@ services:
       timeout: 5s
     image: ghcr.io/tursodatabase/libsql-server:v0.24.32
     ports:
-      - 8888:8080
+      - 8080:8080
       - 5001:5001
     restart: unless-stopped
     volumes:
