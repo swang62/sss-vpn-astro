@@ -84,6 +84,12 @@ export const auth = betterAuth({
       secretKey: TURNSTILE_SECRET_KEY,
     }),
   ],
+  advanced: {
+    ipAddress: {
+      ipAddressHeaders: ["cf-connecting-ip", "x-forwarded-for", "x-real-ip"],
+      trustedProxies: ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"],
+    },
+  },
   rateLimit: { enabled: true },
   secondaryStorage: redis
     ? redisStorage({ client: redis, keyPrefix: "better-auth:" })
