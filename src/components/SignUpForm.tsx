@@ -83,14 +83,13 @@ function SignUpForm() {
     signUp.email(
       {
         email,
-        fetchOptions: {
-          headers: { "x-captcha-response": token },
-        },
         name,
         password,
       },
       {
-        // @ts-expect-error typing error
+        fetchOptions: {
+          headers: { "x-captcha-response": token },
+        },
         onError: (ctx) => {
           const status = ctx.error.status;
           if (status === 422) {

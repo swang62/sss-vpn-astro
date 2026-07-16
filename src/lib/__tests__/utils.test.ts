@@ -4,6 +4,8 @@ import {
   dateToString,
   getDaysLeft,
   getHiddifyLinks,
+  getPlatform,
+  retryOnError,
   secondsSince,
 } from "../utils";
 
@@ -123,5 +125,59 @@ describe("getHiddifyLinks", () => {
 
     expect(link).toEqual(expect.stringMatching(/link.sss-vpn.com/));
     expect(link).toEqual(expect.stringMatching(/foo\/#fake@email.com$/));
+  });
+});
+
+describe("retryOnError", () => {
+  it("succeeds on first try", async () => {
+    const result = await retryOnError(() => Promise.resolve("ok"));
+    expect(result).toBe("ok");
+  });
+
+  it("retries and succeeds", async () => {
+    let attempts = 0;
+    const result = await retryOnError(
+      async () => {
+        attempts++;
+        if (attempts < 3) throw new Error("fail");
+        return "ok";
+      },
+      3,
+      1
+    );
+    expect(result).toBe("ok");
+    expect(attempts).toBe(3);
+  });
+
+  it("throws after exhausting retries", async () => {
+    await expect(
+      retryOnError(() => Promise.reject(new Error("fail")), 2, 1)
+    ).rejects.toThrow("fail");
+  });
+});
+
+describe("getPlatform", () => {
+  it("detects macOS desktop", () => {
+    expect(
+      getPlatform({ type: undefined } as never, { name: "macOS" } as never)
+    ).toBe("mac");
+  });
+
+  it("detects Windows desktop", () => {
+    expect(
+      getPlatform({ type: undefined } as never, { name: "Windows" } as never)
+    ).toBe("pc");
+  });
+
+  it("detects iOS mobile", () => {
+    expect(
+      getPlatform({ type: "mobile" } as never, { name: "iOS" } as never)
+    ).toBe("ios");
+  });
+
+  it("detects Android mobile", () => {
+    expect(
+      getPlatform({ type: "mobile" } as never, { name: "Android" } as never)
+    ).toBe("android");
   });
 });

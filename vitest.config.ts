@@ -15,7 +15,11 @@ export default defineConfig({
     },
   },
   test: {
-    env: config({ path: "./.env.test" }).parsed,
+    env: {
+      ...config({ path: "./.env" }).parsed,
+      ...config({ path: "./.env.test" }).parsed,
+    },
+    fileParallelism: false,
     globals: true,
     globalSetup: ["./vitest.setup.ts"],
   },

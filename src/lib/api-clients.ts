@@ -40,9 +40,10 @@ type SuccessBody<T extends (...args: any[]) => Promise<any>> = SuccessData<
 // biome-ignore lint/suspicious/noExplicitAny: generic constraint for any Hono client function
 export async function parseApi<T extends (...args: any[]) => Promise<any>>(
   fn: T,
-  ...[input, options]: Parameters<T>
+  input?: unknown,
+  options?: unknown
 ): Promise<ApiResult<SuccessBody<T>>> {
-  // biome-ignore lint/suspicious/noExplicitAny: rest-param spread unverifiable against generic callable
+  // biome-ignore lint/suspicious/noExplicitAny: Hono client functions have complex param types
   const response = await (fn as any)(input, options);
   const statusCode = response.status;
   if (!response.ok) {

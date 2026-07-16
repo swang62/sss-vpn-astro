@@ -7,6 +7,12 @@ import createApp from "@/server/app";
 import userRouter from "../user.route";
 import { testAdminMiddleware, testUserMiddleware } from "./shared";
 
+vi.mock("@/lib/stripe", () => ({
+  stripe: {
+    customers: { retrieve: vi.fn(), update: vi.fn(), del: vi.fn() },
+  },
+}));
+
 const apiNoAuth = testClient(createApp().route("/", userRouter)).api;
 const apiAdmin = testClient(
   createApp().use(testAdminMiddleware).route("/", userRouter)
