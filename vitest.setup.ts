@@ -1,11 +1,4 @@
-import {
-  adminUser,
-  deleteDB,
-  migrate,
-  seed,
-  seedMockTables,
-  testUser,
-} from "@/db/seed";
+import { deleteDB, migrate, seed, seedMockTables } from "@/db/seed";
 
 export async function setup() {
   await migrate();

@@ -85,11 +85,12 @@ function SignUpForm() {
         email,
         name,
         password,
-      },
-      {
         fetchOptions: {
           headers: { "x-captcha-response": token },
         },
+      },
+      {
+        // @ts-expect-error bad typing from betterauth
         onError: (ctx) => {
           const status = ctx.error.status;
           if (status === 422) {
@@ -240,7 +241,12 @@ function SignUpForm() {
                 setToken(t);
                 setCaptchaVerifying(false);
               }}
-              onExpire={() => setToken("")}
+              onExpire={() => {
+                setCaptchaVerifying(true);
+              }}
+              onError={() => {
+                setCaptchaVerifying(true);
+              }}
               onBeforeInteractive={() => setCaptchaVerifying(false)}
             />
           </div>

@@ -19,7 +19,7 @@ function TableOfContents() {
           </TableOfContentsLink>
         </TableOfContentsItem>
         <TableOfContentsItem>
-          <TableOfContentsLink href="#updates">App updates</TableOfContentsLink>
+          <TableOfContentsLink href="#updates">Updates</TableOfContentsLink>
         </TableOfContentsItem>
         <TableOfContentsItem>
           <TableOfContentsLink href="#mobile">Mobile tips</TableOfContentsLink>
