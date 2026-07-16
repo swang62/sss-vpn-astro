@@ -1,4 +1,6 @@
 ---
+import { GITHUB_URL } from "@/config/constants";
+
 const year = new Date().getFullYear();
 ---
 
@@ -9,7 +11,7 @@ const year = new Date().getFullYear();
     <p class="text-muted-foreground text-sm">
       &copy; {year} Built By
       <a
-        href="https://github.com/swang62"
+        href={GITHUB_URL}
         target="_blank"
         rel="noreferrer"
         class="font-medium underline underline-offset-2 ml-1"

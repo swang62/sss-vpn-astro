@@ -1,4 +1,5 @@
 ---
+import { STRIPE_URL } from "@/config/constants";
 import MainLayout from "@/layouts/MainLayout.astro";
 
 export const prerender = true;
@@ -22,7 +23,7 @@ export const prerender = true;
         store logs or payment details. Cookies are for tracking logins and basic
         troubleshooting. All financial data is handled by off-site by
         <a
-          href="https://stripe.com/"
+          href={STRIPE_URL}
           target="_blank"
           class="ml-1 font-medium text-primary-link underline decoration-primary/30 underline-offset-2 transition-colors hover:decoration-primary"
           >Stripe</a

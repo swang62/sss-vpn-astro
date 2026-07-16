@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+import { UPTIME_API_BADGE_URL } from "@/config/constants";
+
 function ServerStatus() {
   const [online, setOnline] = useState<boolean | null>(null);
 
   useEffect(() => {
     axios
-      .get("https://uptime.stronglybrewed.dev/api/badge/8/status", {
+      .get(UPTIME_API_BADGE_URL, {
         responseType: "text",
       })
       .then((r) => setOnline(r.data.includes("Up")))

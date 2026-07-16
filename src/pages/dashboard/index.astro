@@ -4,6 +4,7 @@ import crypto from "node:crypto";
 import DashboardUsage from "@/components/dashboard/DashboardUsage";
 import ServerStatus from "@/components/dashboard/ServerStatus";
 import ShowWelcome from "@/components/dashboard/WelcomeMsg";
+import { UPTIME_STATUS_URL } from "@/config/constants";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
 import Header from "@/layouts/Header.astro";
 
@@ -32,7 +33,7 @@ if (!previouslyShowedWelcome) {
     {showWelcomeMsg && <ShowWelcome client:load name={user.name} />}
     <DashboardUsage client:load />
     <a
-      href="https://uptime.stronglybrewed.dev/status/sssvpn"
+      href={UPTIME_STATUS_URL}
       target="_blank"
       rel="noopener noreferrer"
       class="flex items-center justify-center gap-2 self-center opacity-80 transition-opacity hover:opacity-100"

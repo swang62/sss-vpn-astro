@@ -5,9 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
+  APP_STORE_HIDDIFY,
+  APP_STORE_SHADOWROCKET,
+  APPLE_SUPPORT_REGION,
   FILE_DOWNLOAD_URL,
   FILE_START_COMMAND,
   FILE_TYPES,
+  PLAY_STORE_HIDDIFY,
 } from "@/config/constants";
 import type { Platform } from "@/config/types";
 import { fetchUser } from "@/lib/api-clients";
@@ -43,7 +47,7 @@ function getSteps(
                 simplest version is to install directly from the US App store.
                 Make sure your phone's region is set to US,
                 <a
-                  href="https://support.apple.com/zh-cn/118283"
+                  href={APPLE_SUPPORT_REGION}
                   target="_blank"
                   rel="noreferrer"
                   className="ml-1 text-primary-link underline"
@@ -51,11 +55,7 @@ function getSteps(
                   instructions here
                 </a>
                 , use any US address. You can change it back to China later.
-                <a
-                  href="https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532"
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a href={APP_STORE_HIDDIFY} target="_blank" rel="noreferrer">
                   <Button className="mx-auto mt-4 mb-6 flex self-center">
                     US App Store
                     <img
@@ -84,7 +84,7 @@ function getSteps(
                   yourself. Make sure to import the alternate subscription URL
                   in step 3.
                   <a
-                    href="https://apps.apple.com/cn/app/shadowrocket-%E5%B0%8F%E7%81%AB%E7%AE%ADvpn%E5%AE%89%E5%85%A8%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E5%99%A8/id6742070311"
+                    href={APP_STORE_SHADOWROCKET}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -106,7 +106,7 @@ function getSteps(
               <>
                 , or click
                 <a
-                  href="https://play.google.com/store/apps/details?id=app.hiddify.com&hl=en-us"
+                  href={PLAY_STORE_HIDDIFY}
                   target="_blank"
                   rel="noreferrer"
                   className="px-1 text-primary-link underline"
