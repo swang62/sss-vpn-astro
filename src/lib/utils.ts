@@ -1,10 +1,12 @@
+// !!! MUST USE relative imports and conditional imports !!!
+
 import type { ClassValue } from "clsx";
 import { clsx } from "clsx";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 import type UAParser from "ua-parser-js";
-import { HIDDIFY_SERVERS } from "@/config/constants";
-import type { Platform } from "@/config/types";
+import { HIDDIFY_SERVERS } from "../config/constants";
+import type { Platform } from "../config/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

@@ -1,13 +1,11 @@
+// !!! MUST USE relative imports and conditional imports !!!
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 import { hashPassword } from "better-auth/crypto";
-
-import { PAID_PLANS, type PaidPlan } from "@/config/types";
-import { capitalize } from "@/lib/utils";
-
-// !!! Must use relative imports and conditional imports !!!
 import { DEFAULT_PASSWORD, TEST_ADMIN, TEST_USER } from "../config/constants";
 import { DB_LOCAL_URL } from "../config/server";
+import { PAID_PLANS, type PaidPlan } from "../config/types";
+import { capitalize } from "../lib/utils";
 
 import type { ProfileInsert } from "./index";
 
