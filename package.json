@@ -29,6 +29,7 @@
   "dependencies": {
     "@astrojs/node": "^11.0.2",
     "@astrojs/react": "^6.0.1",
+    "@better-auth/redis-storage": "^1.6.23",
     "@hono/zod-validator": "^0.8.0",
     "@hookform/resolvers": "^5.4.0",
     "@iconify-json/lucide": "^1.2.116",
@@ -73,7 +74,6 @@
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-hook-form": "^7.81.0",
-    "redis": "^6.1.0",
     "sharp": "^0.35.3",
     "sonner": "^2.0.7",
     "stripe": "^22.3.0",

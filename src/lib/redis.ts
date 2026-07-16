@@ -1,16 +1,13 @@
-import { createClient } from "redis";
+import Redis from "ioredis";
 
 import { REDIS_PASS, REDIS_URL } from "@/config/server";
 
-// Top-level await intentional — Redis is a hard requirement
-// when REDIS_URL is set. Do NOT make this fire-and-forget or lazy loaded
 const client = REDIS_URL
-  ? await createClient({
+  ? new Redis({
+      host: REDIS_URL,
       password: REDIS_PASS,
-      url: `redis://${REDIS_URL}`,
+      retryStrategy: (times) => Math.min(times * 50, 2000),
     })
-      .on("error", (error) => console.error("Redis error:", error))
-      .connect()
   : undefined;
 
 if (client) {

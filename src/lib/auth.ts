@@ -1,3 +1,4 @@
+import { redisStorage } from "@better-auth/redis-storage";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { admin, captcha } from "better-auth/plugins";
@@ -10,7 +11,6 @@ import { getUserByEmail } from "@/db/queries";
 import { postmarkClient } from "@/lib/email";
 import { redis } from "@/lib/redis";
 
-const client = redis ?? null;
 const level = LOG_LEVEL === "silent" ? undefined : LOG_LEVEL;
 
 export const auth = betterAuth({
@@ -77,16 +77,8 @@ export const auth = betterAuth({
     }),
   ],
   rateLimit: { enabled: true },
-  secondaryStorage: client
-    ? {
-        delete: async (key) => client.del(key).toString(),
-        get: async (key) => client.get(key),
-        set: async (key, value, ttl) => {
-          if (ttl)
-            client.set(key, value, { expiration: { type: "EX", value: ttl } });
-          else client.set(key, value);
-        },
-      }
+  secondaryStorage: redis
+    ? redisStorage({ client: redis, keyPrefix: "better-auth:" })
     : undefined,
   session: { storeSessionInDatabase: true },
   telemetry: { enabled: false },

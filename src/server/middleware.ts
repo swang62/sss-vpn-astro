@@ -9,7 +9,7 @@ import { cors } from "hono/cors";
 import { createMiddleware } from "hono/factory";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { pinoLogger as logger } from "hono-pino";
-import { type RedisClient, RedisStore, rateLimiter } from "hono-rate-limiter";
+import { RedisStore, rateLimiter } from "hono-rate-limiter";
 import pino from "pino";
 import pretty from "pino-pretty";
 import { IS_PRODUCTION, LOG_LEVEL } from "@/config/server";
@@ -148,9 +148,7 @@ export function limiter(limit = 50): MiddlewareHandler {
     message: {
       message: "Too many requests, try again later.",
     },
-    store: redis
-      ? new RedisStore({ client: redis as unknown as RedisClient })
-      : undefined,
+    store: redis ? new RedisStore({ client: redis as any }) : undefined,
     windowMs: 30 * 1000,
   });
 }
