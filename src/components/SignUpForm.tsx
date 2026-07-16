@@ -242,9 +242,7 @@ function SignUpForm() {
                 setCaptchaVerifying(false);
               }}
               onExpire={() => {
-                setCaptchaVerifying(true);
-              }}
-              onError={() => {
+                setToken("");
                 setCaptchaVerifying(true);
               }}
               onBeforeInteractive={() => setCaptchaVerifying(false)}
