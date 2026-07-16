@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { testClient } from "hono/testing";
-import { TEST_STRIPE_CUSTOMER_ID } from "@/__tests__/constants";
+import { TEST_STRIPE_CUSTOMER_ID_ADMIN } from "@/__tests__/constants";
 import {
   stripeBillingPortalSession,
   stripeCheckoutSession,
@@ -17,7 +17,7 @@ import { stripe } from "@/lib/stripe";
 import createApp from "@/server/app";
 
 import stripeRouter from "../stripe.route";
-import { testAdminMiddleware } from "./shared";
+import { testAdminMiddleware, testUserMiddleware } from "./shared";
 
 vi.mock("@/lib/stripe", () => ({
   stripe: {
@@ -43,6 +43,9 @@ const apiNoAuth = testClient(createApp().route("/", stripeRouter)).api;
 const apiAdmin = testClient(
   createApp().use(testAdminMiddleware).route("/", stripeRouter)
 ).api;
+const apiUser = testClient(
+  createApp().use(testUserMiddleware).route("/", stripeRouter)
+).api;
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -56,12 +59,12 @@ describe("GET /api/stripe/user", () => {
 
   it("returns Stripe customer", async () => {
     vi.mocked(stripe.customers.retrieve).mockResolvedValueOnce(
-      stripeCustomer({ id: TEST_STRIPE_CUSTOMER_ID }) as never
+      stripeCustomer({ id: TEST_STRIPE_CUSTOMER_ID_ADMIN }) as never
     );
 
     const result = await parseApi(apiAdmin.user.$get, {});
     expect(result.ok).toBe(true);
-    expect(result.data?.customer?.id).toBe(TEST_STRIPE_CUSTOMER_ID);
+    expect(result.data?.customer?.id).toBe(TEST_STRIPE_CUSTOMER_ID_ADMIN);
     expect(stripe.customers.retrieve).toHaveBeenCalledWith(
       expect.stringContaining("cus_")
     );
@@ -166,6 +169,11 @@ describe("POST /api/stripe/add-data", () => {
       })
     );
   });
+
+  it("rejects trial user (no subscription)", async () => {
+    const result = await parseApi(apiUser["add-data"].$post);
+    expect(result.ok).toBe(false);
+  });
 });
 
 describe("POST /api/stripe/buy-router", () => {
@@ -251,7 +259,7 @@ describe("POST /api/stripe/renew-plan", () => {
     );
   });
 
-  it("rejects free plan", async () => {
+  it("rejects free plan for admin modified to trial", async () => {
     await db
       .update(profileTable)
       .set({
@@ -262,6 +270,13 @@ describe("POST /api/stripe/renew-plan", () => {
       .where(eq(profileTable.userId, adminUser.id));
 
     const result = await parseApi(apiAdmin["renew-plan"].$post, {
+      json: { renew: true },
+    });
+    expect(result.ok).toBe(false);
+  });
+
+  it("rejects trial user (no subscription)", async () => {
+    const result = await parseApi(apiUser["renew-plan"].$post, {
       json: { renew: true },
     });
     expect(result.ok).toBe(false);

@@ -9,7 +9,20 @@ import { testAdminMiddleware, testUserMiddleware } from "./shared";
 
 vi.mock("@/lib/stripe", () => ({
   stripe: {
-    customers: { retrieve: vi.fn(), update: vi.fn(), del: vi.fn() },
+    customers: {
+      retrieve: vi.fn(() => Promise.resolve({ deleted: false })),
+      update: vi.fn(),
+      del: vi.fn(),
+    },
+  },
+}));
+
+vi.mock("@/lib/axios", () => ({
+  axiosHiddify: {
+    get: vi.fn(() => Promise.resolve({ data: { uuid: null } })),
+    post: vi.fn(() => Promise.resolve({ data: {} })),
+    patch: vi.fn(() => Promise.resolve({ data: {} })),
+    delete: vi.fn(() => Promise.resolve({ data: {} })),
   },
 }));
 
@@ -33,6 +46,14 @@ describe("/api/user", () => {
     expect(result.data?.user.id).toBe(adminUser.id);
     expect(result.data?.user.email).toBe(adminUser.email);
     expect(result.data?.session?.userId).toBe(adminUser.id);
+  });
+
+  it("get regular user returns own data", async () => {
+    const result = await parseApi(apiUser.$get);
+    expect(result.ok).toBe(true);
+    expect(result.data?.user.id).toBe(testUser.id);
+    expect(result.data?.user.email).toBe(testUser.email);
+    expect(result.data?.user.role).toBe("user");
   });
 });
 

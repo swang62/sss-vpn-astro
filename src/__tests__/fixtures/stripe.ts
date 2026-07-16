@@ -1,7 +1,7 @@
 import type Stripe from "stripe";
 import {
   TEST_PRODUCT_IDS,
-  TEST_STRIPE_CUSTOMER_ID,
+  TEST_STRIPE_CUSTOMER_ID_ADMIN,
   TEST_STRIPE_SUBSCRIPTION_ID,
   TEST_STRIPE_SUBSCRIPTION_ITEM_ID,
 } from "@/__tests__/constants";
@@ -10,7 +10,7 @@ export function stripeCustomer(
   overrides: Partial<Stripe.Customer> = {}
 ): Stripe.Customer {
   return {
-    id: TEST_STRIPE_CUSTOMER_ID,
+    id: TEST_STRIPE_CUSTOMER_ID_ADMIN,
     object: "customer",
     address: null,
     balance: 0,
@@ -117,7 +117,7 @@ export function stripeBillingPortalSession(
     object: "billing_portal.session",
     configuration: "bpc_test123",
     created: 1000000000,
-    customer: TEST_STRIPE_CUSTOMER_ID,
+    customer: TEST_STRIPE_CUSTOMER_ID_ADMIN,
     flow: null,
     livemode: false,
     locale: null,
@@ -148,7 +148,7 @@ export function stripeSubscription(
     currency: "usd",
     current_period_end: 2000000000,
     current_period_start: 1000000000,
-    customer: TEST_STRIPE_CUSTOMER_ID,
+    customer: TEST_STRIPE_CUSTOMER_ID_ADMIN,
     days_until_due: null,
     default_payment_method: null,
     default_source: null,
@@ -256,7 +256,7 @@ export function stripeInvoice(
     created: 1000000000,
     currency: "usd",
     custom_fields: null,
-    customer: TEST_STRIPE_CUSTOMER_ID,
+    customer: TEST_STRIPE_CUSTOMER_ID_ADMIN,
     customer_address: null,
     customer_email: null,
     customer_name: null,

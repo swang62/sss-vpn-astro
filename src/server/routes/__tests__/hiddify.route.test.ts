@@ -1,5 +1,5 @@
 import { beforeEach } from "vitest";
-import { TEST_HIDDIFY_ID } from "@/__tests__/constants";
+import { TEST_HIDDIFY_ID_ADMIN } from "@/__tests__/constants";
 import { hiddifyUserResponse } from "@/__tests__/fixtures/hiddify";
 import { axiosHiddify } from "@/lib/axios";
 import createApp from "@/server/app";
@@ -53,7 +53,7 @@ describe("GET /api/hiddify/usage", () => {
     const data = (await res.json()) as {
       usage: { uuid: string; current_usage_GB: number };
     };
-    expect(data.usage.uuid).toBe(TEST_HIDDIFY_ID);
+    expect(data.usage.uuid).toBe(TEST_HIDDIFY_ID_ADMIN);
     expect(data.usage.current_usage_GB).toBe(10);
   });
 });

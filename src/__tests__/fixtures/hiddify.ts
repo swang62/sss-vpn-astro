@@ -1,5 +1,5 @@
 import type { HiddifyUser } from "@/config/types";
-import { TEST_HIDDIFY_ID } from "../constants";
+import { TEST_HIDDIFY_ID_ADMIN } from "../constants";
 
 export function hiddifyUser(overrides: Partial<HiddifyUser> = {}): HiddifyUser {
   return {
@@ -12,7 +12,7 @@ export function hiddifyUser(overrides: Partial<HiddifyUser> = {}): HiddifyUser {
     package_days: 30,
     start_date: "2025-01-01",
     usage_limit_GB: 100,
-    uuid: TEST_HIDDIFY_ID,
+    uuid: TEST_HIDDIFY_ID_ADMIN,
     ...overrides,
   };
 }

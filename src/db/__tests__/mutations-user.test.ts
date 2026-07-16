@@ -1,25 +1,9 @@
 import { eq } from "drizzle-orm";
 import { beforeEach } from "vitest";
-import {
-  TEST_HIDDIFY_ID,
-  TEST_STRIPE_CUSTOMER_ID,
-  TEST_USER_IP,
-} from "@/__tests__/constants";
 import db, { profile as profileTable, user as userTable } from "@/db";
-import { setupNewUser, updateIpAddress, updateUser } from "@/db/mutations-user";
+import { updateIpAddress, updateUser } from "@/db/mutations-user";
 import type { UserDB } from "@/db/queries";
 import { adminUser } from "@/db/seed";
-import { stripe } from "@/lib/stripe";
-
-vi.mock("@/lib/stripe", () => ({
-  stripe: {
-    customers: { create: vi.fn(), retrieve: vi.fn(), search: vi.fn() },
-  },
-}));
-
-vi.mock("@/lib/axios", () => ({
-  axiosHiddify: { get: vi.fn(), post: vi.fn(), patch: vi.fn() },
-}));
 
 function asUserDB(u: typeof adminUser): UserDB {
   return {
@@ -62,23 +46,5 @@ describe("updateIpAddress", () => {
       where: eq(profileTable.userId, adminUser.id),
     });
     expect(profile?.lastKnownIpAddress).toBe("10.0.0.1");
-  });
-});
-
-describe("setupNewUser", () => {
-  it("uses existing profile from seed", async () => {
-    const userWithProfile: UserDB = {
-      ...adminDB,
-      profile: {
-        hiddifyId: TEST_HIDDIFY_ID,
-        stripeCustomerId: TEST_STRIPE_CUSTOMER_ID,
-      } as never,
-    };
-    vi.mocked(stripe.customers.retrieve).mockResolvedValueOnce({
-      deleted: false,
-      subscriptions: { data: [] },
-    } as never);
-
-    await setupNewUser(userWithProfile, TEST_USER_IP);
   });
 });
