@@ -1,3 +1,7 @@
+import androidIcon from "@/assets/setup/google-play.png";
+import iosIcon from "@/assets/setup/ios.png";
+import macIcon from "@/assets/setup/mac.png";
+import microsoftIcon from "@/assets/setup/microsoft.png";
 import { SITE_URL } from "./client";
 import type {
   HiddifyServer,
@@ -24,6 +28,8 @@ export const MAX_BANDWIDTH = 6000; // GB
 export const MIN_WAIT_TIME = 10; // seconds
 export const TRIAL_TIME = 3; // days
 
+export const FILE_START_COMMAND = "start_vpn.command";
+
 // External URLs
 export const GITHUB_URL = "https://github.com/swang62";
 export const STRIPE_URL = "https://stripe.com/";
@@ -43,12 +49,8 @@ export const APP_STORE_SHADOWROCKET =
   "https://apps.apple.com/cn/app/shadowrocket-%E5%B0%8F%E7%81%AB%E7%AE%ADvpn%E5%AE%89%E5%85%A8%E7%BD%91%E7%BB%9C%E5%8A%A0%E9%80%9F%E5%99%A8/id6742070311";
 export const PLAY_STORE_HIDDIFY =
   "https://play.google.com/store/apps/details?id=app.hiddify.com&hl=en-us";
-
-export const FILE_START_COMMAND = "start_vpn.command";
 export const FILE_DOWNLOAD_URL =
   "https://seafile.stronglybrewed.dev/d/6d2ee2bc7a34472ca633/files/?dl=1&p=%2F";
-
-export const HIDDIFY_SERVER_ID = "1" as const;
 export const HIDDIFY_SERVERS: HiddifyServer = {
   baseUrl: "https://link.sss-vpn.com/QwId8HABKn9c6GYrnRNcxMj/api/v2",
   setupLink: "https://link.sss-vpn.com/rjsn7TPtBHgNGA1KBI3mfP2aNaLG",
@@ -90,19 +92,19 @@ export const FILE_TYPES: Record<Platform, { fileType: string; icon: string }> =
   {
     android: {
       fileType: "Hiddify.apk",
-      icon: "/setup/google-play.png",
+      icon: androidIcon.src,
     },
     ios: {
       fileType: "Hiddify.ipa",
-      icon: "/setup/ios.png",
+      icon: iosIcon.src,
     },
     mac: {
       fileType: "Hiddify.dmg",
-      icon: "/setup/mac.png",
+      icon: macIcon.src,
     },
     pc: {
       fileType: "Hiddify.exe",
-      icon: "/setup/microsoft.png",
+      icon: microsoftIcon.src,
     },
   };
 
@@ -112,7 +114,7 @@ export const PRICING_PLANS: PricingPlan[] = [
     features: [
       `${PLAN_LIMITS.basic.data}GB data/month`,
       "Email, social media, light browsing",
-      "Unlimited devices, mobile & desktop",
+      "Unlimited devices",
     ],
     plan: "basic",
     price: PLAN_LIMITS.basic.price,
@@ -122,7 +124,7 @@ export const PRICING_PLANS: PricingPlan[] = [
     features: [
       `${PLAN_LIMITS.pro.data}GB data/month`,
       "Streaming, gaming, video calls, etc.",
-      "Same as basic but with more data",
+      "Same as basic but more data",
     ],
     plan: "pro",
     price: PLAN_LIMITS.pro.price,

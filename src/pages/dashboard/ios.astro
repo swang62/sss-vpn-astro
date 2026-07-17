@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,11 @@ import {
 } from "@/config/constants";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
 import Header from "@/layouts/Header.astro";
+
+import iosImg01 from "@/assets/iOS/img01.png";
+import iosImg02 from "@/assets/iOS/img02.png";
+import iosImg03 from "@/assets/iOS/img03.png";
+import iosImg04 from "@/assets/iOS/img04.png";
 ---
 
 <DashboardLayout title="Install .ipa files">
@@ -68,8 +74,8 @@ import Header from "@/layouts/Header.astro";
       cable you use to charge it. You might get an alert, just click `Trust
       device` or `Accept`.
     </p>
-    <img
-      src="/iOS/img01.png"
+    <Image
+      src={iosImg01}
       alt="connect device"
       class="self-center"
       loading="lazy"
@@ -83,8 +89,8 @@ import Header from "@/layouts/Header.astro";
         Add
       </Badge> button from the menu bar and select Apps.
     </p>
-    <img
-      src="/iOS/img02.png"
+    <Image
+      src={iosImg02}
       alt="select device"
       class="self-center"
       loading="lazy"
@@ -94,15 +100,15 @@ import Header from "@/layouts/Header.astro";
       Mac` and Finder will pop up. Navigate to where you downloaded the .ipa
       file and select it.
     </p>
-    <img
-      src="/iOS/img03.png"
+    <Image
+      src={iosImg03}
       alt="choose device"
       class="self-center"
       loading="lazy"
     />
     <p>5) Apple Configurator will now install the app to your device.</p>
-    <img
-      src="/iOS/img04.png"
+    <Image
+      src={iosImg04}
       alt="choose device"
       class="self-center"
       loading="lazy"

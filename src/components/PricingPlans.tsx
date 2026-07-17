@@ -21,11 +21,11 @@ function PricingPlans() {
   const onClickRouter = async () => {
     setLoading(true);
     const result = await parseApi(api.stripe["buy-router"].$post);
+    setLoading(false);
     if (result.ok && result.data?.url) {
       navigate(result.data.url);
     } else {
       toast.error("Unknown error, please try again later.");
-      setLoading(false);
     }
   };
 
@@ -46,7 +46,7 @@ function PricingPlans() {
             type="button"
             onClick={() => setMonthly(true)}
             className={cn(
-              "relative z-10 flex w-32.5 cursor-pointer items-center justify-center gap-2 rounded-full px-5 py-2 font-medium text-sm transition-colors",
+              "relative z-10 flex w-36 cursor-pointer items-center justify-center gap-2 rounded-full px-2 py-2 font-medium text-sm transition-colors",
               monthly
                 ? "text-primary-foreground"
                 : "text-muted-foreground hover:text-foreground"
@@ -59,7 +59,7 @@ function PricingPlans() {
             type="button"
             onClick={() => setMonthly(false)}
             className={cn(
-              "relative z-10 flex w-32.5 cursor-pointer items-center justify-center gap-2 rounded-full px-5 py-2 font-medium text-sm transition-colors",
+              "relative z-10 flex w-36 cursor-pointer items-center justify-center gap-2 rounded-full px-2 py-2 font-medium text-sm transition-colors",
               !monthly
                 ? "text-primary-foreground"
                 : "text-muted-foreground hover:text-foreground"

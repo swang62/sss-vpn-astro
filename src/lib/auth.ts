@@ -22,8 +22,8 @@ const redis = REDIS_URL
   : undefined;
 
 export const auth = betterAuth({
-  baseURL: SITE_URL,
   database: drizzleAdapter(db, { provider: "sqlite" }),
+  baseURL: SITE_URL,
   emailAndPassword: {
     autoSignIn: true,
     enabled: true,

@@ -1,9 +1,15 @@
 ---
-import TableOfContents from "@/components/TableOfContents";
+import { Image } from "astro:assets";
 import { UPTIME_STATUS_URL } from "@/config/constants";
+import TableOfContents from "@/components/TableOfContents";
 import DashboardLayout from "@/layouts/DashboardLayout.astro";
 import Header from "@/layouts/Header.astro";
+import proxyImg from "@/assets/tips/proxy.png";
+import fakeDnsImg from "@/assets/setup/fake-dns.png";
+import updateProfileImg from "@/assets/tips/update-profile.png";
+import perAppImg from "@/assets/tips/per-app.png";
 
+// CSS variables
 const imageWidth = 400;
 const sectionClass = "flex scroll-mt-4 flex-col gap-4";
 const textClass = "text-foreground/80 leading-relaxed";
@@ -32,8 +38,8 @@ const dividerClass = "border-t border-border/40";
         > balancer option, or manually selecting VLESS or VMESS. Shadowsocks is pretty
         reliable too for tricky sites, but a little bit slower.
       </p>
-      <img
-        src="/tips/proxy.png"
+      <Image
+        src={proxyImg}
         alt="proxy"
         width={imageWidth}
         class={imgClass}
@@ -72,8 +78,8 @@ const dividerClass = "border-t border-border/40";
           turned on. You can try turning it off if you are having issues.
         </p>
       </div>
-      <img
-        src="/setup/fake-dns.png"
+      <Image
+        src={fakeDnsImg}
         width={imageWidth}
         alt="dns config import"
         class={imgClass}
@@ -87,8 +93,8 @@ const dividerClass = "border-t border-border/40";
       <h2 class="font-heading text-2xl">Updates</h2>
       <p class={textClass}>
         Make sure you update your profile. It should auto-update, but in rare
-        cases, you can update it again manually just in case. If you tried
-        everything above, you can check my server status
+        cases, you'll need to update it manually. If you tried everything above,
+        you can check the current server status
         <a
           href={UPTIME_STATUS_URL}
           target="_blank"
@@ -100,8 +106,8 @@ const dividerClass = "border-t border-border/40";
         . Most of the time it's just a global outage, or during a Chinese holiday
         or political event.
       </p>
-      <img
-        src="/tips/update-profile.png"
+      <Image
+        src={updateProfileImg}
         alt="update"
         width={imageWidth}
         class={imgClass}
@@ -129,8 +135,8 @@ const dividerClass = "border-t border-border/40";
         > and pick Chinese apps like Alipay/WeChat. This way you can avoid constantly
         turning the VPN on and off.
       </p>
-      <img
-        src="/tips/per-app.png"
+      <Image
+        src={perAppImg}
         alt="per-app proxy"
         width={imageWidth}
         class={imgClass}

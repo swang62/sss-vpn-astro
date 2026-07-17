@@ -1,5 +1,11 @@
 import { Copy, EllipsisVertical, PartyPopper, Settings } from "lucide-react";
 import useSWR from "swr";
+import addProfile from "@/assets/setup/add-profile.png";
+import connected from "@/assets/setup/connected.png";
+import settingsConfig from "@/assets/setup/settings-config.png";
+import shadowrocketIcon from "@/assets/setup/shadowrocket.png";
+import startScreen from "@/assets/setup/start-screen.png";
+import welcomeScreen from "@/assets/setup/welcome-screen.png";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,9 +22,7 @@ import {
 import type { Platform } from "@/config/types";
 import { fetchUser } from "@/lib/api-clients";
 import { copyToClipboard, getHiddifyLinks } from "@/lib/utils";
-
 import type { StepProps } from "./Step";
-
 import Step from "./Step";
 
 function getSteps(
@@ -93,7 +97,7 @@ function getSteps(
                       <img
                         width="20"
                         height="20"
-                        src={"/setup/shadowrocket.webp"}
+                        src={shadowrocketIcon.src}
                         alt="Download icon"
                         loading="lazy"
                       />
@@ -196,7 +200,7 @@ function getSteps(
           <br />
           <br />
           <img
-            src="/setup/welcome-screen.png"
+            src={welcomeScreen.src}
             width={imageWidth}
             alt="welcome screen"
             className="self-center rounded-lg"
@@ -259,7 +263,7 @@ function getSteps(
           </div>
           <br />
           <img
-            src="/setup/add-profile.png"
+            src={addProfile.src}
             width={imageWidth}
             alt="add profile screen"
             className="self-center rounded-lg"
@@ -278,7 +282,7 @@ function getSteps(
           </div>
           <br />
           <img
-            src="/setup/start-screen.png"
+            src={startScreen.src}
             width={imageWidth}
             alt="start screen"
             className="self-center rounded-lg"
@@ -329,7 +333,7 @@ function getSteps(
           </div>
           <br />
           <img
-            src="/setup/settings-config.png"
+            src={settingsConfig.src}
             width={imageWidth}
             alt="settings config import"
             className="self-center rounded-lg"
@@ -351,7 +355,7 @@ function getSteps(
           </p>
           <br />
           <img
-            src="/setup/connected.png"
+            src={connected.src}
             width={imageWidth}
             alt="connected"
             className="self-center rounded-lg"
@@ -370,8 +374,7 @@ function getSteps(
       content: (
         <>
           <div>
-            Once your trial is over, you can upgrade your plan to a single
-            month, or a monthly subscription{" "}
+            Once your trial is over, you can upgrade your plan{" "}
             <a
               href="/dashboard/pricing"
               className="text-primary-link underline"
@@ -382,7 +385,7 @@ function getSteps(
             <a href="/dashboard/tips" className="text-primary-link underline">
               Tips & Tricks
             </a>{" "}
-            for increasing speeds and general troubleshooting.
+            for optimizing your speeds and troubleshooting.
           </div>
         </>
       ),
