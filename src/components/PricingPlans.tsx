@@ -21,11 +21,11 @@ function PricingPlans() {
   const onClickRouter = async () => {
     setLoading(true);
     const result = await parseApi(api.stripe["buy-router"].$post);
+    setLoading(false);
     if (result.ok && result.data?.url) {
       navigate(result.data.url);
     } else {
       toast.error("Unknown error, please try again later.");
-      setLoading(false);
     }
   };
 

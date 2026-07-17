@@ -42,6 +42,7 @@ export async function getAuthenticatedUser(c: Context<Bindings>) {
   const userSession = c.get("userSession");
   if (!userSession) {
     c.status(401);
+
     throw new Error(`Unauthorized`);
   }
 

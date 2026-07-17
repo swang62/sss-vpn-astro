@@ -17,7 +17,6 @@
       "!**/.git/",
       "!**/node_modules/",
       "!**/public/",
-      "!**/*.json",
       "!**/*.sql",
       "!**/pnpm-lock.yaml",
       "!**/package-lock.json"
@@ -94,9 +93,5 @@
         }
       }
     }
-  ],
-  "assist": {
-    "enabled": true,
-    "actions": { "source": { "organizeImports": "on" } }
-  }
+  ]
 }

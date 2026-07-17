@@ -7,12 +7,12 @@
     "jsxImportSource": "react",
     "skipLibCheck": true,
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*"]
     },
-    "types": ["node", "vitest/globals"],
-    "plugins": [{ "name": "@astrojs/ts-plugin" }],
+    "types": ["node", "vitest/globals"]
+    // "plugins": [{ "name": "@astrojs/ts-plugin" }],
   },
   "extends": "astro/tsconfigs/strict",
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"],
+  "exclude": ["dist"]
 }

@@ -4,20 +4,8 @@
       "language_servers": [
         "tailwindcss-intellisense-css",
         "!vscode-css-language-server",
-        "...",
-      ],
-    },
-  },
-  "lsp": {
-    "typescript-language-server": {
-      "initialization_options": {
-        "plugins": [
-          {
-            "name": "@astrojs/ts-plugin",
-            "location": "node_modules/@astrojs/ts-plugin",
-          },
-        ],
-      },
-    },
-  },
+        "..."
+      ]
+    }
+  }
 }

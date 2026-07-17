@@ -112,12 +112,8 @@
       "compositePrimaryKeys": {},
       "foreignKeys": {
         "account_userId_user_id_fk": {
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "name": "account_userId_user_id_fk",
           "onDelete": "cascade",
           "onUpdate": "cascade",
@@ -127,9 +123,7 @@
       },
       "indexes": {
         "account_userId_unique": {
-          "columns": [
-            "userId"
-          ],
+          "columns": ["userId"],
           "isUnique": true,
           "name": "account_userId_unique"
         }
@@ -290,12 +284,8 @@
       "compositePrimaryKeys": {},
       "foreignKeys": {
         "profile_userId_user_id_fk": {
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "name": "profile_userId_user_id_fk",
           "onDelete": "cascade",
           "onUpdate": "cascade",
@@ -377,12 +367,8 @@
       "compositePrimaryKeys": {},
       "foreignKeys": {
         "session_userId_user_id_fk": {
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "name": "session_userId_user_id_fk",
           "onDelete": "cascade",
           "onUpdate": "cascade",
@@ -480,9 +466,7 @@
       "foreignKeys": {},
       "indexes": {
         "user_email_unique": {
-          "columns": [
-            "email"
-          ],
+          "columns": ["email"],
           "isUnique": true,
           "name": "user_email_unique"
         }

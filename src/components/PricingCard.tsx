@@ -44,22 +44,22 @@ function PricingCard({
     const result = isActive
       ? await parseApi(api.stripe["customer-portal"].$post, { json: { plan } })
       : await parseApi(api.stripe.checkout.$post, { json: { monthly, plan } });
+    setLoading(false);
     if (result.ok && result.data?.url) {
       navigate(result.data.url);
     } else {
       toast.error("Unknown error, please try again later.");
-      setLoading(false);
     }
   };
 
   const onClickAddData = async () => {
     setLoading(true);
     const result = await parseApi(api.stripe["add-data"].$post);
+    setLoading(false);
     if (result.ok && result.data?.url) {
       navigate(result.data.url);
     } else {
       toast.error("Unknown error, please try again later.");
-      setLoading(false);
     }
   };
 
