@@ -2,7 +2,7 @@
 import "sonner/dist/styles.css";
 import BackButton from "@/components/astro/back-button.astro";
 import ThemeToggle from "@/components/astro/theme-toggle.astro";
-import RedirectCheck from "@/components/RedirectCheck";
+import RedirectCheck from "@/components/header/RedirectCheck";
 import Base from "@/layouts/Base.astro";
 import { Icon } from "astro-icon/components";
 
@@ -35,7 +35,7 @@ const { title } = Astro.props;
 
     <div class="relative z-10 w-full max-w-100">
       <div
-        class="relative overflow-hidden rounded-xl border border-border bg-card p-8"
+        class="relative overflow-hidden rounded-xl border border-border bg-card p-5 md:p-8"
       >
         <div
           aria-hidden="true"
@@ -48,7 +48,7 @@ const { title } = Astro.props;
 
       <a
         href="/privacy"
-        class="group mt-8 flex cursor-pointer items-center justify-center gap-6 opacity-50 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0"
+        class="group mt-4 md:mt-6 flex cursor-pointer items-center justify-center gap-6 opacity-50 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0"
       >
         <div
           class="flex items-center gap-1.5 font-mono text-[10px] tracking-widest text-muted-foreground transition-colors group-hover:text-primary"

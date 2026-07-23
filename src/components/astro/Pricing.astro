@@ -4,32 +4,30 @@ import PricingCard from "@/components/PricingCard";
 import { PRICING_PLANS } from "@/config/constants";
 ---
 
-<section id="pricing" class="py-section-gap-lg">
-  <div class="container">
-    <div
-      class="mx-auto flex flex-col items-center justify-center gap-4 pb-3 text-center"
+<section id="pricing" class="container py-section-gap-sm">
+  <div
+    class="mx-auto flex flex-col items-center justify-center gap-3 pb-2 text-center sm:gap-4 sm:pb-3"
+  >
+    <h2 class="font-heading text-3xl leading-[1.05] sm:text-4xl md:text-5xl">
+      Simple pricing
+    </h2>
+    <p
+      class="text-muted-foreground max-w-xs leading-normal sm:text-lg sm:leading-7 md:max-w-lg"
     >
-      <h2 class="font-heading text-3xl leading-[1.1] sm:text-4xl md:text-5xl">
-        Simple pricing
-      </h2>
-      <p
-        class="text-muted-foreground max-w-xs leading-normal sm:text-lg sm:leading-7 md:max-w-lg"
-      >
-        Just some money for me to cover server costs, thanks.
-      </p>
-    </div>
+      Just some money for me to cover server costs, thanks.
+    </p>
+  </div>
 
-    <div
-      class="mt-4 flex flex-col justify-center gap-8 py-4 sm:flex-row sm:flex-wrap"
-    >
-      {PRICING_PLANS.map((plan) => <PricingCard {...plan} />)}
-    </div>
+  <div
+    class="mt-4 flex flex-col justify-center gap-6 py-4 sm:flex-row sm:flex-wrap sm:gap-8"
+  >
+    {PRICING_PLANS.map((plan) => <PricingCard {...plan} />)}
+  </div>
 
-    <div class="mt-12 flex flex-col items-center justify-center gap-3">
-      <p class="text-muted-foreground text-center sm:text-lg">
-        Try it out for free before picking a plan {">"}
-      </p>
-      <GetStarted client:load />
-    </div>
+  <div class="mt-12 flex flex-col items-center justify-center gap-3">
+    <p class="text-muted-foreground text-center sm:text-lg">
+      Try it out for free before picking a plan {">"}
+    </p>
+    <GetStarted client:load />
   </div>
 </section>

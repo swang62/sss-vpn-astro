@@ -5,6 +5,7 @@ import { UMAMI_SCRIPT_URL } from "@/config/constants";
 import { PUBLIC_GTM_ID } from "@/config/client";
 
 import BaseHead from "./BaseHead.astro";
+import LoadingBar from "@/components/astro/loading-bar.astro";
 
 interface Props {
   title: string;
@@ -28,6 +29,7 @@ const { title } = Astro.props;
     />
   </head>
   <body class="flex min-h-screen flex-col">
+    <LoadingBar />
     <slot />
 
     <!-- Analytics scripts, load last -->

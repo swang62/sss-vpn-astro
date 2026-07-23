@@ -123,8 +123,8 @@ function SignUpForm() {
       <h2 className="mb-2 text-center font-heading text-2xl">
         Create an account
       </h2>
-      <p className="mx-4 mt-2 mb-6 text-center font-mono text-muted-foreground text-xs tracking-wider">
-        Trial starts after email verification. Use an unblocked email{" "}
+      <p className="mt-2 mb-4 text-center font-mono text-muted-foreground text-xs tracking-wider md:mb-6">
+        Trial starts after verification. Use an unblocked email{" "}
         <Popover>
           <PopoverTrigger className="cursor-pointer text-secondary-link underline">
             provider
@@ -141,7 +141,10 @@ function SignUpForm() {
         </Popover>
       </p>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 md:space-y-5"
+        >
           <FormField
             control={form.control}
             name="email"

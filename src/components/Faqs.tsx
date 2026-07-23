@@ -34,26 +34,27 @@ const data = [
 
 function Faqs() {
   return (
-    <section id="faqs" className="container max-w-2xl py-8 sm:py-16">
-      <div className="py-8">
-        <h1 className="text-balance font-heading text-4xl sm:text-5xl md:text-6xl">
-          Frequently Asked
-          <span className="font-extrabold text-gradient"> Questions</span>
-        </h1>
+    <section
+      id="faqs"
+      className="container max-w-2xl py-section-gap-sm md:py-section-gap-lg"
+    >
+      <h1 className="text-balance font-heading text-4xl leading-[1.05] sm:text-5xl md:text-6xl">
+        Frequently Asked
+        <span className="font-extrabold text-gradient"> Questions</span>
+      </h1>
 
-        <Accordion type="single" collapsible className="w-full py-4">
-          {data.map((item) => (
-            <AccordionItem key={item.id} value={item.id}>
-              <AccordionTrigger className="text-left text-lg">
-                {item.question}
-              </AccordionTrigger>
-              <AccordionContent className="text-base">
-                {item.answer}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </div>
+      <Accordion type="single" collapsible className="w-full py-3 sm:py-4">
+        {data.map((item) => (
+          <AccordionItem key={item.id} value={item.id}>
+            <AccordionTrigger className="text-left text-lg">
+              {item.question}
+            </AccordionTrigger>
+            <AccordionContent className="text-base">
+              {item.answer}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
     </section>
   );
 }

@@ -78,7 +78,10 @@ function ForgotPasswordForm() {
         Forgot password?
       </h2>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 md:space-y-5"
+        >
           <FormField
             control={form.control}
             name="email"
