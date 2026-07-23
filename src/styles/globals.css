@@ -214,6 +214,15 @@
   }
 }
 
+@keyframes nav-loading {
+  0% {
+    transform: translateX(-145%);
+  }
+  100% {
+    transform: translateX(345%);
+  }
+}
+
 @keyframes spin-slow {
   to {
     transform: rotate(360deg);
@@ -295,4 +304,51 @@
   border-radius: 9999px;
   border: 1px solid color-mix(in srgb, var(--primary) 20%, transparent);
   animation: wave 3s ease-out infinite;
+}
+
+.nav-loading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 80;
+  height: 2px;
+  width: 100%;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease-out;
+  background: color-mix(in srgb, var(--border) 20%, transparent);
+}
+
+.nav-loading-bar::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 40%;
+  border-radius: 9999px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--primary) 10%, transparent) 12%,
+    color-mix(in srgb, var(--primary) 30%, transparent) 28%,
+    color-mix(in srgb, var(--secondary) 42%, transparent) 50%,
+    color-mix(in srgb, var(--primary) 28%, transparent) 72%,
+    color-mix(in srgb, var(--primary) 8%, transparent) 88%,
+    transparent 100%
+  );
+  filter: blur(0.5px);
+}
+
+html[data-nav-loading="true"],
+html[data-nav-loading="true"] body {
+  cursor: progress;
+}
+
+html[data-nav-loading="true"] .nav-loading-bar {
+  opacity: 0.7;
+}
+
+html[data-nav-loading="true"] .nav-loading-bar::before {
+  opacity: 1;
+  animation: nav-loading 2s ease-in-out infinite;
 }

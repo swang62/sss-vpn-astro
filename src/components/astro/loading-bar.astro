@@ -1,0 +1,73 @@
+<div
+  id="nav-loading-bar"
+  transition:persist
+  aria-hidden="true"
+  class="nav-loading-bar"
+>
+</div>
+
+<script is:inline>
+  if (!window.__navFeedbackBound) {
+    window.__navFeedbackBound = true;
+
+    const isPrimaryClick = (event) =>
+      event instanceof MouseEvent &&
+      event.button === 0 &&
+      !event.metaKey &&
+      !event.ctrlKey &&
+      !event.shiftKey &&
+      !event.altKey;
+
+    const isInternalLink = (link) => {
+      if (!(link instanceof HTMLAnchorElement)) return false;
+      if (
+        !link.href ||
+        link.target === "_blank" ||
+        link.hasAttribute("download")
+      ) {
+        return false;
+      }
+
+      const url = new URL(link.href, window.location.href);
+      return url.origin === window.location.origin;
+    };
+
+    const startNavigationFeedback = () => {
+      document.documentElement.dataset.navLoading = "true";
+    };
+
+    const stopNavigationFeedback = () => {
+      delete document.documentElement.dataset.navLoading;
+    };
+
+    const maybeStartFromEvent = (event) => {
+      if (!isPrimaryClick(event)) return;
+
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const link = target.closest("a[href]");
+      if (!isInternalLink(link)) return;
+
+      const url = new URL(link.href, window.location.href);
+      const isSamePageHashOnly =
+        url.pathname === window.location.pathname &&
+        url.search === window.location.search &&
+        url.hash;
+
+      if (isSamePageHashOnly) return;
+
+      startNavigationFeedback();
+    };
+
+    document.addEventListener("pointerdown", maybeStartFromEvent, true);
+    document.addEventListener("click", maybeStartFromEvent, true);
+
+    document.addEventListener(
+      "astro:before-preparation",
+      startNavigationFeedback,
+    );
+    document.addEventListener("astro:after-swap", stopNavigationFeedback);
+    document.addEventListener("astro:page-load", stopNavigationFeedback);
+  }
+</script>

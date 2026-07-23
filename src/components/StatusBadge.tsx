@@ -9,7 +9,7 @@ function StatusBadge() {
   return (
     <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/50 px-3 py-1 backdrop-blur-md">
       <span className="size-2 animate-pulse rounded-full bg-destructive" />
-      <span className="font-mono text-muted-foreground text-xs tracking-widest">
+      <span className="font-mono text-muted-foreground text-xs tracking-wider">
         {label} · UNPROTECTED
       </span>
     </div>
