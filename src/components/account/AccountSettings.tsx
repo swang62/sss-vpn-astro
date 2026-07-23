@@ -72,7 +72,7 @@ function AccountSettings({ user }: Props) {
               </CardTitle>
             </div>
           </CardHeader>
-          <CardContent className="flex flex-col gap-4 pt-4">
+          <CardContent className="flex flex-col gap-4 py-4">
             <FormField
               control={form.control}
               name="name"
@@ -80,7 +80,11 @@ function AccountSettings({ user }: Props) {
                 <FormItem>
                   <FormLabel>Nickname</FormLabel>
                   <FormControl>
-                    <Input autoComplete="off" className="max-w-64" {...field} />
+                    <Input
+                      autoComplete="off"
+                      className="md:max-w-1/2"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
