@@ -10,27 +10,30 @@ import StatusBadge from "@/components/StatusBadge";
 >
   <div
     aria-hidden="true"
-    class="absolute inset-x-0 bottom-0 z-0 h-32 bg-linear-to-b from-transparent via-background/60 to-background"
+    class="absolute inset-0 z-0 pointer-events-none"
+    style="mask-image: linear-gradient(to bottom, black 0%, black 92%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 0%, black 92%, transparent 100%);"
   >
-  </div>
-  <div
-    class="absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 opacity-60 dark:opacity-50"
-  >
-    <div class="size-125 animate-float rounded-full bg-primary/8 blur-[100px]">
-    </div>
-  </div>
-  <div class="absolute right-1/4 top-[35%] opacity-60 dark:opacity-50">
     <div
-      class="size-125 animate-float rounded-full bg-secondary/8 blur-[100px]"
-      style="animation-delay: -4s"
+      class="absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 opacity-60 dark:opacity-50"
     >
+      <div
+        class="size-125 animate-float rounded-full bg-primary/8 blur-[100px]"
+      >
+      </div>
     </div>
-  </div>
-  <div class="absolute left-1/4 bottom-[20%] opacity-60 dark:opacity-50">
-    <div
-      class="size-125 animate-float rounded-full bg-primary/6 blur-[80px]"
-      style="animation-delay: -8s"
-    >
+    <div class="absolute right-1/4 top-[35%] opacity-60 dark:opacity-50">
+      <div
+        class="size-125 animate-float rounded-full bg-secondary/8 blur-[100px]"
+        style="animation-delay: -4s"
+      >
+      </div>
+    </div>
+    <div class="absolute left-1/4 bottom-[20%] opacity-60 dark:opacity-50">
+      <div
+        class="size-125 animate-float rounded-full bg-primary/6 blur-[80px]"
+        style="animation-delay: -8s"
+      >
+      </div>
     </div>
   </div>
 
